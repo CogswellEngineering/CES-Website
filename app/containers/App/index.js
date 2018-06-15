@@ -11,19 +11,34 @@
  * the linting exception.
  */
 
-import React from 'react';
+import React,{Component} from 'react';
 import { Switch, Route } from 'react-router-dom';
 
+import Header from 'components/Header/index';
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import injectReducer from 'utils/injectReducer';
+import reducer from './reducer';
+import {compose} from 'redux';
 
-export default function App() {
-  return (
-    <div>
-      <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route component={NotFoundPage} />
-      </Switch>
-    </div>
-  );
+class App extends Component {
+  render(){
+    return (
+      <div>
+        <Header/>
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route component={NotFoundPage} />
+        </Switch>
+      </div>
+    )
+  }
 }
+
+const withReducer = injectReducer({key:"CES",reducer});
+
+export default compose(
+  withReducer
+)(App);
+
+

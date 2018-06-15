@@ -10,3 +10,5 @@
  */
 
 export const DEFAULT_LOCALE = 'en';
+export const LOGGED_IN = "ces/containers/LOGGEDIN";
+
