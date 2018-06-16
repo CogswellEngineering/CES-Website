@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import React from 'react'
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {createSelector} from 'reselect';
 import {logout} from './actions'
 //Elements such as login, register, logout, userprofile, etc.
 
@@ -19,6 +18,7 @@ export const UserActionLink = styled(Link)`
 const UserActions  = (props) => {
     
     console.log(props);
+    console.log("render");
     //If not logged in render login, register
     if (!props.loggedInUser){
 

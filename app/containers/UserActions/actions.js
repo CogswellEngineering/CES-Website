@@ -1,10 +1,10 @@
-import {LOGOUT} from './constants';
+import {LOGGED_OUT} from './constants';
 
 
 export function logout(){
 
     return {
-        type : LOGOUT
+        type : LOGGED_OUT
     }
 }
 //ToAdd: Add enteredProfile actionCreator here, and that one will need

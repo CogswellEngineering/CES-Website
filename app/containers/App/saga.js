@@ -1,6 +1,8 @@
 
-
-import {LOGIN,LOGOUT} from 'containers/UserActions/constants';
+import {LOGGED_OUT} from 'containers/UserActions/constants';
+import {LOGIN_PRESSED} from 'containers/LoginPage/constants';
+import {loggedIn} from './actions';
+import {requireVerification} from 'containers/LoginPage/actions';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import fire from 'utils/fire'
 import { firestore } from 'firebase';
@@ -15,14 +17,21 @@ function* login(action){
     const authRef = fire.auth();
    // const dbRef = fire.database();
     
-    authRef.signInWithEmailAndPassword(action.email,action.password)
+   //Hmm, need to think of different way for this,
+    yield authRef.signInWithEmailAndPassword(action.email,action.password)
         .then(user => {
 
             console.log(login);
-
+            if (user.isVerified){
+                 put(loggedIn(user));
+            }
+            else{
+                 put(requireVerification());
+            }
         })
         .catch(err => {
             console.log(err);
+            //Otherwise will put another action here, that will be dealt later.
         })
     //This will fix the refresh logging out issue, but not stepping on fine line, because now theirs the store
     //and there's the cache, granted the cache only updates the store, everything looks at the store still
@@ -38,8 +47,8 @@ function* logout(){
 
 function* checkUserActions(){
 
-    yield takeLatest(LOGOUT, logout);
-    yield takeLatest(LOGIN,login);
+    yield takeLatest(LOGGED_OUT, logout);
+    yield takeLatest(LOGIN_PRESSED,login);
 
 }
 
