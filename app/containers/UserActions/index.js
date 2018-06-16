@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 import React from 'react'
-import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
+import { withFirebase } from 'react-redux-firebase'
+import {compose} from 'redux';
+
 import {logout} from './actions'
 //Elements such as login, register, logout, userprofile, etc.
 
@@ -17,9 +20,10 @@ export const UserActionLink = styled(Link)`
 
 const UserActions  = (props) => {
     
-    console.log(props);
+    
     console.log("render");
     //If not logged in render login, register
+    console.log(props.loggedInUser);
     if (!props.loggedInUser){
 
         return (<span>
@@ -34,8 +38,9 @@ const UserActions  = (props) => {
     //Otherwise render Link to profile, logout button, etc.
     return (
         <span>
-            <UserActionLink to = {"/:"+props.loggedInUser.name}> Profile </UserActionLink>
-            <button  onClick = {() => {props.onLogout()}}> Logout </button>
+            <p> Logged in as {props.loggedInUser.displayName} </p>
+            <UserActionLink to = {"/:"+props.loggedInUser.uid}> Profile </UserActionLink>
+            <button  onClick = {() => {props.firebase.logout();}}> Logout </button>
         </span>
     )    
 
@@ -44,11 +49,12 @@ const UserActions  = (props) => {
 
 function mapStateToProps(state){
    
-
-    if (state.get("CES") != null){
-        console.log(state.get("CES"));
+    const auth = state.get("firebase").auth;
+    console.log("State,",state)
+    console.log(auth);
+    if (auth && !auth.isEmpty){
         return {
-            loggedInUser : state.get("CES").get("loggedInUser")
+            loggedInUser : auth
         }
     }
     return {
@@ -67,4 +73,9 @@ function mapDispatchToProps(dispatch){
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(UserActions);
+const withConnect = connect(mapStateToProps,mapDispatchToProps);
+
+export default compose(
+    withConnect,
+    withFirebase
+)(UserActions);

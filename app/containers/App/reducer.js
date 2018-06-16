@@ -1,28 +1,29 @@
 
-import {LOGGED_OUT} from 'containers/UserActions/constants';
-import {LOGGED_IN} from './constants';
+
 import { fromJS } from 'immutable';
+import { actionTypes } from 'react-redux-firebase'
 
 
 
 //Will add more as needed
 const initialState = fromJS({
-    loggedInUser : localStorage.getItem("CES_User")
+    //loggedInUser : localStorage.getItem("CES_User")
+    //Not even needed anymore, especially since firebase caches it themselves.
 });
 
 export default function appReducer(state = initialState, action){
 
     switch (action.type){
 
-        case LOGGED_IN:
+        case actionTypes.LOGIN:
+        console.log("logged in")
+      
             return state
-                .set('loggedInUser',action.loggedInUser);
 
-        case LOGGED_OUT:
-            //Then logout
-            console.log("logging out");
+        case actionTypes.LOGOUT:
+            //Then logout 
+            console.log("Logged out via firebase-redux-react");  
             return state
-                .set('loggedInUser', false);
         default:
             return state 
     }

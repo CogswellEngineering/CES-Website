@@ -25,7 +25,8 @@ const fbConfig = {
 };
 // react-redux-firebase config
 const rrfConfig = {
-  userProfile: 'users',
+  //That's beautiful
+  userProfile: 'Users',
   // useFirestoreForProfile: true // Firestore for Profile instead of Realtime DB
 }
 firebase.initializeApp(fbConfig);

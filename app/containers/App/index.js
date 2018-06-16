@@ -18,8 +18,6 @@ import Header from 'components/Header';
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import injectReducer from 'utils/injectReducer';
-import injectSaga from 'utils/injectSaga';
-import saga from './saga';
 import reducer from './reducer';
 import Login from 'containers/LoginPage';
 import {compose} from 'redux';
@@ -42,11 +40,9 @@ class App extends Component {
 const withReducer = injectReducer({key:"CES",reducer});
 //If this doesn't work here, cause the action form Login isn't sent to there, or saga in here not sent to reducer in Login
 //Then I'll move it
-const withSaga = injectSaga({key:"CES",saga});
 
 export default compose(
   withReducer,
-  withSaga
 )(App);
 
 

@@ -1,13 +1,6 @@
 
-import {FIELD_CHANGED,LOGGED_IN} from './constants';
+import {FIELD_CHANGED} from './constants';
 
-export function loggedIn(user){
-
-    return {
-        type: LOGGED_IN,
-        user:user
-    };
-}
 export function fieldChanged(fieldName,value){
 
     return {

@@ -1,6 +1,5 @@
 import React from 'react'
 import {Link,Route} from 'react-router-dom';
-import {loginPressed} from './actions';
 import {fieldChanged} from 'containers/App/actions';
 import StyledForm from 'components/StyledForm'
 import StyledButton from 'components/StyledForm/button';
@@ -10,16 +9,25 @@ import ErrorMessage from 'components/StyledForm/errorMessage';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import reducer from './reducer';
+import { withFirebase } from 'react-redux-firebase'
 import injectReducer from 'utils/injectReducer';
-
-import {createSelector} from 'reselect';
+import {makeSelectField,makeSelectError} from './selectors';
+import { createStructuredSelector } from 'reselect';
 
 const LoginPage = (props) => {
 
-    console.log("rendering Login");
+   
+    //All this time and effor, and their login is using depreacted version
+    //I could try to take from their example and do this my self, r since I've already got sagas file made
+    //Nah, I mean it works and get's information I need. I need spend more time
+    // for more important things than basics like logging in.
+    if (props.error !== ""){
+        props.firebase.logout();
+    }
     return (
         <div>
-             <StyledForm onSubmit = {() => {props.onSubmit()}}>
+            
+             <StyledForm onSubmit = {(evt) => {evt.preventDefault();props.firebase.login({email:props.email,password:props.password})}}>
                  <StyledLabel htmlFor="email"> Email </StyledLabel>
                  <input type="email" id = "email" name ="email" value={props.email} onChange={(evt)=>{props.fieldChanged(evt)}}/>
                  <StyledLabel htmlFor="password"> Password </StyledLabel>
@@ -31,25 +39,21 @@ const LoginPage = (props) => {
         </div>
     )
 }
+const mapStateToProps = createStructuredSelector({
 
-//Will problaby switch this to be selector later.
-function mapStateToProps(state){
+    email: makeSelectField("email"),
+    password : makeSelectField("password"),
+    error : makeSelectError()
 
-    var props = {}
-    if (state.get("requireVerification")){
-        props["error"]  = "Requires Verification";
-    }
-    props["email"] = state.get("email");
-    props["password"] = state.get("password");
+});
 
-    return props;
-}
 
 function mapDispatchToProps(dispatch){
     return {
 
         fieldChanged : (evt) => {
             const target = evt.target;
+            if (evt && evt.preventDefault) evt.preventDefault();
            return dispatch(fieldChanged(target.name,target.value))
 
         },
@@ -62,9 +66,11 @@ function mapDispatchToProps(dispatch){
 }
 
 const withConnect = connect(mapStateToProps,mapDispatchToProps)
-const withReducer = injectReducer({key:"Login",reducer});
+const withReducer = injectReducer({key:"LoginPage",reducer});
+
 
 export default compose(
   withConnect,
+  withFirebase,
   withReducer
 )(LoginPage);
