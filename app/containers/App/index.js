@@ -20,6 +20,7 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import injectReducer from 'utils/injectReducer';
 import reducer from './reducer';
 import Login from 'containers/LoginPage';
+import Register from 'containers/RegistertrationPage';
 import {compose} from 'redux';
 
 class App extends Component {
@@ -30,6 +31,8 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path = "/Login" component={Login}/>
+          <Route path = "/Register" component={Register}/>
+
           <Route component={NotFoundPage} />
         </Switch>
       </div>

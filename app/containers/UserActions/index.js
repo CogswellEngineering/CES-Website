@@ -50,8 +50,6 @@ const UserActions  = (props) => {
 function mapStateToProps(state){
    
     const auth = state.get("firebase").auth;
-    console.log("State,",state)
-    console.log(auth);
     if (auth && !auth.isEmpty){
         return {
             loggedInUser : auth

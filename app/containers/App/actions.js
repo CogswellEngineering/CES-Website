@@ -1,7 +1,7 @@
 
-import {FIELD_CHANGED} from './constants';
+import { FIELD_CHANGED } from './constants';
 
-export function fieldChanged(fieldName,value){
+export function fieldChanged(fieldName,value) {
 
     return {
         type : FIELD_CHANGED,

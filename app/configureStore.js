@@ -6,20 +6,21 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
-import createReducer from './reducers';
 import firebase from 'firebase';
-import { reactReduxFirebase } from 'react-redux-firebase'
+import { reactReduxFirebase } from 'react-redux-firebase';
+import createReducer from './reducers';
+
 
 //Firebase initialization
 //Unfortunately can't use either package cause assumes it's a base store
 const fbConfig = {
   
-  apiKey: "AIzaSyADrVRU9CSIktkXnvQXcXFeOPicmYtC91M",
-  authDomain: "ceswebsite-cf841.firebaseapp.com",
-  databaseURL: "https://ceswebsite-cf841.firebaseio.com",
-  projectId: "ceswebsite-cf841",
-  storageBucket: "ceswebsite-cf841.appspot.com",
-  messagingSenderId: "612020639792"
+  apiKey: 'AIzaSyADrVRU9CSIktkXnvQXcXFeOPicmYtC91M',
+  authDomain: 'ceswebsite-cf841.firebaseapp.com',
+  databaseURL: 'https://ceswebsite-cf841.firebaseio.com',
+  projectId: 'ceswebsite-cf841',
+  storageBucket: 'ceswebsite-cf841.appspot.com',
+  messagingSenderId: '612020639792',
 
 
 };
@@ -65,12 +66,12 @@ export default function configureStore(initialState = {}, history) {
 const createStoreWithFirebase = compose(
   reactReduxFirebase(firebase, rrfConfig), // firebase instance as first argument
   // reduxFirestore(firebase) // <- needed if using firestore
-)(createStore)
+)(createStore);
 
   const store = createStoreWithFirebase(
     createReducer(),
     fromJS(initialState),
-    composeEnhancers(...enhancers)
+    composeEnhancers(...enhancers),
   );
 
   // Extensions

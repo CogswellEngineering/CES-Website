@@ -1,37 +1,32 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 import {Link,Route} from 'react-router-dom';
 import {fieldChanged} from 'containers/App/actions';
-import StyledForm from 'components/StyledForm'
-import StyledButton from 'components/StyledForm/button';
-import StyledLabel from 'components/StyledForm/label';
-import ErrorMessage from 'components/StyledForm/errorMessage';
-
+import StyledForm, {StyledButton,StyledLabel,ErrorMessage,StyledInput} from 'components/StyledForm'
 import {connect} from 'react-redux';
 import {compose} from 'redux';
-import reducer from './reducer';
 import { withFirebase } from 'react-redux-firebase'
 import injectReducer from 'utils/injectReducer';
-import {makeSelectField,makeSelectError} from './selectors';
 import { createStructuredSelector } from 'reselect';
+import reducer from './reducer';
+import FormSelectors from 'utils/genericFormSelectors';
 
 const LoginPage = (props) => {
 
    
-    //All this time and effor, and their login is using depreacted version
-    //I could try to take from their example and do this my self, r since I've already got sagas file made
-    //Nah, I mean it works and get's information I need. I need spend more time
-    // for more important things than basics like logging in.
     if (props.error !== ""){
         props.firebase.logout();
     }
     return (
         <div>
             
-             <StyledForm onSubmit = {(evt) => {evt.preventDefault();props.firebase.login({email:props.email,password:props.password})}}>
+             <StyledForm onSubmit = {(evt) => {evt.preventDefault();
+                props.firebase.login({email:props.email,password:props.password})}
+                }>
                  <StyledLabel htmlFor="email"> Email </StyledLabel>
-                 <input type="email" id = "email" name ="email" value={props.email} onChange={(evt)=>{props.fieldChanged(evt)}}/>
+                 <StyledInput type="email" id = "email" name ="email" value={props.email} onChange={(evt)=>{props.fieldChanged(evt)}}/>
                  <StyledLabel htmlFor="password"> Password </StyledLabel>
-                 <input type="password" id="password" name="password" value={props.password} onChange={(evt)=>{props.fieldChanged(evt)}}/>
+                 <StyledInput type="password" id="password" name="password" value={props.password} onChange={(evt)=>{props.fieldChanged(evt)}}/>
                  <ErrorMessage> {props.error} </ErrorMessage>
                  <StyledButton type="submit"> Login </StyledButton> 
                  <Link to ="/ForgotPassword"> Forgot Password? </Link> <Link to ="/Register"> Don't have an account? Register here. </Link>
@@ -39,11 +34,20 @@ const LoginPage = (props) => {
         </div>
     )
 }
+
+
+LoginPage.propTypes = {
+    email : PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired,
+}
+
+const formSelector = new FormSelectors("LoginPage");
+
 const mapStateToProps = createStructuredSelector({
 
-    email: makeSelectField("email"),
-    password : makeSelectField("password"),
-    error : makeSelectError()
+    email: formSelector.makeSelectField("email"),
+    password : formSelector.makeSelectField("password"),
+    error : formSelector.makeSelectError()
 
 });
 
@@ -62,10 +66,10 @@ function mapDispatchToProps(dispatch){
             const target = evt.target;
 
         }
-    }
+    };
 }
 
-const withConnect = connect(mapStateToProps,mapDispatchToProps)
+const withConnect = connect(mapStateToProps,mapDispatchToProps);
 const withReducer = injectReducer({key:"LoginPage",reducer});
 
 

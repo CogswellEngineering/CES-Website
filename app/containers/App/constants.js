@@ -10,5 +10,5 @@
  */
 
 export const DEFAULT_LOCALE = 'en';
-export const FIELD_CHANGED = "ces/containers/FIELD_CHANGED"
+export const FIELD_CHANGED = 'ces/App/FIELD_CHANGED';
 
