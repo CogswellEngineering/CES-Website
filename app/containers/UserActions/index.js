@@ -7,7 +7,7 @@ import {compose} from 'redux';
 
 import {logout} from './actions'
 //Elements such as login, register, logout, userprofile, etc.
-
+import {LOGIN_PATH,REGISTER_PATH} from 'components/Header/pages';
 
 export const UserActionLink = styled(Link)`
 
@@ -27,8 +27,8 @@ const UserActions  = (props) => {
     if (!props.loggedInUser){
 
         return (<span>
-                <UserActionLink to ="/Login" > Login </UserActionLink>
-                <UserActionLink to = "/Register"> Register </UserActionLink>
+                <UserActionLink to ={LOGIN_PATH} > Login </UserActionLink>
+                <UserActionLink to = {REGISTER_PATH}> Register </UserActionLink>
                     
             </span>
         )

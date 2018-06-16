@@ -11,7 +11,7 @@
  * the linting exception.
  */
 
-import React,{Component} from 'react';
+import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Header from 'components/Header';
@@ -19,26 +19,32 @@ import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import injectReducer from 'utils/injectReducer';
 import reducer from './reducer';
-import Login from 'containers/LoginPage';
-import Register from 'containers/RegistertrationPage';
-import {compose} from 'redux';
+import Login from 'containers/LoginPage/Loadable';
+import Register from 'containers/RegistertrationPage/Loadable';
+import AccountRecovery from 'containers/AccountRecovery/Loadable';
+import { compose } from 'redux';
+import { LOGIN_PATH,REGISTER_PATH,ACCOUNT_RECOVERY_PATH } from 'components/Header/pages';
 
-class App extends Component {
-  render(){
+const App  = (props) => {
+
+  console.log("From app",LOGIN_PATH);
+  
     return (
       <div>
         <Header/>
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route path = "/Login" component={Login}/>
-          <Route path = "/Register" component={Register}/>
+          <Route exact path = {LOGIN_PATH} component={Login}/>
+          <Route exact path = {REGISTER_PATH} component={Register}/>
+          <Route exact path = {ACCOUNT_RECOVERY_PATH} component={AccountRecovery}/>
+
 
           <Route component={NotFoundPage} />
         </Switch>
       </div>
     )
   }
-}
+
 
 const withReducer = injectReducer({key:"CES",reducer});
 //If this doesn't work here, cause the action form Login isn't sent to there, or saga in here not sent to reducer in Login

@@ -3,8 +3,8 @@ import { REGISTER_CLICKED} from './constants'
 import { onRegistered, onRegisterFail} from './actions';
 import request from 'utils/request';
 import { verifyPassword, verifyEmail } from 'utils/fieldVerifications';
+import { fbAdminAPI as url} from 'utils/apiLinks';
 //for testing put here
-const url = "http://localhost:5000";
 
 function* registerCall(action){
 

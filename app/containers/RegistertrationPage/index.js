@@ -13,6 +13,7 @@ import FormSelectors from 'utils/genericFormSelectors';
 import saga from './saga';
 import { onRegisterClicked } from './actions';
 import injectSaga from 'utils/injectSaga';
+import { LOGIN_PATH, REGISTER_PATH} from 'components/Header/pages';
 
 const RegistrationPage = (props) => {
 
@@ -36,7 +37,7 @@ const RegistrationPage = (props) => {
 
                  <ErrorMessage> {props.error} </ErrorMessage>
                  <StyledButton type="submit"> Register </StyledButton> 
-                 <Link to ="/Login"> Already have an account? Login here. </Link>
+                 <Link to = {LOGIN_PATH}> Already have an account? Login here. </Link>
             </StyledForm>
         </div>
     )
@@ -51,7 +52,7 @@ RegistrationPage.propTypes = {
 }
 
 
-const formSelector = new FormSelectors("RegistrationPage");
+const formSelector = new FormSelectors(REGISTER_PATH);
 
 const mapStateToProps = createStructuredSelector({
 
@@ -92,8 +93,8 @@ function mapDispatchToProps(dispatch){
 }
 
 const withConnect = connect(mapStateToProps,mapDispatchToProps);
-const withReducer = injectReducer({key:"RegistrationPage",reducer});
-const withSaga = injectSaga({key:"RegistrationPage",saga});
+const withReducer = injectReducer({key:REGISTER_PATH,reducer});
+const withSaga = injectSaga({key:REGISTER_PATH,saga});
 
 export default compose(
   withConnect,

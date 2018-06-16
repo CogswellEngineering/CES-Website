@@ -10,6 +10,7 @@ import injectReducer from 'utils/injectReducer';
 import { createStructuredSelector } from 'reselect';
 import reducer from './reducer';
 import FormSelectors from 'utils/genericFormSelectors';
+import { ACCOUNT_RECOVERY_PATH, REGISTER_PATH, LOGIN_PATH } from 'components/Header/pages';
 
 const LoginPage = (props) => {
 
@@ -29,7 +30,7 @@ const LoginPage = (props) => {
                  <StyledInput type="password" id="password" name="password" value={props.password} onChange={(evt)=>{props.fieldChanged(evt)}}/>
                  <ErrorMessage> {props.error} </ErrorMessage>
                  <StyledButton type="submit"> Login </StyledButton> 
-                 <Link to ="/ForgotPassword"> Forgot Password? </Link> <Link to ="/Register"> Don't have an account? Register here. </Link>
+                 <Link to ={ACCOUNT_RECOVERY_PATH}> Forgot Password? </Link> <Link to ={REGISTER_PATH}> Don't have an account? Register here. </Link>
             </StyledForm>
         </div>
     )
@@ -41,7 +42,7 @@ LoginPage.propTypes = {
     password: PropTypes.string.isRequired,
 }
 
-const formSelector = new FormSelectors("LoginPage");
+const formSelector = new FormSelectors(LOGIN_PATH);
 
 const mapStateToProps = createStructuredSelector({
 
@@ -70,7 +71,7 @@ function mapDispatchToProps(dispatch){
 }
 
 const withConnect = connect(mapStateToProps,mapDispatchToProps);
-const withReducer = injectReducer({key:"LoginPage",reducer});
+const withReducer = injectReducer({key:LOGIN_PATH,reducer});
 
 
 export default compose(

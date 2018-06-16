@@ -23,5 +23,8 @@ const navPages = [
     
 ]
 
+export const LOGIN_PATH = "/users/login";
+export const REGISTER_PATH = "/users/register";
+export const ACCOUNT_RECOVERY_PATH = "/users/account-recovery"
 
 export default navPages;
