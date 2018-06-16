@@ -7,6 +7,29 @@ import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 import createReducer from './reducers';
+import firebase from 'firebase';
+import { reactReduxFirebase } from 'react-redux-firebase'
+
+//Firebase initialization
+//Unfortunately can't use either package cause assumes it's a base store
+const fbConfig = {
+  
+  apiKey: "AIzaSyADrVRU9CSIktkXnvQXcXFeOPicmYtC91M",
+  authDomain: "ceswebsite-cf841.firebaseapp.com",
+  databaseURL: "https://ceswebsite-cf841.firebaseio.com",
+  projectId: "ceswebsite-cf841",
+  storageBucket: "ceswebsite-cf841.appspot.com",
+  messagingSenderId: "612020639792"
+
+
+};
+// react-redux-firebase config
+const rrfConfig = {
+  userProfile: 'users',
+  // useFirestoreForProfile: true // Firestore for Profile instead of Realtime DB
+}
+firebase.initializeApp(fbConfig);
+
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -17,6 +40,7 @@ export default function configureStore(initialState = {}, history) {
   const middlewares = [
     sagaMiddleware,
     routerMiddleware(history),
+
   ];
 
   const enhancers = [
@@ -36,8 +60,13 @@ export default function configureStore(initialState = {}, history) {
       })
       : compose;
   /* eslint-enable */
+// Add reactReduxFirebase enhancer when making store creator
+const createStoreWithFirebase = compose(
+  reactReduxFirebase(firebase, rrfConfig), // firebase instance as first argument
+  // reduxFirestore(firebase) // <- needed if using firestore
+)(createStore)
 
-  const store = createStore(
+  const store = createStoreWithFirebase(
     createReducer(),
     fromJS(initialState),
     composeEnhancers(...enhancers)
