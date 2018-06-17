@@ -1,6 +1,6 @@
-import React from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types';
-import {fieldChanged} from 'containers/App/actions';
+import { fieldChanged, leftPage} from 'containers/App/actions';
 import StyledForm, {StyledButton,StyledLabel,ErrorMessage,StyledInput} from 'components/StyledForm'
 import {connect} from 'react-redux';
 import {compose} from 'redux';
@@ -14,33 +14,42 @@ import { attemptRecover } from './actions';
 import saga from './saga';
 import injectSaga from 'utils/injectSaga';
 
-const AccountRecovery = (props) => {
+class AccountRecovery extends Component{
+    
+    componentWillUnmount(){
 
-   
-    if (!props.linkSent){
-
-        return (
-            <div>
-                
-                <StyledForm onSubmit = {(evt) => {props.attemptRecover(evt,props.email);}
-                    }>
-                    <p> Enter your email and we will send you a recovery link </p>
-                    <StyledLabel htmlFor="email"> Email </StyledLabel>
-                    <StyledInput type="email" id = "email" name ="email" value={props.email} onChange={(evt)=>{props.fieldChanged(evt)}}/>
-                    <ErrorMessage> {props.error} </ErrorMessage>
-                    <StyledButton type="submit"> Send Recovery Link </StyledButton> 
-                </StyledForm>
-            </div>
-        )
+        this.props.leftPage();
     }
-    else{
-        return (
-            <div>
-                <h2> An email with further instructions has been sent to {props.email}. </h2>
-                <p> If you do not see it, please check your ice box at <i>ice.cogswell.edu</i>. Then right click it it and 
-                click accept from address to recieve all of our emails directly.</p>
-            </div>
-        )
+
+   render() {
+        const props = this.props;
+   
+        if (!props.linkSent){
+
+            return (
+                <div>
+                    
+                    <StyledForm onSubmit = {(evt) => {props.attemptRecover(evt,props.email);}
+                        }>
+                        <p> Enter your email and we will send you a recovery link </p>
+                        <StyledLabel htmlFor="email"> Email </StyledLabel>
+                        <StyledInput type="email" id = "email" name ="email" value={props.email} onChange={(evt)=>{props.fieldChanged(evt)}}/>
+                        <ErrorMessage> {props.error} </ErrorMessage>
+                        <StyledButton type="submit"> Send Recovery Link </StyledButton> 
+                    </StyledForm>
+                </div>
+            )
+        }
+        else{
+
+            return (
+                <div>
+                    <h2> An email with further instructions has been sent to {props.email}. </h2>
+                    <p> If you do not see it, please check your ice box at <i>ice.cogswell.edu</i>. Then right click it it and 
+                    click accept from address to recieve all of our emails directly.</p>
+                </div>
+            )
+        }
     }
 }
 
@@ -61,6 +70,11 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch){
     return {
 
+        leftPage : () =>{
+
+            return dispatch(leftPage());
+        },
+
         fieldChanged : (evt) => {
             const target = evt.target;
             if (evt && evt.preventDefault) evt.preventDefault();
@@ -72,16 +86,13 @@ function mapDispatchToProps(dispatch){
             
             if (evt && evt.preventDefault) evt.preventDefault();
 
-            const formData = new FormData();
-            formData.append("email",email);
 
-            return dispatch(attemptRecover(formData));
+            return dispatch(attemptRecover(email));
 
         }
     };
 }
 
-console.log("Reducer",reducer);
 const withConnect = connect(mapStateToProps,mapDispatchToProps);
 const withReducer = injectReducer({key:ACCOUNT_RECOVERY_PATH,reducer});
 const withSaga = injectSaga({key:ACCOUNT_RECOVERY_PATH,saga});

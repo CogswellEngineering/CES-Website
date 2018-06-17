@@ -23,10 +23,8 @@ export const UserActionLink = styled(Link)`
 const UserActions  = (props) => {
     
     
-    console.log("render");
     //If not logged in render login, register
     console.log(props.loggedInUser);
-    console.log("done loading", props.doneLoading);
 
     if (!props.doneLoading){
         return null;

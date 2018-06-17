@@ -8,7 +8,6 @@ const initialState = fromJS({
 
 export default function userActionReducer(state = initialState, action){
 
-    console.log(action);
     switch (action.type){
 
         //Letting fall through happen, don't need breaks in all other reducers cause returning from function.
@@ -16,7 +15,6 @@ export default function userActionReducer(state = initialState, action){
 
         case actionTypes.AUTH_EMPTY_CHANGE:
 
-            console.log("I happen");
             return state
                 .set("doneLoadingCache",true);
             

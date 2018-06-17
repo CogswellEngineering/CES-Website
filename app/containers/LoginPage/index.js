@@ -46,7 +46,6 @@ LoginPage.propTypes = {
     email : PropTypes.string.isRequired,
     password: PropTypes.string.isRequired,
     error: PropTypes.string,
-    doneLoggingIn: PropTypes.bool,
 }
 
 const formSelector = new FormSelectors(LOGIN_PATH);

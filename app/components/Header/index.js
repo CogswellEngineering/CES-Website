@@ -8,7 +8,7 @@ import React from 'react';
 // import styled from 'styled-components';
 import Navbar from './Navbar';
 import NavLink from './NavLink';
-import UserActions from 'containers/UserActions/';
+import UserActions from 'containers/UserActions';
 import navPages from './pages';
 
 

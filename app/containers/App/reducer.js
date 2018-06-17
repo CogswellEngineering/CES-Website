@@ -5,19 +5,21 @@ import { actionTypes } from 'react-redux-firebase'
 
 
 
+//Where do i get global state with the router?
 //Will add more as needed
 const initialState = fromJS({
-    //loggedInUser : localStorage.getItem("CES_User")
-    //Not even needed anymore, especially since firebase caches it themselves.
+    loggedIn:false,
 });
 
 export default function appReducer(state = initialState, action){
 
+
     switch (action.type){
 
         case actionTypes.LOGIN:
-        console.log("logged in")
-      
+            
+            //If logged in, then push onto history to go either home or where they came from, just home for now.
+
             return state
 
         case actionTypes.LOGOUT:

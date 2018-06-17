@@ -1,4 +1,4 @@
-import { CHECK_TOKEN, RESET_TOKEN_USED, CHANGE_PASSWORD, PASSWORD_CHANGED} from './constants';
+import { CHECK_TOKEN, TOKEN_CHECKED, RESET_TOKEN_USED, CHANGE_PASSWORD, PASSWORD_CHANGED} from './constants';
 
 export function checkToken(token){
 
@@ -11,9 +11,10 @@ export function checkToken(token){
 
 export function tokenChecked(expired){
 
+    console
     return {
 
-        type:CHECK_TOKEN,
+        type:TOKEN_CHECKED,
         expired
     }
 }
@@ -26,12 +27,11 @@ export function resetTokenUsed(token){
     };
 }
 
-export function changePassword(newPassword,token){
+export function changePassword(formData){
 
     return {
         type: CHANGE_PASSWORD,
-        password:newPassword,
-        token,
+        formData,
     };
 }
 

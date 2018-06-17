@@ -3,12 +3,13 @@ import { ATTEMPT_RECOVER , RECOVERED_ACCOUNT, RECOVER_LINK_SENT} from './constan
 
 
 
+
 //Will send an action saga will be listening for, then send recovery link to email.
-export function attemptRecover(formData){
+export function attemptRecover(email){
 
     return {
         type: ATTEMPT_RECOVER,
-        formData,
+        email,
     };
 
 }

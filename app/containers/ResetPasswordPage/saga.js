@@ -1,40 +1,95 @@
 import { call, put, takeLatest} from 'redux-saga/effects';
 import { fbAdminAPI as url} from 'utils/apiLinks';
 import request from 'utils/request';
-import { tokenChecked, passwordChanged } from './actions';
+import { checkToken,tokenChecked, passwordChanged } from './actions';
 import { CHECK_TOKEN, RESET_TOKEN_USED, CHANGE_PASSWORD} from './constants';
 
 
 
 
 
-function* checkToken(checkTokenAction){
+//Don't need to use admin api, for checking token.
+function* checkTokenCall(checkTokenAction){
 
     const token = checkTokenAction.token;
 
-    //I need to put result of check here as well.
+    try{
+        const response = yield call(request,url+"/check-token?token="+token,{
 
-    yield put(tokenChecked());
+            method:"GET",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+
+        });
+
+        console.log(response);
+
+        yield put(tokenChecked(response.expired));
+    }
+    catch (err) {
+        console.log(err);
+        //If fails, then try again.
+        yield put(checkToken(token));
+    }
 }
 
 
 //I will refactor the rest later, but I'm goin to start replacing param with action used instead of action for saga workers
 function* expireToken(resetTokenUsed){
 
-    console.log(resetTokenUsed);
+    console.log("Do i happen?");
+
+    try{
+        const response = yield call(request,url+"/token-used",{
+
+            method:"POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({token:resetTokenUsed.token}),
+
+        });
+
+        //Nothing to put, just needed this to happen.
+
+
+    }
+    catch (err) {
+        console.log(err);
+        //If fails, then try again.
+    }
 
 }
 
-
+//This will call post to confirm reset
 function* changePassword(changePasswordAction){
+
+    
+    try{
+        const response = yield call(request,url+"/confirm-reset",{
+
+            method:"POST",
+            body: changePasswordAction.formData,
+
+        });
+
+
+        yield put(passwordChanged());
+
+    }
+    catch (err) {
+        console.log(err);
+        //If fails, then try again.
+    }
 
 }
 
 function* checkReset(){
 
-    yield takeLatest(CHECK_TOKEN,checkToken);
+    yield takeLatest(CHECK_TOKEN,checkTokenCall);
     yield takeLatest(RESET_TOKEN_USED,expireToken);
     yield takeLatest(CHANGE_PASSWORD,changePassword);
 }
 
-export defualt 
+export default checkReset; 

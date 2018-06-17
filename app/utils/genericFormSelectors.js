@@ -1,5 +1,7 @@
 import {createSelector} from 'reselect';
 
+//Probably should rename these, since not everything using this for is form field
+//Like make select field literally works on anything in state.
 export default class GenericFormSelectors{
     
     constructor(page){
@@ -8,6 +10,8 @@ export default class GenericFormSelectors{
         this.makeSelectError = this.makeSelectError.bind(this);
 
     }
+
+    //Prob should rename 
 
     makeSelectField = (fieldName) => createSelector(
         this.selectState,

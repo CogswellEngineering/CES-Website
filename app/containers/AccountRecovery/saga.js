@@ -10,19 +10,21 @@ import request from 'utils/request';
 //But time has already been spent, lol. Okay, for now will try firebase only
 function* recoverAccount(action){
 
-    console.log("I'm here",action.formData.email);
-    console.log(url);
+    console.log("I'm here",action.email);
 
     //Sends post request to api to send reset link
     yield call (request,url + "/reset-password",{
 
         method : "POST",
-        body: action.formData,    
+        body: JSON.stringify({email:action.email}),
+        headers: {
+            'Content-Type': 'application/json',
+        },
     });
 
     //Dispatches action that link was sent to update the page.
 
-    yield put(recoverLinkSent(action.formData.email));
+    yield put(recoverLinkSent(action.email));
 
 }
 

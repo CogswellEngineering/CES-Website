@@ -10,7 +10,7 @@ import { actionTypes } from 'react-redux-firebase'
 //Will add more as needed
 const initialState = fromJS({
 
-    doneLoggingIn: "",
+    doneLoggingIn: false,
     email : "",
     password:"",
     error:""

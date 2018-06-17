@@ -19,19 +19,24 @@ import queryString from 'query-string';
 
 class ResetPasswordPage extends Component{
     
-    componentWillMount(){
+    constructor(props){
+        super(props);
+        this.token = "";
+    }
+
+    componentDidMount(){
 
         const params = queryString.parse(this.props.location.search);
-        const token = params.token;
+        console.log("params",params);
+        this.token = params.resetToken;
 
-        if (token != null){
+        if (this.token != null && !this.props.tokenChecked){
             //This will call the dispatch to mark this token as expired, so that link will no longer work.
-            this.props.checkToken(token);
+            this.props.checkToken(this.token);
         }
     }
     
     render(){
-
 
 
         const props = this.props;
@@ -42,18 +47,29 @@ class ResetPasswordPage extends Component{
             return null;
         }
         else if (props.tokenExpired){
-            return (
-                <div>
-                    <h2> This token has expired and / or has already been used </h2>
-                </div>
-            )
+
+            if (!props.expiredThisSession){
+
+                return (
+                    <div>
+                        <h2> This token has expired and / or has already been used </h2>
+                    </div>
+                )
+           }
         }
-        else if (!props.passwordChanged){
+        else{
+
+            
+            //Already a dispatch only way is to put it in the return value
+            props.tokenUsed(this.token)
+        }
+
+        if (!props.passwordChanged){
 
             return (
                 <div>
                     
-                    <StyledForm onSubmit = {(evt) => {props.newPassword(evt,props.password,props.token);}
+                    <StyledForm onSubmit = {(evt) => {props.newPassword(evt,props.password,this.token);}
                         }>
                         <p> Enter your new password </p>
                         <StyledLabel htmlFor="password"> Email </StyledLabel>
@@ -79,22 +95,23 @@ class ResetPasswordPage extends Component{
     }
 }
 
-
-AccountRecovery.propTypes = {
+/*
+ResetPasswordPage.propTypes = {
     tokenChecked: PropTypes.bool,
     tokenExpired: PropTypes.bool,
     passwordChanged: PropTypes.bool,
     password : PropTypes.string.isRequired,
     retypedPassword : PropTypes.string.isRequired,
     error: PropTypes.string,
-}
+}*/
 
 const formSelector = new FormSelectors(RESET_PASSWORD_PATH);
 
 const mapStateToProps = createStructuredSelector({
 
+    expiredThisSession: formSelector.makeSelectField("expiredThisSession"),
     tokenChecked: formSelector.makeSelectField("tokenChecked"),
-    tokenExpired: formSeelector.makeSelectField("tokenExpired"),
+    tokenExpired: formSelector.makeSelectField("tokenExpired"),
     passwordChanged: formSelector.makeSelectField("passwordChanged"),
     password: formSelector.makeSelectField("password"),
     retypedPassword: formSelector.makeSelectField("retypedPassword"),
@@ -107,13 +124,13 @@ function mapDispatchToProps(dispatch){
 
         checkToken: (token) => {
             
-            return dispatch(checktoken(token));
-        }
+            return dispatch(checkToken(token));
+        },
 
         tokenUsed : (token) => {
 
             return dispatch(resetTokenUsed(token));
-        }
+        },
 
         fieldChanged : (evt) => {
             const target = evt.target;
@@ -126,14 +143,17 @@ function mapDispatchToProps(dispatch){
             
             if (evt && evt.preventDefault) evt.preventDefault();
 
+            const formData = new FormData();
 
-            return dispatch(changePassword(newPassword,token));
+            formData.append("token",token);
+            formData.append("password",newPassword);
 
-        }
+            return dispatch(changePassword(formData));
+
+        },
     };
 }
 
-console.log("Reducer",reducer);
 const withConnect = connect(mapStateToProps,mapDispatchToProps);
 const withReducer = injectReducer({key:RESET_PASSWORD_PATH,reducer});
 const withSaga = injectSaga({key:RESET_PASSWORD_PATH,saga});
@@ -143,4 +163,4 @@ export default compose(
   withFirebase,
   withReducer,
   withSaga,
-)(AccountRecovery);
+)(ResetPasswordPage);
