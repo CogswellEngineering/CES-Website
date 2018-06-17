@@ -15,19 +15,31 @@ export default class GenericFormSelectors{
 
     makeSelectField = (fieldName) => createSelector(
         this.selectState,
-        (loginState) => {
-            if (loginState == null) return ""
+        (state) => {
+            //Oh it's cause of this.
+            if (state == null) return ""
 
-            return loginState.get(fieldName);
+            return state.get(fieldName);
         }
     );
 
+    makeSelectDone = (flagName) => createSelector(
+
+        this.selectState,
+        (state) => {
+            if (state == null) return false;
+
+            return state.get(flagName);
+        }
+
+    )
+
     makeSelectError = () => createSelector(
         this.selectState,
-        (loginState) => {
+        (state) => {
 
-            if (loginState){
-                return loginState.get("error");
+            if (state){
+                return state.get("error");
             }
             else{
                 return "";

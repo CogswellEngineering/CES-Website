@@ -21,19 +21,25 @@ import injectReducer from 'utils/injectReducer';
 import reducer from './reducer';
 import Login from 'containers/LoginPage/Loadable';
 import Register from 'containers/RegistrationPage/Loadable';
-import AccountRecovery from 'containers/AccountRecovery';
+import AccountRecovery from 'containers/AccountRecovery/Loadable';
 import ResetPasswordPage from 'containers/ResetPasswordPage/Loadable';
+import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { LOGIN_PATH,REGISTER_PATH,ACCOUNT_RECOVERY_PATH, RESET_PASSWORD_PATH } from 'components/Header/pages';
 
 const App  = (props) => {
 
-  console.log(AccountRecovery);
-  
+
+    if (!props.doneLoading){
+      //This isn't the problem, something happend, cause not re-rendering anymore
+      return null;
+    }
+
     return (
       <div>
         <Header/>
         <Switch>
+          
           <Route exact path="/" component={HomePage} />
           <Route path = {LOGIN_PATH} component={Login}/>
           <Route path = {REGISTER_PATH} component={Register}/>
@@ -46,12 +52,32 @@ const App  = (props) => {
   }
 
 
+//So this is the problem, makes sense they prob make it so doesn't re-render if no longer changes.
+function mapStateToProps(state){
+
+  if (state == null) 
+    return {
+      doneLoading : false,
+      //Redundant data just to force render when changes, thought if don't make it selector, wouldn't make that optimization.
+      //though, if just did normal connect would be good, but then no reducer, cause need to inject it
+      mainContentPath: "",
+    };
+
+  return {
+    doneLoading : state.get("CES").get("doneLoadingCache"),
+    mainContentPath: state.get("CES").get("mainContentPath"),
+
+  };
+}
+
+const withConnect = connect(mapStateToProps);
 const withReducer = injectReducer({key:"CES",reducer});
 //If this doesn't work here, cause the action form Login isn't sent to there, or saga in here not sent to reducer in Login
 //Then I'll move it
 
 export default compose(
   withReducer,
+  withConnect,
 )(App);
 
 

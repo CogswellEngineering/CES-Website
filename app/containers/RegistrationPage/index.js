@@ -18,6 +18,18 @@ import { LOGIN_PATH, REGISTER_PATH} from 'components/Header/pages';
 const RegistrationPage = (props) => {
 
    
+    if (props.doneRegistering){
+
+        return (
+            <div>
+
+              {/*  Might not have verification to reduce hassle on them <p> A verification email has been sent*/}
+                <p> Your account has been created, click <Link to={LOGIN_PATH}> here </Link>. </p>
+            </div>
+
+
+        )
+    }
    
    
     return (
@@ -46,9 +58,10 @@ const RegistrationPage = (props) => {
 
 
 RegistrationPage.propTypes = {
-    email : PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired,
-    displayName: PropTypes.string.isRequired,
+    doneRegistering: PropTypes.bool,
+    email : PropTypes.string,
+    password: PropTypes.string,
+    displayName: PropTypes.string,
    // major: PropTypes.string.isRequired,
 }
 
@@ -59,6 +72,7 @@ const mapStateToProps = createStructuredSelector({
 
     email: formSelector.makeSelectField("email"),
     password : formSelector.makeSelectField("password"),
+    doneRegistering: formSelector.makeSelectDone("doneRegistering"),
  //   major : formSelector.makeSelectField("major"),
     displayName : formSelector.makeSelectField("displayName"),
     error : formSelector.makeSelectError()

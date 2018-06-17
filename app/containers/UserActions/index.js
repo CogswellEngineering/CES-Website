@@ -22,15 +22,7 @@ export const UserActionLink = styled(Link)`
 
 const UserActions  = (props) => {
     
-    
-    //If not logged in render login, register
-    console.log(props.loggedInUser);
-
-    if (!props.doneLoading){
-        return null;
-    }
-    
-    else if (props.loggedInUser.isEmpty){
+     if (props.loggedInUser.isEmpty){
 
         return (<span>
                 <UserActionLink to ={LOGIN_PATH} > Login </UserActionLink>
@@ -54,33 +46,16 @@ const UserActions  = (props) => {
 function mapStateToProps(state){
    
     const auth = state.get("firebase").auth;
-    var doneLoading = false;
-    if (state.get("UserActions")){
-
-        doneLoading = state.get("UserActions").get("doneLoadingCache");
-    }
     
     return {
             loggedInUser : auth,
-            doneLoading : doneLoading,
         }
     
    
 }
 
-function mapDispatchToProps(dispatch){
-    return {
-        onLogout : (evt) => {
-            if (evt && evt.preventDefault) {
-                evt.preventDefault();
-            }
-           return dispatch(logout())
-        }
-    }
-}
 
-const withConnect = connect(mapStateToProps,mapDispatchToProps);
-console.log(reducer);
+const withConnect = connect(mapStateToProps);
 const withReducer = injectReducer({key:"UserActions",reducer});
 export default compose(
     withConnect,

@@ -4,7 +4,9 @@
 
 import {FIELD_CHANGED} from 'containers/App/constants';
 import { fromJS } from 'immutable';
-import { actionTypes } from 'react-redux-firebase'
+import { actionTypes } from 'react-redux-firebase';
+import { LOGIN_PATH } from 'components/Header/pages';
+import { LOCATION_CHANGE } from 'react-router-redux';
 
 
 //Will add more as needed
@@ -21,6 +23,15 @@ const initialState = fromJS({
 export default function loginReducer(state = initialState, action){
 
     switch (action.type){
+
+
+        case LOCATION_CHANGE:
+
+            console.log(action);
+            if (action.payload.pathname === LOGIN_PATH){
+                return state;
+            }
+            return initialState;
 
         case actionTypes.LOGIN:
 

@@ -42,10 +42,13 @@ const LoginPage = (props) => {
 }
 
 
+//Not really needed for pages like this, more fitting for components / visual stuff than containers, since these aren't passed in
+//on creation
 LoginPage.propTypes = {
-    email : PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired,
+    email : PropTypes.string,
+    password: PropTypes.string,
     error: PropTypes.string,
+    doneLoggingIn : PropTypes.bool,
 }
 
 const formSelector = new FormSelectors(LOGIN_PATH);
@@ -54,7 +57,7 @@ const mapStateToProps = createStructuredSelector({
 
     email: formSelector.makeSelectField("email"),
     password : formSelector.makeSelectField("password"),
-    doneLoggingIn : formSelector.makeSelectField("doneLoggingIn"),
+    doneLoggingIn : formSelector.makeSelectDone("doneLoggingIn"),
     error : formSelector.makeSelectError()
 
 });

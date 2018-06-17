@@ -1,7 +1,8 @@
 
 
 import { fromJS } from 'immutable';
-import { actionTypes } from 'react-redux-firebase'
+import { actionTypes } from 'react-redux-firebase';
+import { LOCATION_CHANGE } from 'react-router-redux';
 
 
 
@@ -9,6 +10,7 @@ import { actionTypes } from 'react-redux-firebase'
 //Will add more as needed
 const initialState = fromJS({
     loggedIn:false,
+    doneLoadingCache:false,
 });
 
 export default function appReducer(state = initialState, action){
@@ -16,11 +18,18 @@ export default function appReducer(state = initialState, action){
 
     switch (action.type){
 
-        case actionTypes.LOGIN:
-            
-            //If logged in, then push onto history to go either home or where they came from, just home for now.
+        case LOCATION_CHANGE:
 
             return state
+                .set("mainContentPath",action.payload.pathname);
+
+        //Letting fall through happen, don't need breaks in all other reducers cause returning from function.
+        case actionTypes.LOGIN:
+
+        case actionTypes.AUTH_EMPTY_CHANGE:
+            console.log("setting doneLoading cache to true");
+            return state
+                .set("doneLoadingCache",true);
 
         case actionTypes.LOGOUT:
             //Then logout 
