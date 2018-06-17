@@ -20,23 +20,24 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import injectReducer from 'utils/injectReducer';
 import reducer from './reducer';
 import Login from 'containers/LoginPage/Loadable';
-import Register from 'containers/RegistertrationPage/Loadable';
+import Register from 'containers/RegistrationPage/Loadable';
 import AccountRecovery from 'containers/AccountRecovery/Loadable';
+import ResetPasswordPage from 'containers/ResetPasswordPage/Loadable';
 import { compose } from 'redux';
-import { LOGIN_PATH,REGISTER_PATH,ACCOUNT_RECOVERY_PATH } from 'components/Header/pages';
+import { LOGIN_PATH,REGISTER_PATH,ACCOUNT_RECOVERY_PATH, RESET_PASSWORD_PATH } from 'components/Header/pages';
 
 const App  = (props) => {
 
-  console.log("From app",LOGIN_PATH);
   
     return (
       <div>
         <Header/>
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route exact path = {LOGIN_PATH} component={Login}/>
-          <Route exact path = {REGISTER_PATH} component={Register}/>
-          <Route exact path = {ACCOUNT_RECOVERY_PATH} component={AccountRecovery}/>
+          <Route path = {LOGIN_PATH} component={Login}/>
+          <Route path = {REGISTER_PATH} component={Register}/>
+          <Route path = {ACCOUNT_RECOVERY_PATH} component={AccountRecovery}/>
+          <Route path = {RESET_PASSWORD_PATH} component={}
 
 
           <Route component={NotFoundPage} />

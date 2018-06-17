@@ -25,6 +25,9 @@ const navPages = [
 
 export const LOGIN_PATH = "/users/login";
 export const REGISTER_PATH = "/users/register";
-export const ACCOUNT_RECOVERY_PATH = "/users/account-recovery"
+export const ACCOUNT_RECOVERY_PATH = "/users/account-recovery";
+export const RESET_PASSWORD_PATH = "/account/reset";
+//Will decide whether uid or name later, it's easy change.
+export const USER_PROFILE_PATH = "/account/:uid";
 
 export default navPages;

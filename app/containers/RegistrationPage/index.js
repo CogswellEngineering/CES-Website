@@ -19,6 +19,7 @@ const RegistrationPage = (props) => {
 
    
    
+   
     return (
         <div>
             
