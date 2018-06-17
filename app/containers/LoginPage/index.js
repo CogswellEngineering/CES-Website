@@ -14,6 +14,11 @@ import { ACCOUNT_RECOVERY_PATH, REGISTER_PATH, LOGIN_PATH } from 'components/Hea
 
 const LoginPage = (props) => {
 
+    if (props.doneLoggingIn){
+        //For now just go back, then I'll redirect as neccessarry coming from other places
+        //Whether I'll set up the back like did in previous is another story.
+        props.history.goBack();
+    }
    
     if (props.error !== ""){
         props.firebase.logout();
@@ -40,6 +45,8 @@ const LoginPage = (props) => {
 LoginPage.propTypes = {
     email : PropTypes.string.isRequired,
     password: PropTypes.string.isRequired,
+    error: PropTypes.string,
+    doneLoggingIn: PropTypes.bool,
 }
 
 const formSelector = new FormSelectors(LOGIN_PATH);
@@ -48,6 +55,7 @@ const mapStateToProps = createStructuredSelector({
 
     email: formSelector.makeSelectField("email"),
     password : formSelector.makeSelectField("password"),
+    doneLoggingIn : formSelector.makeSelectField("doneLoggingIn"),
     error : formSelector.makeSelectError()
 
 });

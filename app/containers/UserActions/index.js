@@ -8,6 +8,8 @@ import {compose} from 'redux';
 import {logout} from './actions'
 //Elements such as login, register, logout, userprofile, etc.
 import {LOGIN_PATH,REGISTER_PATH} from 'components/Header/pages';
+import reducer from './reducer';
+import injectReducer from 'utils/injectReducer';
 
 export const UserActionLink = styled(Link)`
 
@@ -24,17 +26,21 @@ const UserActions  = (props) => {
     console.log("render");
     //If not logged in render login, register
     console.log(props.loggedInUser);
-    if (!props.loggedInUser){
+    console.log("done loading", props.doneLoading);
+
+    if (!props.doneLoading){
+        return null;
+    }
+    
+    else if (props.loggedInUser.isEmpty){
 
         return (<span>
                 <UserActionLink to ={LOGIN_PATH} > Login </UserActionLink>
                 <UserActionLink to = {REGISTER_PATH}> Register </UserActionLink>
-                    
             </span>
         )
     }
-
-
+    
     //Otherwise render Link to profile, logout button, etc.
     return (
         <span>
@@ -50,14 +56,18 @@ const UserActions  = (props) => {
 function mapStateToProps(state){
    
     const auth = state.get("firebase").auth;
-    if (auth && !auth.isEmpty){
-        return {
-            loggedInUser : auth
-        }
+    var doneLoading = false;
+    if (state.get("UserActions")){
+
+        doneLoading = state.get("UserActions").get("doneLoadingCache");
     }
+    
     return {
-        loggedInUser : false
-    }
+            loggedInUser : auth,
+            doneLoading : doneLoading,
+        }
+    
+   
 }
 
 function mapDispatchToProps(dispatch){
@@ -72,8 +82,10 @@ function mapDispatchToProps(dispatch){
 }
 
 const withConnect = connect(mapStateToProps,mapDispatchToProps);
-
+console.log(reducer);
+const withReducer = injectReducer({key:"UserActions",reducer});
 export default compose(
     withConnect,
+    withReducer,
     withFirebase
 )(UserActions);
