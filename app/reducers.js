@@ -5,9 +5,10 @@
 import { combineReducers } from 'redux-immutable';
 import { fromJS } from 'immutable';
 import { LOCATION_CHANGE } from 'react-router-redux';
-import { firebaseReducer as firebase } from 'react-redux-firebase'
-
+import { firebaseReducer as firebase, } from 'react-redux-firebase'
+import {firestoreReducer } from 'redux-firestore';
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
+
 
 /*
  * routeReducer
@@ -33,6 +34,7 @@ function routeReducer(state = routeInitialState, action) {
     case LOCATION_CHANGE:
       return state.merge({
         location: action.payload,
+        
       });
     default:
       return state;
@@ -42,9 +44,11 @@ function routeReducer(state = routeInitialState, action) {
 /**
  * Creates the main reducer with the dynamically injected ones
  */
+
 export default function createReducer(injectedReducers) {
   return combineReducers({
     firebase,
+    firestoreReducer,
     route: routeReducer,
     language: languageProviderReducer,
     ...injectedReducers,

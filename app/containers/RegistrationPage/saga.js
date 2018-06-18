@@ -1,6 +1,6 @@
 import { call, put, takeLatest} from 'redux-saga/effects';
 import { REGISTER_CLICKED} from './constants'
-import { onRegistered, onRegisterFail} from './actions';
+import { onRegistered, registering,onRegisterFail} from './actions';
 import request from 'utils/request';
 import { verifyPassword, verifyEmail } from 'utils/fieldVerifications';
 import { fbAdminAPI as url} from 'utils/apiLinks';
@@ -11,22 +11,27 @@ function* registerCall(action){
 
     //Before making the call, verify credentials
 
+    console.log("Credentials",action.credentials);
     if (!verifyEmail(action.credentials.email)){
         yield put (onRegisterFail("Invalid email"));
     }
-    else if (!verifyPassword(action.credentials.email)){
+    else if (!verifyPassword(action.credentials.password)){
         yield put (onRegisterFail("Invalid Password:Must be atleast 6 characters long, Containing an uppercase,lowercase, and number."))
     }
     else{
         try{
 
+            yield put(registering());
             
             const response = yield call(
                 request,
                 url+"/register",
                 {
                     method:"POST",
-                    body:action.credentials,
+                    body:JSON.stringify(action.credentials),
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
 
                 }
             );
@@ -39,7 +44,7 @@ function* registerCall(action){
                     yield put(onRegisterFail(response.error))
                 }
                 else{
-                    yield put(onRegistered(data));
+                    yield put(onRegistered(action.credentials));
                 }
             }
             

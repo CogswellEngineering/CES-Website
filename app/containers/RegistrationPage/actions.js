@@ -1,6 +1,12 @@
-import { REGISTER_CLICKED , REGISTERED, REGISTER_FAILED} from './constants'
+import { REGISTER_CLICKED ,REGISTERING, REGISTERED, REGISTER_FAILED} from './constants'
 
 
+export function registering(){
+
+    return {
+        type:REGISTERING,
+    };
+}
 export function onRegisterClicked(credentials){
 
     return {
@@ -8,6 +14,7 @@ export function onRegisterClicked(credentials){
         credentials
     };
 }
+
 
 export function onRegistered(credentials){
 

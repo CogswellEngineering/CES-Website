@@ -7,8 +7,10 @@ import {compose} from 'redux';
 
 import {logout} from './actions'
 //Elements such as login, register, logout, userprofile, etc.
-import {LOGIN_PATH,REGISTER_PATH} from 'components/Header/pages';
+import {LOGIN_PATH,REGISTER_PATH, USER_PROFILE_PATH} from 'components/Header/pages';
 import reducer from './reducer';
+import { createStructuredSelector } from 'reselect'; 
+import { makeSelectLoggedIn } from 'containers/App/selectors';
 import injectReducer from 'utils/injectReducer';
 
 export const UserActionLink = styled(Link)`
@@ -31,11 +33,14 @@ const UserActions  = (props) => {
         )
     }
     
+    console.log("Logged in",props.loggedInUser)
     //Otherwise render Link to profile, logout button, etc.
+    const profilePath = USER_PROFILE_PATH.split(":")[0];
+    console.log(profilePath);
     return (
         <span>
             <p> Logged in as {props.loggedInUser.displayName} </p>
-            <UserActionLink to = {"/:"+props.loggedInUser.uid}> Profile </UserActionLink>
+            <UserActionLink to = {profilePath+props.loggedInUser.uid}> Profile </UserActionLink>
             <button  onClick = {() => {props.firebase.logout();}}> Logout </button>
         </span>
     )    
@@ -43,16 +48,13 @@ const UserActions  = (props) => {
 
 }
 
-function mapStateToProps(state){
-   
-    const auth = state.get("firebase").auth;
-    
-    return {
-            loggedInUser : auth,
-        }
-    
-   
+
+const mapStateToProps = createStructuredSelector({
+
+    loggedInUser : makeSelectLoggedIn(),
 }
+    
+);
 
 
 const withConnect = connect(mapStateToProps);

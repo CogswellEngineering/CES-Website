@@ -3,11 +3,13 @@ export function verifyEmail(email){
      //Validating email
      const emailRegex = /@cogswell.edu$/
 
-     var valid = emailRegex.test(this.state.email); 
+     console.log("email",email);
+     var valid = emailRegex.test(email); 
      if (valid){
-         const prefix = this.state.email.split("@")[0];
+         const prefix = email.split("@")[0];
 
-         valid = prefix.length > 1 && (prefix !== "@cogswell.edu");
+         valid = prefix.length >= 1 && (prefix !== "@cogswell.edu");
+
 
      }
      return valid;
@@ -25,12 +27,15 @@ export function verifyPassword(password){
 
     //Cause if not meet length req, I don't care bout characteres in it.
     var valid = true;
+    console.log("Password",password);
+
     for (var i = 0; i < pwRegex.length && valid; ++i){
-        valid = pwRegex[i].test(pw);
+        valid = pwRegex[i].test(password);
+        console.log("Still valid",valid);
     }
 
     if (valid){
-        valid = pw.length >= 6;
+        valid = password.length >= 6;
     }
      
      return valid;

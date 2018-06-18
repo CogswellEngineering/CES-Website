@@ -1,5 +1,5 @@
 import { FIELD_CHANGED } from 'containers/App/constants';
-import { REGISTER_FAILED, REGISTERED } from './constants';
+import { REGISTER_FAILED, REGISTERED, REGISTERING } from './constants';
 import { fromJS } from 'immutable';
 import { actionTypes } from 'react-redux-firebase'
 import { LOCATION_CHANGE } from 'react-router-redux';
@@ -9,7 +9,10 @@ import { REGISTER_PATH } from 'components/Header/pages';
 const initialState = fromJS({
 
     doneRegistering:false,
+    loading:false,
     displayName:"",
+    firstName:"",
+    lastName:"",
     email : "",
     password:"",
     major:"",
@@ -27,10 +30,15 @@ export default function registrationReducer(state = initialState, action){
             }
             return initialState;
 
+        case REGISTERING:
+
+            return state
+                .set("loading",true);
+            
         case REGISTERED:
 
             return state
-                .set(doneRegistering,true);
+                .set("doneRegistering",true);
 
         case REGISTER_FAILED:
 

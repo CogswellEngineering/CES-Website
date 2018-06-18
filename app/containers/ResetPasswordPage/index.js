@@ -35,6 +35,14 @@ class ResetPasswordPage extends Component{
             this.props.checkToken(this.token);
         }
     }
+
+    componentDidUpdate(){
+
+        //Fix this here too.
+        if (props.tokenChecked && !props.tokenExpired){
+            props.tokenUsed(this.token)
+        }
+    }
     
     render(){
 
@@ -60,8 +68,7 @@ class ResetPasswordPage extends Component{
         else{
 
             
-            //Already a dispatch only way is to put it in the return value
-            props.tokenUsed(this.token)
+        
         }
 
         if (!props.passwordChanged){

@@ -6,8 +6,10 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
+import 'firebase/firestore';
 import firebase from 'firebase';
 import { reactReduxFirebase } from 'react-redux-firebase';
+import { reduxFirestore } from 'redux-firestore';
 import createReducer from './reducers';
 
 
@@ -24,13 +26,23 @@ const fbConfig = {
 
 
 };
-// react-redux-firebase config
-const rrfConfig = {
-  //That's beautiful
-  userProfile: 'Users',
-  // useFirestoreForProfile: true // Firestore for Profile instead of Realtime DB
-}
+
+const settings = {/* your settings... */ timestampsInSnapshots: true};
+
 firebase.initializeApp(fbConfig);
+const firestore = firebase.firestore();
+firestore.settings(settings);
+
+// react-redux-firebase config
+//Fuck this
+const rrfConfig = {
+
+  userProfile: 'users',
+
+  useFirestoreForProfile: true // Firestore for Profile instead of Realtime DB
+}
+
+
 
 
 const sagaMiddleware = createSagaMiddleware();
@@ -64,7 +76,8 @@ export default function configureStore(initialState = {}, history) {
   /* eslint-enable */
 // Add reactReduxFirebase enhancer when making store creator
 const createStoreWithFirebase = compose(
-  reactReduxFirebase(firebase, rrfConfig), // firebase instance as first argument
+  reactReduxFirebase(firebase, rrfConfig),
+  reduxFirestore(firebase), // firebase instance as first argument
   // reduxFirestore(firebase) // <- needed if using firestore
 )(createStore);
 

@@ -11,6 +11,7 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 const initialState = fromJS({
     loggedIn:false,
     doneLoadingCache:false,
+    mainContentPath:"",
 });
 
 export default function appReducer(state = initialState, action){
@@ -27,7 +28,6 @@ export default function appReducer(state = initialState, action){
         case actionTypes.LOGIN:
 
         case actionTypes.AUTH_EMPTY_CHANGE:
-            console.log("setting doneLoading cache to true");
             return state
                 .set("doneLoadingCache",true);
 

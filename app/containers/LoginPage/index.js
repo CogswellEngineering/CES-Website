@@ -14,15 +14,15 @@ import { ACCOUNT_RECOVERY_PATH, REGISTER_PATH, LOGIN_PATH } from 'components/Hea
 
 const LoginPage = (props) => {
 
+    //WHAT HAPPEND, THIS WAS WORKING FINE WTF, oh wait no the error stuff working was in register,
     if (props.doneLoggingIn){
         //For now just go back, then I'll redirect as neccessarry coming from other places
-        //Whether I'll set up the back like did in previous is another story.
-        props.history.goBack();
+        //Whether I'll set up the back like did in previous is another story, I should, reason is if redirected to here from printing page.
+             props.history.push("/");   
+        return null;
     }
    
-    if (props.error !== ""){
-        props.firebase.logout();
-    }
+   
     return (
         <div>
             
