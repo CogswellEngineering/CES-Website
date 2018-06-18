@@ -6,9 +6,10 @@ import styled from 'styled-components';
 
 export default styled.img`
 
-    width:20%;
+    width:30%;
     height:30%;
     border: 1px solid black;
-
+    float:right;
+    margin-right:25%;
 `;
 

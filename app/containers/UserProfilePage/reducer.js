@@ -7,7 +7,7 @@ import { LIBRARY_UPDATED, BORROWED_UPDATED, ORDERS_UPDATED,
 
 
 const initialState = fromJS({
-    needReload: true,
+    needReload: false,
     profile:null,
     library:[],
     borrowed:[],

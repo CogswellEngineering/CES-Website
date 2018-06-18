@@ -46,7 +46,8 @@ const App  = (props) => {
           <Route path = {REGISTER_PATH} component={Register}/>
           <Route path = {ACCOUNT_RECOVERY_PATH} component={AccountRecovery}/>
           <Route path = {RESET_PASSWORD_PATH} component={ResetPasswordPage}/>
-          <Route path = {USER_PROFILE_PATH} component = {UserProfilePage}/>
+          <Route exact path = {USER_PROFILE_PATH} component = {UserProfilePage}/>
+          <Route exact path = {USER_PROFILE_PATH+"/update"} component = {UserProfilePage}/>
           <Route component={NotFoundPage} />
         </Switch>
       </div>
