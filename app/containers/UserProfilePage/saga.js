@@ -27,10 +27,11 @@ function* loadProfileCall(action){
 
      if (snapshot.exists){
 
-        //Was just forgetting the get, woops.
+        //I need library and purchases too, so will just return snapshot of whole document instead.
          var profile = snapshot.get("profile");
-         profile.uid = action.uid;
-         yield put(loadedProfile(profile));
+         //Adding uid, for checking if same when clicked to skip reloading.
+         snapshot.uid = action.uid;
+         yield put(loadedProfile(snapshot));
      }
      else{
          yield put(failedToLoadProfile());

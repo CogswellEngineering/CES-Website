@@ -1,9 +1,21 @@
-import { LOAD_PROFILE, LOADED_PROFILE,LOADED_PROFILE_FAIL, LIBRARY_UPDATED, BORROWED_UPDATED, ORDERS_UPDATED} from './constants';
+import { LOAD_PROFILE, LOADED_PROFILE,LOADED_PROFILE_FAIL, LIBRARY_UPDATED, BORROWED_UPDATED, ORDERS_UPDATED
+, NEXT_PAGE_CLICKED,
+} from './constants';
 
 //Changing it to addition, it will only pull singles at time
 //then just copies and appends it. Which might be more or less faster?
 //Only getting one from thing, but then also have to copy.
 
+
+export function nextPageClicked(inventoryID,page){
+
+    return {
+        type: NEXT_PAGE_LOADED,
+        inventoryID,
+        page,
+    }
+
+}
 
 export function loadProfile(uid){
 

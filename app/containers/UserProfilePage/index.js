@@ -9,11 +9,15 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import saga from './saga';
 import reducer from './reducer';
-import { loadProfile, loadedProfile } from './actions'
+import { loadProfile, loadedProfile, nextPageClicked } from './actions'
 import { makeSelectCollection, makeSelectProfile, makeSelectNeedReload } from './selectors';
 import { createStructuredSelector } from 'reselect';
 import { USER_PROFILE_PATH } from 'components/Header/pages';
 import { makeSelectLoggedInProfile } from 'containers/App/selectors';
+import  Pagination from 'react-js-pagination';
+
+import { Tabs} from 'react-simpletabs';
+
 
 
 //Will move all these styled components into own folder in components folder later, just here for testing.
@@ -78,7 +82,7 @@ const ProfileHeadLineH2 = styled.h2`
     font-weight:500;
 `
 
-const ProfileImage = styled.img`
+export const ProfileImage = styled.img`
 
     margin-top:1%;
     width:20%;
@@ -159,7 +163,35 @@ class UserProfilePage extends Component{
 
         const props = this.props;
         
-        const profile = props.profile;
+
+        const userInfo = props.userInfo;
+
+        //Borrowed will prob go into library under a filter.
+        const library = profile.library;
+  
+        const profile = userInfo.profile
+
+        const inventory = [
+            {
+                name : "Library",
+                data :userInfo.library,
+        
+            },
+            {
+                name : "Purchases",
+                data :userInfo.purchases,
+        
+            }, 
+            {
+                name : "Borrowed",
+                data :userInfo.borrowed,
+        
+            },
+            
+        ]
+
+        //Might be too much in here, I'll rethink moving it to it's own thing.
+        const pageRange = 5;
 
         if (!profile ){
             return (<div><p> Profile loading </p></div>);
@@ -171,7 +203,7 @@ class UserProfilePage extends Component{
                 
                 <UpdateProfileLink to={props.location.pathname+"/update"}> Update Profile </UpdateProfileLink>
 
-                <ProfileImage src="https://otakukart.com/wp-content/uploads/2017/10/033791b7-2d25-498f-b46e-92cd388b9be6-384x384.jpg"/>
+                <ProfileImage src={profile.profileImage}/>
                 <Links>
                 
                     {/*Need to add media links, and bio in update profile.*/}
@@ -201,11 +233,54 @@ class UserProfilePage extends Component{
                 <ProfileBio>
                     <BioHeader> Bio </BioHeader>
                     <BioText> {profile.bio || "No Bio given"} </BioText>
-                    
                 </ProfileBio>
                
 
-               {/*To add here is the paginator with tabs for purchases, library, and borrowed */}
+               {/*To add here is the paginator with tabs for purchases, library, and borrowed 
+                Mix of both, going to have logic for filtering which bits of array I'm using same, but will be using
+               react-js-pagination package for visuals, Might just compile it all into here*/}
+                <Tabs>
+
+                 
+                    {
+                        inventory.map(inventoryBlock => {
+                            
+                            //Yeah, this class getting bloated, will port it to own component
+                            //It will recieve data like array made in here, splicing will get wierd, though could also do that logic
+                            //there, but that means would pass in everything over there, making it pointless to even have here.
+                            //Keeping here for now.
+                            if (inventoryBlock.data.length == 0) return null;
+
+                            //Populates panel with pagination.
+                            return <Tabs.Panel title = {inventoryBlock.name}>
+                                        <Pagination 
+                                        pageCount = {inventoryBlock.data.length * pageRange} 
+                                        pageRangeDisaplyed = {pageRange}
+                                        onPageChange = {(page) => { props.replaceInventory(inventoryBlock.name,page);}}
+                                        >
+                                        
+                                        {/*Need to port over my model block info component and create blockinfos for purchase too*/}
+                                        {/*Populates pagination with with spliced inventory. */ }
+                                        {inventoryBlock.data.map(item => {
+
+                                            //For tseting;
+                                            return <p> {item.toString()} </p>
+                                        })}
+
+                                        </Pagination>
+
+                                    </Tabs.Panel>
+                        
+
+                        })
+
+                    }
+
+
+                </Tabs>               
+
+
+
 
                 
 
@@ -223,7 +298,7 @@ const mapStateToProps = createStructuredSelector({
 
     needReload: makeSelectNeedReload(),
     loggedInUser: makeSelectLoggedInProfile(),
-    profile: makeSelectProfile(),
+    userInfo: makeSelectProfile(),
     library: makeSelectCollection("library"),
     orders : makeSelectCollection("orders"),
     borrowed: makeSelectCollection("borrowed"),
@@ -233,6 +308,12 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch){
 
     return {
+
+        replaceInventory : (inventoryID, page ) => {
+
+            return dispatch(nextPageClicked(inventoryID,page));
+        },
+
         loadProfile : (uid) => {
             return dispatch(loadProfile(uid));
         },

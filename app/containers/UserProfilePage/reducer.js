@@ -1,14 +1,20 @@
 import { fromJS } from 'immutable';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { LIBRARY_UPDATED, BORROWED_UPDATED, ORDERS_UPDATED, 
-    LOADED_PROFILE_FAIL, LOADED_PROFILE} from './constants';
+    LOADED_PROFILE_FAIL, LOADED_PROFILE,
+    NEXT_PAGE_CLICKED} from './constants';
     
 
 
 
+//3 for testing, remember to change back.
+const itemsPerPage = 3;
+
 const initialState = fromJS({
     needReload: false,
     profile:null,
+    //So profile has all information, profile and the below.
+    //Below represents what's currently seen only.
     library:[],
     borrowed:[],
     orders:[],
@@ -22,7 +28,30 @@ export default function userProfileReducer(state = initialState, action){
     //for now this is fine.
     switch (action.type){
 
-         
+
+        case NEXT_PAGE_CLICKED:
+
+            const newPage = action.page;
+            
+            //Not an api call, but I shouldn't do too much logic here
+            //Maybe put in sagas? But async not needed for an operation like this
+            //Either way logic same. Port over if needed.
+
+            //Gets full unspliced collection in profile.
+            const fullInventory = state.get("profile")[action.inventoryID];
+
+            //Splicing.
+            const endingIndex = newPage * itemsPerPage;
+            var i = endingIndex - itemsPerPage;
+            var spliced = [];
+
+            //Should work, will populate with dummy data and test.
+            while (i < endingIndex){
+                spliced.push(fullInventory[i]);
+            }
+
+            return state
+                .set(action.inventoryID, spliced);
 
 
         case LOCATION_CHANGE:
