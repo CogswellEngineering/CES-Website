@@ -20,12 +20,13 @@ export function updating(){
 }
 
 
-export function onUpdateClicked(uid,update){
+export function onUpdateClicked(uid,profilePicture,update){
 
     return {
         type:UPDATE_CLICKED,
+        profilePicture,
         uid,
-        update
+        update,
     };
 }
 

@@ -16,7 +16,7 @@ import { UPDATE_FAILED,UPDATING,UPDATED, PROFILE_PICTURE_UPLOADED } from './cons
 const initialState = fromJS({
 
 
-    profileImage:null,
+    profilePicture:null,
     displayName:"",
     firstName:"",
     lastName:"",
@@ -38,7 +38,7 @@ export default function updateProfileReducer(state = initialState, action){
         case PROFILE_PICTURE_UPLOADED:
 
             return state
-                .set("profileImage",action.image);
+                .set("profilePicture",action.image);
         case UPDATED:
 
             return state

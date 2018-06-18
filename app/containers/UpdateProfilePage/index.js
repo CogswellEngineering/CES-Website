@@ -14,11 +14,11 @@ import { createStructuredSelector } from 'reselect';
 import reducer from './reducer';
 import { makeSelectLoggedIn, makeSelectLoggedInProfile } from 'containers/App/selectors';
 
+import { makeProfileImageSelector } from './selectors';
 import FormSelectors from 'utils/genericFormSelectors';
 import saga from './saga';
 import { onUpdateClicked, profilePictureUploaded } from './actions';
 import injectSaga from 'utils/injectSaga';
-import {ProfileImage} from 'containers/UserProfilePage';
 import { UPDATE_USER_PROFILE_PATH } from 'components/Header/pages';
 import {dimensions} from 'components/ProfileImage';
 
@@ -29,9 +29,10 @@ const BioInput = styled.textarea`
 
 
 `
-//Todo: Make Styled components for this so it actually looks pretty. It is fully functional.
+//Todo: 
+//Make Styled components for this so it actually looks pretty. It is fully functional.
 //Move years and majors info into file called schoolInfo so not keep initializing it.
-
+//
   
 
 const UpdateProfilePage = (props) => {
@@ -87,7 +88,6 @@ const UpdateProfilePage = (props) => {
                 const update = {
 
                 
-                    profilePicture,
                     displayName,
                     firstName,
                     lastName,
@@ -96,7 +96,15 @@ const UpdateProfilePage = (props) => {
                     major,
                     bio,
                 };
-                 props.onUpdate(evt,update);
+
+                 const profileImgs = {
+                    
+                        old:profile.profile.profilePicture, 
+                        new:profilePicture,
+                    
+                 };
+                 
+                 props.onUpdate(evt,profileImgs,update);
                  
                  }}>
 
@@ -109,7 +117,7 @@ const UpdateProfilePage = (props) => {
 
                  {/* it should match dimensions in profile
                 Is this of editor or of cropped image? Cropped Image.*/}
-                 <ReactAvatarEditor width = {dimensions.width} height = {dimensions.height}image = {props.profileImage}/>
+                 <ReactAvatarEditor width = {dimensions.width} height = {dimensions.height}image = {props.profilePicture}/>
                  </Dropzone>
                  
                  <StyledLabel htmlFor="displayName"> Display Name </StyledLabel>
@@ -169,7 +177,7 @@ const mapStateToProps = createStructuredSelector({
     loading : formSelector.makeSelectDone("loading"),
     loggedInUser : makeSelectLoggedIn(),
     profile : makeSelectLoggedInProfile(),
-    profileImage: makeSelect
+    profilePicture: makeProfileImageSelector(),
 });
 
 
@@ -191,7 +199,7 @@ function mapDispatchToProps(dispatch){
         },
 
         //Instead of passing in uid, coulld just get it, but since loading profile, might as well use it from there too.
-        onUpdate : (evt,uid,update) => {
+        onUpdate : (evt,uid,profilePicture,update) => {
             
             if (evt.preventDefault){
                 evt.preventDefault();
@@ -199,7 +207,7 @@ function mapDispatchToProps(dispatch){
             
            
 
-            return dispatch(onUpdateClicked(uid,update))
+            return dispatch(onUpdateClicked(uid,profilePicture,update))
 
         }
     };
