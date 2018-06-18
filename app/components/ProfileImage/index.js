@@ -13,3 +13,8 @@ export default styled.img`
     margin-right:25%;
 `;
 
+//Keeping percentages may switch px later.
+export const dimensions = {
+    width: '10%',
+    height:'20%',
+};

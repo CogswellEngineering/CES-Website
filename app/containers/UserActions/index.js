@@ -24,6 +24,7 @@ export const UserActionLink = styled(Link)`
 
 const UserActions  = (props) => {
     
+
      if (props.loggedInUser.isEmpty){
 
         return (<span>

@@ -23,7 +23,8 @@ import Login from 'containers/LoginPage/Loadable';
 import Register from 'containers/RegistrationPage/Loadable';
 import AccountRecovery from 'containers/AccountRecovery/Loadable';
 import ResetPasswordPage from 'containers/ResetPasswordPage/Loadable';
-import UserProfilePage from 'containers/UserProfilePage';
+import UserProfilePage from 'containers/UserProfilePage/Loadable';
+import UpdateProfilePage from 'containers/UpdateProfilePage';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { LOGIN_PATH,REGISTER_PATH,ACCOUNT_RECOVERY_PATH, RESET_PASSWORD_PATH, USER_PROFILE_PATH } from 'components/Header/pages';
@@ -47,7 +48,7 @@ const App  = (props) => {
           <Route path = {ACCOUNT_RECOVERY_PATH} component={AccountRecovery}/>
           <Route path = {RESET_PASSWORD_PATH} component={ResetPasswordPage}/>
           <Route exact path = {USER_PROFILE_PATH} component = {UserProfilePage}/>
-          <Route exact path = {USER_PROFILE_PATH+"/update"} component = {UserProfilePage}/>
+          <Route exact path = {USER_PROFILE_PATH+"/update"} component = {UpdateProfilePage}/>
           <Route component={NotFoundPage} />
         </Switch>
       </div>

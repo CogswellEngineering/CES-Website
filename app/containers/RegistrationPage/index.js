@@ -2,10 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import {Link,Route} from 'react-router-dom';
 import {fieldChanged} from 'containers/App/actions';
-import StyledForm, {StyledButton,StyledLabel,ErrorMessage,StyledInput} from 'components/StyledForm'
+import StyledForm, {StyledButton,StyledLabel,ErrorMessage,StyledInput, StyledSelect, StyledOption} from 'components/StyledForm'
 import {connect} from 'react-redux';
 import {compose} from 'redux';
-import { withFirebase } from 'react-redux-firebase'
 import injectReducer from 'utils/injectReducer';
 import { createStructuredSelector } from 'reselect';
 import reducer from './reducer';
@@ -41,7 +40,25 @@ const RegistrationPage = (props) => {
             
        )
    }
-   
+     
+   //Might turn these into classses to avoid constatnly remaking this.
+   const years = [
+        
+    "Freshman",
+    "Sophomore",
+    "Junior",
+    "Senior",
+    "Alumni",
+    ];
+
+    //later will be pulling these from firestore, for now this is fine.
+    const majors = [
+
+        "Computer Science",
+        "Game Design Engineering",
+        "Audio Engineering",
+        "Digital Arts Engineering",
+    ]
     return (
         <div>
             
@@ -62,8 +79,20 @@ const RegistrationPage = (props) => {
                  <StyledInput type="password" id="password" name="password" value={props.password} onChange={(evt)=>{props.fieldChanged(evt)}}/>
                  
                  <StyledLabel htmlFor="major"> Major </StyledLabel>
-                 <StyledInput type="text" id="major" name="major" value={props.major} onChange={(evt)=>{props.fieldChanged(evt)}}/>
+                 <StyledSelect id="major">
+                    {majors.map(major => {
+                        return <StyledOption name="major" value = {major} onClick={(evt) => {props.fieldChanged(evt)}}> {major} </StyledOption>
+                    })}
+                 
+                 </StyledSelect>
+                 
+                 <StyledLabel htmlFor="Year"> Year </StyledLabel>
+                 <StyledSelect id="year">
+                    {years.map(year => {
+                        return <StyledOption name="year" value = {year} onClick={(evt) => {props.fieldChanged(evt)}}> {year} </StyledOption>
+                    })}
 
+                 </StyledSelect>
 
                  <ErrorMessage> {props.error} </ErrorMessage>
                  <StyledButton type="submit"> Register </StyledButton> 
@@ -142,7 +171,6 @@ const withSaga = injectSaga({key:REGISTER_PATH,saga});
 
 export default compose(
   withConnect,
-  withFirebase,
   withReducer,
   withSaga,
 )(RegistrationPage);

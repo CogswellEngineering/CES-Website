@@ -34,3 +34,14 @@ export const StyledInput =  styled.input`
     border:2px solid black;
 
 `;
+
+export const StyledSelect = styled.select`
+
+
+
+`
+export const StyledOption = styled.option`
+
+    
+
+`

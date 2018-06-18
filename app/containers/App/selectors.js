@@ -7,6 +7,7 @@ const makeSelectLoggedIn = () => createSelector(
 
   selectFirebase,
   (firebaseState) => {
+    console.log(firebaseState);
     if (firebaseState == null) return null;
     return firebaseState.auth;
   }
