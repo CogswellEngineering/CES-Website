@@ -18,7 +18,10 @@ const initialState = fromJS({
     //Only up for admin, onstant processing in the check is offputting me
     //but it's not that computationally expensive.
     //Will contain attributes: topic and description
-    postContent:null,
+    postContent:{
+        topic:"",
+        description:"",
+    },
     posting:false,
     error:""
 })

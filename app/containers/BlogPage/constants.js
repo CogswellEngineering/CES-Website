@@ -14,6 +14,8 @@ const prefix = 'ces/BlogPage/'
 
  const POST_FAILED = prefix+'POST_FAILED';
 
+ const POST_FIELD_CHANGED = prefix+'POST_FIELD_CHANGED';
+
  //Do this to other constatns pages too, for neatness
  //Saves alot of time.
 export {
@@ -26,5 +28,6 @@ export {
     POSTING,
     POSTED,
     POST_FAILED,
+    POST_FIELD_CHANGED,
 
 }

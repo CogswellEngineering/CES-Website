@@ -2,12 +2,21 @@ import React, { Component } from 'react';
 import styled from 'styled.components';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
 import { withFirebase } from 'react-redux-firebase';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import saga from './saga';
 import reducer from './reducer';
-import { pageTurned, modificationsMade, addPostClicked} from './actions';
+import { makeSelectPosts, makeSelectPostFields } from './selectors';
+import { pageTurned, modificationsMade, addPostClicked, postFieldChanged} from './actions';
+import { BLOG_PATH } from 'components/Header/pages';
+import { makeSelectLoggedInProfile } from 'containers/App/selectors';
+import BlogPost from 'components/BlogPost';
+
+//Might need select for categorizing it if that's neccessarry, that's easy change I can make later.
+import StyledForm, {StyledButton,StyledLabel,ErrorMessage,StyledInput, StyledSelect, StyledOption} from 'components/StyledForm'
+
 
 
 
@@ -69,18 +78,46 @@ class BlogPage extends Component{
         //Stops pulling blogposts;
         this.unsubscribe();
     }
+
+    //Prob just get profile, then go based off that
     
     render(){
+
+        const props = this.props;
+        const isAdmin = props.loggedInUser.isAdmin;
+
+        const { posts, postContent, fieldChanged, onPostClicked  } = props;
 
         return (<BlogPageWrapper>
 
                 <BlogsPanel>
 
+                    {/*Will map from posts array to produce BlogPosts component*/}
+                    {posts.map(post => {
+
+                        return <BlogPost author={post.author} topic={post.topic} body={post.body}/> 
+                    })}
+
                 </BlogsPanel>
 
-                <BlogPostPanel>
-                    {/*Add fields for topic description etc.*/}
+                <BlogPostPanel hidden = {!isAdmin}>
 
+                    <StyledForm onSubmit = {(evt) => { onPostClicked(evt,postContent); }}>
+
+                        <StyledLabel for = "topic"> Topic </StyledLabel>
+                        <StyledInput id = "topic" name = "topic" 
+                        value={postContent.info} 
+                        onChange={(evt) => { onFieldChanged(evt); }}
+                        />
+                        <StyledLabel for = "body"> Body </StyledLabel>
+                        <StyledInput id = "body" name = "body" 
+                        value={postContent.info} 
+                        onChange={(evt) => { onFieldChanged(evt); }}
+                        />
+
+                        <StyledButton type="submit"> Post </StyledButton> 
+                        
+                    </StyledForm>
                 </BlogPostPanel>
 
             </BlogPageWrapper>
@@ -89,26 +126,57 @@ class BlogPage extends Component{
 }
 
 
+const mapStateToProps = createStructuredSelector(){
+    
+    //Will pass in selector, in seletor will check admin status.
+    posts: makeSelectPosts(),
+    postContent: makeSelectPostFields(),
+    loggedInUser: makeSelectLoggedInProfile(),
+}
+
 
  function mapDispatchToProps(dispatch){
 
 
     return {
 
+        onFieldChanged : (evt) => {
+
+            const target = evt.target;
+            return dispatch(postFieldChanged(target.name,target.value));
+
+        },
+
         onModificationMade : (posts) => {
 
             return dispatch(modificationsMade(posts));
-        }
+        },
         
         onPageSelected : (page) => {
 
             return dispatch(pageTurned(page));
-        }
+        },
 
-        onAddPostClicked : () =>{
+        onAddPostClicked : (evt, post) =>{
 
-            return dispatch(addPostClicked());
-        }
+            if (evt && evt.preventDefault){
+                evt.preventDefault();
+            }
+            return dispatch(addPostClicked(post));
+        },
     }
 
  }
+
+ const withConnect = connect(mapStateToProps, mapDispatchToProps);
+ const withReducer = injectReducer(BLOG_PATH, reducer);
+ const withSaga = injectSaga(BLOG_PATH,saga);
+
+ export default compose(
+
+    withConnect,
+    withReducer,
+    withSaga,
+    withFirebase
+
+ )(BlogPage);

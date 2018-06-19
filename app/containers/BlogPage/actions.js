@@ -8,6 +8,7 @@ import {
     POSTING,
     POSTED,
     POST_FAILED,
+    POST_FIELD_CHANGED,
 
 } from './constants';
 
@@ -53,11 +54,21 @@ function modificationsMade(posts){
 
 //Adding in posts actions
 
-function addPostClicked(){
+function addPostClicked(post){
 
     return {
         type:ADD_POST_CLICKED,
+        post,
 
+    };
+}
+
+function postFieldChanged(fieldName,value){
+
+    return{
+        type: POST_FIELD_CHANGED,
+        fieldName,
+        value,
     };
 }
 
@@ -96,6 +107,7 @@ export {
     posting,
     posted,
     postFailed,
+    postFieldChanged,
 
 };
 
