@@ -1,6 +1,6 @@
 import fromJS from 'immutable';
-import { FIELD_CHANGED, MODIFICATIONS_MADE } from 'components/App/constants';
-import { POSTING, POSTED, LOADING_POSTS, LOADED_POSTS } from './constants';
+import { MODIFICATIONS_MADE } from 'components/App/constants';
+import { POST_FIELD_CHANGED, POSTING, POSTED, LOADING_POSTS, LOADED_POSTS, MODIFICATIONS_MADE } from './constants';
 
 
 
@@ -17,10 +17,10 @@ const initialState = fromJS({
 
     //Only up for admin, onstant processing in the check is offputting me
     //but it's not that computationally expensive.
-    //Will contain attributes: topic and description
+    //Will contain attributes: topic and body
     postContent:{
         topic:"",
-        description:"",
+        body:"",
     },
     posting:false,
     error:""
@@ -43,18 +43,35 @@ export default function blogPageReducer(state = initialState, action){
 
         case POSTED:
         
-            //Once done posting, clear all fields, but keep blogPosts
-            //actualy if they posted, need to pull again, firestore optimizies query
-            //so If i limit by 1, then only gets that and not reads rest, initial I could get all, then limit by 1 all other times.
-            //But what if multiple people posts at the same time, if I limit to one I may have missed theirs and only get last persons
-            //posts, and the event won't be triggered again, feels a like a little much, but it's only done if posts new
-            //so not always pulling all of them over again, this will be like how I did profile reloading
-            return initialState;
             
-        case FIELD_CHANGED:
             return state
-            .set(action.fieldName,action.value)
+                .set("postContent",{topic:"",body:""})
+                .set("posting",false)
+
+
+        case POST_FAILED:
+
+            return state
+                .set("error",action.error);
+            
+        //No more reason to make this unique, whatever.    
+        case POST_FIELD_CHANGED:
+
+            //Honestly I could just keep these separate but they make the most sense in a single object
+            //it's slightly worse, cause now even if only topic is changed
+            //body will be considered change so may re-render unnecessarrily. Unless reselect accounts for that
+            //it should simulate deep copy with it's memoization, so hopefully fine.
+            var newPostContent = {
+                topic : state.get("postContent").topic,
+                body: state.get("postContent").body
+            }
+
+            newPostContent[action.fieldName] = action.value;
+
+            return state
+            .set("postContent",newPostContent)
             .set("error","");
+
         default:
             return state;
     }
