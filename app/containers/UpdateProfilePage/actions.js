@@ -1,4 +1,4 @@
-import { UPDATE_CLICKED ,UPDATING, UPDATED, UPDATE_FAILED, PROFILE_PICTURE_UPLOADED } from './constants'
+import { UPDATE_CLICKED ,UPDATING, UPDATED, UPDATE_FAILED, UPDATE_CANCELLED, PROFILE_PICTURE_UPLOADED } from './constants'
 
 
 
@@ -27,6 +27,13 @@ export function onUpdateClicked(uid,profilePicture,update){
         profilePicture,
         uid,
         update,
+    };
+}
+
+export function onUpdateCancelled(){
+    
+    return {
+        type: UPDATE_CANCELLED,
     };
 }
 

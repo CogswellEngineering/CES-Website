@@ -1,7 +1,7 @@
 import { fromJS} from 'immutable';
 import { FIELD_CHANGED } from 'containers/App/constants';
 
-import { UPDATE_FAILED,UPDATING,UPDATED, PROFILE_PICTURE_UPLOADED } from './constants'
+import { UPDATE_FAILED,UPDATING,UPDATED, PROFILE_PICTURE_UPLOADED, UPDATE_CANCELLED } from './constants'
 
 //No need, react-redux-firebase already has this, I should just use this, I went out of my way to install it
 //and there's might have optimizations I don't. Though may also be depreacted, does mean I won't need saga though
@@ -39,7 +39,10 @@ export default function updateProfileReducer(state = initialState, action){
 
             return state
                 .set("profilePicture",action.image);
+                
         case UPDATED:
+
+        case UPDATE_CANCELLED:
 
             return state
                 .set("doneUpdating",true);
