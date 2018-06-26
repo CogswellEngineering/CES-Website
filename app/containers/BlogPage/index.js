@@ -86,7 +86,7 @@ class BlogPage extends Component{
         const props = this.props;
         const isAdmin = props.loggedInUser.isAdmin;
 
-        const { posts, postContent, fieldChanged, onPostClicked  } = props;
+        const { posts, error, postContent, fieldChanged, onPostClicked,   } = props;
 
         return (<BlogPageWrapper>
 
@@ -114,8 +114,10 @@ class BlogPage extends Component{
                         value={postContent.info} 
                         onChange={(evt) => { onFieldChanged(evt); }}
                         />
-
+                        
+                        <StyledError> {error} </StyledError>
                         <StyledButton type="submit"> Post </StyledButton> 
+                        
                         
                     </StyledForm>
                 </BlogPostPanel>
@@ -132,6 +134,7 @@ const mapStateToProps = createStructuredSelector(){
     posts: makeSelectPosts(),
     postContent: makeSelectPostFields(),
     loggedInUser: makeSelectLoggedInProfile(),
+    error : makeSelectError(),
 }
 
 
