@@ -1,9 +1,10 @@
 
 
-export const LIBRARY_UPDATED = 'ces/UserProfilePage/LIBRARY_UPDATED';
-export const BORROWED_UPDATED = 'ces/UserProfilePage/BORROWED_UPDATED';
-export const ORDERS_UPDATED = 'ces/UserProfilePage/ORDERS_UPDATED';   
-export const LOAD_PROFILE = 'ces/UserProfilePage/LOAD_PROFILE';
-export const LOADED_PROFILE = 'ces/UserProfilePage/LOADED_PROFILE';
-export const LOADED_PROFILE_FAIL = 'ces/UserProfilePage/LOADED_PROFILE_FAIL';
-export const NEXT_PAGE_CLICKED = 'ces/UserProfilePage/NEXT_PAGE_CLICKED';
+
+const prefix = 'ces/UserProfilePage/';
+export const FOUND_OWNER_STATUS = prefix+'FOUND_OWNER_STATUS';  
+export const LOAD_PROFILE = prefix+'LOAD_PROFILE';
+export const LOADED_PROFILE = prefix+'LOADED_PROFILE';
+export const LOADED_PROFILE_FAIL = prefix+'LOADED_PROFILE_FAIL';
+
+

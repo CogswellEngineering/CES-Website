@@ -4,19 +4,7 @@ const profileState = (state) => state.get(USER_PROFILE_PATH);
 
 
 
-//Will move this to FormSelectors later
-//after rename it.
-//May actually separate these later, incase need to make specifications
-//selection, but for now this is fine.
-export const makeSelectCollection = (collectionName) => createSelector(
 
-    profileState,
-    (profileState) => {
-
-        if (profileState == null) return [];
-
-        return profileState.get(collectionName);
-    });
 
 export const makeSelectNeedReload = () => createSelector(
 
@@ -29,6 +17,21 @@ export const makeSelectNeedReload = () => createSelector(
     
 )
 
+export const makeSelectOwnership = () => createSelector(
+
+
+    profileState,
+    (profileState) => {
+
+        if (profileState == null){
+            return null;
+        }
+        else{
+            return profileState.get("ownProfile");
+        }
+    }
+)
+
 export const makeSelectProfile = () => createSelector(
 
     profileState,
@@ -36,7 +39,7 @@ export const makeSelectProfile = () => createSelector(
         if (profileState == null) 
             return null;
         else{
-            console.log("Selected profile",profileState.get("profile"));
+            console.log("Profile State", profileState);
             return profileState.get("profile");
         }
     }

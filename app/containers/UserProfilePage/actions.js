@@ -1,5 +1,4 @@
-import { LOAD_PROFILE, LOADED_PROFILE,LOADED_PROFILE_FAIL, LIBRARY_UPDATED, BORROWED_UPDATED, ORDERS_UPDATED
-, NEXT_PAGE_CLICKED,
+import { LOAD_PROFILE, LOADED_PROFILE,LOADED_PROFILE_FAIL, FOUND_OWNER_STATUS,
 } from './constants';
 
 //Changing it to addition, it will only pull singles at time
@@ -7,13 +6,12 @@ import { LOAD_PROFILE, LOADED_PROFILE,LOADED_PROFILE_FAIL, LIBRARY_UPDATED, BORR
 //Only getting one from thing, but then also have to copy.
 
 
-export function nextPageClicked(inventoryID,page){
+export function foundOwnerStatus(doesOwn){
 
     return {
-        type: NEXT_PAGE_LOADED,
-        inventoryID,
-        page,
-    }
+        type: FOUND_OWNER_STATUS,
+        doesOwn,
+    };
 
 }
 
@@ -40,27 +38,4 @@ export function loadedProfile(profile){
     };
 }
 
-export function libraryUpdated(library){
 
-    return {
-        type: LIBRARY_UPDATED,
-        library,
-    };
-
-}
-
-export function borrowedUpdated(borrowed){
-
-    return {
-        type: BORROWED_UPDATED,
-        borrowed,
-    };
-}
-
-export function ordersUpdated(orders){
-
-    return {
-        type: ORDERS_UPDATED,
-        orders,
-    };
-}

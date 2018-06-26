@@ -27,11 +27,20 @@ function* loadProfileCall(action){
 
      if (snapshot.exists){
 
-        //I need library and purchases too, so will just return snapshot of whole document instead.
-         var profile = snapshot.get("profile");
+        //Contemplated just putting all in profile, but if want only credits, don't want to pull all that extra info.
+         const userInfo = {
+             profile: snapshot.get("profile"),
+             //Changing this to collection instead of object within same document
+             //This way can store other stuff within types of inventoires
+             //Also setting up the event listeners in component will mount
+             //inventory: snapshot.get("inventory"),
+             //Need to update index there, also add a check to not get profile or only pull inventory exactly
+             uid: action.uid,
+         };
+         
          //Adding uid, for checking if same when clicked to skip reloading.
          snapshot.uid = action.uid;
-         yield put(loadedProfile(snapshot));
+         yield put(loadedProfile(userInfo));
      }
      else{
          yield put(failedToLoadProfile());
