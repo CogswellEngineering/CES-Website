@@ -36,8 +36,14 @@ export const makeSelectProfile = () => createSelector(
 
     profileState,
     (profileState) => {
-        if (profileState == null) 
+
+        console.log("here");
+        if (profileState == null) {
+            
+            console.log("here too");
             return null;
+
+        }
         else{
             console.log("Profile State", profileState);
             return profileState.get("profile");

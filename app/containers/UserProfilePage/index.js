@@ -125,13 +125,14 @@ const StyledImageLink = styled.img`
 
 class UserProfilePage extends Component{
 
-    componentWillMount(){
+    componentDidMount(){
 
         this.loadProfile();
     }
 
     loadProfile(){
         
+
         const uid = this.props.match.params.uid;
       
         const currUser = this.props.firebase.auth().currentUser;
@@ -139,13 +140,15 @@ class UserProfilePage extends Component{
         if (currUser == null || uid != currUser.uid){
 
          //   this.props.ownsProfile(false);
+         console.log("this should happen");
             this.props.loadProfile(uid);
         }
         else{
             
             //The doneloading cache thing is done in app, but if go to this url directly, will reset needReload before have something to reload
             //so this check needed for that.
-            if (this.props.loggedInUserProfile && !this.props.loggedInUserProfile.isEmpty){
+            if (!this.props.loggedInUserProfile.isEmpty){
+                 
                 this.props.ownsProfile(true);
                 this.props.alreadyLoaded(this.props.loggedInUserProfile);
             }
@@ -159,10 +162,10 @@ class UserProfilePage extends Component{
 
     componentDidUpdate(){
 
-        console.log("Props",this.props);
 
-       
-         if (this.props.needReload == true){
+        
+        //Does get updated here, but need reload shouldn't happen
+        if (this.props.needReload == true){
 
                 this.loadProfile();
         }
@@ -171,20 +174,21 @@ class UserProfilePage extends Component{
 
     render(){
 
-        const props = this.props;
+        
         
         //Welp, all the userINfo stuff was waste of time, but still works.
-        const userInfo = props.userInfo;
-
-        if (userInfo == null) return null;
-
-        const profile = userInfo.profile
-
-
-
-        if (!profile ){
+        const props = this.props;
+        if (!props.userInfo ){
             return (<div><p> Profile loading </p></div>);
         }
+        const {firstName, lastName, bio, major, year, profilePicture, mediaLinks} = props.userInfo;
+
+        
+
+        
+
+        console.log("profile Image url",profilePicture);
+       
 
 
         return (
@@ -204,13 +208,13 @@ class UserProfilePage extends Component{
 
 
                 
-                <ProfileImage src={profile.profileImage} alt={"No image given"}/>
+                <ProfileImage src={profilePicture} alt={"No image given"}/>
                 <Links>
                 
                     {/*Need to add media links, and bio in update profile.*/}
-                    { (profile.mediaLinks == null)? null : 
+                    { (mediaLinks == null)? null : 
 
-                        profile.mediaLinks.map(link => {
+                        mediaLinks.map(link => {
 
                             return (<StyledLink href={link.url}> <StyledImageLink src = {link.image}/> {link.name} </StyledLink>);
                         })
@@ -222,8 +226,9 @@ class UserProfilePage extends Component{
                 </Links>
 
                 <ProfileHeadline> 
-                    <ProfileHeadLineH1>{profile.firstName} {profile.lastName}</ProfileHeadLineH1>
-                      <ProfileHeadLineH2> {profile.major} </ProfileHeadLineH2>
+                    <ProfileHeadLineH1>{firstName} {lastName}</ProfileHeadLineH1>
+                      <ProfileHeadLineH2> {major} </ProfileHeadLineH2>
+                      <ProfileHeadLineH2> {year} </ProfileHeadLineH2>
 
                 </ProfileHeadline>
                 
@@ -233,7 +238,7 @@ class UserProfilePage extends Component{
 
                 <ProfileBio>
                     <BioHeader> Bio </BioHeader>
-                    <BioText> {profile.bio || "No Bio given"} </BioText>
+                    <BioText> {bio || "No Bio given"} </BioText>
                 </ProfileBio>          
 
             </ProfileWrapper>
@@ -271,7 +276,6 @@ function mapDispatchToProps(dispatch){
         },
         alreadyLoaded: (profile) => {
 
-            console.log("already loaded",profile);
             return dispatch(loadedProfile(profile));
         },
     }

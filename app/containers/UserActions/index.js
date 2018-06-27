@@ -10,7 +10,7 @@ import {logout} from './actions'
 import {LOGIN_PATH,REGISTER_PATH, USER_PROFILE_PATH} from 'components/Header/pages';
 import reducer from './reducer';
 import { createStructuredSelector } from 'reselect'; 
-import { makeSelectLoggedIn } from 'containers/App/selectors';
+import { makeSelectLoggedIn, makeSelectLoggedInProfile } from 'containers/App/selectors';
 import injectReducer from 'utils/injectReducer';
 
 export const UserActionLink = styled(Link)`
@@ -40,7 +40,7 @@ const UserActions  = (props) => {
     console.log(profilePath);
     return (
         <span>
-            <p> Logged in as {props.loggedInUser.displayName} </p>
+            <p> Logged in as {props.profile.displayName} </p>
             <UserActionLink to = {profilePath+props.loggedInUser.uid}> Profile </UserActionLink>
             <button  onClick = {() => {props.firebase.logout();}}> Logout </button>
         </span>
@@ -53,6 +53,7 @@ const UserActions  = (props) => {
 const mapStateToProps = createStructuredSelector({
 
     loggedInUser : makeSelectLoggedIn(),
+    profile : makeSelectLoggedInProfile(),
 }
     
 );

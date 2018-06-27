@@ -81,7 +81,7 @@ const RegistrationPage = (props) => {
                  <StyledLabel htmlFor="major"> Major </StyledLabel>
                  <StyledSelect id="major">
                     {majors.map(major => {
-                        return <StyledOption name="major" value = {major} onClick={(evt) => {props.fieldChanged(evt)}}> {major} </StyledOption>
+                        return <StyledOption key = {major} name="major" value = {major} onClick={(evt) => {props.fieldChanged(evt)}}> {major} </StyledOption>
                     })}
                  
                  </StyledSelect>
@@ -89,7 +89,7 @@ const RegistrationPage = (props) => {
                  <StyledLabel htmlFor="Year"> Year </StyledLabel>
                  <StyledSelect id="year">
                     {years.map(year => {
-                        return <StyledOption name="year" value = {year} onClick={(evt) => {props.fieldChanged(evt)}}> {year} </StyledOption>
+                        return <StyledOption key = {year} name="year" value = {year} onClick={(evt) => {props.fieldChanged(evt)}}> {year} </StyledOption>
                     })}
 
                  </StyledSelect>

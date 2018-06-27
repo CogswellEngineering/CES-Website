@@ -47,7 +47,7 @@ export default function userProfileReducer(state = initialState, action){
            // return initialState;
             const pathname = action.payload.pathname;
             
-            if (pathname.includes("/account/")){
+           /* if (pathname.includes("/account/")){
 
 
                 //I don't remember use of this.
@@ -78,7 +78,9 @@ export default function userProfileReducer(state = initialState, action){
             }
             else{
                 return initialState;
-            }
+            }*/
+
+            return initialState;
 
            
 
@@ -90,13 +92,10 @@ export default function userProfileReducer(state = initialState, action){
 
         case LOADED_PROFILE:
 
-            
-
             console.log("profile loaded",action.profile);
             return state
                 .set("profile",action.profile)
                 .set("needReload",false);
-
                 
       
         default:

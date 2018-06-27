@@ -8,13 +8,15 @@ import firebase from 'firebase';
 function* updateCall(action){
 
 
+    console.log("uid",action.uid);
     const uid = action.uid;
     const update = action.update;
     const profilePicture = action.profilePicture;
+    console.log("Profile pictures",profilePicture)
 
-    const fireStoreRef = firebase.firestore();
+    console.log("Update",update);
 
-    const docRef = fireStore.collection("users").doc(uid);
+  
     
     try{
 
@@ -28,52 +30,58 @@ function* updateCall(action){
         //I could pass that in, or just retrieve it again here since I do have the reference to firestore
         //but If i already have it why waste the time.
         
-        //Places the profile image in storage.
-        const storageRef = firebase.storage().ref("ProfilePictures/");
-    
-        //.Odds are slim, but chance that profile images will have same name, and ppl could be using same img
-        //with same filename, so prefixing it with uid, or postfix doesn't matter. Reminder to do this with 
-        //3DPrinter queue too.
-
-        //If doesn't exist, and try to remove it shouldn't throw an error, but just incase and to save computation time.  
-        if (profilePicture.old != null){
-
-            var oldImageRef = storageRef.child(uid+"_"+profilePicture.old.filename);
-
-            //Removes old profile image from storage.
-            yield call(oldImageRef.remove);
-        }
-
-        var newImageRef =  storageRef.child(uid+"_"+profilePicture.new.filename);
-
-        const snapshot = yield call(newImageRef.put,profilePicture.new);
+        if (profilePicture.new != null){
+            //Places the profile image in storage.
+            const storageRef = firebase.storage().ref("ProfilePictures/");
         
-        //If worked, then I can reference the imageref to get the download url.
-        if (snapshot.exists){
+            //.Odds are slim, but chance that profile images will have same name, and ppl could be using same img
+            //with same filename, so prefixing it with uid, or postfix doesn't matter. Reminder to do this with 
+            //3DPrinter queue too.
 
-            const downloadURL = yield call(newImageRef.getDownloadURL);
+            //If doesn't exist, and try to remove it shouldn't throw an error, but just incase and to save computation time.  
+            if (profilePicture.old != null){
 
-            //Hopefully it throws so can be caught and doesn't give back the error into download url.
-            //After placing in storage gets download url
-            if (downloadURL != null){
-                update.profilePicture = {
+                console.log("I shouldn't happen.");
+                var oldImageRef = storageRef.child(uid+"_"+profilePicture.old.name);
 
-                   name:profilePicture.new.filename,
-                   url: downloadURL,
-
-                }
+                //Removes old profile image from storage.
+                yield call(oldImageRef.remove);
             }
+
+              
+
+                const newProfileName = profilePicture.new.name.replace(" ","");
+
+                const newImageRef =  storageRef.child(uid+"_"+newProfileName);
+
+
+                //Returns a progress snapshot, I don't need to see it though.
+                newImageRef.put(profilePicture.new);
+                const downloadURL = yield newImageRef.getDownloadURL();
+
+                if (downloadURL != null){
+
+                    update.profilePicture = downloadURL;
+                }
+                    
         }
+        
+
+        const fireStore = firebase.firestore();
+
+        const docRef = fireStore.collection("users").doc(uid);
+
 
         //Then updates profile with all the new information.
-        const response = yield call(docRef,{
-            profile:update
-        });
-
+        //Don't think I actually finished fixing this, it fails seeing no firestore reference or that it's null. 
+        //Look into this later. 
+        yield docRef.update(update);
         //Dope and it auto updates cause of listener so I'm still solid there.
         yield put (onUpdated());
     }
+
     catch (err){
+        console.log(err);
         yield put (onUpdateFail("Failed to update profile. Please try again later."));
     }
 
@@ -84,9 +92,7 @@ function* updateCall(action){
 //Will prob change these name to watcher as makes more sense.
 export default function* updateProfileWatcher(){
 
-
     yield takeLatest(UPDATE_CLICKED,updateCall);
-
 
 }
 

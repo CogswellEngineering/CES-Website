@@ -1,19 +1,20 @@
 import { fromJS} from 'immutable';
-import { FIELD_CHANGED } from 'containers/App/constants';
+import { FIELD_CHANGED, PAGE_LOADED,  } from 'containers/App/constants';
 
 import { UPDATE_FAILED,UPDATING,UPDATED, PROFILE_PICTURE_UPLOADED, UPDATE_CANCELLED } from './constants'
+import { LOCATION_CHANGE } from 'react-router-redux';
+import { UPDATE_USER_PROFILE_PATH } from 'components/Header/pages';
 
-//No need, react-redux-firebase already has this, I should just use this, I went out of my way to install it
-//and there's might have optimizations I don't. Though may also be depreacted, does mean I won't need saga though
-//but if I did it myself, I'd in essence be duplicating code, cause what I make is probably same as theirs.
-//So, I could do it myway to use newer methods, or do it their way and hope they update this package eventually so it's not depreacted
-//if they do it, then never have to look back, cause since using theirs, ust need to update package, then done
-//if do it my way do have to look back and change manually. But I already set everything up too lol.
-//Fuck it, maybe dumb reason to do it myself, but I already started it, hate deleting what's not broken.
+import { actionTypes } from 'react-redux-firebase';
+
+//Firebase instance that's same as props
+
+
 
 
 //Would prefer this to be  profile
 const initialState = fromJS({
+
 
 
     profilePicture:null,
@@ -31,20 +32,47 @@ const initialState = fromJS({
 
 export default function updateProfileReducer(state = initialState, action){
 
+    console.log(action);
 
     switch (action.type){
 
 
-        case PROFILE_PICTURE_UPLOADED:
+        case PAGE_LOADED:
+        
+
+            console.log("here");
 
             return state
-                .set("profilePicture",action.image);
+                .set("firstName",action.profile.firstName)
+                .set("lastName",action.profile.lastName)
+                .set("displayName",action.profile.displayName)
+                .set("major",action.profile.major)
+                .set("year",action.profile.year)
+                .set("bio",action.profile.bio)
+                .set("profilePicture",action.profile.profilePicture);
+                //I'll think about profile picture part later.
+                //Look into downloading via the download url. If I can just do that, then gucci.
+
+
+        case LOCATION_CHANGE:
+
+
+            return initialState;
+
+        case PROFILE_PICTURE_UPLOADED:
+
+            console.log("Profile picture uploaded action",action.image[0]);
+
+            return state
+                .set("profilePicture",action.image[0]);
                 
+        case actionTypes.LOGOUT:
+        
         case UPDATED:
 
         case UPDATE_CANCELLED:
 
-            return state
+            return initialState
                 .set("doneUpdating",true);
 
         case UPDATING:

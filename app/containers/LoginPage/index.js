@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component} from 'react'
 import PropTypes from 'prop-types';
 import {Link,Route} from 'react-router-dom';
 import {fieldChanged} from 'containers/App/actions';
@@ -12,33 +12,39 @@ import reducer from './reducer';
 import FormSelectors from 'utils/genericFormSelectors';
 import { ACCOUNT_RECOVERY_PATH, REGISTER_PATH, LOGIN_PATH } from 'components/Header/pages';
 
-const LoginPage = (props) => {
+class LoginPage extends Component { 
+    
+    
+    
 
-    //WHAT HAPPEND, THIS WAS WORKING FINE WTF, oh wait no the error stuff working was in register,
-    if (props.doneLoggingIn){
-        //For now just go back, then I'll redirect as neccessarry coming from other places
-        //Whether I'll set up the back like did in previous is another story, I should, reason is if redirected to here from printing page.
-             props.history.push("/");   
-        return null;
+
+
+    componentDidUpdate(){
+        if (this.props.doneLoggingIn){
+            //For now just go back, then I'll redirect as neccessarry coming from other places
+            //Whether I'll set up the back like did in previous is another story, I should, reason is if redirected to here from printing page.
+                this.props.history.push("/");   
+        }
     }
-   
-   
-    return (
-        <div>
-            
-             <StyledForm onSubmit = {(evt) => {evt.preventDefault();
-                props.firebase.login({email:props.email,password:props.password})}
-                }>
-                 <StyledLabel htmlFor="email"> Email </StyledLabel>
-                 <StyledInput type="email" id = "email" name ="email" value={props.email} onChange={(evt)=>{props.fieldChanged(evt)}}/>
-                 <StyledLabel htmlFor="password"> Password </StyledLabel>
-                 <StyledInput type="password" id="password" name="password" value={props.password} onChange={(evt)=>{props.fieldChanged(evt)}}/>
-                 <ErrorMessage> {props.error} </ErrorMessage>
-                 <StyledButton type="submit"> Login </StyledButton> 
-                 <Link to ={ACCOUNT_RECOVERY_PATH}> Forgot Password? </Link> <Link to ={REGISTER_PATH}> Don't have an account? Register here. </Link>
-            </StyledForm>
-        </div>
-    )
+    render(){
+        const props = this.props;
+        return (
+            <div>
+                
+                <StyledForm onSubmit = {(evt) => {evt.preventDefault();
+                    props.firebase.login({email:props.email,password:props.password})}
+                    }>
+                    <StyledLabel htmlFor="email"> Email </StyledLabel>
+                    <StyledInput type="email" id = "email" name ="email" value={props.email} onChange={(evt)=>{props.fieldChanged(evt)}}/>
+                    <StyledLabel htmlFor="password"> Password </StyledLabel>
+                    <StyledInput type="password" id="password" name="password" value={props.password} onChange={(evt)=>{props.fieldChanged(evt)}}/>
+                    <ErrorMessage> {props.error} </ErrorMessage>
+                    <StyledButton type="submit"> Login </StyledButton> 
+                    <Link to ={ACCOUNT_RECOVERY_PATH}> Forgot Password? </Link> <Link to ={REGISTER_PATH}> Don't have an account? Register here. </Link>
+                </StyledForm>
+            </div>
+        )
+    }
 }
 
 

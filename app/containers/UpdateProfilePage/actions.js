@@ -1,6 +1,15 @@
-import { UPDATE_CLICKED ,UPDATING, UPDATED, UPDATE_FAILED, UPDATE_CANCELLED, PROFILE_PICTURE_UPLOADED } from './constants'
+import { UPDATE_CLICKED ,UPDATING, UPDATED, UPDATE_FAILED, UPDATE_CANCELLED, PROFILE_PICTURE_UPLOADED,
+PAGE_LOADED, } from './constants'
 
 
+
+export function pageLoaded(loggedInProfile){
+
+    return {
+        type: PAGE_LOADED,
+        loggedInProfile,
+    };
+}
 
 export function profilePictureUploaded(image){
 

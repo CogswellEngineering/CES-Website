@@ -7,7 +7,6 @@ const makeSelectLoggedIn = () => createSelector(
 
   selectFirebase,
   (firebaseState) => {
-    console.log(firebaseState);
     if (firebaseState == null) return null;
     return firebaseState.auth;
   }
@@ -17,6 +16,7 @@ const makeSelectLoggedInProfile = () => createSelector(
   selectFirebase,
   (firebaseState) => {
     if (firebaseState == null) return null;
+    console.log("firebase state", firebaseState);
     return firebaseState.profile;
   }
 )

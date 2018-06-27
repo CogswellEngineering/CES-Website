@@ -17,7 +17,7 @@ import { makeSelectLoggedIn, makeSelectLoggedInProfile } from 'containers/App/se
 import { makeProfileImageSelector } from './selectors';
 import FormSelectors from 'utils/genericFormSelectors';
 import saga from './saga';
-import { onUpdateClicked, profilePictureUploaded, onUpdateCancelled } from './actions';
+import { onUpdateClicked, profilePictureUploaded, onUpdateCancelled, pageLoaded } from './actions';
 import injectSaga from 'utils/injectSaga';
 import { UPDATE_USER_PROFILE_PATH, LOGIN_PATH } from 'components/Header/pages';
 import {dimensions} from 'components/ProfileImage';
@@ -39,8 +39,10 @@ class UpdateProfilePage extends Component{
 
 
     constructor(props){
+
+        super(props);
          
-        const years = [
+        this.years = [
 
             "Freshman",
             "Sophomore",
@@ -50,7 +52,7 @@ class UpdateProfilePage extends Component{
         ];
 
         //later will be pulling these from firestore, for now this is fine.
-        const majors = [
+        this.majors = [
 
             "Computer Science",
             "Game Design Engineering",
@@ -65,31 +67,34 @@ class UpdateProfilePage extends Component{
          const currentUser = this.props.firebase.auth().currentUser;
 
          if (currentUser == null){
+             //Or just not found it?
             this.props.history.push(LOGIN_PATH);
          }
 
          this.profileUrl = "/account/"+currentUser.uid;
+
+         //Because of the slight delay for profile data to load, it might actually better for me to just do the ifs to get it to work.
+         this.props.onLoad(this.props.profile);
     }
 
     componentDidUpdate(){
 
-        //Once done updating, or cancelled, redirect back to profile.
         if (this.props.doneUpdating){
 
-            props.history.push(profileUrl);
+            this.props.history.push(this.profileUrl);
         }
     }
     
-    
     render(){
 
-    
-  
         //I should have been doing this deconstructing in other cases too.
-        const  { profile, displayName, profilePicture, firstName,lastName, major, year, bio} = props;
+        const  { loading, profile, displayName, profilePicture, firstName,lastName, major, year, bio,
+        fieldChanged, onCancel, profilePictureUploaded, onUpdate, error, firebase} = this.props;
 
+      //  console.log("profile",profile);
+        
        
-        if (props.loading){
+        if (loading){
             //replace with spinner later.
             return (
                     <div>
@@ -106,49 +111,58 @@ class UpdateProfilePage extends Component{
                 <StyledForm onSubmit = {(evt) => {
                     
                     //Will clean up this line on register page too later.
-
+                    evt.preventDefault();
+                    //These will be set up with original profile if empty
+                    //There has to be cleaner way than this, yeahh setting up initial state to be this.
+                    //Just looping
                     const update = {
 
                     
-                        displayName,
-                        firstName,
-                        lastName,
-                        email,
-                        password,
-                        major,
-                        bio,
+                        //Should work cause will use key to get same value from profile object.
+                        displayName: displayName == ""? profile.displayName : displayName,
+                        firstName: firstName == ""? profile.firstName : firstName,
+                        lastName: lastName == ""? profile.lastName : lastName,
+                        major: major == ""? profile.major : major,
+                        year: year == ""? profile.year : year,
+                        bio: bio == ""? profile.bio : bio,
+                       
                     };
+
+                    console.log("Profile picture",profilePicture);
 
                     const profileImgs = {
                         
-                            old:profile.profile.profilePicture, 
+                            old:profile.profilePicture, 
                             new:profilePicture,
                         
                     };
+
+                     const uid = firebase.auth().currentUser.uid;
                     
-                    props.onUpdate(evt,profileImgs,update);
+                     onUpdate(uid,profileImgs,update);
                     
                     }}>
 
                     <Dropzone onDrop = {(fileDropped) => {
 
-                        props.profilePictureUploaded(fileDropped);
+                        console.log("file dropped",fileDropped);
+                        profilePictureUploaded(fileDropped);
 
                         
                     }}>
 
                     {/* it should match dimensions in profile
                     Is this of editor or of cropped image? Cropped Image.*/}
-                    <ReactAvatarEditor width = {dimensions.width} height = {dimensions.height}image = {props.profilePicture}/>
+                    {/*<ReactAvatarEditor width = {dimensions.width} height = {dimensions.height}image = {profilePicture}/>*/}
                     </Dropzone>
                     
                     <StyledLabel htmlFor="displayName"> Display Name </StyledLabel>
-                    <StyledInput type="text" id = "displayName" name ="displayName" value={props.displayName} onChange={(evt)=>{props.fieldChanged(evt)}}/>
+                    <StyledInput type="text" id = "displayName" name ="displayName" placeholder = {profile.displayName} value={displayName} onChange={(evt)=>{fieldChanged(evt)}}/>
 
                     <StyledLabel htmlFor="firstName"> First Name </StyledLabel>
-                    <StyledInput type="text" id = "firstName" name ="firstName" value={props.firstName} onChange={(evt)=>{props.fieldChanged(evt)}}/>
+                    <StyledInput type="text" id = "firstName" name ="firstName"  placeholder = {profile.firstName} value={firstName} onChange={(evt)=>{fieldChanged(evt)}}/>
                     <StyledLabel htmlFor="lastName"> Last Name </StyledLabel>
-                    <StyledInput type="text" id = "lastName" name ="lastName" value={props.lastName} onChange={(evt)=>{props.fieldChanged(evt)}}/>
+                    <StyledInput type="text" id = "lastName" name ="lastName"  placeholder = {profile.lastName} value={lastName} onChange={(evt)=>{fieldChanged(evt)}}/>
                     
                     
                     {/*prob use reactstrap again and grab the dropdown, or find another one, or make my own, whatever's gravy*/}
@@ -156,27 +170,27 @@ class UpdateProfilePage extends Component{
 
 
                     <StyledSelect id="major">
-                        {majors.map(major => {
-                            return <StyledOption name="major" value = {major} onClick={(evt) => {props.fieldChanged(evt)}}> {major} </StyledOption>
+                        {this.majors.map(major => {
+                            return <StyledOption key={major} name="major" value = {major} onClick={(evt) => {fieldChanged(evt)}}> {major} </StyledOption>
                         })}
                     
                     </StyledSelect>
                     
                     <StyledLabel htmlFor="Year"> Year </StyledLabel>
                     <StyledSelect id="year">
-                        {years.map(year => {
-                            return <StyledOption name="year" value = {year} onClick={(evt) => {props.fieldChanged(evt)}}> {year} </StyledOption>
+                        {this.years.map(year => {
+                            return <StyledOption key = {year} name="year" value = {year} onClick={(evt) => {fieldChanged(evt)}}> {year} </StyledOption>
                         })}
 
                     </StyledSelect>
 
 
                     <StyledLabel htmlFor="bio"> Bio </StyledLabel>
-                    <BioInput id="bio" name="bio" rows="6" cols="10" value={bio} onChange={(evt) => {props.fieldChanged(evt)}}> </BioInput>
+                    <BioInput id="bio" name="bio" rows="6" cols="10" placeholder={profile.bio} value={bio} onChange={(evt) => {fieldChanged(evt)}}> </BioInput>
 
-                    <ErrorMessage> {props.error} </ErrorMessage>
+                    <ErrorMessage> {error} </ErrorMessage>
                     <StyledButton type="submit"> Update </StyledButton> 
-                    <StyledButton onClick = {(evt) => {props.onCancel();}}> Cancel </StyledButton>
+                    <StyledButton onClick = {(evt) => {onCancel();}}> Cancel </StyledButton>
                 </StyledForm>
             </div>
      )
@@ -190,6 +204,7 @@ const mapStateToProps = createStructuredSelector({
 
 
     doneUpdating: formSelector.makeSelectDone("doneUpdating"),
+    //Should all be in newProfile to make updating it easier in terms of onload, but nah.
     major : formSelector.makeSelectField("major"),
     year: formSelector.makeSelectField("year"),
     bio: formSelector.makeSelectField("bio"),
@@ -208,6 +223,11 @@ function mapDispatchToProps(dispatch){
     
     return {
 
+
+        onLoad : (loggedInProfile) => {
+
+                return dispatch(pageLoaded(loggedInProfile));
+        },
 
         profilePictureUploaded: (img) => {
 
@@ -230,11 +250,9 @@ function mapDispatchToProps(dispatch){
         },
 
         //Instead of passing in uid, coulld just get it, but since loading profile, might as well use it from there too.
-        onUpdate : (evt,uid,profilePicture,update) => {
+        onUpdate : (uid,profilePicture,update) => {
             
-            if (evt.preventDefault){
-                evt.preventDefault();
-            } 
+           
 
             return dispatch(onUpdateClicked(uid,profilePicture,update))
 
