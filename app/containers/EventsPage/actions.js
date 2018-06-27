@@ -5,6 +5,12 @@ import {
     ATTEND_PRESSED,
     EVENTS_UPDATED,
     EVENT_CLOSED,
+    EVENT_LOADING,
+    ATTENDING,
+    ATTEND_SUCCESS,
+    ATTEND_FAILED,
+    ATTEND_CANCEL,
+    VERIFIED_ATTENDING,
 
 } from './constants';
 
@@ -33,6 +39,13 @@ function eventSelected(event){
     };
 }
 
+function loadingEvent(){
+    
+    return {
+        type: EVENT_LOADING,
+    };
+}
+
 function closeEvent(){
 
     return {
@@ -51,11 +64,58 @@ function attendPressed(event){
 
 }
 
+function verifiedAttending(isAttending, event){
+
+    return {
+        type: VERIFIED_ATTENDING,
+        isAttending,
+        event,
+
+    };
+}
+
+function attending(){
+    
+    return {
+        type: ATTENDING,
+    };
+}
+
+function successfullyAttending(){
+
+    return {
+        type: ATTEND_SUCCESS,
+    };
+}
+
+function attendFailed(error){
+
+    return {
+        type: ATTEND_FAILED,
+        error,
+    };
+}
+
+function cancelAttendance(event){
+    
+    return {
+        type: ATTEND_CANCEL,
+        event,
+    };
+}
+
 export {
 
     monthSelected,
     eventSelected,
     attendPressed,
+    attending,
+    attendFailed,
+    cancelAttendance,
+    successfullyAttending,
     updateEvents,
     closeEvent,
+    loadingEvent,
+    verifiedAttending,
+    
 }

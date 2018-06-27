@@ -39,8 +39,11 @@ const EventInfo = (props) => {
     }
 
 
-    const {title, description, startDate, endDate,
-         } = props.event;
+   
+    const {event, error, loading, submitting, isAttendee} = props;
+   
+    const {title, description, startDate, endDate } = event;
+
 
     //If going to add attend / RSVP buttons then this can no longer be a component
     //but has to be a container for attend? Or have the attend be within same div, but outside of this component
@@ -50,11 +53,32 @@ const EventInfo = (props) => {
     //this? Or make this into a wrapper around a popover. Pop over not neccessarry, should just pop subpanel.
     return (<EventInfoWrapper>
             
-                
-                <Button onClick = { props.onExit(); }> Close </Button>
-                <EventTitle>{title}</EventTitle>
-                <EventDescription> {description} </EventDescription>
-                <TimeInfo> {timeStart + " - " + timeEnd} </TimeInfo>
+                {loading?
+                        //Will add spinner animation here later. If this ternary doesn't work will just turn to normal if.
+                        <p> Loading Event</p>
+                :
+                        <EventTitle>{title}</EventTitle>
+                        <EventDescription> {description} </EventDescription>
+                        <TimeInfo> {timeStart + " - " + timeEnd} </TimeInfo>
+                }
+
+                {isAttendee? 
+                        //ToDo: turn this into cancel attendance button instead.
+                        <p> You are marked as an attendee for this event </p>
+
+                        //This can't be how I manage this. Because it's not based on them having submitted, but whether or not
+                        //the user is already attending it. Could be another prop I give here, doesn't need to be a new prop in 
+                        //EventsPage container though because well wait it's check. Fuck me this feels like I should have all attendees pulled too
+                        //No fuck that. Okay so here's what I could do on
+                        <Button onClick = {props.onCancelAttendance()}> Cancel Attendance </Button>
+                :
+                        <Button hidden = {props.onAttend == null } onClick = {props.onAttend();}> Attend <Button>
+                 }
+
+                 <Button onClick = { props.onExit(); }> Close </Button>
+                 <p> {error} </p>
+
+
         
         </EventInfoWrapper>);
 

@@ -20,6 +20,7 @@ import {
     attendPressed,
     updateEvents,
     closeEvent,
+    cancelAttendance,
 
 } from './actions';
 
@@ -60,14 +61,24 @@ class EventsPage extends Component{
     setUpEventListener(){
 
         //Set up event listener to listen for update to event list.
-        const clubInfoRef = this.props.firebase.firestore().ref().collection("ClubInfo");
+        const clubInfoRef = this.props.firebase.firestore().collection("ClubInfo");
 
         //Will store a year's worth of events at time only. Rest will be hard copies to stored elsewhere for history.
         //Add a where clause here for month == to month in state.
-        this.subscribe = clubInfoRef.doc("events").onSnapshot(snapshot => {
+        this.subscribe = clubInfoRef.doc("Events").onSnapshot(snapshot => {
 
-            //Event info, then attendee field as well. For what's to be shown only need info.
-            const upcomingEvents = snapshot.get("eventInfo");
+          
+            //Going to have events array and attendees array,
+            // attendees array will have foreign key that matches to event, and value pair is array of attendees, uids of users.
+            //Unique keys would be both name of event and startDate of it, as there maybe event of same name
+            //throughout semseter or year. Bit duplicate data with the keys in attendees.
+            //Cannot currently think of way to do it without duplication, other than storing attendees, but one, I don't want to
+            //get attendees list cause that's not needed and two I do not want to update everytime new attendee cause doesn't change
+            //anything shown / used here. Only thing would be if has max occupancy.
+            //Yeah going to have attendees collection where each document is uid of attendee, and field of event info.
+            //ALOT of rows, but firestore makes it so a query for 100 rows performs just as well for 1 million rows, it's beautiful
+
+            const upcomingEvents = snapshot.get("eventList");
         });
         
     }
@@ -91,7 +102,7 @@ class EventsPage extends Component{
 
     render(){
 
-        const { selectedEvent, selectedMonth, events,
+        const { selectedEvent, selectedMonth, events, error, tryingToAttend, justAttended
             onCloseEvent, onEventSelected, onMonthSelected, onAttendEvent,} = this.props;
 
         return (<CalendarWrapper>
@@ -100,9 +111,9 @@ class EventsPage extends Component{
                 //Don't think I need to give all the props of this to it.
                 onSelectEvent = { (event,target) => {
 
-                    //Target is the actual event selected.
-                    onEventSelected(target);
-                }
+                        //Target is the actual event selected.
+                        onEventSelected(target);
+                    }
                 }
                 events = {events}
                 startAccessor = 'startDate'
@@ -110,7 +121,8 @@ class EventsPage extends Component{
                 views = {[ 'month', 'agenda']}
             />
 
-            <EventInfo event = {selectedEvent} onExit = {onCloseEvent}/>
+            <EventInfo event = {selectedEvent} onAttend = {onAttendEvent} onCancel = {onCancelAttendance} onExit = {onCloseEvent} error={error}
+                loading={tryingToAttend} submitted={ justAttended }/>
             
             
             </CalendarWrapper>)
@@ -119,8 +131,11 @@ class EventsPage extends Component{
 
 }
 
+//Need to add error, and loading onto here
 const mapStateToProps = createStructuredSelector({
 
+    //Todo, add all thr boolean props in here, and anyother missing
+    //I'll run to see anything small I missed after I merge it.
     selectedEvent : createSelectEvent(),
     selectedMonth : createSelectMonth(),
     events : createSelectEvents(),
@@ -159,7 +174,13 @@ function mapDispatchToProps(dispatch){
         onAttendEvent : (event) => {
 
             return dispatch(attendPressed(event));
+        },
+
+        onCancelAttendance : (event) => {
+
+            return dispatch(cancelAttendance(event));
         }
+        
     }
 
 }
