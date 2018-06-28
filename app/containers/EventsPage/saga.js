@@ -16,7 +16,7 @@ function* attendEvent(action){
     //I don't need ref that's why. Changed to generate random id instead, and actual attendee identity will be user.
     const attendeeRef = firebase.firestore().collection("ClubInfo").doc("Events").collection("Attendees").doc();
 
-    const hadError = false;
+    var hadError = false;
     yield attendeeRef.set({
 
         //Only need these to identify the event, the rest of event info can query later.
@@ -84,7 +84,10 @@ function* cancelAttendance(action){
                     })
             })
             
-        }
+        })
+        .catch(err =>{
+            console.log(err);
+        })
 }
 
 function* checkIfAttendee(action){

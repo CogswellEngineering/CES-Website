@@ -11,7 +11,6 @@ import injectReducer from 'utils/injectReducer';
 import saga from './saga';
 import injectSaga from 'utils/InjectSaga';
 import { EVENTS_PAGE_PATH } from 'components/Header/pages';
-import { EventInfo } from 'components/EventInfo/';
 
 import {
 
@@ -102,7 +101,7 @@ class EventsPage extends Component{
 
     render(){
 
-        const { selectedEvent, selectedMonth, events, error, tryingToAttend, justAttended
+        const { selectedEvent, selectedMonth, events, error, tryingToAttend, justAttended,
             onCloseEvent, onEventSelected, onMonthSelected, onAttendEvent,} = this.props;
 
         return (<CalendarWrapper>
@@ -159,12 +158,13 @@ function mapDispatchToProps(dispatch){
             }
 
             return dispatch(closeEvent());
-        }
+        },
 
         onEventSelected : (event) => {
             
             return dispatch(eventSelected(event));
         },
+
 
         onEventsUpdated : (events) => {
 
@@ -189,7 +189,7 @@ const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withReducer = injectReducer({key: EVENTS_PAGE_PATH, reducer});
 const withSaga = injectSaga({key: EVENTS_PAGE_PATH, saga});
 
-export default compose{
+export default compose(
 
     withConnect,
     withReducer,
@@ -197,5 +197,5 @@ export default compose{
     withFirebase,
 
 
-}(EventsPage);
+)(EventsPage);
 
