@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styled from 'styled.components';
+import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
@@ -8,7 +8,7 @@ import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import saga from './saga';
 import reducer from './reducer';
-import { makeSelectPosts, makeSelectPostFields } from './selectors';
+import { makeSelectPosts, makeSelectPostFields, makeSelectError } from './selectors';
 import { pageTurned, modificationsMade, addPostClicked, postFieldChanged} from './actions';
 import { BLOG_PATH } from 'components/Header/pages';
 import { makeSelectLoggedInProfile } from 'containers/App/selectors';
@@ -46,29 +46,51 @@ class BlogPage extends Component{
         super(props);
 
         this.unsubscribe = null;
+        
+    }
+
+    componentWillMount(){
+        //This happens
+        console.log("will I mount?");
     }
 
     componentDidMount(){
 
+        //This does not.
+        console.log("Do I not get here?");
 
         //Might need to pull initially, then start listener, I'll see
         //if not dope, if yeah, not hard.
 
+        
         const props = this.props;
         const fireStoreRef = props.firebase.firestore();
-        const blogRef = fireStoreRef.collection("BlogPosts");
+        const blogRef = fireStoreRef.collection("Blog");
         const options = {
             //For changes to alrady added posts.
             includeMetadataChanges: true,
         };
 
-        //Sets up listener to update blog posts.
-        this.unsubscribe = blogRef.onSnapshot(options,(snapshot) => {
 
-                if (snapshot.exists){
-                    console.log("modification made to blog posts");
-                    props.onModificationMade(snapshot);
-                }
+
+        //Sets up listener to update blog posts.
+        this.unsubscribe = blogRef.onSnapshot(options,(docSnapshot) => {
+
+
+                    var newPosts = [];
+                    const docs = docSnapshot.docs;
+                    for ( const index in docSnapshot.docs){
+
+                        const doc = docs[index];
+
+                        if (doc.exists){
+                            newPosts.push(doc.data());
+                        }
+                    }
+
+                    this.props.onModificationMade(newPosts);
+
+                
             }
         );
     }
@@ -84,18 +106,24 @@ class BlogPage extends Component{
     render(){
 
         const props = this.props;
+        console.log(props);
         const isAdmin = props.loggedInUser.isAdmin;
 
-        const { posts, error, postContent, fieldChanged, onPostClicked,   } = props;
+        const { posts, error, postContent, 
+            onFieldChanged, onPostClicked,   } = props;
+        console.log("posts",posts);
+        if (postContent == null) return null;
+
+
 
         return (<BlogPageWrapper>
 
                 <BlogsPanel>
 
-                    {/*Will map from posts array to produce BlogPosts component*/}
+                   
                     {posts.map(post => {
 
-                        return <BlogPost author={post.author} topic={post.topic} body={post.body}/> 
+                        return <BlogPost key ={post.author+post.topic} author={post.author} topic={post.topic} body={post.body}/> 
                     })}
 
                 </BlogsPanel>
@@ -106,7 +134,7 @@ class BlogPage extends Component{
 
                         <StyledLabel for = "topic"> Topic </StyledLabel>
                         <StyledInput id = "topic" name = "topic" 
-                        value={postContent.info} 
+                        value={postContent.topic} 
                         onChange={(evt) => { onFieldChanged(evt); }}
                         />
                         <StyledLabel for = "body"> Body </StyledLabel>
@@ -115,7 +143,7 @@ class BlogPage extends Component{
                         onChange={(evt) => { onFieldChanged(evt); }}
                         />
                         
-                        <StyledError> {error} </StyledError>
+                        <ErrorMessage> {error} </ErrorMessage>
                         <StyledButton type="submit"> Post </StyledButton> 
                         
                         
@@ -128,14 +156,14 @@ class BlogPage extends Component{
 }
 
 
-const mapStateToProps = createStructuredSelector(){
+const mapStateToProps = createStructuredSelector({
     
     //Will pass in selector, in seletor will check admin status.
     posts: makeSelectPosts(),
     postContent: makeSelectPostFields(),
     loggedInUser: makeSelectLoggedInProfile(),
     error : makeSelectError(),
-}
+});
 
 
  function mapDispatchToProps(dispatch){
@@ -172,8 +200,8 @@ const mapStateToProps = createStructuredSelector(){
  }
 
  const withConnect = connect(mapStateToProps, mapDispatchToProps);
- const withReducer = injectReducer(BLOG_PATH, reducer);
- const withSaga = injectSaga(BLOG_PATH,saga);
+ const withReducer = injectReducer({key:BLOG_PATH, reducer});
+ const withSaga = injectSaga({key:BLOG_PATH,saga});
 
  export default compose(
 

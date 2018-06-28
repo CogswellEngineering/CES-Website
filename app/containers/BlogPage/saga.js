@@ -1,6 +1,6 @@
 import {put, call, takeLatest} from 'redux-saga/effects';
 import firebase from 'firebase';
-import { ADD_POST_CLICKED } from './constants;
+import { ADD_POST_CLICKED } from './constants';
 import { posting, posted, postFailed, } from './actions';
 
 
@@ -42,3 +42,5 @@ function* blogPostWatcher(){
     yield takeLatest(ADD_POST_CLICKED,postNewBlog);
 
 }
+
+export default blogPostWatcher;

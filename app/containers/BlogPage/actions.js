@@ -33,7 +33,7 @@ function loadPosts(){
 function loadingPosts(){
     
     return {
-        type:LOADING_POSTS;
+        type:LOADING_POSTS,
     };
 }
 

@@ -5,7 +5,9 @@ const prefix = 'ces/BlogPage/'
  const LOAD_POSTS = prefix+'LOAD_POSTS';
  const LOADING_POSTS = prefix+'LOADING_POSTS';
  const LOADED_POSTS = prefix+'LOADED_POSTS';
- const NEW_POSTS_ADDED = prefix+"NEW_POSTS_ADDED";
+ //const NEW_POSTS_ADDED = prefix+"NEW_POSTS_ADDED"; Replaced with modifcations made cause not ust when new pots added but if current are modified
+ //incase correcting or updating a post, I could force to a new post but editing should be allowed.
+ const MODIFICATIONS_MADE = prefix+'MODIFICATIONS_MADE';
  const ADD_POST_CLICKED = prefix+'ADD_POST_CLICKED';
  const POSTING = prefix+'POSTING';
 

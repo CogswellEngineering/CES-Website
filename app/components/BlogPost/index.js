@@ -21,7 +21,7 @@ const Author = styled.p`
 
 `;
 
-const Body = styled.textarea`
+const Body = styled.p`
 
 
 `;
@@ -40,7 +40,7 @@ const BlogPost = (props) => {
 
             <Author> by <Link to ={"/account/"+author.uid} > {author.name} </Link> </Author>
 
-            <Body> {body} </Body>
+            <Body > {body} </Body>
 
 
 
@@ -49,7 +49,7 @@ const BlogPost = (props) => {
 
 }
 
-BlogPosts.propTypes={
+BlogPost.propTypes={
 
 
     topic:PropTypes.string.isRequired,

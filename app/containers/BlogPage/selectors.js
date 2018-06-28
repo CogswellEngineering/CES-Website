@@ -11,7 +11,7 @@ const makeSelectError = () => createSelector(
     (blogPageState) => {
         
 
-        return (blogPageState == null)? null : blogPageState.get("error");
+        return (blogPageState == null)? "" : blogPageState.get("error");
     }
 
 )
@@ -21,9 +21,9 @@ const makeSelectPosts = () => createSelector(
     blogPageState,
     (blogPageState) => {
         
-        if (blogPageState == null) return null;
+        if (blogPageState == null) return [];
 
-        return blogPageState.get("posts");
+        return blogPageState.get("blogPosts");
     }
 );
 
@@ -31,9 +31,12 @@ const makeSelectPostFields = () => createSelector(
 
     blogPageState,
     (blogPageState) => {
-        if (blogPageState == null) return null;
 
-        return blogPage.get("postContent");
+        if (blogPageState == null) {
+                return null;
+        }
+
+        return blogPageState.get("postContent");
     }
 );
 

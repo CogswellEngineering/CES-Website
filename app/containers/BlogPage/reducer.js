@@ -1,6 +1,5 @@
-import fromJS from 'immutable';
-import { MODIFICATIONS_MADE } from 'components/App/constants';
-import { POST_FIELD_CHANGED, POSTING, POSTED, LOADING_POSTS, LOADED_POSTS, MODIFICATIONS_MADE } from './constants';
+import { fromJS} from 'immutable';
+import { POST_FIELD_CHANGED, POSTING, POSTED, POST_FAILED, LOADING_POSTS, LOADED_POSTS, MODIFICATIONS_MADE } from './constants';
 
 
 
@@ -34,7 +33,7 @@ export default function blogPageReducer(state = initialState, action){
         case MODIFICATIONS_MADE:
 
             return state
-                .set(blogPosts, action.posts);
+                .set("blogPosts", action.posts);
 
         case POSTING:
             
