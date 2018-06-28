@@ -1,7 +1,7 @@
 import { fromJS} from 'immutable';
-import { FIELD_CHANGED, PAGE_LOADED,  } from 'containers/App/constants';
+import { FIELD_CHANGED,  } from 'containers/App/constants';
 
-import { UPDATE_FAILED,UPDATING,UPDATED, PROFILE_PICTURE_UPLOADED, UPDATE_CANCELLED } from './constants'
+import { UPDATE_FAILED,UPDATING,UPDATED, PROFILE_PICTURE_UPLOADED, UPDATE_CANCELLED, PAGE_LOADED  } from './constants'
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { UPDATE_USER_PROFILE_PATH } from 'components/Header/pages';
 
@@ -25,7 +25,7 @@ const initialState = fromJS({
     major:"",
     year:"",
     doneUpdating:false,
-    loading:"",
+    loading:false,
     error:"",
 });
 
@@ -37,23 +37,7 @@ export default function updateProfileReducer(state = initialState, action){
     switch (action.type){
 
 
-        case PAGE_LOADED:
-        
-
-            console.log("here");
-
-            return state
-                .set("firstName",action.profile.firstName)
-                .set("lastName",action.profile.lastName)
-                .set("displayName",action.profile.displayName)
-                .set("major",action.profile.major)
-                .set("year",action.profile.year)
-                .set("bio",action.profile.bio)
-                .set("profilePicture",action.profile.profilePicture);
-                //I'll think about profile picture part later.
-                //Look into downloading via the download url. If I can just do that, then gucci.
-
-
+       
         case LOCATION_CHANGE:
 
 
@@ -85,7 +69,7 @@ export default function updateProfileReducer(state = initialState, action){
             return state
             .set("error",action.error);
  
-       case FIELD_CHANGED:
+       case FIELD_CHANGED+UPDATE_USER_PROFILE_PATH:
        
             console.log(action.fieldName, "Value:", action);
             return state

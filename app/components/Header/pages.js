@@ -16,7 +16,7 @@ export const navPages = [
 export const servicePages = [
     //Either drop down for services or just flat link to it.
     {
-      name:"Libray",
+      name:"Library",
       url:"https://ces.library.com"
     },
    {

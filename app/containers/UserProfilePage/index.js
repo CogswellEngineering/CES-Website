@@ -11,7 +11,7 @@ import reducer from './reducer';
 import { loadProfile, loadedProfile, foundOwnerStatus } from './actions'
 import { makeSelectCollection, makeSelectProfile, makeSelectNeedReload, makeSelectOwnership, } from './selectors';
 import { createStructuredSelector } from 'reselect';
-import { USER_PROFILE_PATH } from 'components/Header/pages';
+import { USER_PROFILE_PATH, UPDATE_USER_PROFILE_PATH } from 'components/Header/pages';
 import { makeSelectLoggedInProfile } from 'containers/App/selectors';
 import {dimensions} from 'components/ProfileImage';
 
@@ -195,9 +195,10 @@ class UserProfilePage extends Component{
                 
                
                     {props.ownProfile?  
-                        <div >
+                    //It's so weird that /account/update doesn't work. Not even go to not found. I'm not using anything specific from url th
+                        <div>
+                            
                             <ProfileLink to={props.location.pathname+"/update"}> Update Profile </ProfileLink>
-                            <ProfileLink to={props.location.pathname+"/inventory"}> View Inventory </ProfileLink>
                             
                         </div>
                     : null }

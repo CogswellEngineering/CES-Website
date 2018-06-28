@@ -3,7 +3,7 @@ import { UPDATE_CLICKED } from './constants';
 import { updating, onUpdated, onUpdateFail} from './actions';
 import firebase from 'firebase';
 
-
+import Dropdown from 'react-dropdown'
 
 function* updateCall(action){
 
@@ -15,14 +15,9 @@ function* updateCall(action){
     console.log("Profile pictures",profilePicture)
 
     console.log("Update",update);
-
-  
     
     try{
-
-
         //Profile Image will remain structured like the file object name and url.
-
 
         yield put (updating());
         //Also need to remove past profile picture from storage. Reminder for that.

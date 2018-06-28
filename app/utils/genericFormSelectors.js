@@ -11,6 +11,19 @@ export default class GenericFormSelectors{
 
     }
 
+
+    makeSelectArray = (fieldName) => createSelector(
+
+        this.selectState,
+        (state) => {
+
+            if (state == null) return [];
+            
+            return state.get(fieldName);
+
+        }
+
+    )
     //Prob should rename 
 
     makeSelectField = (fieldName) => createSelector(
@@ -22,6 +35,7 @@ export default class GenericFormSelectors{
             return state.get(fieldName);
         }
     );
+    
 
     makeSelectDone = (flagName) => createSelector(
 

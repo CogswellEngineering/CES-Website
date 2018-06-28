@@ -1,8 +1,9 @@
 import React, { Component} from 'react'
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {Link,Route} from 'react-router-dom';
 import {fieldChanged} from 'containers/App/actions';
-import StyledForm, {StyledButton,StyledLabel,ErrorMessage,StyledInput} from 'components/StyledForm'
+import StyledForm, { FormGroup,StyledButton,StyledLabel,ErrorMessage,StyledInput} from 'components/StyledForm'
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import { withFirebase } from 'react-redux-firebase'
@@ -11,6 +12,51 @@ import { createStructuredSelector } from 'reselect';
 import reducer from './reducer';
 import FormSelectors from 'utils/genericFormSelectors';
 import { ACCOUNT_RECOVERY_PATH, REGISTER_PATH, LOGIN_PATH } from 'components/Header/pages';
+
+
+
+//Welp, bout an hour or 2 of 'wasted' time. This revelation is something I should've thought bout before
+//wasting time, but I learned stuff and know now to think. It makes sense it reroutes to it's own loginpage
+//because multiple services uses same one. That's key.
+
+
+const LoginWrapper = styled.div`
+
+    width:50%;
+    margin:auto;
+    margin-top:5%;
+    padding-bottom:20%;
+    border:2px solid black;
+
+`
+
+const LoginButton = styled.button`
+
+    margin-left:1%;
+
+`
+
+const StyledLink = styled(Link)`
+
+    text-decoration:none;
+
+`;
+
+const MainContent = styled.form`
+
+    width:100%;
+    margin-left:30%;
+    margin-top:5%;
+
+`
+
+const AlternativeOptions = styled.div`
+    margin-left:30%;
+    width:100%;
+`
+
+
+
 
 class LoginPage extends Component { 
     
@@ -23,26 +69,43 @@ class LoginPage extends Component {
         if (this.props.doneLoggingIn){
             //For now just go back, then I'll redirect as neccessarry coming from other places
             //Whether I'll set up the back like did in previous is another story, I should, reason is if redirected to here from printing page.
-                this.props.history.push("/");   
+            console.log("I happen");    
+            this.props.history.push("/");   
         }
     }
     render(){
         const props = this.props;
         return (
-            <div>
+            <LoginWrapper>
                 
-                <StyledForm onSubmit = {(evt) => {evt.preventDefault();
+                <MainContent onSubmit = {(evt) => {evt.preventDefault();
                     props.firebase.login({email:props.email,password:props.password})}
                     }>
+
+                    <FormGroup>
                     <StyledLabel htmlFor="email"> Email </StyledLabel>
-                    <StyledInput type="email" id = "email" name ="email" value={props.email} onChange={(evt)=>{props.fieldChanged(evt)}}/>
+                    <StyledInput autoFocus type="email" id = "email" name ="email" value={props.email} onChange={(evt)=>{props.fieldChanged(evt)}}/>
+                    </FormGroup>
+
+                    <FormGroup>
                     <StyledLabel htmlFor="password"> Password </StyledLabel>
                     <StyledInput type="password" id="password" name="password" value={props.password} onChange={(evt)=>{props.fieldChanged(evt)}}/>
-                    <ErrorMessage> {props.error} </ErrorMessage>
+                    </FormGroup>
+
                     <StyledButton type="submit"> Login </StyledButton> 
-                    <Link to ={ACCOUNT_RECOVERY_PATH}> Forgot Password? </Link> <Link to ={REGISTER_PATH}> Don't have an account? Register here. </Link>
-                </StyledForm>
-            </div>
+                    
+                 
+
+                    <ErrorMessage> {props.error} </ErrorMessage>
+                    
+                </MainContent>
+    
+                <AlternativeOptions>
+                    <StyledLink to = {ACCOUNT_RECOVERY_PATH}> Forgot Password? </StyledLink> 
+                    <p>Don't have an account? <StyledLink to = {REGISTER_PATH}> Join here </StyledLink> </p>
+                </AlternativeOptions>
+    
+            </LoginWrapper>
         )
     }
 }
@@ -75,7 +138,8 @@ function mapDispatchToProps(dispatch){
         fieldChanged : (evt) => {
             const target = evt.target;
             if (evt && evt.preventDefault) evt.preventDefault();
-           return dispatch(fieldChanged(target.name,target.value))
+          
+           return dispatch(fieldChanged(LOGIN_PATH,target.name,target.value))
 
         },
 

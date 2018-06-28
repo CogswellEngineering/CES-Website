@@ -12,9 +12,10 @@
  */
 
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Header from 'components/Header';
+import {withFirebase} from 'react-redux-firebase';
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import injectReducer from 'utils/injectReducer';
@@ -28,8 +29,11 @@ import UpdateProfilePage from 'containers/UpdateProfilePage';
 import BlogPage from 'containers/BlogPage/Loadable';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { LOGIN_PATH,REGISTER_PATH,ACCOUNT_RECOVERY_PATH, RESET_PASSWORD_PATH, USER_PROFILE_PATH,
-BLOG_PATH, } from 'components/Header/pages';
+import { LOGIN_PATH,REGISTER_PATH,
+  ACCOUNT_RECOVERY_PATH, RESET_PASSWORD_PATH, 
+  USER_PROFILE_PATH, UPDATE_USER_PROFILE_PATH,
+  BLOG_PATH, } from 'components/Header/pages';
+import 'react-dropdown/style.css'
 
 const App  = (props) => {
 
@@ -51,6 +55,22 @@ const App  = (props) => {
           <Route path = {RESET_PASSWORD_PATH} component={ResetPasswordPage}/>
           <Route exact path = {USER_PROFILE_PATH} component = {UserProfilePage}/>
           <Route exact path = {USER_PROFILE_PATH+"/update"} component = {UpdateProfilePage}/>
+          {
+          /*render ={ (props) => {
+
+              const auth = props.firebase.auth;
+              if (auth == null){
+                  //Well, normally would redirect to login to update
+                  //but instead might redirect to not found or the profile itself.
+                  //For now redirecting to not found page.
+                  return <Redirect to =" "/>;
+              }
+              else{
+                return <UpdateProfilePage/>;
+              }
+              
+          }}/>*/}
+
           <Route exact path = {BLOG_PATH} component = {BlogPage} />
           <Route component={NotFoundPage} />
         </Switch>
@@ -85,6 +105,7 @@ const withReducer = injectReducer({key:"CES",reducer});
 export default compose(
   withReducer,
   withConnect,
+  withFirebase,
 )(App);
 
 

@@ -12,13 +12,28 @@ import reducer from './reducer';
 import { createStructuredSelector } from 'reselect'; 
 import { makeSelectLoggedIn, makeSelectLoggedInProfile } from 'containers/App/selectors';
 import injectReducer from 'utils/injectReducer';
+import LoginPage from 'containers/LoginPage';
+
+
+//Not including Login?
+const LoggedOutSection = styled.span`
+    margin-left:50%;
+    width:50%;
+`
+
+const LoggedInSection = styled.span`
+
+    width:55%;
+    margin-left:30%;
+
+`
 
 export const UserActionLink = styled(Link)`
 
     color:blue;
     text-align:center;
+    margin-left:1%;
     text-decoration:none;
-    margin-left:1em;
 
 `;
 
@@ -27,22 +42,35 @@ const UserActions  = (props) => {
 
      if (props.loggedInUser.isEmpty){
 
-        return (<span>
-                <UserActionLink to ={LOGIN_PATH} > Login </UserActionLink>
-                <UserActionLink to = {REGISTER_PATH}> Register </UserActionLink>
-            </span>
+        return (<LoggedOutSection>
+
+                <UserActionLink to={LOGIN_PATH}> Login </UserActionLink>
+                <UserActionLink to={REGISTER_PATH}> Register </UserActionLink>
+
+            </LoggedOutSection>
         )
     }
     
     //Otherwise render Link to profile, logout button, etc.
     const profilePath = USER_PROFILE_PATH.split(":")[0];
+
     
+    //Just so that all pops up at once, instead of delay on display name.
+    if (props.profile.displayName == null){
+        return null;
+    }
     return (
-        <span>
-            <p> Logged in as {props.profile.displayName} </p>
-            <UserActionLink to = {profilePath+props.loggedInUser.uid}> Profile </UserActionLink>
-            <button  onClick = {() => {props.firebase.logout();}}> Logout </button>
-        </span>
+        <LoggedInSection>
+
+                Hello, {props.profile.displayName} 
+
+                <UserActionLink to = {profilePath+props.loggedInUser.uid}> Profile </UserActionLink>
+                {/*Will switch to include uid if do decide make inventory public*/}
+                <UserActionLink to = {"/account/inventory"}> Inventory </UserActionLink>
+                
+                <button  onClick = {() => {props.firebase.logout();}}> Logout </button>
+            
+        </LoggedInSection>
     )    
 
 

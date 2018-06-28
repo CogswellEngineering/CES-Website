@@ -59,7 +59,7 @@ export default function loginReducer(state = initialState, action){
         case actionTypes.LOGOUT:
             return initialState;
 
-        case FIELD_CHANGED:
+        case FIELD_CHANGED+LOGIN_PATH:
             return state
                 .set(action.fieldName,action.value)
                 .set("error","");

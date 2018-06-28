@@ -45,7 +45,7 @@ export default function registrationReducer(state = initialState, action){
             return state
                 .set("error",action.error);
      
-        case FIELD_CHANGED:
+        case FIELD_CHANGED+REGISTER_PATH:
             return state
                 .set(action.fieldName,action.value)
                 .set("error","");

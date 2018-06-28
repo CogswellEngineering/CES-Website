@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { Component} from 'react'
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {Link,Route} from 'react-router-dom';
 import {fieldChanged} from 'containers/App/actions';
@@ -11,95 +12,151 @@ import reducer from './reducer';
 import FormSelectors from 'utils/genericFormSelectors';
 import saga from './saga';
 import { onRegisterClicked } from './actions';
+import { withFirebase } from 'react-redux-firebase';
 import injectSaga from 'utils/injectSaga';
 import { LOGIN_PATH, REGISTER_PATH} from 'components/Header/pages';
+import Dropdown from 'react-dropdown'
 
-const RegistrationPage = (props) => {
+
+const RegistrationWrapper = styled.div`
+
+    width:50%;
+    margin:auto;
+    margin-top:5%;
+    padding-bottom:20%;
+    border:2px solid black;
+
+`
+
+const CredentialInfo = styled.div`
+
+    width:100%;
+    margin-left: 30%;
+    margin-top:10%;
+
+`;
+
+const GeneralInfo = styled.div`
+
+    width:100%;
+    margin-left: 30%;
+    margin-top:2%;
+`;
+
+const StyledDropDown = styled(Dropdown)`
+
+    width:40%;
+    margin-top:2%;
+    
+
+`;
+class RegistrationPage extends Component{
+ 
+    constructor(props){
+
+        super(props);
+
+          //Might turn these into classses to avoid constatnly remaking this.
+          this.years = [
+                    
+            "Freshman",
+            "Sophomore",
+            "Junior",
+            "Senior",
+            "Alumni",
+            ];
+
+        this.majors = [
+
+            "Computer Science",
+            "Digital Audio Technology",
+            "Digital Arts Engineering",
+            "Digital Arts Animation",
+            "Game Design Engineering",
+            "Game Design Writing",
+            "Game Design Art",
+            "Project Management",
+        ];
+       
+    }
+
+    
+    render(){
+
+        const props = this.props;
 
    
-    if (props.doneRegistering){
+        if (props.doneRegistering){
 
-        console.log("here done registering");
+            console.log("here done registering");
+            return (
+                <div>
+
+                {/*  Might not have verification to reduce hassle on them <p> A verification email has been sent*/}
+                    <p> Your account has been created, click <Link to={LOGIN_PATH}> here </Link> to login. </p>
+                </div>
+
+
+            )
+        }
+    else if (props.loading){
+        //replace with spinner later.
         return (
-            <div>
-
-              {/*  Might not have verification to reduce hassle on them <p> A verification email has been sent*/}
-                <p> Your account has been created, click <Link to={LOGIN_PATH}> here </Link> to login. </p>
-            </div>
-
-
+                <div>
+                    
+                    <p> Registering... </p>
+                </div>
+                
         )
     }
-   else if (props.loading){
-       //replace with spinner later.
-       return (
-            <div>
-                
-                <p> Registering... </p>
-            </div>
-            
-       )
-   }
-     
-   //Might turn these into classses to avoid constatnly remaking this.
-   const years = [
         
-    "Freshman",
-    "Sophomore",
-    "Junior",
-    "Senior",
-    "Alumni",
-    ];
+   
+        return (
+            <RegistrationWrapper>
+                
+                <form onSubmit = {(evt) => {props.onRegister(evt,props.displayName,props.firstName,props.lastName,props.email,props.password,props.major);}}>
+                    
+                       
+                    <CredentialInfo>
+                        <StyledLabel htmlFor="email"> Email (Must be a cogswell email) </StyledLabel>
+                        <StyledInput  type="email" id = "email" name ="email" value={props.email} onChange={(evt)=>{props.fieldChanged(evt)}} autoFocus/>
+                        <StyledLabel htmlFor="password"> Password </StyledLabel>
+                        <StyledInput type="password" id="password" name="password" value={props.password} onChange={(evt)=>{props.fieldChanged(evt)}}/>
+                    </CredentialInfo>
 
-    //later will be pulling these from firestore, for now this is fine.
-    const majors = [
+                    <GeneralInfo>
 
-        "Computer Science",
-        "Game Design Engineering",
-        "Audio Engineering",
-        "Digital Arts Engineering",
-    ]
-    return (
-        <div>
-            
-             <StyledForm onSubmit = {(evt) => {props.onRegister(evt,props.displayName,props.firstName,props.lastName,props.email,props.password,props.major);}}>
-                 
-                 <StyledLabel htmlFor="displayName"> Display Name </StyledLabel>
-                 <StyledInput type="text" id = "displayName" name ="displayName" value={props.displayName} onChange={(evt)=>{props.fieldChanged(evt)}}/>
+                        <StyledLabel htmlFor="displayName"> Display Name </StyledLabel>
+                        
+                        <StyledInput type="text" id = "displayName" name ="displayName" value={props.displayName} onChange={(evt)=>{props.fieldChanged(evt)}}/>
 
-                 <StyledLabel htmlFor="firstName"> First Name </StyledLabel>
-                 <StyledInput type="text" id = "firstName" name ="firstName" value={props.firstName} onChange={(evt)=>{props.fieldChanged(evt)}}/>
-                 <StyledLabel htmlFor="lastName"> Last Name </StyledLabel>
-                 <StyledInput type="text" id = "lastName" name ="lastName" value={props.lastName} onChange={(evt)=>{props.fieldChanged(evt)}}/>
+                        <StyledLabel htmlFor="firstName"> First Name </StyledLabel>
+                        <StyledInput type="text" id = "firstName" name ="firstName" value={props.firstName} onChange={(evt)=>{props.fieldChanged(evt)}}/>
+                        <StyledLabel htmlFor="lastName"> Last Name </StyledLabel>
+                        <StyledInput type="text" id = "lastName" name ="lastName" value={props.lastName} onChange={(evt)=>{props.fieldChanged(evt)}}/>
                  
-                 <StyledLabel htmlFor="email"> Email (Must be a cogswell email) </StyledLabel>
-                 <StyledInput type="email" id = "email" name ="email" value={props.email} onChange={(evt)=>{props.fieldChanged(evt)}}/>
-                 
-                 <StyledLabel htmlFor="password"> Password </StyledLabel>
-                 <StyledInput type="password" id="password" name="password" value={props.password} onChange={(evt)=>{props.fieldChanged(evt)}}/>
-                 
-                 <StyledLabel htmlFor="major"> Major </StyledLabel>
-                 <StyledSelect id="major">
-                    {majors.map(major => {
-                        return <StyledOption key = {major} name="major" value = {major} onClick={(evt) => {props.fieldChanged(evt)}}> {major} </StyledOption>
-                    })}
-                 
-                 </StyledSelect>
-                 
-                 <StyledLabel htmlFor="Year"> Year </StyledLabel>
-                 <StyledSelect id="year">
-                    {years.map(year => {
-                        return <StyledOption key = {year} name="year" value = {year} onClick={(evt) => {props.fieldChanged(evt)}}> {year} </StyledOption>
-                    })}
 
-                 </StyledSelect>
+                    <StyledDropDown options={this.majors} 
+                                onChange={(evt)=>{ console.log(evt);fieldChanged("major",evt.value); }} 
+                                value={props.major} placeholder="Select your major" />
 
-                 <ErrorMessage> {props.error} </ErrorMessage>
-                 <StyledButton type="submit"> Register </StyledButton> 
-                 <Link to = {LOGIN_PATH}> Already have an account? Login here. </Link>
-            </StyledForm>
-        </div>
-    )
+
+
+                    <StyledDropDown options={this.years} 
+                                onChange={(evt)=>{ console.log(evt);fieldChanged("year",evt.value); }} 
+                                value={props.year} placeholder="Select your year" />
+
+                    <ErrorMessage> {props.error} </ErrorMessage>
+                    <StyledButton type="submit"> Register </StyledButton> 
+                    <p>Already have an account? <Link to = {LOGIN_PATH}> Login  </Link> </p>
+
+                    </GeneralInfo>
+
+                </form>
+
+            </RegistrationWrapper>
+        )
+    }
 }
 
 
@@ -138,7 +195,7 @@ function mapDispatchToProps(dispatch){
         fieldChanged : (evt) => {
             const target = evt.target;
             if (evt.preventDefault) evt.preventDefault();
-           return dispatch(fieldChanged(target.name,target.value))
+           return dispatch(fieldChanged(REGISTER_PATH,target.name,target.value))
 
         },
 

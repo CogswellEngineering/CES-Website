@@ -47,7 +47,7 @@ export default function userProfileReducer(state = initialState, action){
            // return initialState;
             const pathname = action.payload.pathname;
             
-            if (pathname.includes("/account/")){
+            if (!pathname.includes("update") && !pathname.includes("library")){
 
 
                 //I don't remember use of this.
@@ -57,23 +57,22 @@ export default function userProfileReducer(state = initialState, action){
 
                 const pathSplit = action.payload.pathname.split("/");
 
-                if (pathSplit.length == 3){
-                    const uid = pathSplit[pathSplit.length - 1];
+              
+                const uid = pathSplit[pathSplit.length - 1];
 
                     if (uid == state.get("profile").uid){
                         return state;   
                     }
                     else{
 
+                        //Forces need reload
                         console.log("I'm here right?");
                         return state
                             .set("needReload",true);
 
                     }
-                }
-                else{
-                        return initialState;
-                }
+                
+                
             }
             else{
                 return initialState;
