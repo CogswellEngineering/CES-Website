@@ -17,7 +17,6 @@ export function foundOwnerStatus(doesOwn){
 
 export function loadProfile(uid){
 
-    console.log("here?");
     return {
         type: LOAD_PROFILE,
         uid,

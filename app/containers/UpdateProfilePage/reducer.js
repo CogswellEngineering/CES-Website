@@ -87,6 +87,7 @@ export default function updateProfileReducer(state = initialState, action){
  
        case FIELD_CHANGED:
        
+            console.log(action.fieldName, "Value:", action);
             return state
             .set(action.fieldName,action.value)
             .set("error",""); 

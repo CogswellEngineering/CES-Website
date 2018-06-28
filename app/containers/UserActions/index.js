@@ -34,10 +34,9 @@ const UserActions  = (props) => {
         )
     }
     
-    console.log("Logged in",props.loggedInUser)
     //Otherwise render Link to profile, logout button, etc.
     const profilePath = USER_PROFILE_PATH.split(":")[0];
-    console.log(profilePath);
+    
     return (
         <span>
             <p> Logged in as {props.profile.displayName} </p>

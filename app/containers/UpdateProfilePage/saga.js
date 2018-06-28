@@ -41,11 +41,14 @@ function* updateCall(action){
             //If doesn't exist, and try to remove it shouldn't throw an error, but just incase and to save computation time.  
             if (profilePicture.old != null){
 
+                console.log(profilePicture);
                 console.log("I shouldn't happen.");
+                console.log(uid+"_"+profilePicture.old.name);
                 var oldImageRef = storageRef.child(uid+"_"+profilePicture.old.name);
 
                 //Removes old profile image from storage.
-                yield call(oldImageRef.remove);
+                yield (oldImageRef.delete());
+                console.log("get to here");
             }
 
               
@@ -56,12 +59,12 @@ function* updateCall(action){
 
 
                 //Returns a progress snapshot, I don't need to see it though.
-                newImageRef.put(profilePicture.new);
+                yield newImageRef.put(profilePicture.new);
                 const downloadURL = yield newImageRef.getDownloadURL();
 
                 if (downloadURL != null){
 
-                    update.profilePicture = downloadURL;
+                    update.profilePicture = {name:newProfileName, url:downloadURL};
                 }
                     
         }

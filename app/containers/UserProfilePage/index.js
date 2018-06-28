@@ -13,6 +13,7 @@ import { makeSelectCollection, makeSelectProfile, makeSelectNeedReload, makeSele
 import { createStructuredSelector } from 'reselect';
 import { USER_PROFILE_PATH } from 'components/Header/pages';
 import { makeSelectLoggedInProfile } from 'containers/App/selectors';
+import {dimensions} from 'components/ProfileImage';
 
 //Should I even bother with this?
 
@@ -83,9 +84,6 @@ const ProfileHeadLineH2 = styled.h2`
 export const ProfileImage = styled.img`
 
     margin-top:1%;
-    width:20%;
-    height:30%;
-    border: 1px solid black;
     margin-right:25%;
 `;
 
@@ -140,7 +138,6 @@ class UserProfilePage extends Component{
         if (currUser == null || uid != currUser.uid){
 
          //   this.props.ownsProfile(false);
-         console.log("this should happen");
             this.props.loadProfile(uid);
         }
         else{
@@ -178,19 +175,19 @@ class UserProfilePage extends Component{
         
         //Welp, all the userINfo stuff was waste of time, but still works.
         const props = this.props;
-        if (!props.userInfo ){
-            return (<div><p> Profile loading </p></div>);
+
+        if (!props.userInfo){
+            return null;
         }
+
         const {firstName, lastName, bio, major, year, profilePicture, mediaLinks} = props.userInfo;
 
-        
-
-        
-
-        console.log("profile Image url",profilePicture);
+        var profilePicUrl = "default_avator.png";
        
-
-
+        if (profilePicture != null){
+            profilePicUrl = profilePicture.url;
+        }
+        
         return (
             <ProfileWrapper>
                 <HeaderDiv>
@@ -207,8 +204,9 @@ class UserProfilePage extends Component{
 
 
 
-                
-                <ProfileImage src={profilePicture} alt={"No image given"}/>
+                {/*If profile image not downloaded then stop, it no longer takes while
+                after first session I could send get request for profile lodaed*/}
+                <ProfileImage src={profilePicUrl} alt={"No image given"}  width={dimensions.width} height={dimensions.height}/>
                 <Links>
                 
                     {/*Need to add media links, and bio in update profile.*/}

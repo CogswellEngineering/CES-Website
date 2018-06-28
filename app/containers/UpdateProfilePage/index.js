@@ -2,7 +2,7 @@ import React, { Component} from 'react'
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Dropzone from 'react-dropzone';
-import ReactAvatorEditor from 'react-avatar-editor';
+import ReactAvatarEditor from 'react-avatar-editor';
 import { withFirebase} from 'react-redux-firebase';
 import {Link} from 'react-router-dom';
 import {fieldChanged} from 'containers/App/actions';
@@ -21,6 +21,7 @@ import { onUpdateClicked, profilePictureUploaded, onUpdateCancelled, pageLoaded 
 import injectSaga from 'utils/injectSaga';
 import { UPDATE_USER_PROFILE_PATH, LOGIN_PATH } from 'components/Header/pages';
 import {dimensions} from 'components/ProfileImage';
+import {ProfileImage } from 'containers/UserProfilePage/';
 
 const BioInput = styled.textarea`
 
@@ -28,6 +29,29 @@ const BioInput = styled.textarea`
     
 
 
+`
+
+const ProfileDropzone = styled(Dropzone)    `
+
+    margin-top:1%;
+    width : ${props =>  props.width};
+    height : ${props => props.height};
+    border:3px dashed black;
+    
+    margin-left:1%;
+`
+
+const DropzonePrompt = styled.div`
+    width : ${props =>  props.width};
+    height : ${props => props.height};
+    margin-left:3%;
+
+`
+
+const FieldDiv = styled.div`
+
+
+    margin-top:1%;
 `
 //Todo: 
 //Make Styled components for this so it actually looks pretty. It is fully functional.
@@ -105,6 +129,7 @@ class UpdateProfilePage extends Component{
             )
          }
     
+       
         return (
             <div>
                 
@@ -115,6 +140,8 @@ class UpdateProfilePage extends Component{
                     //These will be set up with original profile if empty
                     //There has to be cleaner way than this, yeahh setting up initial state to be this.
                     //Just looping
+
+                    console.log("Profile submited in update",major);
                     const update = {
 
                     
@@ -143,54 +170,69 @@ class UpdateProfilePage extends Component{
                     
                     }}>
 
-                    <Dropzone onDrop = {(fileDropped) => {
+                    <ProfileDropzone  width={dimensions.width} height={dimensions.height} onDrop = {(fileDropped) => {
 
-                        console.log("file dropped",fileDropped);
                         profilePictureUploaded(fileDropped);
-
                         
                     }}>
 
-                    {/* it should match dimensions in profile
-                    Is this of editor or of cropped image? Cropped Image.*/}
-                    {/*<ReactAvatarEditor width = {dimensions.width} height = {dimensions.height}image = {profilePicture}/>*/}
-                    </Dropzone>
-                    
-                    <StyledLabel htmlFor="displayName"> Display Name </StyledLabel>
-                    <StyledInput type="text" id = "displayName" name ="displayName" placeholder = {profile.displayName} value={displayName} onChange={(evt)=>{fieldChanged(evt)}}/>
+                    {
+                        profilePicture != null?
+                            <img src={profilePicture.preview} width={dimensions.width} height={dimensions.height}/>
+                        : profile.profilePicture != null?
+                            <img src={profile.profilePicture.url} width={dimensions.width} height={dimensions.height}/>
+                        : <DropzonePrompt  width={dimensions.width} height={dimensions.height}>
 
-                    <StyledLabel htmlFor="firstName"> First Name </StyledLabel>
-                    <StyledInput type="text" id = "firstName" name ="firstName"  placeholder = {profile.firstName} value={firstName} onChange={(evt)=>{fieldChanged(evt)}}/>
-                    <StyledLabel htmlFor="lastName"> Last Name </StyledLabel>
-                    <StyledInput type="text" id = "lastName" name ="lastName"  placeholder = {profile.lastName} value={lastName} onChange={(evt)=>{fieldChanged(evt)}}/>
-                    
-                    
-                    {/*prob use reactstrap again and grab the dropdown, or find another one, or make my own, whatever's gravy*/}
-                    <StyledLabel htmlFor="major"> Major </StyledLabel>
+                                <p> Click / Drag profile picture here </p>
+
+                           </DropzonePrompt>
+                            
+
+                    }
+
+                    {/*<ReactAvatarEditor width = {dimensions.width} height = {dimensions.height}
+                    image = {profilePicture ||  profile.profilePicture}/>*/}
+
+                    </ProfileDropzone>
+
+                    <FieldDiv>
+                        
+                        <StyledLabel htmlFor="displayName"> Display Name </StyledLabel>
+                        <StyledInput type="text" id = "displayName" name ="displayName" placeholder = {profile.displayName} value={displayName} onChange={(evt)=>{fieldChanged(evt)}}/>
+
+                        <StyledLabel htmlFor="firstName"> First Name </StyledLabel>
+                        <StyledInput type="text" id = "firstName" name ="firstName"  placeholder = {profile.firstName} value={firstName} onChange={(evt)=>{fieldChanged(evt)}}/>
+                        <StyledLabel htmlFor="lastName"> Last Name </StyledLabel>
+                        <StyledInput type="text" id = "lastName" name ="lastName"  placeholder = {profile.lastName} value={lastName} onChange={(evt)=>{fieldChanged(evt)}}/>
+                        
+                        
+                        {/*prob use reactstrap again and grab the dropdown, or find another one, or make my own, whatever's gravy*/}
+                        <StyledLabel htmlFor="major"> Major </StyledLabel>
 
 
-                    <StyledSelect id="major">
-                        {this.majors.map(major => {
-                            return <StyledOption key={major} name="major" value = {major} onClick={(evt) => {fieldChanged(evt)}}> {major} </StyledOption>
-                        })}
-                    
-                    </StyledSelect>
-                    
-                    <StyledLabel htmlFor="Year"> Year </StyledLabel>
-                    <StyledSelect id="year">
-                        {this.years.map(year => {
-                            return <StyledOption key = {year} name="year" value = {year} onClick={(evt) => {fieldChanged(evt)}}> {year} </StyledOption>
-                        })}
+                        <StyledSelect id="major" name="major" value={major} onClick={(evt) => {fieldChanged(evt)}}>
+                            {this.majors.map(major => {
+                                return <StyledOption key={major} value = {major} > {major} </StyledOption>
+                            })}
+                        
+                        </StyledSelect>
+                        
+                        <StyledLabel htmlFor="Year"> Year </StyledLabel>
+                        <StyledSelect id="year" name="major" value={major} onClick={(evt) => {fieldChanged(evt)}}>
+                            {this.years.map(year => {
+                                return <StyledOption key = {year} value = {year} > {year} </StyledOption>
+                            })}
 
-                    </StyledSelect>
+                        </StyledSelect>
 
 
-                    <StyledLabel htmlFor="bio"> Bio </StyledLabel>
-                    <BioInput id="bio" name="bio" rows="6" cols="10" placeholder={profile.bio} value={bio} onChange={(evt) => {fieldChanged(evt)}}> </BioInput>
+                        <StyledLabel htmlFor="bio"> Bio </StyledLabel>
+                        <BioInput id="bio" name="bio" rows="6" cols="10" placeholder={profile.bio} value={bio} onChange={(evt) => {fieldChanged(evt)}}> </BioInput>
 
-                    <ErrorMessage> {error} </ErrorMessage>
-                    <StyledButton type="submit"> Update </StyledButton> 
-                    <StyledButton onClick = {(evt) => {onCancel();}}> Cancel </StyledButton>
+                        <ErrorMessage> {error} </ErrorMessage>
+                        <StyledButton type="submit"> Update </StyledButton> 
+                        <StyledButton onClick = {(evt) => {onCancel();}}> Cancel </StyledButton>
+                    </FieldDiv>
                 </StyledForm>
             </div>
      )
@@ -235,6 +277,8 @@ function mapDispatchToProps(dispatch){
         },
 
         fieldChanged : (evt) => {
+
+            console.log(evt);
             const target = evt.target;
             if (evt.preventDefault) evt.preventDefault();
            return dispatch(fieldChanged(target.name,target.value))

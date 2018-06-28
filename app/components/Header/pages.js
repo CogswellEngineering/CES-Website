@@ -5,11 +5,11 @@ export const navPages = [
     },
    {
       name: "Events",
-      url:"/Events"
+      url:"/events"
     },
     {
       name:"Blog",
-      url:"/Blog"
+      url:"/blog"
     },
 ]
 
