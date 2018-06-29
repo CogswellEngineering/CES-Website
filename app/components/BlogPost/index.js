@@ -34,6 +34,8 @@ const BlogPost = (props) => {
     //Change all dscriptions to body, makes mroe sense.
     const {topic,body,author} = props;
 
+    console.log("Body after posting",body);
+
     return (<BlogPostWrapper>
 
             <Topic> {topic} </Topic>

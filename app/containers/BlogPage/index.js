@@ -109,18 +109,19 @@ class BlogPage extends Component{
     render(){
 
         const props = this.props;
-        console.log(props);
         const isAdmin = props.loggedInUser.isAdmin;
 
         const { posts, error, postContent, 
             onFieldChanged, onPostClicked,   } = props;
-        console.log("posts",posts);
+
+
         if (postContent == null) return null;
 
 
 
         return (<BlogPageWrapper>
 
+                {/*Now this panel basically just needs to be paginator*/}
                 <BlogsPanel>
 
                    
@@ -133,7 +134,7 @@ class BlogPage extends Component{
 
                 <BlogPostPanel hidden = {!isAdmin}>
 
-                    <StyledForm onSubmit = {(evt) => { onPostClicked(evt,postContent); }}>
+                    <StyledForm onSubmit = {(evt) => { evt.preventDefault();onPostClicked(postContent); }}>
 
                         <StyledLabel for = "topic"> Topic </StyledLabel>
                         <StyledInput id = "topic" name = "topic" 
@@ -142,7 +143,7 @@ class BlogPage extends Component{
                         />
                         <StyledLabel for = "body"> Body </StyledLabel>
                         <StyledInput id = "body" name = "body" 
-                        value={postContent.info} 
+                        value={postContent.body} 
                         onChange={(evt) => { onFieldChanged(evt); }}
                         />
                         
@@ -191,11 +192,8 @@ const mapStateToProps = createStructuredSelector({
             return dispatch(pageTurned(page));
         },
 
-        onAddPostClicked : (evt, post) =>{
+        onPostClicked : (post) =>{
 
-            if (evt && evt.preventDefault){
-                evt.preventDefault();
-            }
             return dispatch(addPostClicked(post));
         },
     }

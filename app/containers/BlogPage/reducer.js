@@ -1,15 +1,9 @@
 import { fromJS} from 'immutable';
 import { POST_FIELD_CHANGED, POSTING, POSTED, POST_FAILED, LOADING_POSTS, LOADED_POSTS, MODIFICATIONS_MADE } from './constants';
 
-
-
-//Instead of admin panel, for this can just provide admin profiles, so should add in actions and state
-//for admin as well.
-const initialState = fromJS({
-    
+const initialState = fromJS({  
     blogPosts: [],
     loadingPosts:false,
-
     //Only up for admin, onstant processing in the check is offputting me
     //but it's not that computationally expensive.
     //Will contain attributes: topic and body
@@ -58,8 +52,8 @@ export default function blogPageReducer(state = initialState, action){
             //it should simulate deep copy with it's memoization, so hopefully fine.
             var newPostContent = {
                 topic : state.get("postContent").topic,
-                body: state.get("postContent").body
-            }
+                body: state.get("postContent").body,
+            };
 
             newPostContent[action.fieldName] = action.value;
 
