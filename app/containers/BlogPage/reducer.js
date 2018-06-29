@@ -6,12 +6,8 @@ import { POST_FIELD_CHANGED, POSTING, POSTED, POST_FAILED, LOADING_POSTS, LOADED
 //Instead of admin panel, for this can just provide admin profiles, so should add in actions and state
 //for admin as well.
 const initialState = fromJS({
+    
     blogPosts: [],
-    //Start of at true cause need tor load everything in.
-    //I just need to do an event listener for this, triggers at will mount so always pulls
-    //cause way I'm setting up now it will load in new state only on this page,
-    //others would have to refresh to get changes, which isn't horrid.
-   // needLoadPosts:true,
     loadingPosts:false,
 
     //Only up for admin, onstant processing in the check is offputting me

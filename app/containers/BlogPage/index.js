@@ -74,6 +74,9 @@ class BlogPage extends Component{
 
 
         //Sets up listener to update blog posts.
+        //Okay this is set up like events page and this works.
+        //Only difference: This is onsnapshot on collection
+        //other is snapshot on document, but other than that there is no difference in how reducing happens
         this.unsubscribe = blogRef.onSnapshot(options,(docSnapshot) => {
 
 

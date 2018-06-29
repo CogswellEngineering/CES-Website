@@ -32,8 +32,9 @@ import { compose } from 'redux';
 import { LOGIN_PATH,REGISTER_PATH,
   ACCOUNT_RECOVERY_PATH, RESET_PASSWORD_PATH, 
   USER_PROFILE_PATH, UPDATE_USER_PROFILE_PATH,
-  BLOG_PATH, } from 'components/Header/pages';
+  BLOG_PATH, EVENTS_PATH } from 'components/Header/pages';
 import 'react-dropdown/style.css'
+import EventsPage from 'containers/EventsPage';
 
 const App  = (props) => {
 
@@ -71,7 +72,8 @@ const App  = (props) => {
               
           }}/>*/}
 
-          <Route exact path = {BLOG_PATH} component = {BlogPage} />
+          <Route path = {BLOG_PATH} component = {BlogPage} />
+          <Route path = {EVENTS_PATH} component = {EventsPage}/>
           <Route component={NotFoundPage} />
         </Switch>
       </div>
