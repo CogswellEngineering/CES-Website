@@ -1,5 +1,4 @@
 import React, { Component} from 'react';
-import styled from 'styled-components';
 import { Link }  from 'react-router-dom';
 import { withFirebase} from 'react-redux-firebase';
 import injectReducer from 'utils/injectReducer';
@@ -19,21 +18,8 @@ import  Pagination from 'react-js-pagination';
 import { Tabs, TabLink, TabContent } from 'react-tabs-redux';
 //Should I even bother with this?
 import { BorrowedItem, LibraryItem, PurchaseItem } from 'components/InventoryItems';
+import { InventoryWrapper, ItemWrapper } from 'components/StyledComponents/UserInventoryPage';
 
-
-
-
-const InventoryWrapper = styled.div`
-
-
-
-`;
-
-const ItemWrapper = styled.span`
-
-
-
-`
 
 
 

@@ -1,5 +1,4 @@
 import React, { Component} from 'react'
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {Link,Route} from 'react-router-dom';
 import {fieldChanged} from 'containers/App/actions';
@@ -17,39 +16,14 @@ import injectSaga from 'utils/injectSaga';
 import { LOGIN_PATH, REGISTER_PATH} from 'components/Header/pages';
 import Dropdown from 'react-dropdown'
 
+import  {
+    RegistrationWrapper,
+    CredentialInfo,
+    GeneralInfo,
+    StyledDropDown,
+} from 'components/StyledComponents/RegistrationPage';
 
-const RegistrationWrapper = styled.div`
 
-    width:50%;
-    margin:auto;
-    margin-top:5%;
-    padding-bottom:20%;
-    border:2px solid black;
-
-`
-
-const CredentialInfo = styled.div`
-
-    width:100%;
-    margin-left: 30%;
-    margin-top:10%;
-
-`;
-
-const GeneralInfo = styled.div`
-
-    width:100%;
-    margin-left: 30%;
-    margin-top:2%;
-`;
-
-const StyledDropDown = styled(Dropdown)`
-
-    width:40%;
-    margin-top:2%;
-    
-
-`;
 class RegistrationPage extends Component{
  
     constructor(props){

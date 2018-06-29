@@ -47,8 +47,6 @@ const BlogPost = (props) => {
 
             <Body > {body} </Body>
 
-
-
         </BlogPostWrapper>
     )
 
@@ -56,13 +54,9 @@ const BlogPost = (props) => {
 
 BlogPost.propTypes={
 
-
     topic:PropTypes.string.isRequired,
     body:PropTypes.string.isRequired,
     author:PropTypes.object.isRequired,
-
 }
-
-
 
 export default BlogPost;

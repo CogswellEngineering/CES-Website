@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
@@ -25,30 +24,12 @@ import ReactPaginate from 'react-paginate';
 import Pagination from 'rc-pagination';
 import 'rc-pagination/assets/index.css';
 
+import {
 
-
-//Honestly most will also have mainContentWrapper on them, but also specific ones.
-const BlogPageWrapper = styled.div`
-
-
-
-`;
-
-
-
-///Panel of all the posts
-const BlogsPanel = styled.div`
-
-    width:50%;
-    margin:auto;
-
-`;
-
-
-//Pannel for posting.
-const BlogPostPanel = styled.div`
-
-`;
+    BlogPageWrapper,
+    BlogsPanel,
+    BlogPostPanel,
+} from 'components/StyledComponents/BlogPage';
 
 class BlogPage extends Component{
 

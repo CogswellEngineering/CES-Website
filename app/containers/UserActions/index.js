@@ -14,28 +14,14 @@ import { makeSelectLoggedIn, makeSelectLoggedInProfile } from 'containers/App/se
 import injectReducer from 'utils/injectReducer';
 import LoginPage from 'containers/LoginPage';
 
+import {
+    
+    LoggedOutSection,
+    LoggedInSection,
+    UserActionLink,
 
-//Not including Login?
-const LoggedOutSection = styled.span`
-    margin-left:50%;
-    width:50%;
-`
+} from 'components/StyledComponents/UserActions';
 
-const LoggedInSection = styled.span`
-
-    width:55%;
-    margin-left:30%;
-
-`
-
-export const UserActionLink = styled(Link)`
-
-    color:blue;
-    text-align:center;
-    margin-left:1%;
-    text-decoration:none;
-
-`;
 
 const UserActions  = (props) => {
     

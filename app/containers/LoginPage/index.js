@@ -1,7 +1,5 @@
 import React, { Component} from 'react'
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import {Link,Route} from 'react-router-dom';
 import {fieldChanged} from 'containers/App/actions';
 import StyledForm, { FormGroup,StyledButton,StyledLabel,ErrorMessage,StyledInput} from 'components/StyledForm'
 import {connect} from 'react-redux';
@@ -14,49 +12,14 @@ import FormSelectors from 'utils/genericFormSelectors';
 import { ACCOUNT_RECOVERY_PATH, REGISTER_PATH, LOGIN_PATH } from 'components/Header/pages';
 
 
+import {
+    
+    StyledLink,
+    LoginWrapper,
+    MainContent,
+    AlternativeOptions,
 
-//Welp, bout an hour or 2 of 'wasted' time. This revelation is something I should've thought bout before
-//wasting time, but I learned stuff and know now to think. It makes sense it reroutes to it's own loginpage
-//because multiple services uses same one. That's key.
-
-
-const LoginWrapper = styled.div`
-
-    width:50%;
-    margin:auto;
-    margin-top:5%;
-    padding-bottom:20%;
-    border:2px solid black;
-
-`
-
-const LoginButton = styled.button`
-
-    margin-left:1%;
-
-`
-
-const StyledLink = styled(Link)`
-
-    text-decoration:none;
-
-`;
-
-const MainContent = styled.form`
-
-    width:100%;
-    margin-left:30%;
-    margin-top:5%;
-
-`
-
-const AlternativeOptions = styled.div`
-    margin-left:30%;
-    width:100%;
-`
-
-
-
+} from 'components/StyledComponents/LoginPage';
 
 class LoginPage extends Component { 
     

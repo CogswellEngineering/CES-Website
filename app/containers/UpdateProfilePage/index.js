@@ -1,7 +1,5 @@
 import React, { Component} from 'react'
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import Dropzone from 'react-dropzone';
 import ReactAvatarEditor from 'react-avatar-editor';
 import { withFirebase} from 'react-redux-firebase';
 import {Link} from 'react-router-dom';
@@ -21,102 +19,20 @@ import { onUpdateClicked, profilePictureUploaded, onUpdateCancelled, pageLoaded 
 import injectSaga from 'utils/injectSaga';
 import { UPDATE_USER_PROFILE_PATH, LOGIN_PATH } from 'components/Header/pages';
 import {dimensions} from 'components/ProfileImage';
-import {ProfileImage } from 'containers/UserProfilePage/';
-import Dropdown from 'react-dropdown'
-    
 
-const UpdateProfileWrapper = styled.div`
-
-    width:60%;
-    margin:auto;
-    
-
-`;
-
-const NameDiv = styled.div`
-
-
-    margin:auto;
-    width:70%;
-    margin-top:3%;
-
-`
-
-
-const BioInput = styled.div`
-
-
-    clear:both;
-    width:50%;
-    margin-left:20%;
-    margin-top:2%;
-
-
-`
-
-const BioTextarea = styled.textarea`
-
-    resize:none;
-    width:100%;
-    padding-bottom:20%;
-    clear:both;
-    margin:auto;
-    border: 1px solid black;
-`
-
-const BioLabel = styled(StyledLabel)`
-
-    clear:both;
-`
-
-const ProfilePictureDiv = styled.div`
-
-    margin-top:1%;
-    margin-left:5%;
-`
-
-const ProfilePictureLabel = styled(StyledLabel)`
-
-
-
-`;
-
-const ProfilePictureDropzone = styled(Dropzone)    `
-
-    margin-top:1%;
-    width : ${props =>  props.width};
-    height : ${props => props.height};
-    border:3px dashed black;
-    
-    margin-left:1%;
-`
-
-const DropzonePrompt = styled.div`
-    width : ${props =>  props.width};
-    height : ${props => props.height};
-    margin-left:3%;
-
-`
-
-const StyledDropDown = styled(Dropdown)`
-
-    width:30%;
-    margin-left:2%;
-    margin-top:2%;
-    
-
-`;
-
-const FieldDiv = styled.div`
-
-
-    margin-top:1%;
-`
-//Todo: 
-//Make Styled components for this so it actually looks pretty. It is fully functional.
-//Move years and majors info into file called schoolInfo so not keep initializing it.
-//
-  
+import {
+    UpdateProfileWrapper,
+    NameDiv,
+    BioInput,
+    BioTextarea,
+    BioLabel,
+    ProfilePictureDiv,
+    ProfilePictureLabel,
+    ProfilePictureDropzone,
+    DropzonePrompt,
+    StyledDropdown,
+    FieldDiv,
+} from 'components/StyledComponents/UpdateProfilePage';
 
 class UpdateProfilePage extends Component{
 
@@ -292,13 +208,13 @@ class UpdateProfilePage extends Component{
                             
                         
                         </NameDiv>
-                        <StyledDropDown id="major" options={this.majors} 
+                        <StyledDropdown id="major" options={this.majors} 
                             onChange={(evt)=>{ console.log(evt);fieldChanged("major",evt.value); }} 
                             value={major} placeholder={profile.major || "Select your major"} />
 
 
 
-                        <StyledDropDown options={this.years} 
+                        <StyledDropdown options={this.years} 
                             onChange={(evt)=>{ console.log(evt);fieldChanged("year",evt.value); }} 
                             value={year} placeholder={profile.year} />
 
