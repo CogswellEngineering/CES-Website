@@ -40,18 +40,9 @@ class BlogPage extends Component{
         
     }
 
-    componentWillMount(){
-        //This happens
-    }
 
     componentDidMount(){
 
-        //This does not.
-
-        //Might need to pull initially, then start listener, I'll see
-        //if not dope, if yeah, not hard.
-
-        
         const props = this.props;
         const fireStoreRef = props.firebase.firestore();
         const blogRef = fireStoreRef.collection("Blog");
@@ -84,7 +75,6 @@ class BlogPage extends Component{
         this.unsubscribe();
     }
 
-    //Prob just get profile, then go based off that
     
     render(){
 
@@ -101,10 +91,7 @@ class BlogPage extends Component{
 
         return (<BlogPageWrapper>
 
-                {/*Now this panel basically just needs to be paginator*/}
-
-                {/*Something to complicate while gymming. Extend Pagination to have BlogsPanel
-                Prob not and prob keep like this though, but something to think about.*/}
+             
                 <BlogsPanel>
                                       
                     {shownPosts.map(post => {
@@ -152,7 +139,6 @@ class BlogPage extends Component{
 
 const mapStateToProps = createStructuredSelector({
     
-    //Will pass in selector, in seletor will check admin status.
     allPosts: makeSelectPosts("all"),
     shownPosts : makeSelectPosts("shown"),
     postContent: makeSelectPostFields(),

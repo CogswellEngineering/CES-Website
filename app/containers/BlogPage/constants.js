@@ -18,8 +18,7 @@ const prefix = 'ces/BlogPage/'
 
  const POST_FIELD_CHANGED = prefix+'POST_FIELD_CHANGED';
 
- //Do this to other constatns pages too, for neatness
- //Saves alot of time.
+
 export {
     PAGE_TURNED,
     LOAD_POSTS,

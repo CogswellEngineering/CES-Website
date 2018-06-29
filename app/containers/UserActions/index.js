@@ -12,7 +12,6 @@ import reducer from './reducer';
 import { createStructuredSelector } from 'reselect'; 
 import { makeSelectLoggedIn, makeSelectLoggedInProfile } from 'containers/App/selectors';
 import injectReducer from 'utils/injectReducer';
-import LoginPage from 'containers/LoginPage';
 
 import {
     

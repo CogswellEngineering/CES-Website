@@ -5,6 +5,8 @@ import { POST_FIELD_CHANGED, POSTING, POSTED, POST_FAILED, LOADING_POSTS, LOADED
 
 
 const initialState = fromJS({  
+
+
     //Okay for optimal performance
     //I really should do calculation of posts to show on that page
     //only when turn page, cause no point doing if change page
@@ -14,14 +16,12 @@ const initialState = fromJS({
     //page, I could make the calculation into a completely separate function and have both actions result in calling it.
 
     allPosts : [],
-    //shownPosts is a subset of blogPosts
     shownPosts:[],
+
     currentPage: 1,
     postsPerPage: 4,
     loadingPosts:false,
-    //Only up for admin, onstant processing in the check is offputting me
-    //but it's not that computationally expensive.
-    //Will contain attributes: topic and body
+
     postContent:{
         topic:"",
         body:"",
@@ -34,8 +34,6 @@ const initialState = fromJS({
 //This will be called when change page, and when total blog posts change.
 function getShownPages(page,allPosts,postsPerPage){
 
-    //Just take this from what I did for my custom paginator in prototype site
-    //Or ust think of it again for exercise
 
     var shownPosts = [];
 
@@ -93,13 +91,8 @@ export default function blogPageReducer(state = initialState, action){
             return state
                 .set("error",action.error);
             
-        //No more reason to make this unique, whatever.    
         case POST_FIELD_CHANGED:
-
-            //Honestly I could just keep these separate but they make the most sense in a single object
-            //it's slightly worse, cause now even if only topic is changed
-            //body will be considered change so may re-render unnecessarrily. Unless reselect accounts for that
-            //it should simulate deep copy with it's memoization, so hopefully fine.
+                 
             var newPostContent = {
                 topic : state.get("postContent").topic,
                 body: state.get("postContent").body,

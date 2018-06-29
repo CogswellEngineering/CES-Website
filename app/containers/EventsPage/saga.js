@@ -10,10 +10,6 @@ function* attendEvent(action){
     const attendee = firebase.auth().currentUser.uid;
     const event = action.event;
 
-    //How should I actually store attendees per event?
-    //Attendees array keys by event uid
-
-    //I don't need ref that's why. Changed to generate random id instead, and actual attendee identity will be user.
     const attendeeRef = firebase.firestore().collection("ClubInfo").doc("Events").collection("Attendees").doc();
 
     var hadError = false;
@@ -88,14 +84,19 @@ function* cancelAttendance(action){
 
 function* checkIfAttendee(action){
 
-    const loggedInUser = firebase.auth().currentUser.uid;
+    const loggedInUser = firebase.auth().currentUser;
 
-    //Wait, how am I getting this again?
+    if (loggedInUser == null){
+
+        yield put(verifiedAttending(false,action.event));
+        return;
+        
+    }
+
+
+
     const event = action.event;
 
-    console.log("Event in saga call",event);
-
-    yield put (loadingEvent());
     const attendeeRef = firebase.firestore().collection("ClubInfo").doc("Events").collection("Attendees");
 
    
@@ -103,7 +104,7 @@ function* checkIfAttendee(action){
     try{
 
         console.log("Event",event);
-        const query = attendeeRef.where("attendee","==",loggedInUser)
+        const query = attendeeRef.where("attendee","==",loggedInUser.uid)
         .where("eventTitle","==",event.title)
         .where("startDate","==",firebase.firestore.Timestamp.fromDate(event.startDate));
 

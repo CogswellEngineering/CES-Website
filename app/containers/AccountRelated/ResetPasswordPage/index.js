@@ -31,14 +31,12 @@ class ResetPasswordPage extends Component{
         this.token = params.resetToken;
 
         if (this.token != null && !this.props.tokenChecked){
-            //This will call the dispatch to mark this token as expired, so that link will no longer work.
             this.props.checkToken(this.token);
         }
     }
 
     componentDidUpdate(){
 
-        //Fix this here too.
         if (props.tokenChecked && !props.tokenExpired){
             props.tokenUsed(this.token)
         }
@@ -51,7 +49,6 @@ class ResetPasswordPage extends Component{
 
         if (!props.tokenChecked){
     
-            //Later will be loading page.
             return null;
         }
         else if (props.tokenExpired){
@@ -102,15 +99,6 @@ class ResetPasswordPage extends Component{
     }
 }
 
-/*
-ResetPasswordPage.propTypes = {
-    tokenChecked: PropTypes.bool,
-    tokenExpired: PropTypes.bool,
-    passwordChanged: PropTypes.bool,
-    password : PropTypes.string.isRequired,
-    retypedPassword : PropTypes.string.isRequired,
-    error: PropTypes.string,
-}*/
 
 const formSelector = new FormSelectors(RESET_PASSWORD_PATH);
 

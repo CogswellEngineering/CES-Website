@@ -13,28 +13,32 @@
 
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-
-import Header from 'components/Header';
-import {withFirebase} from 'react-redux-firebase';
-import HomePage from 'containers/HomePage/Loadable';
-import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import injectReducer from 'utils/injectReducer';
-import reducer from './reducer';
-import Login from 'containers/LoginPage/Loadable';
-import Register from 'containers/RegistrationPage/Loadable';
-import AccountRecovery from 'containers/AccountRecovery/Loadable';
-import ResetPasswordPage from 'containers/ResetPasswordPage/Loadable';
-import UserProfilePage from 'containers/UserProfilePage/Loadable';
-import UpdateProfilePage from 'containers/UpdateProfilePage';
-import BlogPage from 'containers/BlogPage/Loadable';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import Header from 'components/Header';
+import {withFirebase} from 'react-redux-firebase';
+import injectReducer from 'utils/injectReducer';
+import reducer from './reducer';
+
+import HomePage from 'containers/HomePage/Loadable';
+import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import BlogPage from 'containers/BlogPage/Loadable';
+import EventsPage from 'containers/EventsPage';
+
+import Login from 'containers/AccountRelated/LoginPage/Loadable';
+import Register from 'containers/AccountRelated/RegistrationPage/Loadable';
+import AccountRecovery from 'containers/AccountRelated/AccountRecovery/Loadable';
+import ResetPasswordPage from 'containers/AccountRelated/ResetPasswordPage/Loadable';
+
+import UserProfilePage from 'containers/ProfileRelated/UserProfilePage/Loadable';
+import UpdateProfilePage from 'containers/ProfileRelated/UpdateProfilePage';
+
+
 import { LOGIN_PATH,REGISTER_PATH,
   ACCOUNT_RECOVERY_PATH, RESET_PASSWORD_PATH, 
   USER_PROFILE_PATH, UPDATE_USER_PROFILE_PATH,
   BLOG_PATH, EVENTS_PATH } from 'components/Header/pages';
 import 'react-dropdown/style.css'
-import EventsPage from 'containers/EventsPage';
 
 const App  = (props) => {
 
@@ -56,22 +60,7 @@ const App  = (props) => {
           <Route path = {RESET_PASSWORD_PATH} component={ResetPasswordPage}/>
           <Route exact path = {USER_PROFILE_PATH} component = {UserProfilePage}/>
           <Route exact path = {USER_PROFILE_PATH+"/update"} component = {UpdateProfilePage}/>
-          {
-          /*render ={ (props) => {
-
-              const auth = props.firebase.auth;
-              if (auth == null){
-                  //Well, normally would redirect to login to update
-                  //but instead might redirect to not found or the profile itself.
-                  //For now redirecting to not found page.
-                  return <Redirect to =" "/>;
-              }
-              else{
-                return <UpdateProfilePage/>;
-              }
-              
-          }}/>*/}
-
+         
           <Route path = {BLOG_PATH} component = {BlogPage} />
           <Route path = {EVENTS_PATH} component = {EventsPage}/>
           <Route component={NotFoundPage} />
@@ -81,14 +70,11 @@ const App  = (props) => {
   }
 
 
-//So this is the problem, makes sense they prob make it so doesn't re-render if no longer changes.
 function mapStateToProps(state){
 
   if (state == null) 
     return {
       doneLoading : false,
-      //Redundant data just to force render when changes, thought if don't make it selector, wouldn't make that optimization.
-      //though, if just did normal connect would be good, but then no reducer, cause need to inject it
       mainContentPath: "",
     };
 

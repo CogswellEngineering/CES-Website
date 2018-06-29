@@ -21,8 +21,6 @@ function* postNewBlog(action){
 
     post.author = author;
 
-    //Or should posts be in users? Author will be repeated info cause of uid.
-    //Makes the request to get them all a bit execessive though, this is fine.
     const blogsRef = fireStoreRef.collection("Blog").doc();
     
     yield put(posting());

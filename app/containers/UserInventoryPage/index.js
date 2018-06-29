@@ -13,10 +13,7 @@ import { createStructuredSelector } from 'reselect';
 import { USER_INVENTORY_PATH, LOGIN_PATH } from 'components/Header/pages';
 import { makeSelectLoggedInProfile } from 'containers/App/selectors';
 import  Pagination from 'react-js-pagination';
-//Using react-tabs-redux instead
-//import { Tab, Tabs, TabList, TabPanel,  } from 'react-tabs';
 import { Tabs, TabLink, TabContent } from 'react-tabs-redux';
-//Should I even bother with this?
 import { BorrowedItem, LibraryItem, PurchaseItem } from 'components/InventoryItems';
 import { InventoryWrapper, ItemWrapper } from 'components/StyledComponents/UserInventoryPage';
 

@@ -83,15 +83,10 @@ class EventsPage extends Component{
 
                 upcomingEvents[i].startDate = upcomingEvents[i].startDate.toDate();
                 upcomingEvents[i].endDate = upcomingEvents[i].endDate.toDate();
-                
-
             }
 
-            //This should force a re-render, but since it's not.
             this.props.onEventsUpdated(upcomingEvents);
-
         });
-        
     }
     
     componentWillUnmount(){
@@ -103,12 +98,9 @@ class EventsPage extends Component{
 
     render(){
 
-        console.log("props",this.props);
-
         const { selectedEvent, events, selectedMonth, error, tryingToAttend, justAttended,isAttendee,
             onCloseEvent, onEventSelected, onMonthSelected, onAttendEvent, onCancelAttendance,} = this.props;
         
-            console.log("just attended",justAttended);
 
         if (events == null){
 
@@ -124,21 +116,18 @@ class EventsPage extends Component{
                         console.log("event selected",event);
 
                         
-                        //Target is the actual event selected.
                         onEventSelected(event);
                     }
                 }
+              
                 events = {events}
                 startAccessor = 'startDate'
                 endAccessor = 'endDate'
                 views = {[ 'month', 'agenda']}
-
             />
 
-
-
             <EventInfo event = {selectedEvent} onAttend = {onAttendEvent} onCancel = {onCancelAttendance} onExit = {onCloseEvent} error={error}
-                loading={tryingToAttend} isAttendee = {isAttendee}/>
+                loading={tryingToAttend} isAttendee = {isAttendee} loggedInUser = {this.props.firebase.auth().currentUser}/>
             
             
             </CalendarWrapper>)
@@ -147,11 +136,7 @@ class EventsPage extends Component{
 
 }
 
-//Need to add error, and loading onto here
 const mapStateToProps = createStructuredSelector({
-
-    //Todo, add all thr boolean props in here, and anyother missing
-    //I'll run to see anything small I missed after I merge it.
 
     isAttendee : createSelectFlag("isAttendee"),
     loading : createSelectFlag("loading"),
@@ -190,7 +175,6 @@ function mapDispatchToProps(dispatch){
 
         onEventsUpdated : (events) => {
 
-            console.log("It does dispatch it, not just calling the action directly");
             return dispatch(updateEvents(events));
         },
 

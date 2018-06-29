@@ -53,9 +53,9 @@ const EventInfo = (props) => {
 
 
    
-    const {event, error, loading, isAttendee} = props;
+    const {event, error, loading, isAttendee,loggedInUser} = props;
 
-    console.log("Is attendee", isAttendee);
+    console.log("logged in User", loggedInUser);
    
     var {title, description, startDate, endDate } = event;
     //Will turn this to a pop over, well does it need to be a pop over? should I make each thing click to spawn a popover instead of
@@ -74,13 +74,15 @@ const EventInfo = (props) => {
                         </InfoBlock>
                 }
 
-                {isAttendee? 
+                {loggedInUser == null?
 
-                        
-                        //Okay both work. Only thing is they don't re-render.
-                        <Button onClick = { () => {props.onCancel(event)}}> Cancel Attendance </Button>
+                        <p> You must be logged in to mark yourself an attendee of this event </p>
                 :
-                        <Button hidden = {props.onAttend == null } onClick = { () => {props.onAttend(event)}}> Attend </Button>
+                        isAttendee? 
+                                
+                                <Button onClick = { () => {props.onCancel(event)}}> Cancel Attendance </Button>
+                        :
+                                <Button hidden = {props.onAttend == null } onClick = { () => {props.onAttend(event)}}> Attend </Button>
                  }
 
                  <Button onClick = { () => {props.onExit()} }> Close </Button>
