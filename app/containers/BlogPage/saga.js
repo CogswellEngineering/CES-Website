@@ -3,25 +3,21 @@ import firebase from 'firebase';
 import { ADD_POST_CLICKED } from './constants';
 import { posting, posted, postFailed, } from './actions';
 
-
-//This saga will really only handle posting to blogs
-//there will be listener set up on componentwillMount to handle reloading.
-
-//future reference though it is action made, industry clls them payloads, prob change that in future
-//not changing in this though, too tedious.
 function* postNewBlog(action){
 
 
-    console.log("new post to add,",action);
-    console.log("firebase",firebase);
     const fireStoreRef = firebase.firestore();
-    console.log("firestore ref",fireStoreRef);
 
     const post = action.post;
+    
+    //Gets logged in information to create author, hindsight could've done this in calling the call back
+    //instead of here.
     const author = {
         uid:firebase.auth().currentUser.uid,
         name:firebase.auth().currentUser.displayName,
-    }
+    };
+
+
 
     post.author = author;
 
@@ -33,8 +29,6 @@ function* postNewBlog(action){
     
     try{
 
-        //Do I want to include post history in profile? Nevermind, it's fine because their queries are optimized
-        //so I can just use .where for that, even if they make it public, it's just as easy.     
         yield blogsRef.set(post);
         yield put(posted());
     }
@@ -50,8 +44,7 @@ function* postNewBlog(action){
 
 
 function* blogPostWatcher(){
-
-
+    
     yield takeLatest(ADD_POST_CLICKED,postNewBlog);
 
 }

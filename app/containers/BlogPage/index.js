@@ -8,7 +8,10 @@ import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import saga from './saga';
 import reducer from './reducer';
-import { makeSelectPosts, makeSelectPostFields, makeSelectError } from './selectors';
+import { makeSelectPosts, makeSelectPostFields, makeSelectError,
+    makeSelectCurrentPage, makeSelectPostsPerPage,
+    makeSelectPosting,
+} from './selectors';
 import { pageTurned, modificationsMade, addPostClicked, postFieldChanged} from './actions';
 import { BLOG_PATH } from 'components/Header/pages';
 import { makeSelectLoggedInProfile } from 'containers/App/selectors';
@@ -16,7 +19,11 @@ import BlogPost from 'components/BlogPost';
 
 //Might need select for categorizing it if that's neccessarry, that's easy change I can make later.
 import StyledForm, {StyledButton,StyledLabel,ErrorMessage,StyledInput, StyledSelect, StyledOption} from 'components/StyledForm'
+import ReactPaginate from 'react-paginate';
 
+//Pagination imports
+import Pagination from 'rc-pagination';
+import 'rc-pagination/assets/index.css';
 
 
 
@@ -28,9 +35,12 @@ const BlogPageWrapper = styled.div`
 `;
 
 
+
 ///Panel of all the posts
 const BlogsPanel = styled.div`
 
+    width:50%;
+    margin:auto;
 
 `;
 
@@ -51,13 +61,11 @@ class BlogPage extends Component{
 
     componentWillMount(){
         //This happens
-        console.log("will I mount?");
     }
 
     componentDidMount(){
 
         //This does not.
-        console.log("Do I not get here?");
 
         //Might need to pull initially, then start listener, I'll see
         //if not dope, if yeah, not hard.
@@ -71,14 +79,7 @@ class BlogPage extends Component{
             includeMetadataChanges: true,
         };
 
-
-
-        //Sets up listener to update blog posts.
-        //Okay this is set up like events page and this works.
-        //Only difference: This is onsnapshot on collection
-        //other is snapshot on document, but other than that there is no difference in how reducing happens
         this.unsubscribe = blogRef.onSnapshot(options,(docSnapshot) => {
-
 
                     var newPosts = [];
                     const docs = docSnapshot.docs;
@@ -91,9 +92,7 @@ class BlogPage extends Component{
                         }
                     }
 
-                    this.props.onModificationMade(newPosts);
-
-                
+                    this.props.onModificationMade(newPosts);                
             }
         );
     }
@@ -111,8 +110,8 @@ class BlogPage extends Component{
         const props = this.props;
         const isAdmin = props.loggedInUser.isAdmin;
 
-        const { posts, error, postContent, 
-            onFieldChanged, onPostClicked,   } = props;
+        const { allPosts, shownPosts, error, postContent, postsPerPage, currentPage, posting,
+            onFieldChanged, onPostClicked, onPageSelected   } = props;
 
 
         if (postContent == null) return null;
@@ -122,13 +121,19 @@ class BlogPage extends Component{
         return (<BlogPageWrapper>
 
                 {/*Now this panel basically just needs to be paginator*/}
-                <BlogsPanel>
 
-                   
-                    {posts.map(post => {
+                {/*Something to complicate while gymming. Extend Pagination to have BlogsPanel
+                Prob not and prob keep like this though, but something to think about.*/}
+                <BlogsPanel>
+                                      
+                    {shownPosts.map(post => {
 
                         return <BlogPost key ={post.author+post.topic} author={post.author} topic={post.topic} body={post.body}/> 
                     })}
+                
+                     <Pagination pageSize = {postsPerPage} current = {currentPage} total = {allPosts.length}
+                            onChange = {(page) => {onPageSelected(page);}}
+                        />
 
                 </BlogsPanel>
 
@@ -148,8 +153,12 @@ class BlogPage extends Component{
                         />
                         
                         <ErrorMessage> {error} </ErrorMessage>
-                        <StyledButton type="submit"> Post </StyledButton> 
-                        
+
+                        {!posting? 
+                            <StyledButton type="submit"> Post </StyledButton> 
+                         :  
+                            <p>   Posting... </p>
+                        }
                         
                     </StyledForm>
                 </BlogPostPanel>
@@ -163,10 +172,15 @@ class BlogPage extends Component{
 const mapStateToProps = createStructuredSelector({
     
     //Will pass in selector, in seletor will check admin status.
-    posts: makeSelectPosts(),
+    allPosts: makeSelectPosts("all"),
+    shownPosts : makeSelectPosts("shown"),
     postContent: makeSelectPostFields(),
     loggedInUser: makeSelectLoggedInProfile(),
+    currentPage :makeSelectCurrentPage(),
+    postsPerPage : makeSelectPostsPerPage(),
     error : makeSelectError(),
+    posting : makeSelectPosting(),
+
 });
 
 
@@ -188,6 +202,8 @@ const mapStateToProps = createStructuredSelector({
         },
         
         onPageSelected : (page) => {
+
+            console.log("page",page);
 
             return dispatch(pageTurned(page));
         },

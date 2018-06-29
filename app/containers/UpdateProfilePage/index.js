@@ -294,13 +294,13 @@ class UpdateProfilePage extends Component{
                         </NameDiv>
                         <StyledDropDown id="major" options={this.majors} 
                             onChange={(evt)=>{ console.log(evt);fieldChanged("major",evt.value); }} 
-                            value={major} placeholder={major} />
+                            value={major} placeholder={profile.major || "Select your major"} />
 
 
 
                         <StyledDropDown options={this.years} 
                             onChange={(evt)=>{ console.log(evt);fieldChanged("year",evt.value); }} 
-                            value={year} placeholder={year} />
+                            value={year} placeholder={profile.year} />
 
 
                         <BioInput>

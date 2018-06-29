@@ -6,19 +6,20 @@ import { Link } from 'react-router-dom';
 //Like use profile prob move this into corresponding folder in components, but here for quick tseting.
 const BlogPostWrapper = styled.div`
 
-
-
+    border: 2px solid black;
 
 `;
 
 const Topic = styled.p`
 
+    display:inline;
 
 
 `;
 
 const Author = styled.p`
 
+    display:inline;
 `;
 
 const Body = styled.p`
@@ -36,7 +37,9 @@ const BlogPost = (props) => {
 
     console.log("Body after posting",body);
 
-    return (<BlogPostWrapper>
+    return (
+    
+        <BlogPostWrapper>
 
             <Topic> {topic} </Topic>
 

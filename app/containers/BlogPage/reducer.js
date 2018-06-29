@@ -1,8 +1,23 @@
 import { fromJS} from 'immutable';
-import { POST_FIELD_CHANGED, POSTING, POSTED, POST_FAILED, LOADING_POSTS, LOADED_POSTS, MODIFICATIONS_MADE } from './constants';
+import { POST_FIELD_CHANGED, POSTING, POSTED, POST_FAILED, LOADING_POSTS, LOADED_POSTS, MODIFICATIONS_MADE,
+    PAGE_TURNED } from './constants';
+
+
 
 const initialState = fromJS({  
-    blogPosts: [],
+    //Okay for optimal performance
+    //I really should do calculation of posts to show on that page
+    //only when turn page, cause no point doing if change page
+    //and would re-do calculation if I for example edit a blog post.
+
+    //BUt then if I add a new blog post? Well then I would want it to update but they did not change
+    //page, I could make the calculation into a completely separate function and have both actions result in calling it.
+
+    allPosts : [],
+    //shownPosts is a subset of blogPosts
+    shownPosts:[],
+    currentPage: 1,
+    postsPerPage: 4,
     loadingPosts:false,
     //Only up for admin, onstant processing in the check is offputting me
     //but it's not that computationally expensive.
@@ -15,15 +30,50 @@ const initialState = fromJS({
     error:""
 })
 
+//For returning resulting sub array that will then be set to shown posts.
+//This will be called when change page, and when total blog posts change.
+function getShownPages(page,allPosts,postsPerPage){
+
+    //Just take this from what I did for my custom paginator in prototype site
+    //Or ust think of it again for exercise
+
+    var shownPosts = [];
+
+    //Because posts on each page goes by posts per page
+    const endingIndex = page * postsPerPage;
+
+    var i = endingIndex - postsPerPage;
+
+    for (; i < endingIndex && i < allPosts.length; ++i){
+
+        shownPosts.push(allPosts[i]);
+    }
+
+    return shownPosts;
+
+
+}
 
 export default function blogPageReducer(state = initialState, action){
 
     switch (action.type){
 
+
+        case PAGE_TURNED:
+
+            const pagePosts = getShownPages(action.page,state.get("allPosts"), state.get("postsPerPage"));
+            return state
+                .set("currentPage", action.page)
+                .set("shownPosts", pagePosts);
+
         case MODIFICATIONS_MADE:
 
+            //Gets shown posts with respect to new set of blogs.
+            const shownPosts = getShownPages(state.get("currentPage"),action.posts,state.get("postsPerPage"));
             return state
-                .set("blogPosts", action.posts);
+                .set("allPosts", action.posts)
+                .set("shownPosts",shownPosts);
+                
 
         case POSTING:
             
