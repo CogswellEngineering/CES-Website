@@ -39,6 +39,7 @@ import { LOGIN_PATH,REGISTER_PATH,
   USER_PROFILE_PATH, UPDATE_USER_PROFILE_PATH,
   BLOG_PATH, EVENTS_PATH } from 'components/Header/pages';
 import 'react-dropdown/style.css'
+import LoginPage from '../AccountRelated/LoginPage';
 
 const App  = (props) => {
 

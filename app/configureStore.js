@@ -14,7 +14,6 @@ import createReducer from './reducers';
 
 
 //Firebase initialization
-//Unfortunately can't use either package cause assumes it's a base store
 const fbConfig = {
   
   apiKey: 'AIzaSyADrVRU9CSIktkXnvQXcXFeOPicmYtC91M',
@@ -78,7 +77,6 @@ export default function configureStore(initialState = {}, history) {
 const createStoreWithFirebase = compose(
   reactReduxFirebase(firebase, rrfConfig),
   reduxFirestore(firebase), // firebase instance as first argument
-  // reduxFirestore(firebase) // <- needed if using firestore
 )(createStore);
 
   const store = createStoreWithFirebase(

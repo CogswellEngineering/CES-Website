@@ -21,7 +21,8 @@ export const servicePages = [
     },
    {
       name:"3DPrinting",
-      url:"https://ces.3Dprinting.com"
+      //url:"https://ces.3Dprinting.com"
+      url:"http://localhost:3001"
     }
     
 ];

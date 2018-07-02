@@ -18,7 +18,6 @@ import BlogPost from 'components/BlogPost';
 
 //Might need select for categorizing it if that's neccessarry, that's easy change I can make later.
 import StyledForm, {StyledButton,StyledLabel,ErrorMessage,StyledInput, StyledSelect, StyledOption} from 'components/StyledForm'
-import ReactPaginate from 'react-paginate';
 
 //Pagination imports
 import Pagination from 'rc-pagination';

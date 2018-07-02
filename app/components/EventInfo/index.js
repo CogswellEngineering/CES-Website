@@ -2,6 +2,9 @@
 //This component is for
 import React from 'react';
 import styled from 'styled-components';
+import { formatMDY} from 'utils/formatDate'; 
+
+
 
 
 const Button = styled.button`
@@ -9,10 +12,14 @@ const Button = styled.button`
 `;
 
 const EventInfoWrapper = styled.div`
-
-
-
+      
+        margin-top:3%;
 `;
+
+const HostLink = styled.a`
+
+        
+`
 
 
 const InfoBlock = styled.div`
@@ -21,15 +28,15 @@ const InfoBlock = styled.div`
 
 `
 
-const EventTitle = styled.p`
+const EventTitle = styled.h2`
 
-
+        display:inline;
 
 `;
 
 const EventDescription = styled.p`
 
-
+        
 
 `;
 
@@ -38,6 +45,12 @@ const TimeInfo = styled.div`
 
 `
 const Actions = styled.div`
+
+
+`
+
+const GuestBlock = styled.span`
+
 
 
 `
@@ -52,25 +65,40 @@ const EventInfo = (props) => {
     }
 
 
+    //Something good to add here would be the publicist poster for the event(If it exists, since others are outside events.);
+    //Also add hosted by in here as well.
+    /*
+        Publicist Event Poster
+        Host(s) of event
+        Guest Attendees.(Non-student industry or alumni attendees)
+    */
    
-    const {event, error, loading, isAttendee,loggedInUser} = props;
+    const {event, error, loading, isAttendee,loggedInUser,} = props;
 
     console.log("logged in User", loggedInUser);
    
-    var {title, description, startDate, endDate } = event;
-    //Will turn this to a pop over, well does it need to be a pop over? should I make each thing click to spawn a popover instead of
-    //this? Or make this into a wrapper around a popover. Pop over not neccessarry, should just pop subpanel.
+    var {title, host, description, startDate, endDate } = event;
+
+    const formattedStartDate = formatMDY(startDate);
+    const formattedEndDate = formatMDY(endDate);
+
+
     return (<EventInfoWrapper>
             
                 {loading?
-                        //Will add spinner animation here later. If this ternary doesn't work will just turn to normal if.
+
                         <p> Loading Event</p>
-                :
-                               
+                
+                        :                               
                         <InfoBlock>
                                 <EventTitle>{title}</EventTitle>
+                                 { " hosted by"} <HostLink> {host} </HostLink> 
+                                <GuestBlock>
+                                        {/*Here will iterate through array of guests*/}
+                                </GuestBlock>
+                                <TimeInfo> Date: {formattedStartDate + " - " + formattedEndDate} </TimeInfo>
+        
                                 <EventDescription> {description} </EventDescription>
-                                <TimeInfo> {startDate + " - " + endDate} </TimeInfo>
                         </InfoBlock>
                 }
 
@@ -80,7 +108,7 @@ const EventInfo = (props) => {
                 :
                         isAttendee? 
                                 
-                                <Button onClick = { () => {props.onCancel(event)}}> Cancel Attendance </Button>
+                                < Button onClick = { () => {props.onCancel(event)}}> Cancel Attendance </Button>
                         :
                                 <Button hidden = {props.onAttend == null } onClick = { () => {props.onAttend(event)}}> Attend </Button>
                  }

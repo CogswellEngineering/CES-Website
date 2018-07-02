@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types';
-import { fieldChanged, leftPage} from 'containers/App/actions';
+import { fieldChanged} from 'containers/App/actions';
 import StyledForm, {StyledButton,StyledLabel,ErrorMessage,StyledInput} from 'components/StyledForm'
 import {connect} from 'react-redux';
 import {compose} from 'redux';
@@ -16,11 +16,7 @@ import injectSaga from 'utils/injectSaga';
 
 class AccountRecovery extends Component{
     
-    componentWillUnmount(){
-
-        this.props.leftPage();
-    }
-
+  
    render() {
         const props = this.props;
    
@@ -69,11 +65,6 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch){
     return {
-
-        leftPage : () =>{
-
-            return dispatch(leftPage());
-        },
 
         fieldChanged : (evt) => {
             const target = evt.target;

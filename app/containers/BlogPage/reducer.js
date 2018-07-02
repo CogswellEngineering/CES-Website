@@ -30,21 +30,23 @@ const initialState = fromJS({
     error:""
 })
 
+
+
 //For returning resulting sub array that will then be set to shown posts.
 //This will be called when change page, and when total blog posts change.
-function getShownPages(page,allPosts,postsPerPage){
+function getShownPages(page,posts,shownPerPage){
 
 
     var shownPosts = [];
 
     //Because posts on each page goes by posts per page
-    const endingIndex = page * postsPerPage;
+    const endingIndex = page * shownPerPage;
 
-    var i = endingIndex - postsPerPage;
+    var i = endingIndex - shownPerPage  ;
 
-    for (; i < endingIndex && i < allPosts.length; ++i){
+    for (; i < endingIndex && i < posts.length; ++i){
 
-        shownPosts.push(allPosts[i]);
+        shownPosts.push(posts[i]);
     }
 
     return shownPosts;

@@ -12,6 +12,7 @@ import reducer from './reducer';
 import { createStructuredSelector } from 'reselect'; 
 import { makeSelectLoggedIn, makeSelectLoggedInProfile } from 'containers/App/selectors';
 import injectReducer from 'utils/injectReducer';
+import { withCookies } from 'react-cookie';
 
 import {
     
@@ -25,7 +26,11 @@ import {
 const UserActions  = (props) => {
     
 
+    
+
      if (props.loggedInUser.isEmpty){
+
+        //If it's empty then remove the cookie
 
         return (<LoggedOutSection>
 
@@ -76,5 +81,6 @@ const withReducer = injectReducer({key:"UserActions",reducer});
 export default compose(
     withConnect,
     withReducer,
-    withFirebase
+    withFirebase,
+    withCookies,
 )(UserActions);

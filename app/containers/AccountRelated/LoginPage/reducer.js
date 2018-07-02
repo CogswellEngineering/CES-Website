@@ -7,6 +7,7 @@ import { fromJS } from 'immutable';
 import { actionTypes } from 'react-redux-firebase';
 import { LOGIN_PATH } from 'components/Header/pages';
 import { LOCATION_CHANGE } from 'react-router-redux';
+import { GENERATED_AUTH_TOKEN} from './constants';
 
 
 //Will add more as needed
@@ -15,7 +16,8 @@ const initialState = fromJS({
     doneLoggingIn: false,
     email : "",
     password:"",
-    error:""
+    error:"",
+    authToken : null,
     
 });
 
@@ -24,6 +26,12 @@ export default function loginReducer(state = initialState, action){
 
     switch (action.type){
 
+        case GENERATED_AUTH_TOKEN:
+
+            return state
+                .set("doneLoggingIn",true)
+                .set("authToken",action.token)
+                .set("error","");
 
         case LOCATION_CHANGE:
 
@@ -33,18 +41,20 @@ export default function loginReducer(state = initialState, action){
             }
             return initialState;
 
+        case actionTypes.SET_PROFILE:
+
+        console.log("set profile action",action);
+            return state
+                 //   .set("doneLoggingIn",true)
+                    .set("error","");
+
         case actionTypes.LOGIN:
 
-            console.log("Logged in action",action);
-            if (!action.auth.emailVerified){
-                return state
-                    .set("error",'Email not verified');
-            }
-            else{
-                return state
-                    .set("doneLoggingIn",true)
-                    .set("error","");
-            }
+        
+            console.log("action when logged in via react-redux-firebase",action);
+
+            return state;
+            
 
         case actionTypes.LOGIN_ERROR:
             //Why is this always happening, but right before it working?
