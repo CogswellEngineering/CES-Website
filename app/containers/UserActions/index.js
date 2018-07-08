@@ -58,7 +58,18 @@ const UserActions  = (props) => {
                 {/*Will switch to include uid if do decide make inventory public*/}
                 <UserActionLink to = {"/account/inventory"}> Inventory </UserActionLink>
                 
-                <button  onClick = {() => {props.firebase.logout();}}> Logout </button>
+                <button  onClick = {() => {
+
+                    //Remove cookies, there should be a centralized domain I go to
+                    //that then redirects back to same page. It's something need to look into more
+                    //for now this works.
+                    props.cookies.remove("authToken");
+                    props.cookies.remove("loggedInProfile");
+                    //Dispatch logout
+                    props.firebase.logout();}
+                    
+                    
+                    }> Logout </button>
             
         </LoggedInSection>
     )    

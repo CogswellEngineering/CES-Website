@@ -45,7 +45,7 @@ export default function loginReducer(state = initialState, action){
 
         console.log("set profile action",action);
             return state
-                 //   .set("doneLoggingIn",true)
+                  //  .set("doneLoggingIn",true)
                     .set("error","");
 
         case actionTypes.LOGIN:

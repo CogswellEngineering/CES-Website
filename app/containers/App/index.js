@@ -11,7 +11,7 @@
  * the linting exception.
  */
 
-import React from 'react';
+import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -24,6 +24,7 @@ import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import BlogPage from 'containers/BlogPage/Loadable';
 import EventsPage from 'containers/EventsPage';
+
 
 import Login from 'containers/AccountRelated/LoginPage/Loadable';
 import Register from 'containers/AccountRelated/RegistrationPage/Loadable';
@@ -40,34 +41,127 @@ import { LOGIN_PATH,REGISTER_PATH,
   BLOG_PATH, EVENTS_PATH } from 'components/Header/pages';
 import 'react-dropdown/style.css'
 import LoginPage from '../AccountRelated/LoginPage';
+import { withCookies } from 'react-cookie';
 
-const App  = (props) => {
+
+//In component did mount in here
+//basically same thing as in service, have the call back, then check cookies
+class App  extends Component{
+  
 
 
-    if (!props.doneLoading){
-      //This isn't the problem, something happend, cause not re-rendering anymore
-      return null;
+    componentDidMount(){
+
+      //This is slightly different, basically check cookies, if cookies have userProfile or auth token as null
+      //then I know logged out, so I'll sign out here too.
+
+      this.props.firebase.auth().onAuthStateChanged(user => {
+
+        if (user){
+    
+          //If loged in then check cookies.
+          const cookies = this.props.cookies;
+
+          //If logged in and this is null, then means logged out.
+          //What I could do is use location change to trigger checking cookies
+          //so don't have to refresh. TODO.
+          
+          //Priority first is midterm lol.
+          if (cookies.get("loggedInProfile") == null){
+            
+              //So then this should also be logged out.
+              this.props.firebase.logout();
+          }
+
+        }
+
+      })
+
     }
 
-    return (
-      <div>
-        <Header/>
-        <Switch>
+  
+    render(){
+
+      const props = this.props;
+
+
+      if (!props.doneLoading){
+        //This isn't the problem, something happend, cause not re-rendering anymore
+        return null;
+      }
+
+      return (
+        <div>
+          <Header/>
+          <Switch>
+            
+            <Route exact path="/" component={HomePage} />
+            <Route path = {LOGIN_PATH} render ={(routerProps) => {
+              
+                console.log("router props", routerProps);
+                //Check if logged in already.
+                if (props.firebase.auth().currentUser == null){
+
+                  //Will also pass in props for where coming in maybe
+                  //so redirect back to it, that'll just be query param probably
+
+                  return <Login {...routerProps}/>
+                }
+                else{
+                  return <Redirect to ="/"/>
+                }
+              
+            }}/>
+
+            {/*basicalyl same exact process for rest of it*/}
+            <Route path = {REGISTER_PATH} render ={(routerProps) => {
+              
+              //Check if logged in already.
+              if (props.firebase.auth().currentUser == null){
+
+                return <Register/>;
+              }
+              else{
+                return <Redirect to ="/"/>;
+              }
+            
+          }}/>
+            <Route path = {ACCOUNT_RECOVERY_PATH}  render ={(routerProps) => {
+              
+              //Check if logged in already.
+              if (props.firebase.auth().currentUser == null){
+
+                return <AccountRecovery/>;
+              }
+              else{
+                return <Redirect to ="/"/>;
+              }
+            
+          }}/>
+            <Route path = {RESET_PASSWORD_PATH}  render ={(routerProps) => {
+              
+              //Check if logged in already. 
+              if (props.firebase.auth().currentUser == null){
+
+                return <ResetPasswordPage/>;
+              }
+              else{
+                return <Redirect to ="/"/>;
+              }
+            
+          }}/>
+
+
+            <Route exact path = {USER_PROFILE_PATH} component = {UserProfilePage}/>
+            <Route exact path = {USER_PROFILE_PATH+"/update"} component = {UpdateProfilePage}/>
           
-          <Route exact path="/" component={HomePage} />
-          <Route path = {LOGIN_PATH} component={Login}/>
-          <Route path = {REGISTER_PATH} component={Register}/>
-          <Route path = {ACCOUNT_RECOVERY_PATH} component={AccountRecovery}/>
-          <Route path = {RESET_PASSWORD_PATH} component={ResetPasswordPage}/>
-          <Route exact path = {USER_PROFILE_PATH} component = {UserProfilePage}/>
-          <Route exact path = {USER_PROFILE_PATH+"/update"} component = {UpdateProfilePage}/>
-         
-          <Route path = {BLOG_PATH} component = {BlogPage} />
-          <Route path = {EVENTS_PATH} component = {EventsPage}/>
-          <Route component={NotFoundPage} />
-        </Switch>
-      </div>
-    )
+            <Route path = {BLOG_PATH} component = {BlogPage} />
+            <Route path = {EVENTS_PATH} component = {EventsPage}/>
+            <Route component={NotFoundPage} />
+          </Switch>
+        </div>
+      )
+    }
   }
 
 

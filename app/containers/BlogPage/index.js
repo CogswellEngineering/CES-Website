@@ -54,7 +54,7 @@ class BlogPage extends Component{
 
                     var newPosts = [];
                     const docs = docSnapshot.docs;
-                    for ( const index in docSnapshot.docs){
+                    for ( const index in docs){
 
                         const doc = docs[index];
 

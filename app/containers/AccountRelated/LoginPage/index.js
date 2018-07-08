@@ -36,9 +36,16 @@ class LoginPage extends Component {
     
 
 
+    componentDidMount(){
+
+        //WHAT HAPPPEND, WHY DID IT NOT WORK ANYMORE????
+        //Oh cause of render vs component
+        console.log("Props",this.props);
+    }
 
     componentDidUpdate(){
 
+      //  console.log("Props",this.props);
 
         //Store auth token into cookies for subdomains to use to log in and maintain auth state
         if (this.props.doneLoggingIn){
@@ -49,24 +56,22 @@ class LoginPage extends Component {
                 domains:"http://localhost"
             };
 
-            //If i could sign in with the token using react-redux-firebase instance
-            //then I should be good.
-
-            //Okay it works, here but it is deprecated like the signing in.
-            //Okay, whatever I do on service side, I'm done on this end, except maybe changing login to set profile
-            //depending on my decision there.
-
-          //  this.props.firebase.login({token:this.props.authToken});
-
-
-            //console.log("profile",this.props.loggedInProfile)
+            //Setting it is fucking it up?
             this.props.cookies.set("authToken",this.props.authToken,cookiesOptions);
-            //this.props.cookies.set("loggedInProfile", this.props.loggedInProfile, cookiesOptions);
+
+            //This is needed as they will printing service will require credits, and layout there need display name.
+            //Also other information for ordering print and other services.
+            this.props.cookies.set("loggedInProfile", this.props.loggedInProfile, cookiesOptions);
+
+            console.log("cookies", this.props.cookies);
+
+           //Why did this break???
 
             this.props.history.push("/");   
         }
     }
     render(){
+        
         const props = this.props;
         return (
             <LoginWrapper>
@@ -151,6 +156,7 @@ const withReducer = injectReducer({key:LOGIN_PATH,reducer});
 const withSaga = injectSaga({key:LOGIN_PATH, saga});
 
 
+//With router not here?
 export default compose(
   withConnect,
   withSaga,

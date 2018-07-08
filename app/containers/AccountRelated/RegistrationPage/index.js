@@ -40,6 +40,8 @@ class RegistrationPage extends Component{
             "Alumni",
             ];
 
+            
+
         this.majors = [
 
             "Computer Science",

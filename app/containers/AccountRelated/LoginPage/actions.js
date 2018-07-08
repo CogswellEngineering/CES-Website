@@ -1,10 +1,10 @@
-import { GENERATE_AUTH_TOKEN, GENERATED_AUTH_TOKEN} from './constants';
+import {  GENERATED_AUTH_TOKEN} from './constants';
 
 
 
 
-
-function generateAuthToken(uid){
+//Not really needed anymore, having a dispatch for this is a bit extra
+/*function generateAuthToken(uid){
 
     return {
 
@@ -13,7 +13,7 @@ function generateAuthToken(uid){
 
     };
 
-}
+}*/
 
 //This basically means, I should probably re-add react-redux-firebase to PRinting service...
 //Jumped the gun getting rid of it all before even tested. Would be easier for something to keep track of it, also
@@ -31,7 +31,6 @@ function generatedAuthToken(token){
 
 export{
 
-    generateAuthToken,
     generatedAuthToken,
 
 }
