@@ -7,14 +7,6 @@ import { POST_FIELD_CHANGED, POSTING, POSTED, POST_FAILED, LOADING_POSTS, LOADED
 const initialState = fromJS({  
 
 
-    //Okay for optimal performance
-    //I really should do calculation of posts to show on that page
-    //only when turn page, cause no point doing if change page
-    //and would re-do calculation if I for example edit a blog post.
-
-    //BUt then if I add a new blog post? Well then I would want it to update but they did not change
-    //page, I could make the calculation into a completely separate function and have both actions result in calling it.
-
     allPosts : [],
     shownPosts:[],
 

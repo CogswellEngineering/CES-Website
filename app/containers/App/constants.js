@@ -10,9 +10,7 @@
  */
 
 export const DEFAULT_LOCALE = 'en';
-//This is needed cause the state needs to be reset to initial, everytime mount component
-//This can be avoided if I created local state instead, but I've written too much of it to fit in framework flow instead
-//that I am not changing it now, though in future apps, I'll know that it's okay to make that choice, if it makes sense.
-//And the benefits outweight this slight con.
+//In hindsight, just because it's used in many places, doesn't mean it should be in app constants
+//becaus it's not an action on the entire app itself.
 export const FIELD_CHANGED = 'ces/App/FIELD_CHANGED';
 

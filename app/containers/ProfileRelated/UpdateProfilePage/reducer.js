@@ -7,15 +7,11 @@ import { UPDATE_USER_PROFILE_PATH } from 'components/Header/pages';
 
 import { actionTypes } from 'react-redux-firebase';
 
-//Firebase instance that's same as props
 
 
 
 
-//Would prefer this to be  profile
 const initialState = fromJS({
-
-
 
     profilePicture:null,
     displayName:"",

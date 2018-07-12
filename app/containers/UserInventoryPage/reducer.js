@@ -8,13 +8,11 @@ import { actionTypes } from 'react-redux-firebase'
 
 
 
-//3 for testing, remember to change back.
 const itemsPerPage = 3;
 
 const initialState = fromJS({
 
-    //So profile has all information, profile and the below.
-    //Below represents what's currently seen only.
+  
     currentTab:"",
     currentPage:1,
     currentView:[],
@@ -28,8 +26,6 @@ const initialState = fromJS({
 export default function userProfileReducer(state = initialState, action){
 
 
-    //Will update to just append later, after think more about what's more efficient
-    //for now this is fine.
     switch (action.type){
 
         case NEW_TAB_CLICKED:
@@ -41,7 +37,6 @@ export default function userProfileReducer(state = initialState, action){
 
             const newPage = action.page;
 
-            //Gets full unspliced collection in profile.
             const fullInventory = state.get(state.get("currentTab"));
 
             //Splicing.
@@ -49,7 +44,6 @@ export default function userProfileReducer(state = initialState, action){
             var i = endingIndex - itemsPerPage;
             var spliced = [];
 
-            //Should work, will populate with dummy data and test.
             while (i < endingIndex){
                 spliced.push(fullInventory[i]);
             }

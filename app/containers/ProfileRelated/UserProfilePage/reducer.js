@@ -8,16 +8,13 @@ import { actionTypes } from 'react-redux-firebase'
 
 
 
-//3 for testing, remember to change back.
-const itemsPerPage = 3;
+
 
 const initialState = fromJS({
 
     ownProfile: false,
     needReload: true,
     profile:null,
-    //So profile has all information, profile and the below.
-    //Below represents what's currently seen only.
     error:"",
     
 });
@@ -25,11 +22,11 @@ const initialState = fromJS({
 export default function userProfileReducer(state = initialState, action){
 
 
-    //Will update to just append later, after think more about what's more efficient
-    //for now this is fine.
+   
     switch (action.type){
 
         case actionTypes.LOGOUT:
+
             //Because if logged out this is impossible
             return state
                 .set("ownProfile",false);
@@ -50,7 +47,7 @@ export default function userProfileReducer(state = initialState, action){
             if (!pathname.includes("update") && !pathname.includes("library")){
 
 
-                //I don't remember use of this.
+                //If changed to here and null, then profile may not have been loaded in yet.
                 if (state.get("profile") == null) {
                     return initialState;
                 }
@@ -66,7 +63,6 @@ export default function userProfileReducer(state = initialState, action){
                     else{
 
                         //Forces need reload
-                        console.log("I'm here right?");
                         return state
                             .set("needReload",true);
 

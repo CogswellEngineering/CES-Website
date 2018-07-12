@@ -18,20 +18,16 @@ function* updateCall(action){
     
     try{
         //Profile Image will remain structured like the file object name and url.
-
         yield put (updating());
-        //Also need to remove past profile picture from storage. Reminder for that.
-        //I'll need to get the profile information, well only really need the original profileimage
-        //I could pass that in, or just retrieve it again here since I do have the reference to firestore
-        //but If i already have it why waste the time.
+        
         
         if (profilePicture.new != null){
             //Places the profile image in storage.
             const storageRef = firebase.storage().ref("ProfilePictures/");
         
-            //.Odds are slim, but chance that profile images will have same name, and ppl could be using same img
-            //with same filename, so prefixing it with uid, or postfix doesn't matter. Reminder to do this with 
-            //3DPrinter queue too.
+            //Due to chance of multiple people using image with same name, will prefix it with uid
+            //Could have them both use it, but same name doesn't mean same image, so will need to add checks for that.
+            //This is simpler.
 
             //If doesn't exist, and try to remove it shouldn't throw an error, but just incase and to save computation time.  
             if (profilePicture.old != null){
@@ -71,10 +67,8 @@ function* updateCall(action){
 
 
         //Then updates profile with all the new information.
-        //Don't think I actually finished fixing this, it fails seeing no firestore reference or that it's null. 
-        //Look into this later. 
         yield docRef.update(update);
-        //Dope and it auto updates cause of listener so I'm still solid there.
+
         yield put (onUpdated());
     }
 
@@ -87,7 +81,7 @@ function* updateCall(action){
 
 
 
-//Will prob change these name to watcher as makes more sense.
+//Will prob change these names to watcher as makes more sense.
 export default function* updateProfileWatcher(){
 
     yield takeLatest(UPDATE_CLICKED,updateCall);

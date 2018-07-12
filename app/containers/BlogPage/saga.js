@@ -11,7 +11,7 @@ function* postNewBlog(action){
     const post = action.post;
     
     //Gets logged in information to create author, hindsight could've done this in calling the call back
-    //instead of here.
+    //instead of here, but I it's the same firebase instance and need for other use here anyway.
     const author = {
         uid:firebase.auth().currentUser.uid,
         name:firebase.auth().currentUser.displayName,

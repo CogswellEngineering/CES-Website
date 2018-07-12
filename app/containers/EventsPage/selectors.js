@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect';
 import { EVENTS_PATH } from 'components/Header/pages';
 
-//It was selector problem, typoed the constant. Good I learned how to isolate problem but yeah.
 const eventState = (state) => {
    
         return state.get(EVENTS_PATH);
@@ -23,18 +22,13 @@ const createSelectEvents = () => createSelector(
     eventState,
     (eventState) => {
 
-        //So this never gets triggered again.
-        console.log("Event state", eventState);
-
         if (eventState == null) {
-            //This only happens once so it doesn't even reselect?
+
             console.log("I keep happening");
             return [];
         }
 
-        //This is literally repeating, but just incase will do more stuff, I guess.
-        //Okay wait, if this happens with correct list printed, then it should re-render.
-        console.log("From selector",eventState.get("events"));
+       
 
         return eventState.get("events");
     }

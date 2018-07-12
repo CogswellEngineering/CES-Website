@@ -7,8 +7,6 @@ import {
     EVENT_LOADING,
     EVENT_CLOSED,
     ATTEND_FAILED,
-    //With this basically means do need to have prop for it
-    //well fuck it, it makes sense here though it's more for inner component, just passing hella shit to it.
     VERIFIED_ATTENDING,
 
 } from './constants';

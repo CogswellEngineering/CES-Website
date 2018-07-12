@@ -49,7 +49,6 @@ export function onUpdateCancelled(){
 
 export function onUpdated(){
 
-    //Completing registration, give back credentials
     return {
         type:UPDATED,
     };
@@ -57,7 +56,6 @@ export function onUpdated(){
 
 export function onUpdateFail(error){
 
-    //Completing registration, give back credentials
     return {
         type:UPDATE_FAILED,
         error,

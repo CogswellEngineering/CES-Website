@@ -11,16 +11,10 @@ function* loadProfileCall(action){
      const fireStoreRef = firebase.firestore();
      
 
-     //Easiest solution to this, would be set up a get response on my server app to do this and ust return profile.
-     //but defeats purpose of having firebase here.
-
      const docRef = fireStoreRef.collection("users").doc(action.uid);
      try{
 
-        //Makes sense as selector, in my head, but chanc
-        var profileToReturn = null;
-
-        
+        var profileToReturn = null;   
 
         const snapshot = yield (docRef.get());
 

@@ -4,13 +4,9 @@ import { fromJS } from 'immutable';
 import { actionTypes } from 'react-redux-firebase';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
-//This will be how I'll store auth status for single sign on.
-import cookie from 'react-cookie';
 
 
 
-//Where do i get global state with the router?
-//Will add more as needed
 const initialState = fromJS({
     loggedIn:false,
     doneLoadingCache:false,

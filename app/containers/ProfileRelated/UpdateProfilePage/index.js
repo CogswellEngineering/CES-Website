@@ -80,13 +80,11 @@ class UpdateProfilePage extends Component{
          const currentUser = this.props.firebase.auth().currentUser;
 
          if (currentUser == null){
-             //Or just not found it?
             this.props.history.push(" ");
          }
 
          this.profileUrl = "/account/"+currentUser.uid;
 
-         //Because of the slight delay for profile data to load, it might actually better for me to just do the ifs to get it to work.
          this.props.onLoad(this.props.profile);
     }
 
@@ -100,12 +98,10 @@ class UpdateProfilePage extends Component{
     
     render(){
 
-        console.log("orps",this.props);
-        //I should have been doing this deconstructing in other cases too.
+
         const  { loading, profile, displayName, profilePicture, firstName,lastName, major, year, bio,
         fieldChanged, onCancel, profilePictureUploaded, onUpdate, error, firebase} = this.props;
 
-      //  console.log("profile",profile);
         
        
         if (loading){
@@ -125,13 +121,9 @@ class UpdateProfilePage extends Component{
                 
                 <StyledForm onSubmit = {(evt) => {
                     
-                    //Will clean up this line on register page too later.
                     evt.preventDefault();
                     //These will be set up with original profile if empty
-                    //There has to be cleaner way than this, yeahh setting up initial state to be this.
-                    //Just looping
-
-                    console.log("Profile submited in update",major);
+                    //There has to be cleaner way than this. 
                     const update = {
 
                     
@@ -185,7 +177,8 @@ class UpdateProfilePage extends Component{
 
                         }
 
-                        {/*<ReactAvatarEditor width = {dimensions.width} height = {dimensions.height}
+                        {/* Will get feedback if having avatar editor is too much.
+                        <ReactAvatarEditor width = {dimensions.width} height = {dimensions.height}
                         image = {profilePicture ||  profile.profilePicture}/>*/}
 
                         </ProfilePictureDropzone>   
@@ -249,7 +242,6 @@ const mapStateToProps = createStructuredSelector({
 
 
     doneUpdating: formSelector.makeSelectDone("doneUpdating"),
-    //Should all be in newProfile to make updating it easier in terms of onload, but nah.
     major : formSelector.makeSelectField("major"),
     year: formSelector.makeSelectField("year"),
     bio: formSelector.makeSelectField("bio"),

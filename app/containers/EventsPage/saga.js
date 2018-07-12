@@ -1,9 +1,9 @@
-//This will handle call to upload attendees for a selected event.
 import { takeLatest, put, call } from 'redux-saga/effects';
 import { EVENT_PRESSED, ATTEND_PRESSED, ATTEND_CANCEL } from './constants';
 import { attendFailed, loadingEvent, verifiedAttending } from './actions';
 import firebase from 'firebase';
 
+//This will handle call to update attendees for a selected event.
 function* attendEvent(action){
 
     
