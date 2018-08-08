@@ -8,6 +8,7 @@ import {
     EVENT_CLOSED,
     ATTEND_FAILED,
     VERIFIED_ATTENDING,
+    FILTER_CHANGED,
 
 } from './constants';
 
@@ -31,6 +32,10 @@ const initialState = fromJS({
     //events on one page.
    // lastMonthPicked:"",
     events:[],
+    //This will contain strings equal to event types.
+    //If empty, then no filte applied, pull everything without where clause from database.
+    
+    filter:[],
     error:"",
 
     //This is submitting
@@ -45,6 +50,14 @@ export default function eventReducer(state = initialState, action){
     console.log("State:",state,"Action",action);
 
     switch(action.type){
+
+
+        case FILTER_CHANGED:
+
+            console.log("filter changed action", action);
+
+            return state
+                .set("filter", action.newFilter);
 
         case MONTH_PRESSED:
 

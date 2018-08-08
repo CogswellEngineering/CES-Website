@@ -9,6 +9,7 @@ const EVENTS_UPDATED = prefix + "EVENTS_UPDATED";
 const VERIFIED_ATTENDING = prefix + "VERIFIED_ATTENDING";
 const ATTEND_FAILED = prefix + "ATTEND_FAILED";
 const ATTEND_CANCEL = prefix + "ATTEND_CANCEL";
+const FILTER_CHANGED = prefix + "FILTER_CHANGED";
 
 
 export {
@@ -22,6 +23,7 @@ export {
     EVENT_CLOSED,
     ATTEND_CANCEL,
     VERIFIED_ATTENDING,
+    FILTER_CHANGED,
     
 };
 

@@ -1,0 +1,41 @@
+
+
+  .rbc-event {
+    padding: 2px 5px;
+    background-color: #3174ad;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+  }
+
+
+  /*Temp colors, just finding correct classnames, could've just inspected.*/
+
+
+  .rbc-day-bg {
+    -webkit-flex: 1 0 0%;
+        -ms-flex: 1 0 0%;
+            flex: 1 0 0%;
+            background-color:#fafafa;
+          
+            
+  }
+
+  .rbc-header {
+    background-color: #fafafa;
+  }
+
+  .rbc-toolbar-label {
+    border-bottom:1px solid black;
+    margin-left: 1.5%;
+  }
+  
+  
+  .rbc-today {
+    background-color: #eaf6ff;
+  }
+
+  
+  .rbc-off-range-bg {
+    background: #e5e5e5;
+  }

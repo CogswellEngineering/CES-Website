@@ -9,8 +9,20 @@ import {
     ATTEND_FAILED,
     ATTEND_CANCEL,
     VERIFIED_ATTENDING,
+    FILTER_CHANGED,
 
 } from './constants';
+
+
+function filterChanged(newFilter){
+
+    //It's not full array that's passed in action, unless I store one locally equal to previous and remove everytime they checkbox.
+    //Only problem with that is changing state. I could make it 
+    return {
+        type:FILTER_CHANGED,
+        newFilter,
+    };
+}
 
 function updateEvents(events){
 
@@ -100,5 +112,6 @@ export {
     closeEvent,
     loadingEvent,
     verifiedAttending,
+    filterChanged,
     
 }

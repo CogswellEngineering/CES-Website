@@ -4,8 +4,7 @@ import { EVENTS_PATH } from 'components/Header/pages';
 const eventState = (state) => {
    
         return state.get(EVENTS_PATH);
-    }
-
+}
 
 const createSelectError = () => createSelector(
 
@@ -16,6 +15,20 @@ const createSelectError = () => createSelector(
         return eventState.get("error");
     }
 );
+
+const createSelectFilter = () => createSelector(
+
+    eventState,
+    (eventState) => {
+
+        if (eventState == null) return [];
+
+        return eventState.get("filter");
+    }
+
+
+)
+
 
 const createSelectEvents = () => createSelector(
 
@@ -29,8 +42,24 @@ const createSelectEvents = () => createSelector(
         }
 
        
+        //This will get the filter.
+        const filter = eventState.get("filter");
+        if (filter.size == 0){
 
-        return eventState.get("events");
+
+            return eventState.get("events");
+        }
+        else{
+
+            const events = eventState.get("events");
+            console.log("events in selector", events);
+
+            //Does it have closure on filter? Hopefully, we'll see.
+            const filteredEvents = events.filter( event => filter.contains(event.eventType));
+
+            return filteredEvents;
+
+        }
     }
 );
 
@@ -75,4 +104,5 @@ export {
     createSelectMonth,
     createSelectFlag,
     createSelectError,
+    createSelectFilter,
 };
