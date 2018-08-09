@@ -1,6 +1,6 @@
 import { fromJS} from 'immutable';
 import { POST_FIELD_CHANGED, POSTING, POSTED, POST_FAILED, LOADING_POSTS, LOADED_POSTS, MODIFICATIONS_MADE,
-    PAGE_TURNED } from './constants';
+    PAGE_TURNED,} from './constants';
 
 
 
@@ -17,6 +17,8 @@ const initialState = fromJS({
     postContent:{
         topic:"",
         body:"",
+        //Okay, so this makes past hour waste of time, these tags dont work with redux. Great.
+        tags:[{id:"Default",text:"Default"}],
     },
     posting:false,
     error:""
@@ -50,6 +52,7 @@ export default function blogPageReducer(state = initialState, action){
 
     switch (action.type){
 
+       
 
         case PAGE_TURNED:
 
@@ -90,6 +93,7 @@ export default function blogPageReducer(state = initialState, action){
             var newPostContent = {
                 topic : state.get("postContent").topic,
                 body: state.get("postContent").body,
+                tags: state.get("postContent").tags,
             };
 
             newPostContent[action.fieldName] = action.value;

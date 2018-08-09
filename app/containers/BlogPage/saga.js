@@ -24,6 +24,8 @@ function* postNewBlog(action){
     const blogsRef = fireStoreRef.collection("Blog").doc();
     
     yield put(posting());
+
+    console.log("post", post);
     
     try{
 

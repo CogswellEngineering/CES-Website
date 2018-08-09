@@ -11,7 +11,12 @@ import { makeSelectPosts, makeSelectPostFields, makeSelectError,
     makeSelectCurrentPage, makeSelectPostsPerPage,
     makeSelectPosting,
 } from './selectors';
-import { pageTurned, modificationsMade, addPostClicked, postFieldChanged} from './actions';
+
+import { pageTurned, 
+    modificationsMade, addPostClicked, postFieldChanged, 
+    addTag, removeTag} from './actions';
+
+
 import { BLOG_PATH } from 'components/Header/pages';
 import { makeSelectLoggedInProfile } from 'containers/App/selectors';
 import BlogPost from 'components/BlogPost';
@@ -20,15 +25,26 @@ import BlogPost from 'components/BlogPost';
 import StyledForm, {StyledButton,StyledLabel,ErrorMessage,StyledInput, StyledSelect, StyledOption} from 'components/StyledForm'
 
 //Pagination imports
-import Pagination from 'rc-pagination';
 import 'rc-pagination/assets/index.css';
+
+//const ReactTags = require('react-tag-input').WithOutContext;
+
+import TagsInput from 'react-tagsinput'
+ 
+import 'react-tagsinput/react-tagsinput.css'
 
 import {
 
     BlogPageWrapper,
     BlogsPanel,
     BlogPostPanel,
+    PostPanelButton,
+    StyledPagination,
+    StyledTextArea,
+    
 } from 'components/StyledComponents/BlogPage';
+
+
 
 class BlogPage extends Component{
 
@@ -36,8 +52,50 @@ class BlogPage extends Component{
         super(props);
 
         this.unsubscribe = null;
+
+        this.state =  {
+            postModalOpen:false,
+            linkModalOpen:false,
+            tags:[],
+        }
+
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+     
+        this.updateTags = this.updateTags.bind(this);
         
     }
+
+
+    updateTags(tags){
+
+
+        this.setState({
+            tags:tags,
+        })
+    }
+
+   
+   
+    openModal(evt){
+
+        const target = evt.target;
+        console.log("target name", target.name);
+        this.setState({
+            [target.name]: true,
+        })
+    }
+
+    closeModal(evt){
+
+        const target = evt.target;
+        console.log(target);
+        this.setState({
+         postModalOpen: false,
+        })
+    }
+
+    
 
 
     componentDidMount(){
@@ -81,11 +139,12 @@ class BlogPage extends Component{
         const isAdmin = props.loggedInUser.isAdmin;
 
         const { allPosts, shownPosts, error, postContent, postsPerPage, currentPage, posting,
-            onFieldChanged, onPostClicked, onPageSelected   } = props;
+            onFieldChanged, onPostClicked, onPageSelected, onTagAdded, onTagRemoved,  } = props;
 
 
         if (postContent == null) return null;
 
+        console.log("Post content", postContent);
 
 
         return (<BlogPageWrapper>
@@ -95,29 +154,50 @@ class BlogPage extends Component{
                                       
                     {shownPosts.map(post => {
 
-                        return <BlogPost key ={post.author+post.topic} author={post.author} topic={post.topic} body={post.body}/> 
+                        return <BlogPost key ={post.author+post.topic} author={post.author} topic={post.topic} body={post.body} tags={post.tags}/> 
                     })}
                 
-                     <Pagination pageSize = {postsPerPage} current = {currentPage} total = {allPosts.length}
-                            onChange = {(page) => {onPageSelected(page);}}
-                        />
+                    
 
                 </BlogsPanel>
+                <StyledPagination pageSize = {postsPerPage} current = {currentPage} total = {allPosts.length}
+                            onChange = {(page) => {onPageSelected(page);}}
+                        />
+                <PostPanelButton name = "postModalOpen" hidden = {!isAdmin} onClick = {this.openModal}> Add Post </PostPanelButton>
+                
+                {/*At this point, this should honestly be in it's own folder, would just have to pass in more props.*/}
+                <BlogPostPanel name = "postModalOpen" open = {this.state.postModalOpen} center = {true} onClose={this.closeModal}>
 
-                <BlogPostPanel hidden = {!isAdmin}>
 
-                    <StyledForm onSubmit = {(evt) => { evt.preventDefault();onPostClicked(postContent); }}>
+
+                    <StyledForm name = "postModalOpen"  onSubmit = {(evt) => { evt.preventDefault();
+                    
+                        postContent.tags = this.state.tags; 
+                        onPostClicked(postContent); 
+                    }}>
 
                         <StyledLabel for = "topic"> Topic </StyledLabel>
                         <StyledInput id = "topic" name = "topic" 
                         value={postContent.topic} 
                         onChange={(evt) => { onFieldChanged(evt); }}
                         />
+                        
+                        {/*Change body and tags to be text areas*/}
                         <StyledLabel for = "body"> Body </StyledLabel>
-                        <StyledInput id = "body" name = "body" 
+                        <StyledTextArea id = "body" name = "body" 
                         value={postContent.body} 
-                        onChange={(evt) => { onFieldChanged(evt); }}
-                        />
+                        onChange={(evt) => { onFieldChanged(evt); }}>
+            
+
+                        </StyledTextArea>
+
+
+                        <StyledLabel for = "tags"> Tags </StyledLabel>
+
+                      
+                    
+
+                    <TagsInput name="tags" value={this.state.tags} onChange={this.updateTags}/>
                         
                         <ErrorMessage> {error} </ErrorMessage>
 
@@ -128,6 +208,8 @@ class BlogPage extends Component{
                         }
                         
                     </StyledForm>
+
+                  
                 </BlogPostPanel>
 
             </BlogPageWrapper>
@@ -155,6 +237,21 @@ const mapStateToProps = createStructuredSelector({
 
     return {
 
+
+        onTagAdded : (tag) => {
+
+            return dispatch(addTag(tag));
+        },
+
+        onTagRemoved : (id) => {
+
+            return dispatch(removeTag(id));
+        },
+        onLinkAdded : (content) => {
+
+            return dispatch(addLink(content));
+
+        },
         onFieldChanged : (evt) => {
 
             const target = evt.target;

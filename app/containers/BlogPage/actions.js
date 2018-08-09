@@ -9,6 +9,8 @@ import {
     POSTED,
     POST_FAILED,
     POST_FIELD_CHANGED,
+    //Later or look at frameworks for this, cause this might be harder than I initially thought.
+    LINK_ADDED,
 
 } from './constants';
 
@@ -63,6 +65,7 @@ function addPostClicked(post){
     };
 }
 
+
 function postFieldChanged(fieldName,value){
 
     return{
@@ -108,6 +111,7 @@ export {
     posted,
     postFailed,
     postFieldChanged,
+   
 
 };
 
