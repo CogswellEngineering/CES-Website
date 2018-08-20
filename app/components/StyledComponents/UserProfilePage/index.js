@@ -7,9 +7,10 @@ const ProfileWrapper = styled.div`
 
 
     width:60%;
-
     margin:auto;
-    border:2px solid red;
+   // border:2px solid green;
+    margin-top: 5%;
+    padding-bottom:5%;
 
 `
 
@@ -26,7 +27,7 @@ const HeaderDiv = styled.div`
 
 const ProfileHeadline = styled.div`
 
-    width:30%;
+    width:40%;
     margin-top:1%;
     padding-bottom:1%;
 
@@ -36,11 +37,10 @@ const ProfileHeadline = styled.div`
 
 const ProfileHeadLineH1 = styled.h1`
 
-    font-weight:600;
+    font-size:1.2em;
 `
 const ProfileHeadLineH2 = styled.h2`
 
-    font-weight:500;
 `
 
 const ProfileImage = styled.img`
@@ -75,7 +75,6 @@ const BioHeader = styled.h3`
 
 `
 const BioText = styled.p`
-
 
 `;
 

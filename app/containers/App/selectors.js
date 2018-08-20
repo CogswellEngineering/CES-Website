@@ -1,7 +1,9 @@
 import { createSelector } from 'reselect';
+import { create } from 'domain';
 
 const selectRoute = (state) => state.get('route');
 const selectFirebase = (state) => state.get('firebase');
+const selectCES = (state) => state.get("CES");
 
 const makeSelectLoggedIn = () => createSelector(
 
@@ -26,8 +28,21 @@ const makeSelectLocation = () => createSelector(
   }
 );
 
+const makeSelectDoneLoading = () => createSelector(
+
+  selectCES,
+  (cesState) => {
+
+    if (cesState == null) return false;
+    return cesState.get("doneLoadingCache");
+  }
+
+);
+
+
 
 export {
+  makeSelectDoneLoading,
   makeSelectLocation,
   makeSelectLoggedIn,
   makeSelectLoggedInProfile,

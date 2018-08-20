@@ -31,10 +31,7 @@ const BlogPostPanel = styled(Modal)`
 
 `;
 
-const AddLinkPanel = styled(Modal)`
 
-
-`;
 
 const PostPanelButton = styled.button`
 
@@ -64,6 +61,14 @@ const StyledTextArea = styled.textarea`
     font-family: sans-serif;
     font-size: 14px;
     line-height: 20px;
+    &:focus{
+
+        border:1px solid #c6e28d;
+        box-shadow: 0 0 1px;
+
+
+        outline:none;
+    };
 
 `;
 

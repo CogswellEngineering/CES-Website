@@ -218,7 +218,7 @@ class UpdateProfilePage extends Component{
                             
                             <BioTextarea id="bio" name="bio" rows="1" placeholder={profile.bio} value={bio} 
                             onChange={(evt)=>{fieldChanged(evt.target.name,evt.target.value)}}> 
-                            
+                            <a href ="#"> test</a>
                             </BioTextarea>
 
                         </BioInput>
@@ -252,6 +252,7 @@ const mapStateToProps = createStructuredSelector({
     loading : formSelector.makeSelectDone("loading"),
     loggedInUser : makeSelectLoggedIn(),
     profile : makeSelectLoggedInProfile(),
+
     profilePicture: makeProfileImageSelector(),
 });
 

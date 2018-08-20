@@ -2,7 +2,7 @@ import React, { Component} from 'react'
 import PropTypes from 'prop-types';
 import {Link,Route} from 'react-router-dom';
 import {fieldChanged} from 'containers/App/actions';
-import StyledForm, {StyledButton,StyledLabel,ErrorMessage,StyledInput, StyledSelect, StyledOption} from 'components/StyledForm'
+import StyledForm, {StyledButton,StyledLabel,ErrorMessage,StyledInput, } from 'components/StyledForm'
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import injectReducer from 'utils/injectReducer';
@@ -19,6 +19,7 @@ import Dropdown from 'react-dropdown'
 import  {
     RegistrationWrapper,
     CredentialInfo,
+    RegistrationInput,
     GeneralInfo,
     StyledDropDown,
 } from 'components/StyledComponents/RegistrationPage';
@@ -95,21 +96,21 @@ class RegistrationPage extends Component{
                        
                     <CredentialInfo>
                         <StyledLabel htmlFor="email"> Email (Must be a cogswell email) </StyledLabel>
-                        <StyledInput  type="email" id = "email" name ="email" value={props.email} onChange={(evt)=>{props.fieldChanged(evt)}} autoFocus/>
+                        <RegistrationInput  type="email" id = "email" name ="email" value={props.email} onChange={(evt)=>{props.fieldChanged(evt)}} autoFocus/>
                         <StyledLabel htmlFor="password"> Password </StyledLabel>
-                        <StyledInput type="password" id="password" name="password" value={props.password} onChange={(evt)=>{props.fieldChanged(evt)}}/>
+                        <RegistrationInput type="password" id="password" name="password" value={props.password} onChange={(evt)=>{props.fieldChanged(evt)}}/>
                     </CredentialInfo>
 
                     <GeneralInfo>
 
                         <StyledLabel htmlFor="displayName"> Display Name </StyledLabel>
                         
-                        <StyledInput type="text" id = "displayName" name ="displayName" value={props.displayName} onChange={(evt)=>{props.fieldChanged(evt)}}/>
+                        <RegistrationInput type="text" id = "displayName" name ="displayName" value={props.displayName} onChange={(evt)=>{props.fieldChanged(evt)}}/>
 
                         <StyledLabel htmlFor="firstName"> First Name </StyledLabel>
-                        <StyledInput type="text" id = "firstName" name ="firstName" value={props.firstName} onChange={(evt)=>{props.fieldChanged(evt)}}/>
+                        <RegistrationInput type="text" id = "firstName" name ="firstName" value={props.firstName} onChange={(evt)=>{props.fieldChanged(evt)}}/>
                         <StyledLabel htmlFor="lastName"> Last Name </StyledLabel>
-                        <StyledInput type="text" id = "lastName" name ="lastName" value={props.lastName} onChange={(evt)=>{props.fieldChanged(evt)}}/>
+                        <RegistrationInput type="text" id = "lastName" name ="lastName" value={props.lastName} onChange={(evt)=>{props.fieldChanged(evt)}}/>
                  
 
                     <StyledDropDown options={this.majors} 

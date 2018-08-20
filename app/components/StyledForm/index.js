@@ -18,6 +18,10 @@ export const StyledButton = styled.button`
     border: 1px solid black;
     width:40%;
     font-size:1.2em;
+    &:hover{
+
+        background-color:#D9D7D6;
+    }
 `;
 
 
@@ -41,14 +45,20 @@ export const ErrorMessage =  styled.p`
 
 export const StyledInput =  styled.input`
 
-    width:40%;
+    width:100%;
     font-size:1.2em;
-    border:2px solid black;
-    
+    border:1px solid black;
+    font-family: sans-serif;
+    font-size: 14px;
+    line-height: 20px;
     &:focus{
 
-        border:2px solid #f4df42;
+        border:1px solid #c6e28d;
+        box-shadow: 0 0 2px;
+        outline:none;
+
     }
+    
 
 `;
 
@@ -60,5 +70,4 @@ export const StyledSelect = styled.select`
 export const StyledOption = styled.option`
 
     
-
 `

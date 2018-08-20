@@ -1,6 +1,12 @@
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
+import {StyledInput, StyledButton,} from 'components/StyledForm'
 
+const LoginInput = styled(StyledInput)`
+
+    width:40%;
+
+`;
 
 const LoginWrapper = styled.div`
 
@@ -12,9 +18,10 @@ const LoginWrapper = styled.div`
 
 `
 
-const LoginButton = styled.button`
+const LoginButton = styled(StyledButton)`
 
-margin-left:1%;
+margin-top:5%;
+
 
 `
 
@@ -44,6 +51,7 @@ export{
     LoginWrapper,
     MainContent,
     AlternativeOptions,
-    
+    LoginInput,
+    LoginButton,
 
 }

@@ -170,7 +170,7 @@ class BlogPage extends Component{
 
 
 
-                    <StyledForm name = "postModalOpen"  onSubmit = {(evt) => { evt.preventDefault();
+                    <form name = "postModalOpen"  onSubmit = {(evt) => { evt.preventDefault();
                     
                         postContent.tags = this.state.tags; 
                         onPostClicked(postContent); 
@@ -207,7 +207,7 @@ class BlogPage extends Component{
                             <p>   Posting... </p>
                         }
                         
-                    </StyledForm>
+                    </form>
 
                   
                 </BlogPostPanel>

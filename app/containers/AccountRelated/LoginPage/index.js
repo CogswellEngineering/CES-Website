@@ -27,6 +27,8 @@ import {
     LoginWrapper,
     MainContent,
     AlternativeOptions,
+    LoginInput,
+    LoginButton,
 
 } from 'components/StyledComponents/LoginPage';
 
@@ -38,9 +40,10 @@ class LoginPage extends Component {
 
     componentDidMount(){
 
-        //WHAT HAPPPEND, WHY DID IT NOT WORK ANYMORE????
-        //Oh cause of render vs component
         console.log("Props",this.props);
+
+        //So now need to check query params
+        
     }
 
     componentDidUpdate(){
@@ -78,20 +81,22 @@ class LoginPage extends Component {
                 
                 <MainContent onSubmit = {(evt) => {evt.preventDefault();
                 //So, basically I need to change this cause I need the token.
-                    props.firebase.login({email:props.email,password:props.password})}
+                    props.firebase.login({email:props.email,password:props.password});
+                    //Need to figure out when I'll set the cookies on this end.
+                }
                     }>
 
                     <FormGroup>
                     <StyledLabel htmlFor="email"> Email </StyledLabel>
-                    <StyledInput autoFocus type="email" id = "email" name ="email" value={props.email} onChange={(evt)=>{props.fieldChanged(evt)}}/>
+                    <LoginInput autoFocus type="email" id = "email" name ="email" value={props.email} onChange={(evt)=>{props.fieldChanged(evt)}}/>
                     </FormGroup>
 
                     <FormGroup>
                     <StyledLabel htmlFor="password"> Password </StyledLabel>
-                    <StyledInput type="password" id="password" name="password" value={props.password} onChange={(evt)=>{props.fieldChanged(evt)}}/>
+                    <LoginInput type="password" id="password" name="password" value={props.password} onChange={(evt)=>{props.fieldChanged(evt)}}/>
                     </FormGroup>
 
-                    <StyledButton type="submit"> Login </StyledButton> 
+                    <LoginButton type="submit"> Login </LoginButton> 
                     
                  
 

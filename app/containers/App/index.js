@@ -12,6 +12,7 @@
  */
 
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -19,7 +20,7 @@ import Header from 'components/Header';
 import {withFirebase} from 'react-redux-firebase';
 import injectReducer from 'utils/injectReducer';
 import reducer from './reducer';
-
+import { createStructuredSelector} from 'reselect';
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import BlogPage from 'containers/BlogPage/Loadable';
@@ -42,7 +43,39 @@ import { LOGIN_PATH,REGISTER_PATH,
 import 'react-dropdown/style.css'
 import LoginPage from '../AccountRelated/LoginPage';
 import { withCookies } from 'react-cookie';
+import { makeSelectLocation, makeSelectDoneLoading} from 'selectors';
 
+
+
+const AppWrapper = styled.div`
+
+
+    height:auto;
+
+`;
+
+const BodyWrapper = styled.div`
+
+    border:2px solid black;
+    width:80%;
+    margin:auto;
+    height:80%;
+   
+    clear:both;
+    margin-top:20px;
+
+
+`;
+
+const FootWrapper = styled.div`
+
+  border:2px solid green;
+  margin:auto;
+  margin-top:24px;
+  height:200px;
+  width:80%;
+      
+`;
 
 //In component did mount in here
 //basically same thing as in service, have the call back, then check cookies
@@ -62,15 +95,17 @@ class App  extends Component{
           //If loged in then check cookies.
           const cookies = this.props.cookies;
 
-          //If logged in and this is null, then means logged out.
-          //What I could do is use location change to trigger checking cookies
-          //so don't have to refresh. TODO.
           
-          //Priority first is midterm lol.
+
+          //Okay, so the problem is it isn't set on time? Fuck single logout then
+          //Single isgn on, but if they logout one place, not log out everywhere else.
+          //For now.
+          
           if (cookies.get("loggedInProfile") == null){
             
               //So then this should also be logged out.
-              this.props.firebase.logout();
+              console.log("I'm happening?")
+            //  this.props.firebase.logout();
           }
 
         }
@@ -89,10 +124,15 @@ class App  extends Component{
         //This isn't the problem, something happend, cause not re-rendering anymore
         return null;
       }
+      //I don't think it was anything I changed.
+      //I'll test the old working version and see.
+      //Yeah, auto logged out there too. It's the connection here.
 
+      console.log(this.props.location);
       return (
-        <div>
-          <Header/>
+        <AppWrapper>
+          <Header activePage={this.props.location.pathname}/>
+          <BodyWrapper>
           <Switch>
             
             <Route exact path="/" component={HomePage} />
@@ -116,6 +156,7 @@ class App  extends Component{
             {/*basicalyl same exact process for rest of it*/}
             <Route path = {REGISTER_PATH} render ={(routerProps) => {
               
+              console.log("router props", routerProps);
               //Check if logged in already.
               if (props.firebase.auth().currentUser == null){
 
@@ -159,26 +200,24 @@ class App  extends Component{
             <Route path = {EVENTS_PATH} component = {EventsPage}/>
             <Route component={NotFoundPage} />
           </Switch>
-        </div>
+          </BodyWrapper>
+          <FootWrapper>
+            </FootWrapper>
+        </AppWrapper>
       )
     }
   }
 
 
-function mapStateToProps(state){
 
-  if (state == null) 
-    return {
-      doneLoading : false,
-      mainContentPath: "",
-    };
+const mapStateToProps = createStructuredSelector({
 
-  return {
-    doneLoading : state.get("CES").get("doneLoadingCache"),
-    mainContentPath: state.get("CES").get("mainContentPath"),
+    location: makeSelectLocation(),
+    doneLoading: makeSelectDoneLoading(),
 
-  };
-}
+
+});
+
 
 const withConnect = connect(mapStateToProps);
 const withReducer = injectReducer({key:"CES",reducer});
@@ -189,6 +228,7 @@ export default compose(
   withReducer,
   withConnect,
   withFirebase,
+  withCookies,
 )(App);
 
 

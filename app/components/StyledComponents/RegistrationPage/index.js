@@ -1,6 +1,12 @@
 import styled from 'styled-components';
 import Dropdown from 'react-dropdown'
+import { StyledInput, } from 'components/StyledForm'
 
+
+const RegistrationInput = styled(StyledInput)`
+
+    width:40%;
+`;
 const RegistrationWrapper = styled.div`
 
     width:50%;
@@ -39,5 +45,5 @@ export {
     CredentialInfo,
     GeneralInfo,
     StyledDropDown,
-
+    RegistrationInput,
 };

@@ -63,6 +63,10 @@ class UserProfilePage extends Component{
                 this.props.ownsProfile(true);
                 this.props.alreadyLoaded(this.props.loggedInUserProfile);
             }
+            else{
+                this.props.ownsProfile(false);
+                
+            }
         }
 
 
@@ -101,6 +105,11 @@ class UserProfilePage extends Component{
         if (profilePicture != null){
             profilePicUrl = profilePicture.url;
         }
+
+        const uid = this.props.match.params.uid;
+        const ownProfile = uid == props.userInfo.uid
+
+        console.log("own profile", ownProfile);
         
         return (
             <ProfileWrapper>
@@ -108,7 +117,7 @@ class UserProfilePage extends Component{
                 
                 
                
-                    {props.ownProfile?  
+                    {ownProfile?  
                     //It's so weird that /account/update doesn't work. Not even go to not found. I'm not using anything specific from url th
                         <div>
                             
@@ -120,7 +129,9 @@ class UserProfilePage extends Component{
 
 
                 {/*If profile image not downloaded then stop, it no longer takes while
-                after first session I could send get request for profile lodaed*/}
+                after first session I could send get request for profile lodaed
+                This works, but so that image loads in faster, I will instead send ftp request and save it
+                locally.*/}
                 <ProfileImage src={profilePicUrl} alt={"No image given"}  width={dimensions.width} height={dimensions.height}/>
                 <Links>
                 

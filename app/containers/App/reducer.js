@@ -10,7 +10,6 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 const initialState = fromJS({
     loggedIn:false,
     doneLoadingCache:false,
-    mainContentPath:"",
 });
 
 

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import { withFirebase } from 'react-redux-firebase'
@@ -12,70 +12,128 @@ import { createStructuredSelector } from 'reselect';
 import { makeSelectLoggedIn, makeSelectLoggedInProfile } from 'containers/App/selectors';
 import injectReducer from 'utils/injectReducer';
 import { withCookies } from 'react-cookie';
+import Popover from 'react-simple-popover';
 
 import {
     
     LoggedOutSection,
+    LogoutButton,
     LoggedInSection,
+    UserActionsWrapper,
     UserActionLink,
+    DisplayName,
+    Button,
 
 } from 'components/StyledComponents/UserActions';
 
 
-const UserActions  = (props) => {
+class UserActions extends Component{
     
-
     
+    constructor(props){
 
-     if (props.loggedInUser.isEmpty){
+        super(props);
 
-        //If it's empty then remove the cookie
+        this.state = {
+            servicesOpen : false,
+        };
 
-        return (<LoggedOutSection>
 
-                <UserActionLink to={LOGIN_PATH}> Login </UserActionLink>
-                <UserActionLink to={REGISTER_PATH}> Register </UserActionLink>
+        this.toggleServices = this.toggleServices.bind(this);
+        this.closeServices = this.closeServices.bind(this);
 
-            </LoggedOutSection>
-        )
     }
+
+    toggleServices(){
+
+        this.setState({
+          servicesOpen: !this.state.servicesOpen
+        });
     
-    //Otherwise render Link to profile, logout button, etc.
-    const profilePath = USER_PROFILE_PATH.split(":")[0];
+        console.log("services open", this.state.servicesOpen);
+      }
 
+      closeServices(){
+
+        this.setState({
+          servicesOpen:false,
+        });
+      }
     
-    //Just so that all pops up at once, instead of delay on display name.
-    if (props.profile.displayName == null){
-        return null;
-    }
-    return (
-        <LoggedInSection>
+    
+    
+        render(){
+        
 
-                Hello, {props.profile.displayName} 
+            const props = this.props;
+            var actions = null; 
 
-                <UserActionLink to = {profilePath+props.loggedInUser.uid}> Profile </UserActionLink>
-                {/*Will switch to include uid if do decide make inventory public*/}
-                <UserActionLink to = {"/account/inventory"}> Inventory </UserActionLink>
-                
-                <button  onClick = {() => {
+            const profilePath = USER_PROFILE_PATH.split(":")[0];
 
-                    //Remove cookies, there should be a centralized domain I go to
-                    //that then redirects back to same page. It's something need to look into more
-                    //for now this works.
-                    props.cookies.remove("authToken");
-                    props.cookies.remove("loggedInProfile");
-                    //Dispatch logout
-                    props.firebase.logout();}
-                    
-                    
-                    }> Logout </button>
+           actions = props.loggedInUser.isEmpty?
+
+                //If it's empty then remove the cookie
+
+                (<LoggedOutSection>
+
+                        <UserActionLink to={LOGIN_PATH}> Login </UserActionLink>
+                        <UserActionLink to={REGISTER_PATH}> Register </UserActionLink>
+
+                    </LoggedOutSection>
+                )
             
-        </LoggedInSection>
-    )    
+            
+            :
+          (
+                <LoggedInSection>
 
+                    {/* Hello, {props.profile.displayName} */}
 
+                        <UserActionLink to = {profilePath+props.loggedInUser.uid}> View Profile </UserActionLink>
+                        {/*Will switch to include uid if do decide make inventory public*/}
+                        <UserActionLink to = {"/account/inventory"}> Inventory </UserActionLink>
+
+                        <hr/>  
+                        <LogoutButton  onClick = {() => {
+
+                            //Remove cookies, there should be a centralized domain I go to
+                            //that then redirects back to same page. It's something need to look into more
+                            //for now this works.
+                            props.cookies.remove("authToken");
+                            props.cookies.remove("loggedInProfile");
+                            //Dispatch logout
+                            props.firebase.logout();}
+                            
+                            
+                            }> Logout </LogoutButton>
+                    
+                </LoggedInSection>
+
+                
+            )
+            
+            return  (
+
+                <UserActionsWrapper>
+
+                    <Button ref="target"  onClick = {this.toggleServices}> Account </Button>
+                    <Popover
+                        placement='bottom'
+                        target={this.refs.target}
+                        show={this.state.servicesOpen}
+                        onHide={this.closeServices}
+                    >
+                        <DisplayName> {props.profile.displayName} </DisplayName>
+                        <hr/>
+                        {actions}
+
+                    </Popover>
+
+            </UserActionsWrapper>
+            );
+
+    }
 }
-
 
 const mapStateToProps = createStructuredSelector({
 

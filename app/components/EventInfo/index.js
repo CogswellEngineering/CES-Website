@@ -3,41 +3,60 @@
 import React from 'react';
 import styled from 'styled-components';
 import { formatMDY} from 'utils/formatDate'; 
+import Modal from 'react-responsive-modal';
 
 
 
 
 const Button = styled.button`
 
+        border:1px solid black;
+        &:hover{
+
+                background:#D9D7D6;
+
+        };
+        margin-top:5%;
+
 `;
 
-const EventInfoWrapper = styled.div`
+const EventInfoWrapper = styled(Modal)`
       
         margin-top:3%;
+        //background:black;
+        
 `;
 
 const HostLink = styled.a`
 
-        
+       // display:block;
+        font-style:italic;
+        color:green;
+        text-decoration:none;
+
+
 `
 
 
 const InfoBlock = styled.div`
 
+        margin-top:50px;
+        border-bottom: 1px solid black;
 
 
 `
 
+const EventHeader = styled.div`
+
+        border-bottom: 1px solid black;
+`;
+
 const EventTitle = styled.h2`
 
         display:inline;
-
 `;
 
 const EventDescription = styled.p`
-
-        
-
 `;
 
 const TimeInfo = styled.div`
@@ -45,6 +64,8 @@ const TimeInfo = styled.div`
 
 `
 const Actions = styled.div`
+
+        text-align:center;
 
 
 `
@@ -54,6 +75,8 @@ const GuestBlock = styled.span`
 
 
 `
+
+
 
 //There will be event list via bigCalendar and clicking on them will pop up this page.
 const EventInfo = (props) => {
@@ -81,9 +104,15 @@ const EventInfo = (props) => {
 
     const formattedStartDate = formatMDY(startDate);
     const formattedEndDate = formatMDY(endDate);
+    //This will be pop up over the calendar instead, probably modal.
 
-
-    return (<EventInfoWrapper>
+    return (
+       
+        <EventInfoWrapper  
+                
+                open = {props.event != null}
+                onClose={() => {props.onExit()}}
+                center = {true}>
             
                 {loading?
 
@@ -91,12 +120,20 @@ const EventInfo = (props) => {
                 
                         :                               
                         <InfoBlock>
-                                <EventTitle>{title}</EventTitle>
-                                 { " hosted by"} <HostLink> {host} </HostLink> 
+                                <EventHeader>
+                                        <EventTitle>{title}</EventTitle>
+                                        {  " hosted by "} <HostLink href="#"> {host || "TBD"} </HostLink> 
+                                        <TimeInfo> 
+                                           
+                                                Date: {formattedStartDate + " - " + formattedEndDate} 
+                                
+                                        </TimeInfo>
+
+                                </EventHeader>
                                 <GuestBlock>
                                         {/*Here will iterate through array of guests*/}
                                 </GuestBlock>
-                                <TimeInfo> Date: {formattedStartDate + " - " + formattedEndDate} </TimeInfo>
+                                
         
                                 <EventDescription> {description} </EventDescription>
                         </InfoBlock>
@@ -107,18 +144,21 @@ const EventInfo = (props) => {
                         <p> You must be logged in to mark yourself an attendee of this event </p>
                 :
                         isAttendee? 
-                                
-                                < Button onClick = { () => {props.onCancel(event)}}> Cancel Attendance </Button>
+                                <Actions>
+                                        <Button onClick = { () => {props.onCancel(event)}}> Cancel Attendance </Button>
+                                </Actions>
                         :
-                                <Button hidden = {props.onAttend == null } onClick = { () => {props.onAttend(event)}}> Attend </Button>
+                                <Actions>
+                                        <Button hidden = {props.onAttend == null } onClick = { () => {props.onAttend(event)}}> Attend </Button>
+                                </Actions>
                  }
 
-                 <Button onClick = { () => {props.onExit()} }> Close </Button>
                  <p> {error} </p>
 
 
         
-        </EventInfoWrapper>);
+        </EventInfoWrapper>
+        );
 
 }
 

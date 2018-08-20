@@ -10,6 +10,7 @@ function* updateCall(action){
 
     console.log("uid",action.uid);
     const uid = action.uid;
+    //Provider data shouldn't be there.
     const update = action.update;
     const profilePicture = action.profilePicture;
     console.log("Profile pictures",profilePicture)
