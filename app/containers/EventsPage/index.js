@@ -2,11 +2,8 @@ import React, { Component} from 'react';
 import styled from 'styled-components';
 import EventInfo from 'components/EventInfo';
 import { withFirebase} from 'react-redux-firebase';
-import BigCalendar from 'react-big-calendar';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import './custom-big-calendar.css';
 
-import moment from 'moment'
+
 
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -17,7 +14,7 @@ import saga from './saga';
 import injectSaga from 'utils/InjectSaga';
 import { EVENTS_PATH } from 'components/Header/pages';
 import {Checkbox, CheckboxGroup} from 'react-checkbox-group';
-
+import Calender from 'components/Calendar';
 import {
 
     monthSelected,
@@ -94,7 +91,6 @@ const FilterLabel = styled.label`
     display:block;
 `;
 
-BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment))
 
 
 class EventsPage extends Component{
@@ -245,30 +241,9 @@ class EventsPage extends Component{
         <CalendarWrapper >
 
 
-
+            <Calender/>
             
-            {/*Well I don't want it hidden just overlayed on top of*/}
-            <BigCalendar 
-               // style={this.calendarStyle}
-                aria-hidden={"true"}
-                onSelectEvent = { (event,target) => {
-
-                        console.log("event selected",event);
-
-                        
-                        onEventSelected(event);
-                    }
-                }
-                eventPropGetter = {(this.eventStyleGetter)}
-              
-                events = {events}
-                startAccessor = 'startDate'
-                endAccessor = 'endDate'
-                min = {new Date()}
-                popup = {true}
-                views = {[ 'month']}
-
-            />
+            
 
             <EventInfo event = {selectedEvent} onAttend = {onAttendEvent} onCancel = {onCancelAttendance} onExit = {onCloseEvent} error={error}
                 loading={tryingToAttend} isAttendee = {isAttendee} loggedInUser = {this.props.firebase.auth().currentUser}/>
