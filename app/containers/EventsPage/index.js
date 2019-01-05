@@ -45,7 +45,6 @@ const EventsWrapper = styled.div`
 
     padding-bottom:5%;
   //  margin-top:5%;
-    background-color:gray;
 `
 
 const CalendarWrapper = styled.div`

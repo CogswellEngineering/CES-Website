@@ -12,6 +12,8 @@ const BlogPostWrapper = styled.div`
 
     border-bottom: 1px solid black;
     margin-top:1%;
+    color: rgb(254, 161, 0);
+
     
 
 `;

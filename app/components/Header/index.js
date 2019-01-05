@@ -17,11 +17,16 @@ import Popover from 'react-simple-popover';
 const HeaderWrapper = styled.div`
 
 
-  border:2px solid black;
-  background:gray;
-  width:80%;
-  margin:auto;
-  height:70px;
+
+  background: rgb(36, 154, 29);
+  width:100%;
+  
+  height:50px;
+  position: -webkit-sticky;
+  position:sticky;
+  top:0;
+  display:flex;
+  justify-content:space-between;
   
 `
 const VerticalLine = styled.span`
@@ -31,11 +36,9 @@ const VerticalLine = styled.span`
 
 const ClubLogo = styled.img`
 
-  width:10%;
-  height:100%;
-  height:70px;
-  margin-left:10%;
-
+  height:48px;
+  width:48px;
+  align-self:center;
 `;
 
 

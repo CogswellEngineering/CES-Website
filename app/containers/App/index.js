@@ -17,6 +17,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Header from 'components/Header';
+import Footer from 'components/Footer';
 import {withFirebase} from 'react-redux-firebase';
 import injectReducer from 'utils/injectReducer';
 import reducer from './reducer';
@@ -50,31 +51,22 @@ import { makeSelectLocation, makeSelectDoneLoading} from 'selectors';
 const AppWrapper = styled.div`
 
 
-    height:auto;
+    min-height:100vh;
+    background-color: rgb(1, 24, 74);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+
 
 `;
 
 const BodyWrapper = styled.div`
 
-    border:2px solid black;
-    width:80%;
-    margin:auto;
+    width:100%;
     height:80%;
    
-    clear:both;
-    margin-top:20px;
+//    background-color: rgb(19, 97, 36);
 
-
-`;
-
-const FootWrapper = styled.div`
-
-  border:2px solid green;
-  margin:auto;
-  margin-top:24px;
-  height:200px;
-  width:80%;
-      
 `;
 
 //In component did mount in here
@@ -201,8 +193,7 @@ class App  extends Component{
             <Route component={NotFoundPage} />
           </Switch>
           </BodyWrapper>
-          <FootWrapper>
-            </FootWrapper>
+          <Footer/>
         </AppWrapper>
       )
     }

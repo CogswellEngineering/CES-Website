@@ -47,7 +47,8 @@ const UserActionLink = styled(Link)`
 
 const Button = styled.button`
 
-    color:black;
+
+
     &:hover {
         color:white;
       };

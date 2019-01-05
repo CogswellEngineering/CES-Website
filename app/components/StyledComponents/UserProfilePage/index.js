@@ -11,6 +11,7 @@ const ProfileWrapper = styled.div`
    // border:2px solid green;
     margin-top: 5%;
     padding-bottom:5%;
+    color: rgb(254, 161, 0);
 
 `
 
