@@ -4,11 +4,19 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
     
-    border:2px solid green;
-    width:100%;
-    height:100%;
+   // width:100%;
+    background-color:rgb(36, 154, 29);
+    padding-top:10vh;
+    
     position: -webkit-sticky;
     position:sticky;
+    height:50px;
+    display:flex;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -moz-flex;
+    display: -webkit-flex;
 
 `;
 
