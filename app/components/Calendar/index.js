@@ -17,10 +17,10 @@ const CSSVariables = styled.div`
     --neutral-color: #fff;
 `;
 
+//Fuck it this is fine, will just do media stuff later to make responsive.
 const Wrapper = styled.div`
 
-    //border:2px solid black;
-    height:80%;
+    color: rgb(243, 161, 1);
 `;
 
 const DirectionalButton = styled.div`
@@ -43,28 +43,22 @@ const Header = styled.div`
 
     display:flex;
     justify-content:space-between;
-    width:85%;
+    width:80%;
     margin:auto;
-  
 `;
 
 
 
 const Days = styled.div`
 
-    
-    display:flex;
     margin:auto;
-    width:85%;
-    justify-content: center;
     text-align:center;
 `;
 
 const Day = styled.div`
 
-    border:2px solid black;
-    border-right: ${props => props.dayNumber == 6? "2px solid black" : "0px"};
     width:100px;
+    display:inline-block;
 `;
 
 const Cells = styled.div`
@@ -73,22 +67,25 @@ const Cells = styled.div`
     flex-wrap: wrap;
     border-sizing: border-box;
     width:85%;
+    height:100%;
     margin:auto;
     justify-content: center;
-    text-align:right;
+    color:black;
+    font-weight:bold;
 `;
 
 
 //Could be percentage cause usually 5 weeks.
 const Cell = styled.div`
 
-    border-left :2px solid black;
-    border-bottom:2px solid black;
-    border-right: ${props => props.dayNumber == 6? "2px solid black" : ""};
+    border-left :1px solid black;
+    border-bottom:1px solid black;
+    border-right: ${props => props.dayNumber == 6? "1px solid black" : ""};
     width:100px;
     height:100px;
-    
+    background-color: ${props => props.color};
     position:relative;
+    cursor: pointer;
 `;
 
 
@@ -96,8 +93,6 @@ const Cell = styled.div`
 //Will prob do this as same as usual calendars
 const EventFlags = styled.div`
    
-    position:absolute;
-    bottom:0;
     width:100%;
 `;
 const EventFlag = styled.div`
@@ -106,6 +101,7 @@ const EventFlag = styled.div`
     height: ${props => props.title? "auto" : "15px"};
     font-size:10px;
     width:100%;
+    margin-top:1%;
     cursor: pointer;
 `;
 
@@ -121,8 +117,6 @@ class Calendar extends Component{
 
             currentMonth : new Date(),
             selectedDate : new Date(),
-            //Events passed in keyed by class.
-            events:{}    
         };
 
         this.eventColors = {
@@ -133,6 +127,28 @@ class Calendar extends Component{
         this.nextMonth = this.nextMonth.bind(this);
         this.prevMonth = this.prevMonth.bind(this);
         this.onEventClicked = this.onEventClicked.bind(this);
+        this.onCellClicked = this.onCellClicked.bind(this);
+    }
+
+    onCellClicked(evt){
+
+        console.log("I happen", evt.target);
+        const date = evt.target.id
+
+        if (dateFns.isEqual(this.state.selectedDate,date)){
+
+            this.setState({
+                selectedDate: null
+            });
+        }
+        else{
+            this.setState({
+
+                selectedDate : date
+            });
+        }
+
+
     }
 
     onEventClicked(evt) {
@@ -165,7 +181,6 @@ class Calendar extends Component{
         this.setState( state => {
 
             const currentMonth = dateFns.addMonths(state.currentMonth, 1);
-            console.log("current Month", currentMonth);
             return {
                 currentMonth: currentMonth
             };
@@ -255,7 +270,22 @@ class Calendar extends Component{
             for (var i = 0; i < 7; ++i){
 
                 const toShow = dateFns.addDays(day,i);
-                cells.push(<Cell key ={toShow} dayNumber = {i}>
+
+                var colorOfCell = "white";
+
+                if (dateFns.isEqual(selectedDate, toShow)){
+                    colorOfCell = "green";
+                }
+                else if (dateFns.isToday(toShow)){
+                    colorOfCell = "rgb(36, 154, 29)";
+                }
+                else if (!dateFns.isSameMonth(toShow, currentMonth))
+                {
+                    colorOfCell = "gray";
+                }
+
+                cells.push(<Cell key ={toShow} dayNumber = {i} onClick = {this.onCellClicked}  id ={toShow}
+                color = {colorOfCell}>
 
                         {dateFns.format(toShow, dateFormat)}
                         <EventFlags>
@@ -264,7 +294,6 @@ class Calendar extends Component{
                                 events.map( event => {
 
                                     var innerHtml = "";
-                                    console.log("event", event);
                                     
                                     //Does the visual.. but now onclick??
                                     if (dateFns.isWithinRange(toShow, event.startDate, event.endDate)){
@@ -285,6 +314,7 @@ class Calendar extends Component{
                                 })
                             }
 
+                            
                         </EventFlags>
 
                     

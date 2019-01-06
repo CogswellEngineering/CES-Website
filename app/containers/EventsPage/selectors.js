@@ -55,7 +55,7 @@ const createSelectEvents = () => createSelector(
             console.log("events in selector", events);
 
             //Does it have closure on filter? Hopefully, we'll see.
-            const filteredEvents = events.filter( event => filter.contains(event.eventType));
+            const filteredEvents = events.filter( event => filter.contains(event.type));
 
             return filteredEvents;
 

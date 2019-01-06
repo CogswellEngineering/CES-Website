@@ -40,33 +40,18 @@ import {
 
 const EventsWrapper = styled.div`
 
+
     
 `
 
 const CalendarWrapper = styled.div`
 
-   // border:2px solid black;
-    width:60%;
-    @media (min-height:400px){
-        height:450px;
-    }
-    @media (min-height:1000px){
-
-    }
-    margin-left:2.5%;
-    margin-top:5%;
-    display: inline-block;
+  
    
 `;
 
 const FilteringSection = styled.div`
 
-    margin-top:5%;
-
-    width:30%;
-    margin-left:5%;
-    float:right;
-    
 `;
 
 const StyledCheckboxGroup = styled(CheckboxGroup)`
@@ -104,10 +89,10 @@ class EventsPage extends Component{
 
             possibleFilters:[],
         }
-        this.calendarStyle = {
 
-            background:'blue'
-        };
+
+        this.onGoToEvent = this.onGoToEvent.bind(this);
+        
     }
 
    
@@ -163,7 +148,6 @@ class EventsPage extends Component{
                     events.push(event);
                     
                 });
-                    console.log("events after initial pull",events)
                     //So have to compile it all together afterwards since OR doesn't exist  only AND.
                     //I could also keep it simple and filter on the selector. I'll get food and try to think of solutions while I eat.
                     this.props.onEventsUpdated(events);
@@ -181,7 +165,23 @@ class EventsPage extends Component{
         }
     }
 
-    
+
+    onGoToEvent(){
+
+        console.log(this.props);
+
+        const {history, selectedEvent} = this.props;
+        history.push("/events/"+ selectedEvent.eventId);
+
+    }
+
+    renderEventsFooter(){
+
+
+        
+
+
+    }
 
     render(){
 
@@ -195,7 +195,6 @@ class EventsPage extends Component{
         }
 
 
-        console.log("events",events);
         //Make it so when open, make big calendar hidden too.
         return (
         
@@ -204,11 +203,11 @@ class EventsPage extends Component{
         <CalendarWrapper >
 
 
-            <Calendar events = {events} onSelectEvent = {onEventSelected} />
+            <Calendar events = {events} onSelectEvent = {onEventSelected} style={{width:"60%", margin:"auto"}} />
             
             
 
-            <EventInfo event = {selectedEvent} onAttend = {onAttendEvent} onCancel = {onCancelAttendance} onExit = {onCloseEvent} error={error}
+            <EventInfo event = {selectedEvent} onMoreClicked = {this.onGoToEvent} onAttend = {onAttendEvent} onCancel = {onCancelAttendance} onExit = {onCloseEvent} error={error}
                 loading={tryingToAttend} isAttendee = {isAttendee} loggedInUser = {this.props.firebase.auth().currentUser}/>
             
             
@@ -216,17 +215,8 @@ class EventsPage extends Component{
             <FilteringSection>
                 {/*This will have buttons for filtering, and getting notifications for specific type of events*/}
 
-                <h2 style={{borderBottom:'2px solid black', width:'80%'}}> Filter </h2>
 
 
-                <StyledCheckboxGroup value={filter} checkboxDepth={2} onChange={ (newFilter) => {onFilterChanged(newFilter)}}
-                    >
-                    <FilterHeader> Event Type </FilterHeader>
-                    {this.state.possibleFilters.map(eventType => {
-                        return <FilterLabel key = {eventType}><Checkbox key = {eventType} value={eventType}/> {eventType} </FilterLabel>
-                    })}
-
-                </StyledCheckboxGroup>
             </FilteringSection>
             </EventsWrapper>);
 

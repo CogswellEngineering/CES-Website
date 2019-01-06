@@ -16,14 +16,11 @@ const Button = styled.button`
                 background:#D9D7D6;
 
         };
-        margin-top:5%;
 
 `;
 
 const EventInfoWrapper = styled(Modal)`
       
-        margin-top:3%;
-        //background:black;
         
 `;
 
@@ -33,15 +30,12 @@ const HostLink = styled.a`
         font-style:italic;
         color:green;
         text-decoration:none;
-
-
 `
 
 
 const InfoBlock = styled.div`
 
         margin-top:50px;
-        border-bottom: 1px solid black;
 
 
 `
@@ -60,9 +54,14 @@ const EventDescription = styled.p`
 `;
 
 const TimeInfo = styled.div`
-
-
 `
+
+const ViewMoreButton = styled.div`
+
+        cursor:pointer;
+        text-decoration:underline;
+
+`;
 const Actions = styled.div`
 
         text-align:center;
@@ -72,10 +71,7 @@ const Actions = styled.div`
 
 const GuestBlock = styled.span`
 
-
-
 `
-
 
 
 //There will be event list via bigCalendar and clicking on them will pop up this page.
@@ -96,7 +92,8 @@ const EventInfo = (props) => {
         Guest Attendees.(Non-student industry or alumni attendees)
     */
    
-    const {event, error, loading, isAttendee,loggedInUser,} = props;
+    const {event, error, loading, isAttendee,loggedInUser,
+        onMoreClicked} = props;
 
     console.log("logged in User", loggedInUser);
    
@@ -105,6 +102,8 @@ const EventInfo = (props) => {
     const formattedStartDate = formatMDY(startDate);
     const formattedEndDate = formatMDY(endDate);
     //This will be pop up over the calendar instead, probably modal.
+    console.log("props of event info", props);
+
 
     return (
        
@@ -141,7 +140,7 @@ const EventInfo = (props) => {
 
                 {loggedInUser == null?
 
-                        <p> You must be logged in to mark yourself an attendee of this event </p>
+                        <i> You must be logged in to mark yourself an attendee of this event </i>
                 :
                         isAttendee? 
                                 <Actions>
@@ -152,6 +151,8 @@ const EventInfo = (props) => {
                                         <Button hidden = {props.onAttend == null } onClick = { () => {props.onAttend(event)}}> Attend </Button>
                                 </Actions>
                  }
+
+                 <ViewMoreButton onClick = {onMoreClicked}> See more </ViewMoreButton>
 
                  <p> {error} </p>
 
