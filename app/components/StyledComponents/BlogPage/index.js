@@ -7,6 +7,9 @@ import Pagination from 'rc-pagination';
 const BlogPageWrapper = styled.div`
 
 
+    display:flex;
+    flex-direction:column;
+    
 
 `;
 
@@ -15,10 +18,8 @@ const BlogPageWrapper = styled.div`
 ///Panel of all the posts
 const BlogsPanel = styled.div`
 
-    width:60%;
-
-    margin-left:5%;
-    margin-top:2.5%;
+    width:80%;
+    margin:auto;
 
 `;
 

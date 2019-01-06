@@ -24,7 +24,7 @@ import reducer from './reducer';
 import { createStructuredSelector} from 'reselect';
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import BlogPage from 'containers/BlogPage/Loadable';
+import NewsPage from 'containers/NewsPage/Loadable';
 import EventsPage from 'containers/EventsPage';
 
 
@@ -50,12 +50,15 @@ import { makeSelectLocation, makeSelectDoneLoading} from 'selectors';
 
 const AppWrapper = styled.div`
 
+  display:flex;
+  flex-direction:column;
 
 `;
 
 const BodyWrapper = styled.div`
 
   min-height: 100vh;
+  margin-top:5%;
 `;
 
 //In component did mount in here
@@ -177,7 +180,7 @@ class App  extends Component{
             <Route exact path = {USER_PROFILE_PATH} component = {UserProfilePage}/>
             <Route exact path = {USER_PROFILE_PATH+"/update"} component = {UpdateProfilePage}/>
           
-            <Route path = {BLOG_PATH} component = {BlogPage} />
+            <Route path = {BLOG_PATH} component = {NewsPage} />
             <Route path = {EVENTS_PATH} component = {EventsPage}/>
             <Route component={NotFoundPage} />
           </Switch>

@@ -8,7 +8,7 @@ export const navPages = [
       url:"/events"
     },
     {
-      name:"Blog",
+      name:"News",
       url:"/blog"
     },
 ]

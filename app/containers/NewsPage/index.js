@@ -19,7 +19,7 @@ import { pageTurned,
 
 import { BLOG_PATH } from 'components/Header/pages';
 import { makeSelectLoggedInProfile } from 'containers/App/selectors';
-import BlogPost from 'components/BlogPost';
+import NewsCard from 'components/NewsCard';
 
 //Might need select for categorizing it if that's neccessarry, that's easy change I can make later.
 import StyledForm, {StyledButton,StyledLabel,ErrorMessage,StyledInput, StyledSelect, StyledOption} from 'components/StyledForm'
@@ -154,7 +154,7 @@ class BlogPage extends Component{
                                       
                     {shownPosts.map(post => {
 
-                        return <BlogPost key ={post.author+post.topic} author={post.author} topic={post.topic} body={post.body} tags={post.tags}/> 
+                        return <NewsCard key ={post.author+post.topic} {...post} /> 
                     })}
                 
                     
