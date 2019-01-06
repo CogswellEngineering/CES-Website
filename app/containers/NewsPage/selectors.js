@@ -36,7 +36,7 @@ const makeSelectPostsPerPage = () => createSelector(
     blogPageState,
     (blogPageState) => {
 
-        if (blogPageState == null) return 5;
+        if (blogPageState == null) return 10;
 
         return blogPageState.get("postsPerPage");
     }
@@ -62,7 +62,7 @@ const makeSelectPosts = (type) => createSelector(
     (blogPageState) => {
         
         if (blogPageState == null) return [];
-
+        console.log("type",type);
         return blogPageState.get(type + "Posts");
     }
 );

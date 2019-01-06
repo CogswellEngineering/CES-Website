@@ -1,15 +1,10 @@
 import styled from 'styled-components';
 import Modal from 'react-responsive-modal';
-import Pagination from 'rc-pagination';
-
 
 //Honestly most will also have mainContentWrapper on them, but also specific ones.
 const BlogPageWrapper = styled.div`
 
 
-    display:flex;
-    flex-direction:column;
-    
 
 `;
 
@@ -20,6 +15,10 @@ const BlogsPanel = styled.div`
 
     width:80%;
     margin:auto;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-evenly;
 
 `;
 
@@ -47,10 +46,6 @@ const PostActionButtons = styled.button`
 
 `;
 
-const StyledPagination = styled(Pagination)`
-
-    margin-left:40%;
-`;
 
 const StyledTextArea = styled.textarea`
 

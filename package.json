@@ -232,7 +232,6 @@
     "moment": "^2.22.2",
     "prop-types": "15.5.10",
     "query-string": "^6.1.0",
-    "rc-pagination": "^1.16.4",
     "react": "^16.4.2",
     "react-avatar-editor": "^11.0.3",
     "react-checkbox-group": "^4.0.1",

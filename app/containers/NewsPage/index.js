@@ -25,7 +25,6 @@ import NewsCard from 'components/NewsCard';
 import StyledForm, {StyledButton,StyledLabel,ErrorMessage,StyledInput, StyledSelect, StyledOption} from 'components/StyledForm'
 
 //Pagination imports
-import 'rc-pagination/assets/index.css';
 
 //const ReactTags = require('react-tag-input').WithOutContext;
 
@@ -39,10 +38,9 @@ import {
     BlogsPanel,
     BlogPostPanel,
     PostPanelButton,
-    StyledPagination,
     StyledTextArea,
     
-} from 'components/StyledComponents/BlogPage';
+} from 'components/StyledComponents/NewsPage';
 
 
 
@@ -117,6 +115,7 @@ class BlogPage extends Component{
                         const doc = docs[index];
 
                         if (doc.exists){
+                            console.log(doc.data());
                             newPosts.push(doc.data());
                         }
                     }
@@ -154,15 +153,18 @@ class BlogPage extends Component{
                                       
                     {shownPosts.map(post => {
 
-                        return <NewsCard key ={post.author+post.topic} {...post} /> 
+                        return <div>
+                            
+                            
+                            <NewsCard key ={post.author+post.topic} {...post} style = {{marginTop:"1%"}} /> 
+                            <hr style = {{border:"0.5px solid black"}}></hr>
+                            </div>
                     })}
-                
+
                     
 
                 </BlogsPanel>
-                <StyledPagination pageSize = {postsPerPage} current = {currentPage} total = {allPosts.length}
-                            onChange = {(page) => {onPageSelected(page);}}
-                        />
+               
                 <PostPanelButton name = "postModalOpen" hidden = {!isAdmin} onClick = {this.openModal}> Add Post </PostPanelButton>
                 
                 {/*At this point, this should honestly be in it's own folder, would just have to pass in more props.*/}

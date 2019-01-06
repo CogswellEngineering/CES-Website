@@ -67,7 +67,7 @@ export default function blogPageReducer(state = initialState, action){
             const shownPosts = getShownPages(state.get("currentPage"),action.posts,state.get("postsPerPage"));
             return state
                 .set("allPosts", action.posts)
-                .set("shownPosts",shownPosts);
+                .set("shownPosts",action.posts);
                 
 
         case POSTING:
