@@ -14,7 +14,7 @@ import saga from './saga';
 import injectSaga from 'utils/InjectSaga';
 import { EVENTS_PATH } from 'components/Header/pages';
 import {Checkbox, CheckboxGroup} from 'react-checkbox-group';
-import Calender from 'components/Calendar';
+import Calendar from 'components/Calendar';
 import {
 
     monthSelected,
@@ -40,8 +40,7 @@ import {
 
 const EventsWrapper = styled.div`
 
-    padding-bottom:5%;
-  //  margin-top:5%;
+    
 `
 
 const CalendarWrapper = styled.div`
@@ -111,43 +110,7 @@ class EventsPage extends Component{
         };
     }
 
-    eventStyleGetter(event, start, end, isSelected){
-        
-        //Color changse depending on event type
-        //If start ends 
-        var color = 'green';
-
-        //Is it redundant to have both filter system AND color coded? Because if color coded, then don't gotta filter
-        //well it does get rid of the + for more though.
-        switch (event.eventType){
-
-
-            case 'Hackathon':
-                break;
-            
-            case 'Workshop':
-                break;
-
-            case 'Meeting':
-                break;
-            
-            case 'Contest':
-                break;
-
-        }
-
-        console.log("event",event);
-        
-
-        var style = {
-            backgroundColor: (isSelected?  '#1d9639' : 'green' ),
-            
-        }
-
-        return {
-            style:style,
-        }
-    }
+   
 
     componentDidMount(){
 
@@ -241,7 +204,7 @@ class EventsPage extends Component{
         <CalendarWrapper >
 
 
-            <Calender/>
+            <Calendar events = {events}/>
             
             
 
@@ -260,7 +223,7 @@ class EventsPage extends Component{
                     >
                     <FilterHeader> Event Type </FilterHeader>
                     {this.state.possibleFilters.map(eventType => {
-                        return <FilterLabel><Checkbox value={eventType}/> {eventType} </FilterLabel>
+                        return <FilterLabel key = {eventType}><Checkbox key = {eventType} value={eventType}/> {eventType} </FilterLabel>
                     })}
 
                 </StyledCheckboxGroup>

@@ -4,6 +4,9 @@ import dateFns from 'date-fns';
 const ForwardImage = require('images/forward_96.png');
 const BackwardImage = require('images/backward_96.png');
 
+//Could pass in prop here then others just use css variables.
+//That's polish though
+//for now will just put actual colors directly probably.
 const CSSVariables = styled.div`
 
     --main-color: #1a8fff;
@@ -16,8 +19,8 @@ const CSSVariables = styled.div`
 
 const Wrapper = styled.div`
 
-border:2px solid black;
-
+    //border:2px solid black;
+    height:80%;
 `;
 
 const DirectionalButton = styled.div`
@@ -40,6 +43,8 @@ const Header = styled.div`
 
     display:flex;
     justify-content:space-between;
+    width:85%;
+    margin:auto;
   
 `;
 
@@ -49,33 +54,59 @@ const Days = styled.div`
 
     
     display:flex;
-    justify-content: space-evenly;
+    margin:auto;
+    width:85%;
+    justify-content: center;
+    text-align:center;
 `;
 
 const Day = styled.div`
 
     border:2px solid black;
-    padding:5px;
+    border-right: ${props => props.dayNumber == 6? "2px solid black" : "0px"};
+    width:100px;
 `;
 
 const Cells = styled.div`
 
-    //Flex not REALLY NEEDED HERE.
     display:flex;
     flex-wrap: wrap;
     border-sizing: border-box;
     width:85%;
     margin:auto;
-    align-self:center;
+    justify-content: center;
+    text-align:right;
 `;
 
 
 //Could be percentage cause usually 5 weeks.
 const Cell = styled.div`
 
-    border:2px solid black;
+    border-left :2px solid black;
+    border-bottom:2px solid black;
+    border-right: ${props => props.dayNumber == 6? "2px solid black" : ""};
     width:100px;
     height:100px;
+    
+    position:relative;
+`;
+
+
+
+//Will prob do this as same as usual calendars
+const EventFlags = styled.div`
+   
+    position:absolute;
+    bottom:0;
+    width:100%;
+`;
+const EventFlag = styled.div`
+
+    background-color: ${props => props.color};
+    height: ${props => props.title? "auto" : "15px"};
+    font-size:10px;
+    width:100%;
+    cursor: pointer;
 `;
 
 class Calendar extends Component{
@@ -90,8 +121,14 @@ class Calendar extends Component{
 
             currentMonth : new Date(),
             selectedDate : new Date(),
+          
         };
 
+        this.eventColors = {
+
+            Hackathon: "rgb(254, 160, 13)",
+            Competition: "rgb(36, 154, 29)",
+        };
         this.nextMonth = this.nextMonth.bind(this);
         this.prevMonth = this.prevMonth.bind(this);
     }
@@ -154,7 +191,7 @@ class Calendar extends Component{
 
             const day = dateFns.addDays(startDate,i);
             days.push(
-                <Day key = {i} >
+                <Day key = {i} dayNumber = {i}  >
                     {dateFns.format(day, dateFormat)}
                 </Day>
             )
@@ -170,6 +207,7 @@ class Calendar extends Component{
         //then within that go through the numbers.
 
         const {currentMonth, selectedDate} = this.state;
+        const {events} = this.props;
         //Get start of month and end of month of current date.
         const monthStart = dateFns.startOfMonth(currentMonth);
         const monthEnd = dateFns.endOfMonth(monthStart);
@@ -191,10 +229,34 @@ class Calendar extends Component{
             for (var i = 0; i < 7; ++i){
 
                 const toShow = dateFns.addDays(day,i);
-                cells.push(<Cell key ={i}>
+                cells.push(<Cell key ={toShow} dayNumber = {i}>
 
                         {dateFns.format(toShow, dateFormat)}
-                
+                        <EventFlags>
+
+                            {
+                                events.map( event => {
+
+                                    var title = null;
+                                    console.log("event", event);
+                                    //Does the visual.. but now onclick??
+                                    if (dateFns.isWithinRange(toShow, event.startDate, event.endDate)){
+
+                                        if (dateFns.isEqual(event.startDate, toShow)){
+                                            title = event.title;
+                                        }
+                                        //Id is for onclick events
+                                        return <EventFlag key = {event.title+toShow} id = {event.title} color = {this.eventColors[event.type]} title = {title}> {title} </EventFlag>
+                                    }
+                                    else{
+                                        return null;
+                                    }
+                                })
+                            }
+
+                        </EventFlags>
+
+                    
                 </Cell>);
             }
 
