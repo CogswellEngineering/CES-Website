@@ -1,6 +1,5 @@
 const prefix = "ces/containers/";
 
-const MONTH_PRESSED = prefix + "MONTH_PRESSED";
 const EVENT_PRESSED = prefix + "EVENT_PRESSED";
 const EVENT_LOADING = prefix + "EVENT_LOADING";
 const EVENT_CLOSED = prefix + "EVENT_CLOSED";
@@ -14,7 +13,6 @@ const FILTER_CHANGED = prefix + "FILTER_CHANGED";
 
 export {
 
-    MONTH_PRESSED,
     EVENT_PRESSED,
     ATTEND_PRESSED,
     ATTEND_FAILED,

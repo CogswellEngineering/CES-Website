@@ -1,6 +1,5 @@
 import {
 
-    MONTH_PRESSED,
     EVENT_PRESSED,
     ATTEND_PRESSED,
     EVENTS_UPDATED,
@@ -29,14 +28,6 @@ function updateEvents(events){
     return {
         type: EVENTS_UPDATED,
         events,
-    };
-}
-
-function monthSelected(month){
-
-    return {
-        type:MONTH_PRESSED,
-        month,
     };
 }
 
@@ -103,7 +94,6 @@ function cancelAttendance(event){
 
 export {
 
-    monthSelected,
     eventSelected,
     attendPressed,
     attendFailed,
