@@ -121,7 +121,8 @@ class Calendar extends Component{
 
             currentMonth : new Date(),
             selectedDate : new Date(),
-          
+            //Events passed in keyed by class.
+            events:{}    
         };
 
         this.eventColors = {
@@ -131,6 +132,31 @@ class Calendar extends Component{
         };
         this.nextMonth = this.nextMonth.bind(this);
         this.prevMonth = this.prevMonth.bind(this);
+        this.onEventClicked = this.onEventClicked.bind(this);
+    }
+
+    onEventClicked(evt) {
+
+
+        evt.persist();
+        console.log("target", evt.target);
+        //Problem is it's not adding anything new attribute
+        const eventId = evt.target.id.split("_");
+        console.log("split ", eventId);
+        
+        //Then pull corresponding event.
+        const {events, onSelectEvent} = this.props;
+
+        for (var i = 0; i < events.length; ++i){
+
+
+            if (events[i].title === eventId[0] && dateFns.isEqual(events[i].startDate, eventId[1])){
+
+                onSelectEvent(events[i]);
+            }
+        }
+
+
     }
 
     
@@ -207,7 +233,7 @@ class Calendar extends Component{
         //then within that go through the numbers.
 
         const {currentMonth, selectedDate} = this.state;
-        const {events} = this.props;
+        const {events, onSelectEvent} = this.props;
         //Get start of month and end of month of current date.
         const monthStart = dateFns.startOfMonth(currentMonth);
         const monthEnd = dateFns.endOfMonth(monthStart);
@@ -237,16 +263,21 @@ class Calendar extends Component{
                             {
                                 events.map( event => {
 
-                                    var title = null;
+                                    var innerHtml = "";
                                     console.log("event", event);
+                                    
                                     //Does the visual.. but now onclick??
                                     if (dateFns.isWithinRange(toShow, event.startDate, event.endDate)){
 
                                         if (dateFns.isEqual(event.startDate, toShow)){
-                                            title = event.title;
+                                            innerHtml = event.title;
                                         }
-                                        //Id is for onclick events
-                                        return <EventFlag key = {event.title+toShow} id = {event.title} color = {this.eventColors[event.type]} title = {title}> {title} </EventFlag>
+                                        const {type, title} = event;
+                                        //Class is for onclick events
+                                        return <EventFlag key = {event.title+toShow} color = {this.eventColors[type]} title = {innerHtml} id = {title + "_" +  event.startDate}
+                                        onClick = {this.onEventClicked}
+                                        >
+                                         {innerHtml} </EventFlag>
                                     }
                                     else{
                                         return null;
@@ -271,6 +302,7 @@ class Calendar extends Component{
 
     }
 
+    
     render(){
 
 

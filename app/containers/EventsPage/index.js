@@ -204,7 +204,7 @@ class EventsPage extends Component{
         <CalendarWrapper >
 
 
-            <Calendar events = {events}/>
+            <Calendar events = {events} onSelectEvent = {onEventSelected} />
             
             
 
