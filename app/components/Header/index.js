@@ -20,13 +20,17 @@ const HeaderWrapper = styled.div`
 
   background: rgb(36, 154, 29);
   width:100%;
-  
+
   height:50px;
   position: -webkit-sticky;
   position:sticky;
   top:0;
   display:flex;
+  //Uncomment if want on both sides of header bar.
   justify-content:space-between;
+  //justify-content: center;
+  brder:2px solid black;
+
   
 `
 const VerticalLine = styled.span`
@@ -39,6 +43,7 @@ const ClubLogo = styled.img`
   height:48px;
   width:48px;
   align-self:center;
+  margin-left:10%;
 `;
 
 

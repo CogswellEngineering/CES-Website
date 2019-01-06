@@ -4,7 +4,7 @@ export const navPages = [
       url: "/",
     },
    {
-      name: "Events",
+      name: "Event Calendar",
       url:"/events"
     },
     {

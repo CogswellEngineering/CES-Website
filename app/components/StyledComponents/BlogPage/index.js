@@ -16,7 +16,6 @@ const BlogPageWrapper = styled.div`
 const BlogsPanel = styled.div`
 
     width:60%;
-    height:400px;
 
     margin-left:5%;
     margin-top:2.5%;

@@ -53,6 +53,7 @@ class UserActions extends Component{
         console.log("services open", this.state.servicesOpen);
       }
 
+      //Might just be better to be a services page instead.
       closeServices(){
 
         this.setState({
@@ -77,7 +78,7 @@ class UserActions extends Component{
                 (<LoggedOutSection>
 
                         <UserActionLink to={LOGIN_PATH}> Login </UserActionLink>
-                        <UserActionLink to={REGISTER_PATH}> Register </UserActionLink>
+                        <UserActionLink to={REGISTER_PATH}> Join us! </UserActionLink>
 
                     </LoggedOutSection>
                 )

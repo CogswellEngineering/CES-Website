@@ -86,16 +86,6 @@ const createSelectFlag = (flagName) => createSelector(
     }
 ) 
 
-const createSelectMonth = () => createSelector(
-
-    eventState,
-    (eventState) => {
-        //Current month, if they haven't selected anything
-        if (eventState == null) return new Date().getDate();
-
-        return eventState.get("month");
-    }
-);
 
 export {
 

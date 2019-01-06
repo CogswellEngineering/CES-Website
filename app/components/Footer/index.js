@@ -7,6 +7,13 @@ const Wrapper = styled.div`
     background-color:rgb(36, 154, 29);
     position: -webkit-sticky;
     position:sticky;
+    height:50px;
+    display:flex;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -moz-flex;
+    display: -webkit-flex;
 
     border:2px solid black;
     height:50px;

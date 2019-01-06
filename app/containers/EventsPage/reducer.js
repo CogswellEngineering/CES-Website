@@ -25,7 +25,6 @@ const initialState = fromJS({
     //Also since just booleans, it's more stuff to wait for merge on.
     isAttendee: false,
     loadingEvent:false,
-    month:"April",
     //This for didUpdate to check if should change query of event listener.
    
     //Nevermind, might not do this, cause will keep showing agenda so people can see whole year's
@@ -58,13 +57,6 @@ export default function eventReducer(state = initialState, action){
 
             return state
                 .set("filter", action.newFilter);
-
-        case MONTH_PRESSED:
-
-            return state
-                .set("month",action.month);
-        
-
 
         case EVENT_LOADING:
 

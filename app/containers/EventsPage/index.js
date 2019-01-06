@@ -185,8 +185,8 @@ class EventsPage extends Component{
 
     render(){
 
-        const { selectedEvent, events, selectedMonth, error, tryingToAttend ,isAttendee, filter,
-            onCloseEvent, onEventSelected, onMonthSelected, onAttendEvent, onCancelAttendance, onFilterChanged} = this.props;
+        const { selectedEvent, events, error, tryingToAttend ,isAttendee, filter,
+            onCloseEvent, onEventSelected, onAttendEvent, onCancelAttendance, onFilterChanged} = this.props;
         
 
         if (events == null || this.state.possibleFilters.length == 0){
@@ -230,7 +230,6 @@ const mapStateToProps = createStructuredSelector({
     loading : createSelectFlag("loading"),
     filter: createSelectFilter(),
     selectedEvent : createSelectEvent(),
-    selectedMonth : createSelectMonth(),
     events : createSelectEvents(),
     error : createSelectError(),
     
@@ -244,12 +243,6 @@ function mapDispatchToProps(dispatch){
         onFilterChanged : (newFilters) => {
 
             return dispatch(filterChanged(newFilters));
-        },
-
-        onMonthSelected : (month) => {
-
-            return dispatch(monthSelected(month));
-
         },
 
         onCloseEvent : (evt) => {
@@ -296,7 +289,5 @@ export default compose(
     withReducer,
     withSaga,
     withFirebase,
-
-
 )(EventsPage);
 
