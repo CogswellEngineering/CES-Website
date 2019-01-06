@@ -109,7 +109,7 @@ class Header extends Component{
     return (
         <HeaderWrapper>
 
-          <ClubLogo src={require('../../images/CESLogo.png')} alt="sdf"/>
+          <ClubLogo src={require('images/CESLogo.png')} alt="sdf"/>
           <Navbar>    
 
               <PageSection>

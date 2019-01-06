@@ -51,22 +51,11 @@ import { makeSelectLocation, makeSelectDoneLoading} from 'selectors';
 const AppWrapper = styled.div`
 
 
-    min-height:100vh;
-    background-color: rgb(1, 24, 74);
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-
-
 `;
 
 const BodyWrapper = styled.div`
 
-    width:100%;
-    height:80%;
-   
-//    background-color: rgb(19, 97, 36);
-
+  min-height: 100vh;
 `;
 
 //In component did mount in here

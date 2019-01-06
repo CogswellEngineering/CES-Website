@@ -84,7 +84,6 @@ const Cell = styled.div`
     width:100px;
     height:100px;
     background-color: ${props => props.color};
-    position:relative;
     cursor: pointer;
 `;
 
