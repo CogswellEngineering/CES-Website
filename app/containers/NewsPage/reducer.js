@@ -1,6 +1,6 @@
 import { fromJS} from 'immutable';
 import { POST_FIELD_CHANGED, POSTING, POSTED, POST_FAILED, LOADING_POSTS, LOADED_POSTS, MODIFICATIONS_MADE,
-    PAGE_TURNED,} from './constants';
+    PAGE_TURNED, LOAD_MORE} from './constants';
 
 
 
@@ -8,7 +8,8 @@ const initialState = fromJS({
 
 
     allPosts : [],
-    shownPosts:[],
+    
+    amountToShow:2,
 
     currentPage: 1,
     postsPerPage: 4,
@@ -28,11 +29,11 @@ const initialState = fromJS({
 
 //For returning resulting sub array that will then be set to shown posts.
 //This will be called when change page, and when total blog posts change.
-function getShownPages(page,posts,shownPerPage){
+function getShownPages(posts, amount){
 
 
     var shownPosts = [];
-
+    /*
     //Because posts on each page goes by posts per page
     const endingIndex = page * shownPerPage;
 
@@ -45,7 +46,11 @@ function getShownPages(page,posts,shownPerPage){
 
     return shownPosts;
 
+*/
 
+    for (var i = 0; i < amount; ++i){
+
+    }
 }
 
 export default function blogPageReducer(state = initialState, action){
@@ -53,13 +58,27 @@ export default function blogPageReducer(state = initialState, action){
     switch (action.type){
 
        
-
+        //No longer being used for now.
         case PAGE_TURNED:
 
             const pagePosts = getShownPages(action.page,state.get("allPosts"), state.get("postsPerPage"));
             return state
                 .set("currentPage", action.page)
                 .set("shownPosts", pagePosts);
+
+        case LOAD_MORE:
+
+
+
+            const currentAmountShown = state.get("amountToShow");
+            const allPosts = state.get("allPosts");
+
+
+            //To make sure within bounds of allPosts
+            const newAmountToShow = Math.min(currentAmountShown + action.amountToLoad, allPosts.length);
+            return state
+                .set("amountToShow", newAmountToShow);
+
 
         case MODIFICATIONS_MADE:
 

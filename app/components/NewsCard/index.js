@@ -27,11 +27,7 @@ const Wrapper = styled.div`
 
     cursor:pointer;
 
-    &:hover{
-
-        background-color:red;
-    }
-
+   
 `;  
 
 const Thumbnail = styled.div`
@@ -39,8 +35,14 @@ const Thumbnail = styled.div`
     grid-area: thumbnail;
 
     background-image: url(${props => props.image});
-    background-size: contain;
-    background-position:top;
+    background-size: 80%;
+    background-position:center;
+    background-repeat: no-repeat;
+
+
+    ${Wrapper}:hover & {
+        background-size:contain;
+    }  
 `;
 
 //Will include title and author

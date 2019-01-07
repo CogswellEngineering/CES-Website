@@ -56,17 +56,73 @@ const makeSelectError = () => createSelector(
 
 )
 
-const makeSelectPosts = (type) => createSelector(
+const makeSelectPosts = () => createSelector(
 
     blogPageState,
     (blogPageState) => {
         
         if (blogPageState == null) return [];
-        console.log("type",type);
-        return blogPageState.get(type + "Posts");
+        
+
+        const toShow = [];
+        const amountToShow = blogPageState.get("amountToShow");
+        const allPosts = blogPageState.get("allPosts");
+        for (var i = 0; i < amountToShow && i < allPosts.length; ++i){
+
+            toShow.push(allPosts[i]);
+        }
+        console.log(toShow);
+        
+        return toShow;
     }
 );
 
+const makeSelectAmountToShow = () => createSelector(
+
+
+    blogPageState,
+    (blogPageState) => {
+
+
+        if (blogPageState == null) return 0;
+
+        const amountToShow = blogPageState.get("amountToShow");
+
+        return amountToShow;
+    }
+)
+
+const makeSelectMaxAmountToShow = () => createSelector(
+
+
+    blogPageState,
+    (blogPageState) => {
+
+        if (blogPageState == null) return 0;
+
+        const allPosts = blogPageState.get("allPosts");
+
+        return allPosts.length;
+    }
+)
+/*
+const makeSelectHaveMoreToShow = () => createSelector(
+
+    blogPageState,
+    (blogPageState) => {
+
+        if (blogPageState == null) return false;
+
+        const allPosts = blogPageState.get("allPosts");
+
+        //Might have to just select amount to show and make the check within the render.
+        //cause this would be after I update it so if I just equality here, it will never render all of them.
+        if (amountToShow > allPosts.length){
+            return false;
+        }
+    }
+)
+*/
 const makeSelectPostFields = () => createSelector(
 
     blogPageState,
@@ -84,6 +140,8 @@ const makeSelectPostFields = () => createSelector(
 
 export{
     makeSelectPosts,
+    makeSelectMaxAmountToShow,
+    makeSelectAmountToShow,
     makeSelectPostFields,
     makeSelectError,
     makeSelectPostsPerPage,

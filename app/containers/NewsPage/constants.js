@@ -1,7 +1,10 @@
 //idk why didn't do this ooner
 const prefix = 'ces/BlogPage/'
 
+//WIll keep here for now, but pagination gone for news page cause
+//infinite scrolling makes more sense.
  const PAGE_TURNED = prefix+'PAGE_TURNED';
+ const LOAD_MORE = prefix+'LOAD_MORE';
  const LOAD_POSTS = prefix+'LOAD_POSTS';
  const LOADING_POSTS = prefix+'LOADING_POSTS';
  const LOADED_POSTS = prefix+'LOADED_POSTS';
@@ -26,6 +29,7 @@ const prefix = 'ces/BlogPage/'
 
 export {
     PAGE_TURNED,
+    LOAD_MORE,
     LOAD_POSTS,
     LOADING_POSTS,
     LOADED_POSTS,

@@ -52,13 +52,13 @@ const AppWrapper = styled.div`
 
   display:flex;
   flex-direction:column;
+  background-color: rgb(15, 65, 65);
 
 `;
 
 const BodyWrapper = styled.div`
 
   min-height: 100vh;
-  margin-top:5%;
 `;
 
 //In component did mount in here

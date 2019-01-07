@@ -1,4 +1,5 @@
 import {
+    LOAD_MORE,
     PAGE_TURNED,
     LOAD_POSTS,
     LOADING_POSTS,
@@ -14,6 +15,15 @@ import {
 
 } from './constants';
 
+
+
+function loadMore(amountToLoad){
+
+    return {
+        type: LOAD_MORE,
+        amountToLoad,
+    };
+}
 
 function pageTurned(page){
 
@@ -98,6 +108,7 @@ function postFailed(err){
 
 export {
 
+    loadMore,
     pageTurned,
     loadPosts,
     loadingPosts,

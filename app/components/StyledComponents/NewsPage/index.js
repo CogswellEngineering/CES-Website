@@ -6,6 +6,15 @@ const BlogPageWrapper = styled.div`
 
 
 
+    display:grid;
+    margin-top:5%;
+    grid-template-columns: 100%;
+    grid-template-rows: 80% 5%;
+    grid-template-areas:
+    "blogs"
+    "loadMore";
+
+
 `;
 
 
@@ -13,6 +22,7 @@ const BlogPageWrapper = styled.div`
 ///Panel of all the posts
 const BlogsPanel = styled.div`
 
+    grid-area:blogs;
     width:80%;
     margin:auto;
     height:100%;
@@ -68,10 +78,23 @@ const StyledTextArea = styled.textarea`
 `;
 
 
+const LoadMoreButton = styled.div`
+
+    grid-area:"loadMore";
+    color:rgb(227, 141, 1);
+    background-color: black;
+    text-transform: uppercase;
+    cursor:pointer;
+    padding:5px;
+    align-self:center;
+    justify-self:center;
+`;
+
 export{
 
     BlogPageWrapper,
     BlogsPanel,
+    LoadMoreButton,
     BlogPostPanel,
     PostPanelButton,
     PostActions,

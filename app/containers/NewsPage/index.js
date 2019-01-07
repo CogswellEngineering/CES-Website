@@ -9,12 +9,12 @@ import saga from './saga';
 import reducer from './reducer';
 import { makeSelectPosts, makeSelectPostFields, makeSelectError,
     makeSelectCurrentPage, makeSelectPostsPerPage,
-    makeSelectPosting,
+    makeSelectPosting,makeSelectAmountToShow, makeSelectMaxAmountToShow
 } from './selectors';
 
 import { pageTurned, 
     modificationsMade, addPostClicked, postFieldChanged, 
-    addTag, removeTag} from './actions';
+    addTag, removeTag, loadMore} from './actions';
 
 
 import { BLOG_PATH } from 'components/Header/pages';
@@ -36,6 +36,7 @@ import {
 
     BlogPageWrapper,
     BlogsPanel,
+    LoadMoreButton,
     BlogPostPanel,
     PostPanelButton,
     StyledTextArea,
@@ -137,8 +138,8 @@ class BlogPage extends Component{
         const props = this.props;
         const isAdmin = props.loggedInUser.isAdmin;
 
-        const { allPosts, shownPosts, error, postContent, postsPerPage, currentPage, posting,
-            onFieldChanged, onPostClicked, onPageSelected, onTagAdded, onTagRemoved,  } = props;
+        const { posts, amountToShow,maxAmountToShow, error, postContent, postsPerPage, currentPage, posting,
+            onFieldChanged, onPostClicked, onLoadMore, onPageSelected, onTagAdded, onTagRemoved,  } = props;
 
 
         if (postContent == null) return null;
@@ -151,7 +152,7 @@ class BlogPage extends Component{
              
                 <BlogsPanel>
                                       
-                    {shownPosts.map(post => {
+                    {posts && posts.map(post => {
 
                         return <div>
                             
@@ -164,7 +165,15 @@ class BlogPage extends Component{
                     
 
                 </BlogsPanel>
-               
+                <hr style = {{border:"1px solid black"}}></hr>
+
+                 { amountToShow < maxAmountToShow && <LoadMoreButton onClick = {(evt) => {
+                        evt.preventDefault();
+
+                        onLoadMore(5);
+                }}> Load More </LoadMoreButton>
+                
+                }
                 <PostPanelButton name = "postModalOpen" hidden = {!isAdmin} onClick = {this.openModal}> Add Post </PostPanelButton>
                 
                 {/*At this point, this should honestly be in it's own folder, would just have to pass in more props.*/}
@@ -222,8 +231,9 @@ class BlogPage extends Component{
 
 const mapStateToProps = createStructuredSelector({
     
-    allPosts: makeSelectPosts("all"),
-    shownPosts : makeSelectPosts("shown"),
+    maxAmountToShow: makeSelectMaxAmountToShow(),
+    amountToShow : makeSelectAmountToShow(),
+    posts: makeSelectPosts(),
     postContent: makeSelectPostFields(),
     loggedInUser: makeSelectLoggedInProfile(),
     currentPage :makeSelectCurrentPage(),
@@ -240,6 +250,10 @@ const mapStateToProps = createStructuredSelector({
     return {
 
 
+        onLoadMore : (amount) => {
+
+            return dispatch(loadMore(amount));
+        },
         onTagAdded : (tag) => {
 
             return dispatch(addTag(tag));

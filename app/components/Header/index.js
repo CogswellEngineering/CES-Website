@@ -30,6 +30,7 @@ const HeaderWrapper = styled.div`
   justify-content:space-between;
   //justify-content: center;
   brder:2px solid black;
+  opacity:0.9;
 
   
 `
