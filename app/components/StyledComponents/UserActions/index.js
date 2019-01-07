@@ -6,7 +6,14 @@ import {Link} from 'react-router-dom';
 //better than just spacing them out differently.
 //Really account wrapper but keeping name
 //same for now.
-const UserActionsWrapper = styled.span`
+const UserActionsWrapper = styled.div`
+
+    display:flex;
+    flex-wrap:nowrap;
+    justify-content:space-evenly;
+    align-items:center;
+    text-align:center;
+    width:10%;
 
 `
 const LoggedOutSection = styled.span`
@@ -32,16 +39,9 @@ const DisplayName = styled.p`
 const UserActionLink = styled(Link)`
 
     text-decoration:none;
-    color:black;
-    border:1px solid black;
-    display:block;
-    margin-top:1em;
     text-align:center;
-    &:hover{
-
-        background:#D9D7D6;
-    }
-
+    color: rgb(254, 161, 0);
+  
 `;
 
 

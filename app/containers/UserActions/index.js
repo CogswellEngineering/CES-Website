@@ -30,37 +30,7 @@ import {
 class UserActions extends Component{
     
     
-    constructor(props){
-
-        super(props);
-
-        this.state = {
-            servicesOpen : false,
-        };
-
-
-        this.toggleServices = this.toggleServices.bind(this);
-        this.closeServices = this.closeServices.bind(this);
-
-    }
-
-    toggleServices(){
-
-        this.setState({
-          servicesOpen: !this.state.servicesOpen
-        });
-    
-        console.log("services open", this.state.servicesOpen);
-      }
-
-      //Might just be better to be a services page instead.
-      closeServices(){
-
-        this.setState({
-          servicesOpen:false,
-        });
-      }
-    
+  
     
     
         render(){
@@ -75,18 +45,18 @@ class UserActions extends Component{
 
                 //If it's empty then remove the cookie
 
-                (<LoggedOutSection>
+                (<UserActionsWrapper>
 
-                        <UserActionLink to={LOGIN_PATH}> Login </UserActionLink>
-                        <UserActionLink to={REGISTER_PATH}> Join us! </UserActionLink>
+                        <UserActionLink to={LOGIN_PATH} > Login </UserActionLink>
+                        <UserActionLink to={REGISTER_PATH} > Join us </UserActionLink>
 
-                    </LoggedOutSection>
+                    </UserActionsWrapper>
                 )
             
             
             :
           (
-                <LoggedInSection>
+                <UserActionsWrapper>
 
                     {/* Hello, {props.profile.displayName} */}
 
@@ -108,30 +78,12 @@ class UserActions extends Component{
                             
                             }> Logout </LogoutButton>
                     
-                </LoggedInSection>
+                </UserActionsWrapper>
 
                 
             )
             
-            return  (
-
-                <UserActionsWrapper>
-
-                    <Button ref="target"  onClick = {this.toggleServices}> Account </Button>
-                    <Popover
-                        placement='bottom'
-                        target={this.refs.target}
-                        show={this.state.servicesOpen}
-                        onHide={this.closeServices}
-                    >
-                        <DisplayName> {props.profile.displayName} </DisplayName>
-                        <hr/>
-                        {actions}
-
-                    </Popover>
-
-            </UserActionsWrapper>
-            );
+            return actions;
 
     }
 }

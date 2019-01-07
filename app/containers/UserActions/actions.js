@@ -1,4 +1,3 @@
-import {LOGGED_OUT} from './constants';
 
 
 export function logout(){

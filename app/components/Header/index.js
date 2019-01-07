@@ -18,8 +18,10 @@ const HeaderWrapper = styled.div`
 
 
 
-  background: rgb(36, 154, 29);
+  background-color: rgb(0, 24, 74);// rgb(36, 154, 29);
+  
   width:100%;
+  margin:auto;
 
   height:50px;
   position: -webkit-sticky;
@@ -28,16 +30,14 @@ const HeaderWrapper = styled.div`
   display:flex;
   //Uncomment if want on both sides of header bar.
   justify-content:space-between;
-  //justify-content: center;
+  align-items:center;
   brder:2px solid black;
   opacity:0.9;
+  text-transform:uppercase;
 
   
 `
-const VerticalLine = styled.span`
 
-    border-left:1px solid black;
-`;
 
 const ClubLogo = styled.img`
 
@@ -115,10 +115,10 @@ class Header extends Component{
     return (
         <HeaderWrapper>
 
+        <div style = {{display:"flex", width:"80%",}}>
           <ClubLogo src={require('images/CESLogo.png')} alt="sdf"/>
           <Navbar>    
 
-              <PageSection>
             {
               navPages.map(page => {
 
@@ -127,40 +127,13 @@ class Header extends Component{
               return <PageLink key={page.name} to={page.url} active={(page.url == props.activePage).toString()}> {page.name} </PageLink>
             })}
 
-              </PageSection>
+        </Navbar>
 
-<VerticalLine/>
+        </div>
+
           <UserActions/>
 
 
-            <ServiceSection>
-
-                  <Button ref="target" onClick = {this.toggleServices}> Services </Button>
-                
-                  <Popover
-                    placement='bottom'
-                    target={this.refs.target}
-                    show={this.state.servicesOpen}
-                    onHide={this.closeServices}
-                    style={{width:'200px'}}
-                  >
-                      <ServicesPopover>
-
-                          {//Yeah def in dropdown, lol considering that now there's slight delay. in them showing up.
-                      //Fixed slight delay but will do dropdown to make clear distinction between them.
-                      //Okay wait, so if I add 1 MORE element it fucks up? wtf, what makes it repeat?
-                      servicePages.map(page => {
-                          
-                          return <ServiceLink key={page.name} href={page.url}> <ServiceIcon src={require("images/"+page.name+".png")}/>{page.name} </ServiceLink>
-                          
-                          })
-                        }
-
-                      </ServicesPopover>
-                  </Popover>
-            
-              </ServiceSection>
-          </Navbar>
           
           {/*UserActions will be a container, but for now just quick testing doing this*/}
 

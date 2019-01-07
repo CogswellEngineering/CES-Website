@@ -6,11 +6,9 @@ export const PageLink = styled(Link)`
 
     color: rgb(254, 161, 0);
 
-    margin-left:1em;
     text-decoration:none;
     border-bottom: 1px solid  ${props => props.active == 'true'? 'rgb(14, 80, 38)' : 'clear'};
-    padding-bottom: ${props => props.active? '0.5em' : '0'};
-
+    adding-bottom: ${props => props.active? '0.5em' : '0'};
     &:hover{
 
         color:white;
@@ -26,7 +24,6 @@ export const ServiceLink = styled.a`
     text-decoration:none;
     width:40%;
     text-align:center;
-    display:inline-block;
 
 `;
 
