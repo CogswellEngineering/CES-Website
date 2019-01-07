@@ -12,7 +12,7 @@ import EventInfo from 'components/EventInfo';
 import reducer from './reducer';
 import injectReducer from 'utils/injectReducer';
 import saga from './saga';
-import injectSaga from 'utils/InjectSaga';
+import injectSaga from 'utils/injectSaga';
 import { EVENTS_PATH } from 'components/Header/pages';
 import Calendar from 'components/Calendar';
 import {
