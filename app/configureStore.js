@@ -11,12 +11,12 @@ import firebase from 'firebase';
 import { reactReduxFirebase } from 'react-redux-firebase';
 import { reduxFirestore } from 'redux-firestore';
 import createReducer from './reducers';
-require("dotenv/config");
 //Firebase initialization
 //Forgot needed to replace this.
 
 
 
+console.log("process.env", process.env);
 
 const fbConfig = {
 
