@@ -8,13 +8,12 @@ import injectReducer from 'utils/injectReducer';
 import saga from './saga';
 import reducer from './reducer';
 import { makeSelectPosts, makeSelectPostFields, makeSelectError,
-    makeSelectCurrentPage, makeSelectPostsPerPage,
     makeSelectPosting,makeSelectAmountToShow, makeSelectMaxAmountToShow
 } from './selectors';
 
-import { pageTurned, 
+import {  
     modificationsMade, addPostClicked, postFieldChanged, 
-    addTag, removeTag, loadMore} from './actions';
+     loadMore} from './actions';
 
 
 import { BLOG_PATH } from 'components/Header/pages';
@@ -147,13 +146,11 @@ class BlogPage extends Component{
         const props = this.props;
         const isAdmin = props.loggedInUser.isAdmin;
 
-        const { posts, amountToShow,maxAmountToShow, error, postContent, postsPerPage, currentPage, posting,
-            onFieldChanged, onPostClicked, onLoadMore, onPageSelected, onTagAdded, onTagRemoved,  } = props;
+        const { posts, amountToShow,maxAmountToShow, error, postContent, posting,
+            onFieldChanged, onPostClicked, onLoadMore,  } = props;
 
 
-        if (postContent == null) return null;
-
-        console.log("Post content", postContent);
+        if (posts == null || postContent == null) return null;
 
 
         return (<BlogPageWrapper>
@@ -166,7 +163,7 @@ class BlogPage extends Component{
                         return <div>
                             
                             
-                            <NewsCard key ={post.author+post.topic} {...post} style = {{marginTop:"1%"}} onCardClicked = {this.onCardClicked}/> 
+                            <NewsCard key ={post.topic + "_" + post.author} {...post} style = {{marginTop:"1%"}} onCardClicked = {this.onCardClicked}/> 
                             <hr style = {{border:"0.5px solid black"}}></hr>
                             </div>
                     })}
@@ -245,8 +242,6 @@ const mapStateToProps = createStructuredSelector({
     posts: makeSelectPosts(),
     postContent: makeSelectPostFields(),
     loggedInUser: makeSelectLoggedInProfile(),
-    currentPage :makeSelectCurrentPage(),
-    postsPerPage : makeSelectPostsPerPage(),
     error : makeSelectError(),
     posting : makeSelectPosting(),
 
@@ -263,15 +258,7 @@ const mapStateToProps = createStructuredSelector({
 
             return dispatch(loadMore(amount));
         },
-        onTagAdded : (tag) => {
-
-            return dispatch(addTag(tag));
-        },
-
-        onTagRemoved : (id) => {
-
-            return dispatch(removeTag(id));
-        },
+       
         onLinkAdded : (content) => {
 
             return dispatch(addLink(content));
@@ -289,13 +276,6 @@ const mapStateToProps = createStructuredSelector({
             return dispatch(modificationsMade(posts));
         },
         
-        onPageSelected : (page) => {
-
-            console.log("page",page);
-
-            return dispatch(pageTurned(page));
-        },
-
         onPostClicked : (post) =>{
 
             return dispatch(addPostClicked(post));

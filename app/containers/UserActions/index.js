@@ -12,13 +12,10 @@ import { createStructuredSelector } from 'reselect';
 import { makeSelectLoggedIn, makeSelectLoggedInProfile } from 'containers/App/selectors';
 import injectReducer from 'utils/injectReducer';
 import { withCookies } from 'react-cookie';
-import Popover from 'react-simple-popover';
 
 import {
     
-    LoggedOutSection,
     LogoutButton,
-    LoggedInSection,
     UserActionsWrapper,
     UserActionLink,
     DisplayName,

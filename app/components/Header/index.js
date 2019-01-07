@@ -12,7 +12,6 @@ import UserActions from 'containers/UserActions';
 import { navPages, servicePages } from './pages';
 import { Button} from 'components/StyledComponents/UserActions';
 
-import Popover from 'react-simple-popover';
 
 const HeaderWrapper = styled.div`
 

@@ -16,19 +16,6 @@ const UserActionsWrapper = styled.div`
     width:10%;
 
 `
-const LoggedOutSection = styled.span`
-
-        
-
-`;
-
-const LoggedInSection = styled.span`
-
-   
-
-
-`;
-
 
 const DisplayName = styled.p`
 
@@ -68,8 +55,6 @@ const LogoutButton = styled.button`
 export {
     
     UserActionsWrapper,
-    LoggedOutSection,
-    LoggedInSection,
     UserActionLink,
     DisplayName,
     Button,

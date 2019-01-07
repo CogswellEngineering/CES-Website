@@ -17,31 +17,6 @@ const makeSelectPosting = () => createSelector(
 
 )
 
-const makeSelectCurrentPage = () => createSelector(
-
-    blogPageState,
-    (blogPageState) => {
-
-        if (blogPageState == null) return 1;
-
-        return blogPageState.get("currentPage");
-
-    }
-    
-);
-
-
-const makeSelectPostsPerPage = () => createSelector(
-
-    blogPageState,
-    (blogPageState) => {
-
-        if (blogPageState == null) return 10;
-
-        return blogPageState.get("postsPerPage");
-    }
-
-);
 
 //Something like this could use generic for, but instantiating an object just for that is excessive,
 //rather dupe code, then have that overhead.
@@ -105,24 +80,7 @@ const makeSelectMaxAmountToShow = () => createSelector(
         return allPosts.length;
     }
 )
-/*
-const makeSelectHaveMoreToShow = () => createSelector(
 
-    blogPageState,
-    (blogPageState) => {
-
-        if (blogPageState == null) return false;
-
-        const allPosts = blogPageState.get("allPosts");
-
-        //Might have to just select amount to show and make the check within the render.
-        //cause this would be after I update it so if I just equality here, it will never render all of them.
-        if (amountToShow > allPosts.length){
-            return false;
-        }
-    }
-)
-*/
 const makeSelectPostFields = () => createSelector(
 
     blogPageState,

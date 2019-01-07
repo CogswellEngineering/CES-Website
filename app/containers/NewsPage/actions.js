@@ -1,6 +1,5 @@
 import {
     LOAD_MORE,
-    PAGE_TURNED,
     LOAD_POSTS,
     LOADING_POSTS,
     LOADED_POSTS,
@@ -25,13 +24,7 @@ function loadMore(amountToLoad){
     };
 }
 
-function pageTurned(page){
 
-    return {
-        type:PAGE_TURNED,
-        page,
-    };
-}
 
 //Loading in posts actions.
 
@@ -109,7 +102,6 @@ function postFailed(err){
 export {
 
     loadMore,
-    pageTurned,
     loadPosts,
     loadingPosts,
     loadedPosts,
