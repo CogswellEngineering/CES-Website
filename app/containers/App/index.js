@@ -44,7 +44,7 @@ import { LOGIN_PATH,REGISTER_PATH,
 import 'react-dropdown/style.css'
 import LoginPage from '../AccountRelated/LoginPage';
 import { withCookies } from 'react-cookie';
-import { makeSelectLocation, makeSelectDoneLoading} from 'selectors';
+import { makeSelectLocation, makeSelectDoneLoading} from './selectors';
 
 
 

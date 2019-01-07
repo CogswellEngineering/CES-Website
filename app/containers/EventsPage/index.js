@@ -1,23 +1,22 @@
 import React, { Component} from 'react';
 import styled from 'styled-components';
-import EventInfo from 'components/EventInfo';
 import { withFirebase} from 'react-redux-firebase';
-
-
-
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
+import { createStructuredSelector } from 'reselect'
 import { compose } from 'redux';
+
+
+
+;
+import EventInfo from 'components/EventInfo';
 import reducer from './reducer';
 import injectReducer from 'utils/injectReducer';
 import saga from './saga';
 import injectSaga from 'utils/InjectSaga';
 import { EVENTS_PATH } from 'components/Header/pages';
-import {Checkbox, CheckboxGroup} from 'react-checkbox-group';
 import Calendar from 'components/Calendar';
 import {
 
-    monthSelected,
     eventSelected,
     attendPressed,
     updateEvents,
@@ -54,13 +53,6 @@ const CalendarWrapper = styled.div`
 const FilteringSection = styled.div`
 
 `;
-
-const StyledCheckboxGroup = styled(CheckboxGroup)`
-
-    margin-left:5%;
-    
-
-`
 
 
 
