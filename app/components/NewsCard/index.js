@@ -61,6 +61,8 @@ const Title = styled.p`
 
     grid-area:title;
     font-weight: bold;
+    color: rgb(254, 161, 0);
+    
 
 `;
 

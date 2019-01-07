@@ -27,7 +27,7 @@ import {
 } from 'components/StyledComponents/UserActions';
 
 
-class UserActions extends Component{
+class UserActions extends React.PureComponent{
     
     
   

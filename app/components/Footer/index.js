@@ -4,7 +4,9 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
     
-    background-color:rgb(36, 154, 29);
+    background-color: rgb(0, 24, 74);
+    color: rgb(254, 161, 0);
+
     position: -webkit-sticky;
     position:sticky;
     height:50px;

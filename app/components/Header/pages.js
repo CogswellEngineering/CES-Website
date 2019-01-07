@@ -1,6 +1,6 @@
 export const navPages = [
     {
-      name: "Home",
+      name: "About",
       url: "/",
     },
    {

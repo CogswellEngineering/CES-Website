@@ -40,6 +40,7 @@ import {
 
 const EventsWrapper = styled.div`
 
+margin-top:5%;
 
     
 `
