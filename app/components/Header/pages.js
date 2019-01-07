@@ -4,12 +4,12 @@ export const navPages = [
       url: "/",
     },
    {
-      name: "Event Calendar",
+      name: "Events",
       url:"/events"
     },
     {
       name:"News",
-      url:"/blog"
+      url:"/news"
     },
 ]
 
@@ -37,8 +37,10 @@ export const USER_PROFILE_PATH = "/account/:uid";
 //Only owner can get to inventory and update profile
 export const USER_INVENTORY_PATH = "/account/inventory";
 export const UPDATE_USER_PROFILE_PATH = "/account/update";
-export const BLOG_PATH = "/blog";
+export const BLOG_PATH = "/news";
+export const SPECIFIC_BLOG = "/news/:uid"
 export const EVENTS_PATH = "/events";
+export const SPECIFIC_EVENT = "/events/:uid";
 
 
 

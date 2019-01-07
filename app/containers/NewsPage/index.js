@@ -62,6 +62,7 @@ class BlogPage extends Component{
         this.closeModal = this.closeModal.bind(this);
      
         this.updateTags = this.updateTags.bind(this);
+        this.onCardClicked = this.onCardClicked.bind(this);
         
     }
 
@@ -132,6 +133,14 @@ class BlogPage extends Component{
         this.unsubscribe();
     }
 
+
+    onCardClicked = (newsCard) =>{
+
+
+        const newsUid = newsCard.fullReference;
+
+        this.props.history.push("/news/"+newsUid);
+    }
     
     render(){
 
@@ -157,7 +166,7 @@ class BlogPage extends Component{
                         return <div>
                             
                             
-                            <NewsCard key ={post.author+post.topic} {...post} style = {{marginTop:"1%"}} /> 
+                            <NewsCard key ={post.author+post.topic} {...post} style = {{marginTop:"1%"}} onCardClicked = {this.onCardClicked}/> 
                             <hr style = {{border:"0.5px solid black"}}></hr>
                             </div>
                     })}

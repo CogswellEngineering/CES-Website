@@ -124,10 +124,10 @@ const NewsCard = props => {
 
 
 
-    const {thumbnail,topic,author, postDate, body,tags, onCardClick} = props;
+    const {thumbnail,topic,author, postDate, body,tags, onCardClicked} = props;
     console.log("post date", postDate);
     return (
-        <Wrapper onClick = {onCardClick} style = {props.style}>
+        <Wrapper onClick = {onCardClicked} style = {props.style}>
 
 
             <Thumbnail image = {thumbnail} />

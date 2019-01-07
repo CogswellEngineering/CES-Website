@@ -13,7 +13,6 @@ const RegistrationWrapper = styled.div`
     margin:auto;
     margin-top:5%;
     padding-bottom:20%;
-    border:2px solid black;
 
 `
 
