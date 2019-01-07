@@ -11,13 +11,24 @@ import firebase from 'firebase';
 import { reactReduxFirebase } from 'react-redux-firebase';
 import { reduxFirestore } from 'redux-firestore';
 import createReducer from './reducers';
-//Firebase initialization
-//Forgot needed to replace this.
+
+//For some reasons env vars not working. It's fine though. Important stuff is in back end server.
+//This is fine thanks to rules.
+const fbConfig = {
+  
+  apiKey: 'AIzaSyADrVRU9CSIktkXnvQXcXFeOPicmYtC91M',
+  authDomain: 'ceswebsite-cf841.firebaseapp.com',
+  databaseURL: 'https://ceswebsite-cf841.firebaseio.com',
+  projectId: 'ceswebsite-cf841',
+  storageBucket: 'ceswebsite-cf841.appspot.com',
+  messagingSenderId: '612020639792',
 
 
+};
 
-console.log("process.env", process.env);
+console.log(process.env);
 
+/*
 const fbConfig = {
 
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -27,7 +38,7 @@ const fbConfig = {
   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
 }
-
+*/
 const settings = {/* your settings... */ timestampsInSnapshots: true};
 
 firebase.initializeApp(fbConfig);
