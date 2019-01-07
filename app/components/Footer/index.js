@@ -17,7 +17,6 @@ const Wrapper = styled.div`
     display: -moz-flex;
     display: -webkit-flex;
 
-    border:2px solid black;
     height:50px;
     flex-direction:row;
     justify-content: space-between;

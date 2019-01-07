@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-
+import {Link} from 'react-router-dom';
 
 const Wrapper = styled.div`
 
@@ -25,7 +25,6 @@ const Picture = styled.div`
 const Title = styled.div`
   
     text-transform:uppercase;
-    text-decoration: underline;
     text-align:center;
     color: rgb(254, 161, 0);
 
@@ -65,25 +64,7 @@ const WhatWeDo = styled.div`
 
 
     
-    //Inverse this for next ones.
-    & > div{
 
-        display:grid;
-        grid-template-columns: 0.6fr 1fr;
-        grid-column-gap: 1%;
-        grid-template-rows: 30% auto;
-        grid-template-areas:
-        "picture subtitle"
-        "picture description";
-
-        
-    }
-
-    & > ${Title}{
-
-        display:block;
-       
-    }
 `;
 
 const HelpStudentsBlock = styled.div`
@@ -97,12 +78,46 @@ const HelpStudentsBlock = styled.div`
     "picture description";
 `;
 
+
+const StyledLink = styled(Link)`
+
+
+    color: rgb(254, 161, 0);
+    text-decoration:none;
+`;
+
+
 const HostEventsBlock = styled.div`
 
+    margin-top:5%;
     display:grid;
+    grid-template-columns:  1fr 1fr;
+    grid-template-rows: 0.5fr 0.5fr;
+
+    grid-template-areas:
+    "subtitle eventHeader"
+    "description eventList";
 
 `;
 
+const EventList = styled.ul`
+
+    list-style:none;
+    grid-area: eventList;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-evenly;
+`;
+
+const EventHeader = styled.div`
+
+    grid-area:eventHeader;
+    font-weight: bold;
+`;
+
+const EventItem = styled.li`
+
+`;
 
 const OtherServicesBlock = styled.div`
 
@@ -120,7 +135,9 @@ const JoinUs = styled.div`
 
 export {
 
-    WhoWeAre, WhatWeDo, JoinUs, Title, SubTitle, Description,Picture
+    WhoWeAre, WhatWeDo, HelpStudentsBlock, 
+    HostEventsBlock, EventList, EventHeader, EventItem, 
+    OtherServicesBlock, JoinUs, Title, SubTitle, Description,Picture, StyledLink
 };
 
 
