@@ -1,14 +1,11 @@
 import {
 
     EVENT_PRESSED,
-    ATTEND_PRESSED,
     EVENTS_UPDATED,
     EVENT_CLOSED,
     EVENT_LOADING,
-    ATTEND_FAILED,
-    ATTEND_CANCEL,
-    VERIFIED_ATTENDING,
     FILTER_CHANGED,
+    VERIFIED_ATTENDING,
 
 } from './constants';
 
@@ -75,29 +72,9 @@ function verifiedAttending(isAttending, event){
     };
 }
 
-
-function attendFailed(error){
-
-    return {
-        type: ATTEND_FAILED,
-        error,
-    };
-}
-
-function cancelAttendance(event){
-    
-    return {
-        type: ATTEND_CANCEL,
-        event,
-    };
-}
-
 export {
 
     eventSelected,
-    attendPressed,
-    attendFailed,
-    cancelAttendance,
     updateEvents,
     closeEvent,
     loadingEvent,

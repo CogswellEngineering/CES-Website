@@ -15,10 +15,8 @@ import Calendar from 'components/Calendar';
 import {
 
     eventSelected,
-    attendPressed,
     updateEvents,
     closeEvent,
-    cancelAttendance,
     filterChanged,
 
 } from './actions';
@@ -29,7 +27,6 @@ import {
     createSelectEvent,
     createSelectMonth,
     createSelectFlag,
-    createSelectError,
     createSelectFilter,
 } from './selectors';
 
@@ -175,8 +172,8 @@ class EventsPage extends Component{
 
     render(){
 
-        const { selectedEvent, events, error, tryingToAttend ,isAttendee, filter,
-            onCloseEvent, onEventSelected, onAttendEvent, onCancelAttendance, onFilterChanged} = this.props;
+        const { selectedEvent, events, error ,isAttendee, filter,
+            onCloseEvent, onEventSelected, onFilterChanged} = this.props;
         
 
         if (events == null || this.state.possibleFilters.length == 0){
@@ -197,8 +194,8 @@ class EventsPage extends Component{
             
             
 
-            <EventInfo event = {selectedEvent} onMoreClicked = {this.onGoToEvent} onAttend = {onAttendEvent} onCancel = {onCancelAttendance} onExit = {onCloseEvent} error={error}
-                loading={tryingToAttend} isAttendee = {isAttendee} loggedInUser = {this.props.firebase.auth().currentUser}/>
+            <EventInfo event = {selectedEvent} onMoreClicked = {this.onGoToEvent}  onExit = {onCloseEvent}
+               isAttendee = {isAttendee} loggedInUser = {this.props.firebase.auth().currentUser}/>
             
             
             </CalendarWrapper>
@@ -221,7 +218,6 @@ const mapStateToProps = createStructuredSelector({
     filter: createSelectFilter(),
     selectedEvent : createSelectEvent(),
     events : createSelectEvents(),
-    error : createSelectError(),
     
 });
 

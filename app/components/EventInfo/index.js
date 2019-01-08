@@ -62,17 +62,17 @@ const ViewMoreButton = styled.div`
         text-decoration:underline;
 
 `;
-const Actions = styled.div`
-
-        text-align:center;
 
 
-`
 
 const GuestBlock = styled.span`
 
 `
 
+const AttendingNotice = styled.p`
+
+
+`;
 
 //There will be event list via bigCalendar and clicking on them will pop up this page.
 const EventInfo = (props) => {
@@ -92,10 +92,9 @@ const EventInfo = (props) => {
         Guest Attendees.(Non-student industry or alumni attendees)
     */
    
-    const {event, error, loading, isAttendee,loggedInUser,
+    const {event, isAttendee,loggedInUser,
         onMoreClicked} = props;
 
-    console.log("logged in User", loggedInUser);
    
     var {title, host, description, startDate, endDate } = event;
 
@@ -113,11 +112,7 @@ const EventInfo = (props) => {
                 onClose={() => {props.onExit()}}
                 center = {true}>
             
-                {loading?
-
-                        <p> Loading Event</p>
-                
-                        :                               
+                                        
                         <InfoBlock>
                                 <EventHeader>
                                         <EventTitle>{title}</EventTitle>
@@ -130,34 +125,21 @@ const EventInfo = (props) => {
 
                                 </EventHeader>
                                 <GuestBlock>
-                                        {/*Here will iterate through array of guests*/}
+                                        {/*Here will iterate through array of guests Will be in full page? Or good on preview hmm.*/}
                                 </GuestBlock>
                                 
         
                                 <EventDescription> {description} </EventDescription>
                         </InfoBlock>
-                }
+                
 
-                {loggedInUser == null?
+                {loggedInUser && isAttendee &&
 
-                        <i> You must be logged in to mark yourself an attendee of this event </i>
-                :
-                        isAttendee? 
-                                <Actions>
-                                        <Button onClick = { () => {props.onCancel(event)}}> Cancel Attendance </Button>
-                                </Actions>
-                        :
-                                <Actions>
-                                        <Button hidden = {props.onAttend == null } onClick = { () => {props.onAttend(event)}}> Attend </Button>
-                                </Actions>
+                        <AttendingNotice> You are attending this event</AttendingNotice>
                  }
 
-                 <ViewMoreButton onClick = {onMoreClicked}> See more </ViewMoreButton>
+                 <ViewMoreButton onClick = { () => {onMoreClicked(); props.onExit();}}> See more </ViewMoreButton>
 
-                 <p> {error} </p>
-
-
-        
         </EventInfoWrapper>
         );
 
