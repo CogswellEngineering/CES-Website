@@ -107,7 +107,7 @@ class EventsPage extends Component{
     getEvents(){
 
         //Set up event listener to listen for update to event list.
-        const eventsRef = this.props.firebase.firestore().collection("ClubInfo").doc("Events").collection("EventList");
+        const eventsRef = this.props.firebase.firestore().collection("ClubInfo").doc("Events").collection("EventCards");
 
 
         //Basically checking if fields within fields updated, as in startDate, event titles etc.
@@ -132,6 +132,7 @@ class EventsPage extends Component{
                         //That's alot of requests to the server which is probably slow.
                     event.startDate = event.startDate.toDate();
                     event.endDate = event.endDate.toDate();
+
                     events.push(event);
                     
                 });
@@ -158,7 +159,8 @@ class EventsPage extends Component{
         console.log(this.props);
 
         const {history, selectedEvent} = this.props;
-        history.push("/events/"+ selectedEvent.eventId);
+        
+        history.push("/events/"+ selectedEvent.eventUid);
 
     }
 

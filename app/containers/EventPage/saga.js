@@ -17,7 +17,6 @@ import {
     updateTracking,
 } from './actions';
 
-const firestore = firebase.firestore();
 
 
 
@@ -25,6 +24,8 @@ const firestore = firebase.firestore();
 function* loadEventSaga(payload){
 
     const {eventUid} = payload;
+
+    const firestore = firebase.firestore();
 
     //Gets ref of event from database.
     //Contemplating storing alot of these in constants somewhere to avoid literals as much as possible.
@@ -47,8 +48,9 @@ function* loadEventSaga(payload){
 
 function* trackEventSaga(payload){
 
+
     const {user, eventUid} = payload;
-    const {userUid, email} = user;
+    const {uid, email} = user;
     //Tracking an event is essentialy saying that this user is watching eventUid, so when anything is uploaded tagged with
     //the event, then that user notified.
 
@@ -57,6 +59,7 @@ function* trackEventSaga(payload){
     //an added property called trackers or watchers which will be array of userUids that are following the event.
     //as well as eventUid itself to act as primary key. This will be added to tags after an event has been created.
     //Yeahhhh that should work boyyy.
+    const firestore = firebase.firestore();
 
     const tagsRef = firestore.collection("Tags")
     const query = tagsRef.where("type","==","event").where("eventUid", "==",eventUid);
@@ -154,6 +157,7 @@ function* attendEventSaga(payload){
 function* cancelAttendanceSaga(payload){
 
     const {userUid, eventUid} = payload;
+    const firestore = firebase.firestore();
 
     const attendanceRef = firestore.collection("ClubInfo").doc("Events").collection("Attendees");
 
@@ -195,3 +199,5 @@ function* saga(){
     yield takeLatest(ATTEND_EVENT, attendEventSaga);
     yield takeLatest(CANCEL_ATTENDANCE, cancelAttendanceSaga);
 }
+
+export default saga;

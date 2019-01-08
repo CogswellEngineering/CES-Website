@@ -29,11 +29,11 @@ function updateEvents(events){
 }
 
 
-function eventSelected(event){
+function eventSelected(eventCard){
 
     return {
         type: EVENT_PRESSED,
-        event,
+        eventCard,
     };
 }
 
@@ -51,23 +51,12 @@ function closeEvent(){
     };
 }
 
-//Need reference to event to attend.
-function attendPressed(event){
-
-    return {
-
-        type: ATTEND_PRESSED,
-        event,
-    };
-
-}
-
-function verifiedAttending(isAttending, event){
+function verifiedAttending(isAttending, eventCard){
 
     return {
         type: VERIFIED_ATTENDING,
         isAttending,
-        event,
+        eventCard,
 
     };
 }

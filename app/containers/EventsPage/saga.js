@@ -11,12 +11,12 @@ function* checkIfAttendee(action){
 
     if (loggedInUser == null){
 
-        yield put(verifiedAttending(false,action.event));
+        yield put(verifiedAttending(false,action.eventCard));
         return;
         
     }
 
-    const event = action.event;
+    const eventCard = action.eventCard;
 
     const attendeeRef = firebase.firestore().collection("ClubInfo").doc("Events").collection("Attendees");
 
@@ -24,16 +24,15 @@ function* checkIfAttendee(action){
 
     try{
 
-        console.log("Event",event);
+        console.log("Event",eventCard);
         const query = attendeeRef.where("attendee","==",loggedInUser.uid)
-        .where("eventTitle","==",event.title)
-        .where("startDate","==",firebase.firestore.Timestamp.fromDate(event.startDate));
+        .where("eventUid","==",eventCard.eventUid);
 
 
         //Like normal snaphots, has exists property.
         const querySnapshot = yield query.get()        
 
-        yield put(verifiedAttending(!querySnapshot.empty,event));
+        yield put(verifiedAttending(!querySnapshot.empty,eventCard));
     
     }
     catch(error){

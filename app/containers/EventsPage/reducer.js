@@ -63,7 +63,7 @@ export default function eventReducer(state = initialState, action){
 
             return state
                 .set("isAttendee",action.isAttending)
-                .set("clickedEvent", action.event)
+                .set("clickedEvent", action.eventCard)
 
         case EVENT_CLOSED:
             

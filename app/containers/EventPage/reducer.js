@@ -1,4 +1,4 @@
-import fromJS from 'immutable';
+import {fromJS} from 'immutable';
 
 import {
 
@@ -12,7 +12,7 @@ const initialState = fromJS({
 
 
     loadedEvent: null,
-    attendance: false,
+    attending: false,
     tracking: false,
 
 });
@@ -24,18 +24,22 @@ export default function reducer( state = initialState, action){
 
         case LOADED_EVENT:
 
+
             return state
                 .set("loadedEvent", action.event);
 
         case ATTENDANCE_UPDATED:
 
             return state
-                .set("attendance", action.isAttending);
+                .set("attending", action.isAttending);
 
         case EVENT_TRACKING_UPDATED:
 
             return state
                 .set("tracking", action.isTracking);
+
+        default:
+            return state;
     }
 
 }
