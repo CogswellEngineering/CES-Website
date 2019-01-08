@@ -17,7 +17,7 @@ import {
     updateTracking,
 } from './actions';
 
-
+const firestore = firebase.firestore();
 
 
 function* loadEventSaga(payload){
@@ -27,7 +27,7 @@ function* loadEventSaga(payload){
     //Gets ref of event from database.
     //Contemplating storing alot of these in constants somewhere to avoid literals as much as possible.
     //But that's polish, and ALOT of replacing later though...
-    const eventRef = firebase.firestore().collection("ClubInfo").doc("Events").collection("EventList").doc(eventUid);
+    const eventRef = firestore.collection("ClubInfo").doc("Events").collection("EventList").doc(eventUid);
 
     //yield for get promise to fulfill or fail
     const eventSnapshot = yield eventRef.get();
@@ -56,8 +56,8 @@ function* trackEventSaga(payload){
     //as well as eventUid itself to act as primary key. This will be added to tags after an event has been created.
     //Yeahhhh that should work boyyy.
 
-    const eventTagsRef = firebase.firestore().collection("Tags")
-    const query = eventTagsRef.where("type","==","event").where("eventUid", "==",eventUid);
+    const tagsRef = firestore.collection("Tags")
+    const query = tagsRef.where("type","==","event").where("eventUid", "==",eventUid);
 
     const querySnapshot = yield query.get();
 
@@ -77,6 +77,8 @@ function* trackEventSaga(payload){
 
         email
     });
+
+    yield put (updateTracking(true));
 
     //Hmm maybe collection of trackers instead of array, the reason I say this is both to reduce call to data twice
     //also how inefficient would tracking be? Would have to loop until find matching useruid
@@ -100,6 +102,25 @@ function* trackEventSaga(payload){
 function* untrackEventSaga(payload){
 
     const {userUid, eventUid} = payload;
+
+    //Hindsight I really should just create firestore variable outside to reduce the deferencing
+    //overhead.
+
+    const tagsRef = firestore.collection("Tags")
+    const query = eventTagsRef.where("type","==","event").where("eventUid", "==",eventUid);
+
+    const querySnapshot = yield query.get();
+
+    //Again same logic, it should never happen that it doesn't exist.
+    //And there should only be one.
+    const queryDocSnapshot = querySnapshot.docs[0];
+
+    const trackerDoc = queryDocSnapshot.ref.collection("Trackers").doc(userUid);
+
+    yield trackerDoc.delete();
+
+    yield put(updateTracking(false));
+
 }
 
 //Instead of event title, should really be eventUid, honestly.
@@ -109,7 +130,7 @@ function* attendEventSaga(payload){
     //Honestly should just send useruid then too lmao.
     const {userUid, eventUid} = payload;
 
-    const attendanceRef = firebase.firestore().collection("ClubInfo").doc("Events").collection("Attendees").doc();
+    const attendanceRef = firestore.collection("ClubInfo").doc("Events").collection("Attendees").doc();
 
     var succeeded = true;
     yield attendanceRef.set({
@@ -132,7 +153,7 @@ function* cancelAttendanceSaga(payload){
 
     const {userUid, eventUid} = payload;
 
-    const attendanceRef = firebase.firestore().collection("ClubInfo").doc("Events").collection("Attendees");
+    const attendanceRef = firestore.collection("ClubInfo").doc("Events").collection("Attendees");
 
     //Then I want to do where attendee equal to user uid and eventUid equal event
     //Using event uid I don't need start date and title to be primary keys anymore, idk what i was thinking before.
