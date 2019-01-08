@@ -20,6 +20,8 @@ import {
 const firestore = firebase.firestore();
 
 
+
+
 function* loadEventSaga(payload){
 
     const {eventUid} = payload;

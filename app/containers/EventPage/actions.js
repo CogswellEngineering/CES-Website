@@ -54,12 +54,12 @@ function cancelAttendance(userUid, event){
     };
 }
 
-function trackEvent(user, eventUid){
+function trackEvent(userUid, eventUid){
 
     //Only need this cause rtacking all news posts with eventUid as tag.
     return {
         type: TRACK_EVENT,
-        user,
+        userUid,
         eventUid,
     };
 }
