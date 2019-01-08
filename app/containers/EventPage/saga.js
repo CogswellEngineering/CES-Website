@@ -10,12 +10,35 @@ import {
 
 } from './constants';
 
+import {
+
+    loadedEvent,
+    updateAttendance,
+    updateTracking,
+} from './actions';
+
 
 function* loadEventSaga(payload){
 
-
     const {eventUid} = payload;
 
+    //Gets ref of event from database.
+    //Contemplating storing alot of these in constants somewhere to avoid literals as much as possible.
+    //But that's polish, and ALOT of replacing later though...
+    const eventRef = firebase.firestore().collection("ClubInfo").doc("Events").collection("EventList").doc(eventUid);
+
+    //yield for get promise to fulfill or fail
+    const eventSnapshot = yield (eventRef.get());
+
+    //Basically if it fails.
+    if (!eventSnapshot.exists){
+
+        yield put(loadedEvent(null));
+    }
+    else{
+
+        yield put (loadedEvent(eventSnapshot.data()));
+    }
 }
 
 function* trackEventSaga(payload){
