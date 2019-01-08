@@ -28,6 +28,7 @@ import  {
 
     Wrapper,
     Gallery,
+    Picture,
     Header,
     Body,
     Poster,
@@ -35,6 +36,7 @@ import  {
     Description,
     DateAndTime,
     Agenda,
+    AgendaItem,
     Contact,
     CallToAction,
     Tags,
@@ -98,10 +100,14 @@ class EventPage extends Component{
     renderHeader(){
 
         const {title, startDate, host} = this.props.event;
-
+        console.log(startDate);
+        const format = "MMMD";
         return (
             <Header>
 
+                {dateFns.format(startDate,format)}
+                {title}
+                by {host}
 
 
             </Header>
@@ -112,7 +118,13 @@ class EventPage extends Component{
 
         const {gallery } = this.props.event;
         return (
-            <Gallery>
+            gallery && <Gallery>
+
+                {gallery.map( picture => {
+
+                    //Prob should make something here lol.
+                    <Picture image = {picture}/>
+                })}
 
             </Gallery>
         );
@@ -123,27 +135,60 @@ class EventPage extends Component{
 
 
 
-        const {description, agenda, dateAndTime, location, callToAction, contact} = this.props.event;
+        const {description, agenda, startDate, endDate, location, callToAction, contact} = this.props.event;
         //Body will be it's own grid
+
+        const dateFormat = "MMMM D YYYY h:mm A";
         return (
             <Body>
                 {/*Prob doesn't need to be styled component, just set grid name*/}
-                <Description> </Description>
-
+                <Description> {description} </Description>
+                
                 {/*does need to be cause maybe a grid in itself*/}
                 <DateAndTime> 
+                       <p> {dateFns.format(startDate, dateFormat)} - {dateFns.format(endDate, dateFormat)} </p>
 
                 </DateAndTime>
 
                 {/*Same case as Description, actually know this will be a ul, prob flex of times and titles*/}
-                <Agenda> </Agenda>
+                {agenda && <Agenda> 
 
-                <Location> </Location>
+                        {
+                            agenda.map(item => {
+
+                                const timeFormat = "h:mm a";
+                                const {start, end} = item.timeframe;
+
+                                return <AgendaItem key = {item.activity}> 
+
+                                    <p style = {{gridArea: "timeFrame"}}>
+                                    {dateFns.format(start.toDate(), timeFormat)} - {dateFns.format(end.toDate(), timeFormat)} 
+                                    </p>
+                                    <div style = {{gridArea: "activity"}}>
+                                        {item.activity}
+                                    </div>
+
+                                </AgendaItem>
+                            })
+                        }
+
+                </Agenda>
+                }
+
+                <Location> 
+                    {/*don't really need to be separate... Also just feeling lazy.
+                    <p> {location.state} </p>
+                    <p> {location.city} </p>
+            <p> {location.}*/}
+
+                    {location}
+
+                </Location>
                 
                 {/*Same as description*/}
-                <CallToAction> </CallToAction>
+                <CallToAction> {callToAction} </CallToAction>
 
-                {/*Same as description*/}
+                {/*Same as description* actually no will be div with images inside it so a flex. Still actually lol.*/}
                 <Contact> </Contact>
                
             </Body>
@@ -157,8 +202,31 @@ class EventPage extends Component{
         return (
             <Footer>
             
-                <Tags> </Tags>
-                <Share> </Share>
+                {/*Should have reusable tags, I'll just use those*/}
+                {tags && <Tags> 
+
+                    {/*Take from tag from elsewhere and use same*/}
+                    {tags.map (tag => {
+
+                        return <div> {tag} </div>
+                    })}
+
+                </Tags>
+
+                }
+
+                {/*Will be flex box with image links*/}
+                {shareLinks && <Share> 
+                    
+                    {shareLinks.map(shareLink => {
+
+                            //Not SUPER important to have thse, this is extra shit honeslty, core first my man
+                            //get layout done.
+                        <a href = {shareLink}/>
+                    })}
+
+                </Share>
+                }
             </Footer>
             );
 

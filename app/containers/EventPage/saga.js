@@ -42,7 +42,12 @@ function* loadEventSaga(payload){
     }
     else{
 
-        yield put (loadedEvent(eventSnapshot.data()));
+        const event = eventSnapshot.data();
+        event.startDate = event.startDate.toDate();
+        event.endDate = event.endDate.toDate();
+
+
+        yield put (loadedEvent(event));
     }
 }
 
