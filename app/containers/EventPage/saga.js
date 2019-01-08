@@ -1,4 +1,4 @@
-import {call, put, takeLatest} from 'redux-saga/effects';
+import {put, takeLatest} from 'redux-saga/effects';
 import firebase from 'firebase';
 import {
 
@@ -45,9 +45,55 @@ function* loadEventSaga(payload){
 
 function* trackEventSaga(payload){
 
-    const {userUid, eventUid} = payload;
+    const {user, eventUid} = payload;
+    const {userUid, email} = user;
+    //Tracking an event is essentialy saying that this user is watching eventUid, so when anything is uploaded tagged with
+    //the event, then that user notified.
+
+    //So what I could do is have tags in firestore which will be generated as list to choose from when
+    //posting new news post. Then right now tags already have type and title, so type could be event, then those have
+    //an added property called trackers or watchers which will be array of userUids that are following the event.
+    //as well as eventUid itself to act as primary key. This will be added to tags after an event has been created.
+    //Yeahhhh that should work boyyy.
+
+    const eventTagsRef = firebase.firestore().collection("Tags")
+    const query = eventTagsRef.where("type","==","event").where("eventUid", "==",eventUid);
+
+    const querySnapshot = yield query.get();
+
+    //Again same logic, it should never happen that it doesn't exist.
+    //And there should only be one.
+    const queryDocSnapshot = querySnapshot.docs[0];
+
+    //Later may need to go from ref to data to doc to get actual reference
+    //just incase gone because ref no longer in documentation.
+    //First place to look if fails when testing this.
+    //Collection is better search optimization wise, but it is essentially a doc with no data lol.
+    //Maybe email?? If that's cause do actually need to pass user object nost just uid.
+    //Actually If i do that, won't have to get user at each tracker for the notification implementation
+    //which is a huge optimiztion to reduce calls to database, fuck yeah, okay foresight at it's best.
+    const newTrackerRef = queryDocSnapshot.ref.collection("Trackers").doc(userUid);
+    newTrackerRef.set({
+
+        email
+    });
+
+    //Hmm maybe collection of trackers instead of array, the reason I say this is both to reduce call to data twice
+    //also how inefficient would tracking be? Would have to loop until find matching useruid
+    //query do same, but they optimimize it with concurrency, I do not, better choice in this case is collection.
+    /*const data = queryDocSnapshot.data();
+
+  
+   // const trackers = data.trackers.concat(userUid);
+
+    yield queryDocSnapshot.ref().update({
+        trackers:trackers,
+    });
+    */
 
 
+
+    
 
 }
 
@@ -95,6 +141,7 @@ function* cancelAttendanceSaga(payload){
 
     const querySnapshot = yield query.get();
 
+    //This check not needed if everything working correctly. It'll actually hide what would be errors.
     if (!querySnapshot.empty){
 
         //There should only ever be one, could do for each loop to see if ever case there is multiple of same primary keys
