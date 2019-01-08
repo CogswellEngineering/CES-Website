@@ -28,11 +28,11 @@ function loadedEvent(event){
     };
 }
 
-function attendEvent(user, event){
+function attendEvent(userUid, event){
 
     return {
         type:ATTEND_EVENT,
-        user,
+        userUid,
         eventUid
     };
 }
@@ -45,21 +45,21 @@ function updateAttendance(isAttending){
     };
 }
 
-function cancelAttendance(user, event){
+function cancelAttendance(userUid, event){
 
     return {
         type: CANCEL_ATTENDANCE,
-        user,
+        userUid,
         eventUid,
     };
 }
 
-function trackEvent(user, eventUid){
+function trackEvent(userUid, eventUid){
 
     //Only need this cause rtacking all news posts with eventUid as tag.
     return {
         type: TRACK_EVENT,
-        user,
+        userUid,
         eventUid,
     };
 }
@@ -73,12 +73,12 @@ function updateTracking(isTracking){
     };
 }
 
-function untrackEvent(user, eventUid){
+function untrackEvent(userUid, eventUid){
 
     return {
 
         type:UNTRACK_EVENT,
-        user,
+        userUid,
         eventUid,
     };
 }
