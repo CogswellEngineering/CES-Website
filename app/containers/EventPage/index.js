@@ -79,9 +79,7 @@ class EventPage extends Component{
             return true;
         }
 
-        return true;
-        
-
+        return false;
     }
     //Maybe this as well, but it's fine here, there doesn't need to be event info in global state.
     pullEventData(){
@@ -100,16 +98,20 @@ class EventPage extends Component{
     renderHeader(){
 
         const {title, startDate, host} = this.props.event;
+        const {onAttendEvent, onTrackEvent} = this.props;
         console.log(startDate);
-        const format = "MMMD";
+        const format = "MMM D";
         return (
             <Header>
 
-                {dateFns.format(startDate,format)}
-                {title}
-                by {host}
-
-
+                <div>{dateFns.format(startDate,format)}</div>
+                <div>{title}</div>
+                <div>by {host}</div>
+                <div style = {{display:"flex", flexWrap:"nowrap", placeSelf: "bottom", justifyContent:"space-evenly"}}>
+                
+                    <div style = {{cursor: "pointer", border: "1px solid black"}} onClick = {() => {onTrackEvent();}}> Track </div>
+                    <div style= {{alignSelf:"flex-end", cursor:"pointer", border: "1px solid black"}}  onClick = { () => {onAttendEvent();}}> Attend </div>
+                 </div>
             </Header>
         );
     }
@@ -118,9 +120,10 @@ class EventPage extends Component{
 
         const {gallery } = this.props.event;
         return (
-            gallery && <Gallery>
+             <Gallery>
 
-                {gallery.map( picture => {
+                hello
+                {gallery && gallery.map( picture => {
 
                     //Prob should make something here lol.
                     <Picture image = {picture}/>
@@ -249,6 +252,7 @@ class EventPage extends Component{
             
                 <Poster image = {poster}/>
                 {this.renderHeader()}
+                {this.renderGallery()}
                 {this.renderBody()}
                 {this.renderFooter()}
 
@@ -270,6 +274,7 @@ const mapStateToProps = (state) => {
     //So it's going here
     console.log("eventpage state", eventPageState);
     return {
+
 
         event : eventPageState.get("loadedEvent"),
         attending: eventPageState.get("isAttending"),
