@@ -54,6 +54,8 @@ class EventPage extends Component{
         this.state = {
 
             shareWindowOpened: false,
+            posterPicture: null,
+            selectedIndex:0,
         };
 
         //OnAttend and OnTrack maybe better as dispatches actually
@@ -61,7 +63,7 @@ class EventPage extends Component{
        
         this.onShareClicked = this.onShareClicked.bind(this);
 
-
+        this.updatePosterPicture = this.updatePosterPicture.bind(this);
     }
 
 
@@ -73,8 +75,14 @@ class EventPage extends Component{
 
     shouldComponentUpdate( nextProps, nextState){
 
-        if (nextProps.event != this.props.event || nextProps.isAttending != this.props.isAttending ||
-            nextProps.isTracking != this.props.isTracking){
+        console.log("current State", this.state);
+        console.log("next state", nextState);
+        if (nextProps.event != this.props.event ||
+             nextProps.isAttending != this.props.isAttending ||
+            nextProps.isTracking != this.props.isTracking || 
+            this.state.posterPicture != nextState.posterPicture  ||
+             this.state.selectedIndex != nextState.selectedIndex
+            ){
 
             return true;
         }
@@ -104,30 +112,47 @@ class EventPage extends Component{
         return (
             <Header>
 
-                <div>{dateFns.format(startDate,format)}</div>
-                <div>{title}</div>
-                <div>by {host}</div>
-                <div style = {{display:"flex", flexWrap:"nowrap", placeSelf: "bottom", justifyContent:"space-evenly"}}>
+                <div style = {{gridArea:"date"}}>{dateFns.format(startDate,format)}</div>
+                <div style = {{gridArea:"title"}}>{title}</div>
+                <div style = {{gridArea:"host"}}>by {host}</div>
+                <div style = {{gridArea:"footer", display:"flex", flexWrap:"nowrap", placeSelf: "bottom", justifyContent:"space-evenly"}}>
                 
-                    <div style = {{cursor: "pointer", border: "1px solid black"}} onClick = {() => {onTrackEvent();}}> Track </div>
+                    <div style = {{alignSelf:"flex-end",cursor: "pointer", border: "1px solid black"}} onClick = {() => {onTrackEvent();}}> Track </div>
                     <div style= {{alignSelf:"flex-end", cursor:"pointer", border: "1px solid black"}}  onClick = { () => {onAttendEvent();}}> Attend </div>
                  </div>
             </Header>
         );
     }
 
+    updatePosterPicture(i, image){
+
+        const obj ={key: i.key}
+        this.setState({
+
+            posterPicture: image,
+            selectedIndex:obj.key,
+        });
+    }
+
     renderGallery(){
 
         const {gallery } = this.props.event;
+        console.log("gallery", gallery);
+        var i = {key: 0};
         return (
              <Gallery>
 
-                hello
                 {gallery && gallery.map( picture => {
 
+                    console.log("picture", picture);
                     //Prob should make something here lol.
-                    <Picture image = {picture}/>
+                    //They shouldn't have multiple of same picture anyway
+                    //but I should later on add a check for that or make key more unique.
+                    const newObj = {key: i.key + 1};
+                    i.key += 1;
+                   return <Picture key = {newObj.key + picture} selected = {newObj.key == this.state.selectedIndex} image = {picture} onClick = { (evt) => {this.updatePosterPicture(newObj,picture)}}/>
                 })}
+                
 
             </Gallery>
         );
@@ -244,9 +269,9 @@ class EventPage extends Component{
         if (event == null){
             return null;
         }
-        console.log("event on eventpage", event);
-        const {poster} = event;
-
+        console.log("event on eventpage", this.state);
+        
+        const poster = this.state.posterPicture || event.gallery[0] || event.poster;
         return (
             <Wrapper>
             
