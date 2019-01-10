@@ -49,9 +49,11 @@ const HeaderButton = styled.div`
 
     align-self:flex-end;
     cursor: pointer;
-    border: 1px solid black;
-
-
+    border: 2px solid rgb(2, 28, 73);
+    padding:5px;
+    color: rgb(254, 161, 0);
+    //background-color:rgb(2, 28, 73);
+    background-color:black;
 `;
 
 //TOo much time spent on this, easier for me to just make an easy paginator honestly.

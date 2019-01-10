@@ -126,7 +126,7 @@ class EventPage extends Component{
 
                 <div style = {{ gridArea:"date", }}>{dateFns.format(startDate,format)}</div>
                 <div style = {{fontSize:"1.5em",gridArea:"title", }}>{title}</div>
-                <div style = {{gridArea:"host",  }}>by {host}</div>
+                <div style = {{gridArea:"host", fontStyle:"" }}>by {host.name}</div>
                 <div style = {{gridArea:"footer", display:"flex", flexWrap:"nowrap", placeSelf: "bottom", justifyContent:"space-evenly"}}>
                 
                   
@@ -189,7 +189,7 @@ class EventPage extends Component{
 
 
 
-        const {description, agenda, startDate, endDate, location, callToAction, contact} = this.props.event;
+        const {description, agenda, startDate, endDate, location, callToAction, contact, host} = this.props.event;
         //Body will be it's own grid
 
         const dateFormat = "MMMM D YYYY h:mm A";
@@ -247,9 +247,14 @@ class EventPage extends Component{
                     <p>{location}</p>
 
                 </Location>
-
+        
                 <Contact> 
+                    {/*The host info should have email to*/}
                     <Title> Contact </Title>
+                    <p> If you have questions about the event, you can contact the
+                         <a style = { {color: "rgb(254, 161, 0)" }} href = {"mailto:"+host.email}> host </a>
+                          </p>
+                    <p> If you are experiencing any issues. Contact <a style = {{color: "rgb(254, 161, 0)" }} href = {"mailto:ces@cogswell.edu"}> us </a> </p>
                 </Contact>
 
 
