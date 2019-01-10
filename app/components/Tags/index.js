@@ -16,8 +16,9 @@ export const Tag = styled.div`
     background-color: ${props => props.color};
     border-style:double;
     border-color: ${props => props.color};
-    border-radius: 10px;
-    color:white;
+    border-radius: 25px;
+    color:rgb(254, 161, 0);
+    padding:5px;
     margin-right:10px;
     margin-bottom:5px;
     
