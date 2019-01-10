@@ -35,7 +35,7 @@ function* loadEventSaga(payload){
     //yield for get promise to fulfill or fail
     const eventSnapshot = yield eventRef.get();
 
-    //Basically if it fails.
+    //Basically if it fails, but this shouldn't ever happen unless server down.
     if (!eventSnapshot.exists){
 
         yield put(loadedEvent(null));
@@ -46,8 +46,31 @@ function* loadEventSaga(payload){
         event.startDate = event.startDate.toDate();
         event.endDate = event.endDate.toDate();
 
-
         yield put (loadedEvent(event));
+
+        const trackersRef = eventRef.collection("Trackers");
+
+        const loggedInUser = firebase.auth().currentUser;
+        if (loggedInUser != null){
+
+            //Check if tracking.
+            const trackRef = yield eventRef.collection("Trackers").doc(loggedInUser.uid).get();
+            console.log("trackRef", trackRef);
+            yield put (updateTracking(trackRef.exists));
+
+
+            //Check if attending, hmm some delayyy.
+            const attendeeQuery = firestore.collection("ClubInfo").doc("Events").collection("Attendees")
+            .where("eventUid", "==", eventUid)
+            .where("attendee", "==", loggedInUser.uid);
+
+            const queryResult = yield attendeeQuery.get();
+            console.log("query Result", queryResult);
+            yield put (updateAttendance(!queryResult.empty));
+
+
+        }
+
     }
 }
 
@@ -75,38 +98,23 @@ function* trackEventSaga(payload){
     //And there should only be one.
     const queryDocSnapshot = querySnapshot.docs[0];
 
-    //Later may need to go from ref to data to doc to get actual reference
-    //just incase gone because ref no longer in documentation.
-    //First place to look if fails when testing this.
-    //Collection is better search optimization wise, but it is essentially a doc with no data lol.
-    //Maybe email?? If that's cause do actually need to pass user object nost just uid.
-    //Actually If i do that, won't have to get user at each tracker for the notification implementation
-    //which is a huge optimiztion to reduce calls to database, fuck yeah, okay foresight at it's best.
-    const newTrackerRef = queryDocSnapshot.ref.collection("Trackers").doc(userUid);
+    
+    //Trackers should be in event, because for checking if tracking would cause overhead
+    //and delay on page loading
+    //yeah it adds overhead in here, but this overhead does not interrupt user experienc unlike if I had another saga that did
+    //the check and I'd have to wait for that and load event to finish before loading page
+    //leaving user looking at incorrec page.
+    //So then tags will have eventUid reference what the tag is referencing.
+    //And this is fine overhead to load up event to email users about because
+    //that's sending emails and notifications, a few seconds of delay for something that doesn't
+    //interrupt their experience is not a problem.
+    const newTrackerRef = firestore.collection("ClubInfo").doc("Events").collection("EventList").doc(eventUid).collection("Trackers").doc(uid);
     newTrackerRef.set({
 
         email
     });
 
     yield put (updateTracking(true));
-
-    //Hmm maybe collection of trackers instead of array, the reason I say this is both to reduce call to data twice
-    //also how inefficient would tracking be? Would have to loop until find matching useruid
-    //query do same, but they optimimize it with concurrency, I do not, better choice in this case is collection.
-    /*const data = queryDocSnapshot.data();
-
-  
-   // const trackers = data.trackers.concat(userUid);
-
-    yield queryDocSnapshot.ref().update({
-        trackers:trackers,
-    });
-    */
-
-
-
-    
-
 }
 
 function* untrackEventSaga(payload){
@@ -127,7 +135,7 @@ function* untrackEventSaga(payload){
     //And there should only be one.
     const queryDocSnapshot = querySnapshot.docs[0];
 
-    const trackerDoc = queryDocSnapshot.ref.collection("Trackers").doc(userUid);
+    const trackerDoc = firestore.collection("ClubInfo").doc("Events").collection("EventList").doc(eventUid).collection("Trackers").doc(userUid);
 
     yield trackerDoc.delete();
 
@@ -144,13 +152,23 @@ function* attendEventSaga(payload){
 
     const firestore = firebase.firestore();
 
+    //There was a reason for me having separate collection though.
+    //It was because didn;t have specific event page and wanted tos how all attendees of an event
+    //so kept all attendees in one place, primary key with attendeeUid and event the attendee is attending in
+    //then when I list all of the evens I simple check the collection of attendees
+    //and see if it matches the event id then get all the users of the matching uids.
+    //For showing it on the event card that would be good and is more flexible.
+    //But logically this makes more sense, and honestly I should just show if I show at all in the actual
+    //event page. Another reason would be the document would've been just empty.
+    //I think that was a main one.   Yeah will keep it like that actually.
     const attendanceRef = firestore.collection("ClubInfo").doc("Events").collection("Attendees").doc();
+
 
     var succeeded = true;
     yield attendanceRef.set({
 
         attendee: userUid,
-        event: eventUid,
+        eventUid: eventUid,
     })
     .catch (err => {
 

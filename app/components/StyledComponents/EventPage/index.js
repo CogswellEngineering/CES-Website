@@ -43,7 +43,15 @@ const Header = styled.div`
     "title"
     "host"
     "footer";
-  
+`;
+
+const HeaderButton = styled.div`
+
+    align-self:flex-end;
+    cursor: pointer;
+    border: 1px solid black;
+
+
 `;
 
 //TOo much time spent on this, easier for me to just make an easy paginator honestly.
@@ -176,6 +184,7 @@ export {
     Picture,
     Title,
     Header,
+    HeaderButton,
     Poster,
     Description,
     Body,

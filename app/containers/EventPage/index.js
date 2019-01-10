@@ -36,6 +36,7 @@ import  {
     Gallery,
     Picture,
     Header,
+    HeaderButton,
     Body,
     Poster,
     Footer,
@@ -115,8 +116,9 @@ class EventPage extends Component{
     renderHeader(){
 
         const {title, startDate, host} = this.props.event;
-        const {onAttendEvent, onTrackEvent, loggedInUser} = this.props;
+        const {onAttendEvent, onTrackEvent, loggedInUser, isTracking, isAttending, onCancelEvent, onUntrackEvent} = this.props;
         const eventUid = this.props.match.params.uid;
+        console.log("props", this.props);
         console.log(startDate);
         const format = "MMM D";
         return (
@@ -127,12 +129,22 @@ class EventPage extends Component{
                 <div style = {{gridArea:"host",  }}>by {host}</div>
                 <div style = {{gridArea:"footer", display:"flex", flexWrap:"nowrap", placeSelf: "bottom", justifyContent:"space-evenly"}}>
                 
-                    <div style = {{alignSelf:"flex-end",cursor: "pointer", border: "1px solid black"}} 
-                    onClick = {() => {onTrackEvent(loggedInUser.uid, eventUid);}}>
-                     Track </div>
-                    <div style= {{alignSelf:"flex-end", cursor:"pointer", border: "1px solid black"}}  
-                    onClick = { () => {onAttendEvent(loggedInUser.uid,eventUid);}}>
-                     Attend </div>
+                  
+
+                    {!isTracking?
+                    
+                        <HeaderButton style = {{gridArea:"trackButton"}} onClick = {() => {onTrackEvent(loggedInUser,eventUid);}}> Track </HeaderButton>
+                    :
+                        <HeaderButton style = {{gridArea:"trackButton"}} onClick = {() => {onUntrackEvent(loggedInUser.uid, eventUid);}}> Untrack </HeaderButton>
+                    }
+
+                    {isAttending?
+
+                    <HeaderButton style = {{gridArea:"attendButton"}} onClick = {() => {onCancelEvent(loggedInUser.uid, eventUid);}}> Cancel Attendance </HeaderButton>
+                    :
+                    <HeaderButton style = {{gridArea:"attendButton"}} onClick = {() => {onAttendEvent(loggedInUser.uid, eventUid);}}> Attend </HeaderButton>
+                    }
+                    
                  </div>
             </Header>
         );
@@ -334,8 +346,8 @@ const mapStateToProps = (state) => {
 
         loggedInUser,
         event : eventPageState.get("loadedEvent"),
-        attending: eventPageState.get("isAttending"),
-        tracking: eventPageState.get("isTracking"),
+        isAttending: eventPageState.get("isAttending"),
+        isTracking: eventPageState.get("isTracking"),
 
     };
 }

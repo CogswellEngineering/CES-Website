@@ -12,8 +12,8 @@ const initialState = fromJS({
 
 
     loadedEvent: null,
-    attending: false,
-    tracking: false,
+    isAttending: false,
+    isTracking: false,
 
 });
 
@@ -31,12 +31,12 @@ export default function reducer( state = initialState, action){
         case ATTENDANCE_UPDATED:
 
             return state
-                .set("attending", action.isAttending);
+                .set("isAttending", action.isAttending);
 
         case EVENT_TRACKING_UPDATED:
 
             return state
-                .set("tracking", action.isTracking);
+                .set("isTracking", action.isTracking);
 
         default:
             return state;
