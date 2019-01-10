@@ -25,8 +25,9 @@ import { createStructuredSelector} from 'reselect';
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import NewsPage from 'containers/NewsPage/Loadable';
-import EventsPage from 'containers/EventsPage';
 
+import EventsPage from 'containers/EventsPage';
+import EventPage from 'containers/EventPage';
 
 import Login from 'containers/AccountRelated/LoginPage/Loadable';
 import Register from 'containers/AccountRelated/RegistrationPage/Loadable';
@@ -40,7 +41,7 @@ import UpdateProfilePage from 'containers/ProfileRelated/UpdateProfilePage';
 import { LOGIN_PATH,REGISTER_PATH,
   ACCOUNT_RECOVERY_PATH, RESET_PASSWORD_PATH, 
   USER_PROFILE_PATH, UPDATE_USER_PROFILE_PATH,
-  BLOG_PATH, EVENTS_PATH } from 'components/Header/pages';
+  BLOG_PATH,SPECIFIC_BLOG,  EVENTS_PATH, SPECIFIC_EVENT } from 'components/Header/pages';
 import 'react-dropdown/style.css'
 import LoginPage from '../AccountRelated/LoginPage';
 import { withCookies } from 'react-cookie';
@@ -50,15 +51,21 @@ import { makeSelectLocation, makeSelectDoneLoading} from './selectors';
 
 const AppWrapper = styled.div`
 
-  display:flex;
-  flex-direction:column;
+  
   background-color: rgb(15, 65, 65);
-
+  //display:grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns:100%;
+  border:2px solid black;
+  margin:0;
+  height: ${props => props.height};
+  padding:0;
 `;
 
 const BodyWrapper = styled.div`
-
-  min-height: 100vh;
+  height:100%;
+  margin:0;
+  padding:0;
 `;
 
 //In component did mount in here
@@ -112,80 +119,86 @@ class App  extends Component{
       //I'll test the old working version and see.
       //Yeah, auto logged out there too. It's the connection here.
 
-      console.log(this.props.location);
+      console.log("window outer height", window.innerHeight);
       return (
-        <AppWrapper>
+        <AppWrapper height = {window.innerHeight + window.outerHeight}>
           <Header activePage={this.props.location.pathname}/>
           <BodyWrapper>
-          <Switch>
-            
-            <Route exact path="/" component={HomePage} />
-            <Route path = {LOGIN_PATH} render ={(routerProps) => {
+            <Switch>
               
+              <Route exact path="/" component={HomePage} />
+              <Route path = {LOGIN_PATH} render ={(routerProps) => {
+                
+                  console.log("router props", routerProps);
+                  //Check if logged in already.
+                  if (props.firebase.auth().currentUser == null){
+
+                    //Will also pass in props for where coming in maybe
+                    //so redirect back to it, that'll just be query param probably
+
+                    return <Login {...routerProps}/>
+                  }
+                  else{
+                    return <Redirect to ="/"/>
+                  }
+                
+              }}/>
+
+              {/*basicalyl same exact process for rest of it*/}
+              <Route path = {REGISTER_PATH} render ={(routerProps) => {
+                
                 console.log("router props", routerProps);
                 //Check if logged in already.
                 if (props.firebase.auth().currentUser == null){
 
-                  //Will also pass in props for where coming in maybe
-                  //so redirect back to it, that'll just be query param probably
-
-                  return <Login {...routerProps}/>
+                  return <Register/>;
                 }
                 else{
-                  return <Redirect to ="/"/>
+                  return <Redirect to ="/"/>;
+                }
+              
+            }}/>
+              <Route path = {ACCOUNT_RECOVERY_PATH}  render ={(routerProps) => {
+                
+                //Check if logged in already.
+                if (props.firebase.auth().currentUser == null){
+
+                  return <AccountRecovery/>;
+                }
+                else{
+                  return <Redirect to ="/"/>;
+                }
+              
+            }}/>
+              <Route path = {RESET_PASSWORD_PATH}  render ={(routerProps) => {
+                
+                //Check if logged in already. 
+                if (props.firebase.auth().currentUser == null){
+
+                  return <ResetPasswordPage/>;
+                }
+                else{
+                  return <Redirect to ="/"/>;
                 }
               
             }}/>
 
-            {/*basicalyl same exact process for rest of it*/}
-            <Route path = {REGISTER_PATH} render ={(routerProps) => {
-              
-              console.log("router props", routerProps);
-              //Check if logged in already.
-              if (props.firebase.auth().currentUser == null){
 
-                return <Register/>;
-              }
-              else{
-                return <Redirect to ="/"/>;
-              }
+              <Route exact path = {USER_PROFILE_PATH} component = {UserProfilePage}/>
+              <Route exact path = {USER_PROFILE_PATH+"/update"} component = {UpdateProfilePage}/>
             
-          }}/>
-            <Route path = {ACCOUNT_RECOVERY_PATH}  render ={(routerProps) => {
-              
-              //Check if logged in already.
-              if (props.firebase.auth().currentUser == null){
-
-                return <AccountRecovery/>;
-              }
-              else{
-                return <Redirect to ="/"/>;
-              }
+              <Route exact path = {BLOG_PATH} component = {NewsPage}/>
             
-          }}/>
-            <Route path = {RESET_PASSWORD_PATH}  render ={(routerProps) => {
-              
-              //Check if logged in already. 
-              if (props.firebase.auth().currentUser == null){
-
-                return <ResetPasswordPage/>;
-              }
-              else{
-                return <Redirect to ="/"/>;
-              }
-            
-          }}/>
+              <Route exact path = {EVENTS_PATH} component = {EventsPage}/>
+              <Route exact path = {SPECIFIC_EVENT} component = {EventPage}/>
+              <Route component={NotFoundPage} />
 
 
-            <Route exact path = {USER_PROFILE_PATH} component = {UserProfilePage}/>
-            <Route exact path = {USER_PROFILE_PATH+"/update"} component = {UpdateProfilePage}/>
-          
-            <Route path = {BLOG_PATH} component = {NewsPage} />
-            <Route path = {EVENTS_PATH} component = {EventsPage}/>
-            <Route component={NotFoundPage} />
-          </Switch>
+            </Switch>
+
           </BodyWrapper>
           <Footer/>
+
         </AppWrapper>
       )
     }

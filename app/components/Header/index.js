@@ -22,13 +22,12 @@ const HeaderWrapper = styled.div`
   width:100%;
   margin:auto;
 
-  height:50px;
-  position: -webkit-sticky;
-  position:sticky;
-  top:0;
+  //height:50px;
+ 
   display:flex;
   //Uncomment if want on both sides of header bar.
   justify-content:space-between;
+  
   align-items:center;
   brder:2px solid black;
   opacity:0.9;
@@ -114,7 +113,7 @@ class Header extends Component{
     return (
         <HeaderWrapper>
 
-        <div style = {{display:"flex", width:"80%",}}>
+        <div style = {{display:"flex",  width:"80%"}}>
           <ClubLogo src={require('images/CESLogo.png')} alt="sdf"/>
           <Navbar>    
 

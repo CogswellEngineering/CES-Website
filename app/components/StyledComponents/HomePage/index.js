@@ -4,10 +4,10 @@ import {Link} from 'react-router-dom';
 const Wrapper = styled.div`
 
     width:90%;
-    margin:auto;
+    margin: 0 auto;
     margin-top: 5%;
-
-
+    padding-bottom: 5%;
+    height: auto;
 `;
 
 
@@ -72,7 +72,7 @@ const HelpStudentsBlock = styled.div`
     display:grid;
     grid-template-columns: 0.6fr 1fr;
     grid-column-gap: 1%;
-    grid-template-rows: 30% auto;
+    grid-template-rows: auto auto;
     grid-template-areas:
     "picture subtitle"
     "picture description";

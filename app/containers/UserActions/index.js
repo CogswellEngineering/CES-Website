@@ -58,10 +58,9 @@ class UserActions extends React.PureComponent{
                     {/* Hello, {props.profile.displayName} */}
 
                         <UserActionLink to = {profilePath+props.loggedInUser.uid}> View Profile </UserActionLink>
-                        {/*Will switch to include uid if do decide make inventory public*/}
-                        <UserActionLink to = {"/account/inventory"}> Inventory </UserActionLink>
-
-                        <hr/>  
+                        {/*Will switch to include uid if do decide make inventory public
+                     <UserActionLink to = {"/account/inventory"}> Inventory </UserActionLink>
+*/}
                         <LogoutButton  onClick = {() => {
 
                             //Remove cookies, there should be a centralized domain I go to

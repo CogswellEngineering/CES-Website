@@ -8,13 +8,12 @@ import {Link} from 'react-router-dom';
 //same for now.
 const UserActionsWrapper = styled.div`
 
-    display:flex;
-    flex-wrap:nowrap;
-    justify-content:space-evenly;
-    align-items:center;
-    text-align:center;
-    width:10%;
-
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 100%;
+    width:20%;
+    
+    
 `
 
 const DisplayName = styled.p`
@@ -27,8 +26,11 @@ const UserActionLink = styled(Link)`
 
     text-decoration:none;
     text-align:center;
+    place-self:center;
     color: rgb(254, 161, 0);
-  
+    &:hover {
+        color:white;
+      };
 `;
 
 
@@ -43,11 +45,12 @@ const Button = styled.button`
 `;
 const LogoutButton = styled.button`
 
-    border:1px solid black;
     color:black;
     &:hover {
-        background: #D9D7D6;
+        background: white;
       };
+    color: rgb(254, 161, 0);
+    text-transform:uppercase;  
 
 `;
 

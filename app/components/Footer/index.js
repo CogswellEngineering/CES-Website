@@ -6,34 +6,16 @@ const Wrapper = styled.div`
     
     background-color: rgb(0, 24, 74);
     color: rgb(254, 161, 0);
-
-    position: -webkit-sticky;
-    position:sticky;
-    height:50px;
-    display:flex;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -moz-flex;
-    display: -webkit-flex;
-
-    height:50px;
-    flex-direction:row;
-    justify-content: space-between;
-    display:flex;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -moz-flex;
-    display: -webkit-flex;
-
+    
+    
+   
 `;
 
 
 
 const Link = styled.div`
 
-    align-self:center;
+    align-self:flex-start;
 `;
 
 const Footer = props => {
