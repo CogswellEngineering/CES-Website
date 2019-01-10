@@ -114,7 +114,9 @@ function* untrackEventSaga(payload){
     const {userUid, eventUid} = payload;
 
     //Hindsight I really should just create firestore variable outside to reduce the deferencing
-    //overhead.
+    //overhead. Nevermind that would be created statically aka before fb config is set.
+    const firestore = firebase.firestore();
+
 
     const tagsRef = firestore.collection("Tags")
     const query = eventTagsRef.where("type","==","event").where("eventUid", "==",eventUid);
@@ -140,6 +142,8 @@ function* attendEventSaga(payload){
     //Honestly should just send useruid then too lmao.
     const {userUid, eventUid} = payload;
 
+    const firestore = firebase.firestore();
+
     const attendanceRef = firestore.collection("ClubInfo").doc("Events").collection("Attendees").doc();
 
     var succeeded = true;
@@ -162,6 +166,7 @@ function* attendEventSaga(payload){
 function* cancelAttendanceSaga(payload){
 
     const {userUid, eventUid} = payload;
+    
     const firestore = firebase.firestore();
 
     const attendanceRef = firestore.collection("ClubInfo").doc("Events").collection("Attendees");

@@ -6,43 +6,38 @@ const Wrapper = styled.div`
     //This will be huge grid for whole thing.
     display:grid;
     width:80%;
-    margin:auto;
+    margin:0 auto;
     margin-top:5%;
+    padding-bottom:5%;
 
-    
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 2fr 1fr 2fr 1fr;
+    grid-template-rows: 1fr 120px 2fr auto;
     //temp to see how big they are
-    grid-row-gap: 5%;
-    grid-column-gap: 5%;
-
+    grid-row-gap:1%;
+    grid-column-gap:1.5%;
     grid-template-areas:
     "Poster Header"
     "Gallery Gallery"
-    "Body Body"
+    "Body Body" 
     "Footer Footer";
 
 `;
 
 const Poster = styled.div`
-
-    border:2px solid black;
     grid-area: Poster;
     background-image:url(${props => props.image});
-    background-size: cover;
+    background-size: 100% 100%;
     background-position:center;
-    background-repear: no-repeat;
-
+    
+    background-repeat: no-repeat;
 `;
 
 const Header = styled.div`
 
     grid-area:Header;
-    border:2px solid black;
     display:grid;
-
-    grid-template-columns: 100%;
-    grid-template-rows: 0.5fr 0.25fr 0.25fr 1fr;
+    grid-template-columns: auto;
+    grid-template-rows: 1fr 0.5fr 0.5fr 1fr;
     grid-template-areas:
     "date"
     "title"
@@ -51,62 +46,88 @@ const Header = styled.div`
   
 `;
 
+//TOo much time spent on this, easier for me to just make an easy paginator honestly.
 const Gallery = styled.div`
 
     grid-area:Gallery;
-    border:2px solid black; 
+    //So images are considered text, good to know.
+    white-space: nowrap; /* will prevent text from wrapping */
+
+    overflow-x:scroll;
+     position: relative;
 `;
 
-const Picture = styled.div`
+const Picture = styled.img`
 
     background-image:url(${props => props.image});
-   
-    width:20%;
-    height:100%;
-    margin-left:5%;
-    display:inline-block;
     cursor:pointer;
-   // border:2px solid black;
-    background-size: cover;
-    background-position:center;
-    background-repeat: no-repeat;
+    width:100px;
+    height:96px;
 
-    border: ${props => props.selected? "2px solid rgb(254, 161, 0)" : "0"};
-
-    
+    border: ${props => props.selected? "2px solid rgb(254, 161, 0)" : "2px solid black;"};
+    border-bottom:0;
 `;
 
 const Body = styled.div`
-    border:2px solid black;
+
     grid-area: Body;
 
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    grid-row-gap:5%;
+    grid-column-gap:5%;
+
+    //I want to do the spanning stuff
+    grid-template-rows: auto auto;
+
+
+    //Was too specific with it don't need to be.
+    //Agenda is part of description
+    //and this makes it so optional and still nice.
+    grid-template-areas:
+    "description aside"
+    "description .";
+
 `;
+
+
 
 
 const Footer = styled.div`
 
     grid-area: Footer;
-    border:2px solid black;
+    grid-template-columns: auto;
+    grid-template-rows: 1fr 1fr;
+`;
+
+const Title = styled.p`
+
+    font-weight:bold;
 
 `;
 
 const Description = styled.div`
 
 
-
+    grid-area:description;
 `;
 
+//These should be just be one, an aside.
 const DateAndTime = styled.div`
 
-
+    grid-area:dateAndTime;
+    padding-bottom: 5%;
 `;
 
 const Location = styled.div`
 
+    grid-area:location;
+    padding-bottom: 5%;
 
 `;
 
 const Agenda = styled.div`
+
 
 
 `;
@@ -114,27 +135,38 @@ const Agenda = styled.div`
 //Will contain time frame and activity
 const AgendaItem = styled.div`
 
+    display:grid;
+    width:55%;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas:
+    "timeFrame activity";
 
 `;
 
 const Contact = styled.div`
 
-
+    grid-area:contact;
 `;
 
 const CallToAction = styled.div`
 
-
+    font-weight:bold;
+    font-style:italic;
 `;
 
 const Tags = styled.div`
 
 
+    display:flex;
+    flex-wrap:wrap;
 `;
 
 const Share = styled.div`
 
-
+    display:flex;
+    flex-wrap:no-wrap;
+    width:auto;
 `;
 
 export {
@@ -142,6 +174,7 @@ export {
     Wrapper,
     Gallery,
     Picture,
+    Title,
     Header,
     Poster,
     Description,

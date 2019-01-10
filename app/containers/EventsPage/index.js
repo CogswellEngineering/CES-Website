@@ -180,7 +180,7 @@ class EventsPage extends Component{
 
         if (events == null || this.state.possibleFilters.length == 0){
 
-            return null;
+           // return null;
         }
 
 

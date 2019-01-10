@@ -1,7 +1,12 @@
 import React, {Component} from 'react';
 import { createSelector } from 'reselect'
+import {
 
-import styled from 'styled-components';
+    FacebookShareButton,
+    FacebookIcon,
+    LinkedinShareButton,
+    LinkedinIcon,
+} from 'react-share';
 //Don't need this one for this cause outdated firestore, only need this part for auth transferring
 //which might actually need here. Actually doesn't need to be in redux.
 //Except maybe for attending, but can just pass the dispatch as prop from events page into this..
@@ -27,6 +32,7 @@ import {
 import  {
 
     Wrapper,
+    Title,
     Gallery,
     Picture,
     Header,
@@ -39,11 +45,13 @@ import  {
     AgendaItem,
     Contact,
     CallToAction,
-    Tags,
+ //   Tags,
     Share,
     Location,
 
 } from 'components/StyledComponents/EventPage';
+
+import Tags from 'components/Tags';
 
 class EventPage extends Component{
 
@@ -81,7 +89,8 @@ class EventPage extends Component{
              nextProps.isAttending != this.props.isAttending ||
             nextProps.isTracking != this.props.isTracking || 
             this.state.posterPicture != nextState.posterPicture  ||
-             this.state.selectedIndex != nextState.selectedIndex
+             this.state.selectedIndex != nextState.selectedIndex || 
+             this.props.loggedInUser != nextProps.loggedInUser
             ){
 
             return true;
@@ -106,19 +115,24 @@ class EventPage extends Component{
     renderHeader(){
 
         const {title, startDate, host} = this.props.event;
-        const {onAttendEvent, onTrackEvent} = this.props;
+        const {onAttendEvent, onTrackEvent, loggedInUser} = this.props;
+        const eventUid = this.props.match.params.uid;
         console.log(startDate);
         const format = "MMM D";
         return (
             <Header>
 
-                <div style = {{gridArea:"date"}}>{dateFns.format(startDate,format)}</div>
-                <div style = {{gridArea:"title"}}>{title}</div>
-                <div style = {{gridArea:"host"}}>by {host}</div>
+                <div style = {{ gridArea:"date", }}>{dateFns.format(startDate,format)}</div>
+                <div style = {{fontSize:"1.5em",gridArea:"title", }}>{title}</div>
+                <div style = {{gridArea:"host",  }}>by {host}</div>
                 <div style = {{gridArea:"footer", display:"flex", flexWrap:"nowrap", placeSelf: "bottom", justifyContent:"space-evenly"}}>
                 
-                    <div style = {{alignSelf:"flex-end",cursor: "pointer", border: "1px solid black"}} onClick = {() => {onTrackEvent();}}> Track </div>
-                    <div style= {{alignSelf:"flex-end", cursor:"pointer", border: "1px solid black"}}  onClick = { () => {onAttendEvent();}}> Attend </div>
+                    <div style = {{alignSelf:"flex-end",cursor: "pointer", border: "1px solid black"}} 
+                    onClick = {() => {onTrackEvent(loggedInUser.uid, eventUid);}}>
+                     Track </div>
+                    <div style= {{alignSelf:"flex-end", cursor:"pointer", border: "1px solid black"}}  
+                    onClick = { () => {onAttendEvent(loggedInUser.uid,eventUid);}}>
+                     Attend </div>
                  </div>
             </Header>
         );
@@ -150,7 +164,7 @@ class EventPage extends Component{
                     //but I should later on add a check for that or make key more unique.
                     const newObj = {key: i.key + 1};
                     i.key += 1;
-                   return <Picture key = {newObj.key + picture} selected = {newObj.key == this.state.selectedIndex} image = {picture} onClick = { (evt) => {this.updatePosterPicture(newObj,picture)}}/>
+                   return <Picture key = {newObj.key + picture} selected = {newObj.key == this.state.selectedIndex} src = {picture} onClick = { (evt) => {this.updatePosterPicture(newObj,picture)}}/>
                 })}
                 
 
@@ -170,54 +184,71 @@ class EventPage extends Component{
         return (
             <Body>
                 {/*Prob doesn't need to be styled component, just set grid name*/}
-                <Description> {description} </Description>
+                <Description > 
+                <Title> Description</Title>
+                <p>{description}</p>
+                {<Agenda> 
+
+                    <Title> Agenda </Title>
+                    {
+                        agenda && agenda.map(item => {
+
+                            const timeFormat = "h:mm a";
+                            const {start, end} = item.timeframe;
+
+                            return <AgendaItem key = {item.activity}> 
+
+                                <p style = {{gridArea: "timeFrame",}}>
+                                {dateFns.format(start.toDate(), timeFormat)} - {dateFns.format(end.toDate(), timeFormat)}
+                                </p>
+                                <p style = {{gridArea: "activity"}}>
+                                    {item.activity}
+                                    </p>
+
+                            </AgendaItem>
+                        })
+                    }
+
+                    </Agenda>
+                    }
+
+                <CallToAction> {callToAction} </CallToAction>
+
+                 </Description>
+                  {/*Same case as Description, actually know this will be a ul, prob flex of times and titles*/}
+               
                 
                 {/*does need to be cause maybe a grid in itself*/}
+                <div style = {{gridArea:"aside",  }}>
                 <DateAndTime> 
+                       <Title> Date and Time</Title>
                        <p> {dateFns.format(startDate, dateFormat)} - {dateFns.format(endDate, dateFormat)} </p>
 
                 </DateAndTime>
-
-                {/*Same case as Description, actually know this will be a ul, prob flex of times and titles*/}
-                {agenda && <Agenda> 
-
-                        {
-                            agenda.map(item => {
-
-                                const timeFormat = "h:mm a";
-                                const {start, end} = item.timeframe;
-
-                                return <AgendaItem key = {item.activity}> 
-
-                                    <p style = {{gridArea: "timeFrame"}}>
-                                    {dateFns.format(start.toDate(), timeFormat)} - {dateFns.format(end.toDate(), timeFormat)} 
-                                    </p>
-                                    <div style = {{gridArea: "activity"}}>
-                                        {item.activity}
-                                    </div>
-
-                                </AgendaItem>
-                            })
-                        }
-
-                </Agenda>
-                }
 
                 <Location> 
                     {/*don't really need to be separate... Also just feeling lazy.
                     <p> {location.state} </p>
                     <p> {location.city} </p>
             <p> {location.}*/}
-
-                    {location}
+                    <Title> Location</Title>
+                    <p>{location}</p>
 
                 </Location>
+
+                <Contact> 
+                    <Title> Contact </Title>
+                </Contact>
+
+
+                </div>
+               
+
+                
                 
                 {/*Same as description*/}
-                <CallToAction> {callToAction} </CallToAction>
 
                 {/*Same as description* actually no will be div with images inside it so a flex. Still actually lol.*/}
-                <Contact> </Contact>
                
             </Body>
         )
@@ -226,33 +257,32 @@ class EventPage extends Component{
     //CallToAction, contact, tags, etc.
     renderFooter(){
 
-        const {tags, shareLinks} = this.props.event;
+        const {tags} = this.props.event;
+        //But this in global state constants later.
+        const domainName = "localhost:3000";   
+        const shareUrl = domainName + this.props.match.url; 
+        console.log(domainName + this.props.match.url);
         return (
             <Footer>
             
+                <Title> Tags </Title>
                 {/*Should have reusable tags, I'll just use those*/}
-                {tags && <Tags> 
-
-                    {/*Take from tag from elsewhere and use same*/}
-                    {tags.map (tag => {
-
-                        return <div> {tag} </div>
-                    })}
-
-                </Tags>
+                { tags &&  <Tags tags = {tags}/>
 
                 }
 
+                <Title> Share with your friends! </Title>
+
                 {/*Will be flex box with image links*/}
-                {shareLinks && <Share> 
+                { <Share> 
                     
-                    {shareLinks.map(shareLink => {
+                    <FacebookShareButton url = {shareUrl}>
+                    <FacebookIcon size = {48} round = {true}/>
+                    </FacebookShareButton>
 
-                            //Not SUPER important to have thse, this is extra shit honeslty, core first my man
-                            //get layout done.
-                        <a href = {shareLink}/>
-                    })}
-
+                    <LinkedinShareButton url = {shareUrl} style = {{marginLeft:"1%"}}>
+                    <LinkedinIcon size = {48} round = {true}/>
+                    </LinkedinShareButton>
                 </Share>
                 }
             </Footer>
@@ -275,7 +305,8 @@ class EventPage extends Component{
         return (
             <Wrapper>
             
-                <Poster image = {poster}/>
+                <Poster image = {poster}>
+                </Poster>
                 {this.renderHeader()}
                 {this.renderGallery()}
                 {this.renderBody()}
@@ -294,13 +325,14 @@ const mapStateToProps = (state) => {
 
     if (state == null || state.get(SPECIFIC_EVENT)==null) return {};
 
-
+    const loggedInUser = state.get("firebase").auth;
     const eventPageState = state.get(SPECIFIC_EVENT);
     //So it's going here
     console.log("eventpage state", eventPageState);
     return {
 
 
+        loggedInUser,
         event : eventPageState.get("loadedEvent"),
         attending: eventPageState.get("isAttending"),
         tracking: eventPageState.get("isTracking"),
@@ -321,7 +353,7 @@ const mapDispatchToProps = (dispatch) => {
 
             onAttendEvent: (userUid, eventUid) => {
 
-
+                console.log("userUid", userUid);
                 return dispatch(attendEvent(userUid, eventUid));
             },
 
