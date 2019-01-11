@@ -1,14 +1,11 @@
 import {
 
     EVENT_PRESSED,
-    ATTEND_PRESSED,
     EVENTS_UPDATED,
     EVENT_CLOSED,
     EVENT_LOADING,
-    ATTEND_FAILED,
-    ATTEND_CANCEL,
-    VERIFIED_ATTENDING,
     FILTER_CHANGED,
+    VERIFIED_ATTENDING,
 
 } from './constants';
 
@@ -32,11 +29,11 @@ function updateEvents(events){
 }
 
 
-function eventSelected(event){
+function eventSelected(eventCard){
 
     return {
         type: EVENT_PRESSED,
-        event,
+        eventCard,
     };
 }
 
@@ -54,50 +51,19 @@ function closeEvent(){
     };
 }
 
-//Need reference to event to attend.
-function attendPressed(event){
-
-    return {
-
-        type: ATTEND_PRESSED,
-        event,
-    };
-
-}
-
-function verifiedAttending(isAttending, event){
+function verifiedAttending(isAttending, eventCard){
 
     return {
         type: VERIFIED_ATTENDING,
         isAttending,
-        event,
+        eventCard,
 
-    };
-}
-
-
-function attendFailed(error){
-
-    return {
-        type: ATTEND_FAILED,
-        error,
-    };
-}
-
-function cancelAttendance(event){
-    
-    return {
-        type: ATTEND_CANCEL,
-        event,
     };
 }
 
 export {
 
     eventSelected,
-    attendPressed,
-    attendFailed,
-    cancelAttendance,
     updateEvents,
     closeEvent,
     loadingEvent,

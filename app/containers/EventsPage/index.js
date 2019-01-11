@@ -5,9 +5,6 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect'
 import { compose } from 'redux';
 
-
-
-;
 import EventInfo from 'components/EventInfo';
 import reducer from './reducer';
 import injectReducer from 'utils/injectReducer';
@@ -18,10 +15,8 @@ import Calendar from 'components/Calendar';
 import {
 
     eventSelected,
-    attendPressed,
     updateEvents,
     closeEvent,
-    cancelAttendance,
     filterChanged,
 
 } from './actions';
@@ -32,7 +27,6 @@ import {
     createSelectEvent,
     createSelectMonth,
     createSelectFlag,
-    createSelectError,
     createSelectFilter,
 } from './selectors';
 
@@ -113,7 +107,7 @@ class EventsPage extends Component{
     getEvents(){
 
         //Set up event listener to listen for update to event list.
-        const eventsRef = this.props.firebase.firestore().collection("ClubInfo").doc("Events").collection("EventList");
+        const eventsRef = this.props.firebase.firestore().collection("ClubInfo").doc("Events").collection("EventCards");
 
 
         //Basically checking if fields within fields updated, as in startDate, event titles etc.
@@ -138,6 +132,7 @@ class EventsPage extends Component{
                         //That's alot of requests to the server which is probably slow.
                     event.startDate = event.startDate.toDate();
                     event.endDate = event.endDate.toDate();
+
                     events.push(event);
                     
                 });
@@ -164,7 +159,8 @@ class EventsPage extends Component{
         console.log(this.props);
 
         const {history, selectedEvent} = this.props;
-        history.push("/events/"+ selectedEvent.eventId);
+        
+        history.push("/events/"+ selectedEvent.eventUid);
 
     }
 
@@ -178,13 +174,13 @@ class EventsPage extends Component{
 
     render(){
 
-        const { selectedEvent, events, error, tryingToAttend ,isAttendee, filter,
-            onCloseEvent, onEventSelected, onAttendEvent, onCancelAttendance, onFilterChanged} = this.props;
+        const { selectedEvent, events, error ,isAttendee, filter,
+            onCloseEvent, onEventSelected, onFilterChanged} = this.props;
         
 
         if (events == null || this.state.possibleFilters.length == 0){
 
-            return null;
+           // return null;
         }
 
 
@@ -200,8 +196,8 @@ class EventsPage extends Component{
             
             
 
-            <EventInfo event = {selectedEvent} onMoreClicked = {this.onGoToEvent} onAttend = {onAttendEvent} onCancel = {onCancelAttendance} onExit = {onCloseEvent} error={error}
-                loading={tryingToAttend} isAttendee = {isAttendee} loggedInUser = {this.props.firebase.auth().currentUser}/>
+            <EventInfo event = {selectedEvent} onMoreClicked = {this.onGoToEvent}  onExit = {onCloseEvent}
+               isAttendee = {isAttendee} loggedInUser = {this.props.firebase.auth().currentUser}/>
             
             
             </CalendarWrapper>
@@ -224,7 +220,6 @@ const mapStateToProps = createStructuredSelector({
     filter: createSelectFilter(),
     selectedEvent : createSelectEvent(),
     events : createSelectEvents(),
-    error : createSelectError(),
     
 });
 

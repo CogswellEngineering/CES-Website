@@ -6,15 +6,7 @@ const eventState = (state) => {
         return state.get(EVENTS_PATH);
 }
 
-const createSelectError = () => createSelector(
 
-    eventState,
-    (eventState) => {
-        if (eventState == null) return "";
-
-        return eventState.get("error");
-    }
-);
 
 const createSelectFilter = () => createSelector(
 
@@ -93,6 +85,5 @@ export {
     createSelectEvent,
     createSelectMonth,
     createSelectFlag,
-    createSelectError,
     createSelectFilter,
 };
