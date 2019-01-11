@@ -29,13 +29,12 @@ export default function reducer(state = initialState, action){
         //also more clarity.
         case POST_UPDATED:
 
-            const {postInfo, viewCount, likeCount, comments} = action.post;
+            const {postInfo, viewCount, likeCount} = action.post;
 
             return state
                 .set("postInfo", postInfo)
                 .set("viewCount", viewCount)
-                .set("likeCount", likeCount)
-                .set("comments", comments);
+                .set("likeCount", likeCount);
 
         //For uploading view when current user adds a comment.
         case COMMENTS_UPDATED:
@@ -47,7 +46,7 @@ export default function reducer(state = initialState, action){
 
             return state
                 .set("loadFailed", action.reason);
-                
+
         default:
             return state;
     }
