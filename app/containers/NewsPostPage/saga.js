@@ -96,3 +96,9 @@ function* postCommentSaga(payload){
     yield put(updatedComments(commentsToShow));
 }
 
+
+export default function* saga(){
+
+    yield takeLatest(LOAD_POST, loadPostSaga);
+    yield takeLatest(COMMENT_POSTED, postCommentSaga);
+}
