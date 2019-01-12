@@ -31,51 +31,6 @@ const BlogsPanel = styled.div`
 `;
 
 
-//Pannel for posting.
-const BlogPostPanel = styled(Modal)`
-
-    margin-top:2.5%;
-
-`;
-
-
-
-const PostPanelButton = styled.button`
-
-`;
-
-const PostActions = styled.span`
-
-
-`;
-
-const PostActionButtons = styled.button`
-
-
-`;
-
-
-const StyledTextArea = styled.textarea`
-
-    width:100%;
-    padding-bottom:20%;
-    border: 1px solid black;
-    vertical-align: baseline;
-    font-family: sans-serif;
-    font-size: 14px;
-    line-height: 20px;
-    &:focus{
-
-        border:1px solid #c6e28d;
-        box-shadow: 0 0 1px;
-
-
-        outline:none;
-    };
-
-`;
-
-
 const LoadMoreButton = styled.div`
 
     grid-area:"loadMore";
@@ -93,11 +48,4 @@ export{
     BlogPageWrapper,
     BlogsPanel,
     LoadMoreButton,
-    BlogPostPanel,
-    PostPanelButton,
-    PostActions,
-    PostActionButtons,
-    StyledPagination,
-    StyledTextArea,
-    AddLinkPanel,
 };

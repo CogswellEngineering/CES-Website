@@ -4,14 +4,6 @@ import {
     LOADING_POSTS,
     LOADED_POSTS,
     MODIFICATIONS_MADE,
-    ADD_POST_CLICKED,
-    POSTING,
-    POSTED,
-    POST_FAILED,
-    POST_FIELD_CHANGED,
-    //Later or look at frameworks for this, cause this might be harder than I initially thought.
-    LINK_ADDED,
-
 } from './constants';
 
 
@@ -59,45 +51,7 @@ function modificationsMade(posts){
 
 //Adding in posts actions
 
-function addPostClicked(post){
 
-    return {
-        type:ADD_POST_CLICKED,
-        post,
-
-    };
-}
-
-
-function postFieldChanged(fieldName,value){
-
-    return{
-        type: POST_FIELD_CHANGED,
-        fieldName,
-        value,
-    };
-}
-
-function posting(){
-    
-    return {
-        type:POSTING,
-    };
-}
-
-function posted(){
-    
-    return {
-        type:POSTED,
-    };
-}
-
-function postFailed(err){
-    
-    return {
-        type:POST_FAILED,
-    };
-}
 
 export {
 
@@ -106,15 +60,5 @@ export {
     loadingPosts,
     loadedPosts,
     modificationsMade,
-    addPostClicked,
-
-    //These will be dispatched by saga, I'll start documenting these too, for clarity sake, when
-    //eventually I'll have someone other than me work on this site.
-    posting,
-    posted,
-    postFailed,
-    postFieldChanged,
-   
-
 };
 

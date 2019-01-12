@@ -3,33 +3,19 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { withFirebase } from 'react-redux-firebase';
-import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import saga from './saga';
 import reducer from './reducer';
-import { makeSelectPosts, makeSelectPostFields, makeSelectError,
-    makeSelectPosting,makeSelectAmountToShow, makeSelectMaxAmountToShow
+import { makeSelectPosts, makeSelectAmountToShow, makeSelectMaxAmountToShow
 } from './selectors';
 
-import {  
-    modificationsMade, addPostClicked, postFieldChanged, 
-     loadMore} from './actions';
+import { modificationsMade, loadMore} from './actions';
 
 
 import { BLOG_PATH } from 'components/Header/pages';
-import { makeSelectLoggedInProfile } from 'containers/App/selectors';
 import NewsCard from 'components/NewsCard';
 
 //Might need select for categorizing it if that's neccessarry, that's easy change I can make later.
 import StyledForm, {StyledButton,StyledLabel,ErrorMessage,StyledInput, StyledSelect, StyledOption} from 'components/StyledForm'
-
-//Pagination imports
-
-//const ReactTags = require('react-tag-input').WithOutContext;
-
-import TagsInput from 'react-tagsinput'
- 
-import 'react-tagsinput/react-tagsinput.css'
 
 import {
 
@@ -57,44 +43,10 @@ class BlogPage extends Component{
             tags:[],
         }
 
-        this.openModal = this.openModal.bind(this);
-        this.closeModal = this.closeModal.bind(this);
-     
-        this.updateTags = this.updateTags.bind(this);
         this.onCardClicked = this.onCardClicked.bind(this);
-        
     }
 
 
-    updateTags(tags){
-
-
-        this.setState({
-            tags:tags,
-        })
-    }
-
-   
-   
-    openModal(evt){
-
-        const target = evt.target;
-        console.log("target name", target.name);
-        this.setState({
-            [target.name]: true,
-        })
-    }
-
-    closeModal(evt){
-
-        const target = evt.target;
-        console.log(target);
-        this.setState({
-         postModalOpen: false,
-        })
-    }
-
-    
 
 
     componentDidMount(){
@@ -107,6 +59,7 @@ class BlogPage extends Component{
             includeMetadataChanges: true,
         };
 
+        //Not really NEED to be real time for this lol, but eh for now its fine lol.
         this.unsubscribe = newsCards.onSnapshot(options,(docSnapshot) => {
 
                     var newPosts = [];
@@ -116,7 +69,6 @@ class BlogPage extends Component{
                         const doc = docs[index];
 
                         if (doc.exists){
-                            console.log(doc.data());
                             newPosts.push(doc.data());
                         }
                     }
@@ -143,7 +95,6 @@ class BlogPage extends Component{
     render(){
 
         const props = this.props;
-        const isAdmin = props.loggedInUser.isAdmin;
 
         const { posts, amountToShow,maxAmountToShow, error, postContent, posting,
             onFieldChanged, onPostClicked, onLoadMore,  } = props;
@@ -170,58 +121,11 @@ class BlogPage extends Component{
                         evt.preventDefault();
 
                         onLoadMore(5);
-                }}> Load More </LoadMoreButton>
+                }}>
+                 Load More </LoadMoreButton>
                 
                 }
-                <PostPanelButton name = "postModalOpen" hidden = {!isAdmin} onClick = {this.openModal}> Add Post </PostPanelButton>
-                
-                {/*At this point, this should honestly be in it's own folder, would just have to pass in more props.*/}
-                {postContent && <BlogPostPanel name = "postModalOpen" open = {this.state.postModalOpen} center = {true} onClose={this.closeModal}>
-
-
-
-                    <form name = "postModalOpen"  onSubmit = {(evt) => { evt.preventDefault();
-                    
-                        postContent.tags = this.state.tags; 
-                        onPostClicked(postContent); 
-                    }}>
-
-                        <StyledLabel for = "topic"> Topic </StyledLabel>
-                        <StyledInput id = "topic" name = "topic" 
-                        value={postContent.topic} 
-                        onChange={(evt) => { onFieldChanged(evt); }}
-                        />
-                        
-                        {/*Change body and tags to be text areas*/}
-                        <StyledLabel for = "body"> Body </StyledLabel>
-                        <StyledTextArea id = "body" name = "body" 
-                        value={postContent.body} 
-                        onChange={(evt) => { onFieldChanged(evt); }}>
-            
-
-                        </StyledTextArea>
-
-
-                        <StyledLabel for = "tags"> Tags </StyledLabel>
-
-                      
-                    
-
-                    <TagsInput name="tags" value={this.state.tags} onChange={this.updateTags}/>
-                        
-                        <ErrorMessage> {error} </ErrorMessage>
-
-                        {!posting? 
-                            <StyledButton type="submit"> Post </StyledButton> 
-                         :  
-                            <p>   Posting... </p>
-                        }
-                        
-                    </form>
-
-                  
-                </BlogPostPanel>
-                }
+               
 
             </BlogPageWrapper>
         )
@@ -234,10 +138,6 @@ const mapStateToProps = createStructuredSelector({
     maxAmountToShow: makeSelectMaxAmountToShow(),
     amountToShow : makeSelectAmountToShow(),
     posts: makeSelectPosts(),
-    postContent: makeSelectPostFields(),
-    loggedInUser: makeSelectLoggedInProfile(),
-    error : makeSelectError(),
-    posting : makeSelectPosting(),
 
 });
 
@@ -258,35 +158,23 @@ const mapStateToProps = createStructuredSelector({
             return dispatch(addLink(content));
 
         },
-        onFieldChanged : (evt) => {
-
-            const target = evt.target;
-            return dispatch(postFieldChanged(target.name,target.value));
-
-        },
-
+        
         onModificationMade : (posts) => {
 
             return dispatch(modificationsMade(posts));
         },
         
-        onPostClicked : (post) =>{
-
-            return dispatch(addPostClicked(post));
-        },
     }
 
  }
 
  const withConnect = connect(mapStateToProps, mapDispatchToProps);
  const withReducer = injectReducer({key:BLOG_PATH, reducer});
- const withSaga = injectSaga({key:BLOG_PATH,saga});
 
  export default compose(
 
     withConnect,
     withReducer,
-    withSaga,
     withFirebase
 
  )(BlogPage);
