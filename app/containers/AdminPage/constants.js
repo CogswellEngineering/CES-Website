@@ -1,0 +1,10 @@
+const PREFIX = "CES/ADMINPAGE/";
+
+const POST_NEWS = PREFIX + "POST_NEWS";
+const POST_EVENT = PREFIX + "POST_EVENT";
+
+export{
+
+    POST_NEWS,
+    POST_EVENT
+};
