@@ -45,7 +45,7 @@ const Content = styled.div`
 
 `;
 
-const PostDate = styeld.div`
+const PostDate = styled.div`
 
     grid-area:postDate;
 
