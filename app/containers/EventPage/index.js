@@ -62,7 +62,6 @@ class EventPage extends Component{
         super(props);
         this.state = {
 
-            shareWindowOpened: false,
             posterPicture: null,
             selectedIndex:0,
         };

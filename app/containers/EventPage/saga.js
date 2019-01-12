@@ -46,7 +46,6 @@ function* loadEventSaga(payload){
         event.startDate = event.startDate.toDate();
         event.endDate = event.endDate.toDate();
 
-        yield put (loadedEvent(event));
 
         const trackersRef = eventRef.collection("Trackers");
 
@@ -70,6 +69,10 @@ function* loadEventSaga(payload){
 
 
         }
+
+        //Loads event, so only show when information accurate.
+        yield put (loadedEvent(event));
+
 
     }
 }
