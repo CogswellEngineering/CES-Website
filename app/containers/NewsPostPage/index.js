@@ -20,32 +20,104 @@ import {
 
 } from './actions';
 
+import {
+
+    Wrapper,
+    Thumbnail,
+    Header,
+    Body,
+    Footer,
+} from 'components/StyledComponents/NewsPostPage';
+
+import Comments from 'components/Comments';
+
 class NewsPost extends Component{
 
 
     constructor(props){
 
         super(props);
+
+        console.log("props", props);
+        
+    }
+
+    componentDidMount(){
+
+        this.pullPostInfo();
+        //Implement a buffer so if same news post don't pull just reuse.
+        //Maybe even have a prebuffer before this is ever visited, based on views.
+    }
+
+    pullPostInfo(){
+
+        const postUid = this.props.match.params.uid;
+
+        const {loadPost} = this.props;
+
+        loadPost(postUid);
+    }
+
+    renderHeader(){
+
+
+        const {title, uploadDate, author} = this.props.post;
+
+
+        return (<Header>
+            
+                <div style = {{gridArea:"title". fontSize:"20px". fontWeight:"bold"}}> {title} </div>
+                <div style = {{gridArea:"uploadDate"}}> {uploadDate} </div>
+                <div style = {{gridArea:"author"}}> by {author} </div>
+            
+            </Header>);
+    }
+
+    renderBody(){
+
+
+        const {description} = this.props.post;
+
+        return (<Body>
+
+                {description}
+            
+            </Body>);
+    }
+
+    renderFooter(){
+
+
+        return (<Footer>
+
+            </Footer>)
     }
 
 
     render(){
 
 
+        if (this.props.post == null) return null;
+
+        const {thumbnail, comments} = this.props.post;
+
+        return (
+
+            <Wrapper>
+                <Thumbnail image = {thumbnail}/>
+
+                {this.renderHeader()}
+                {this.renderBody()}
+                {this.renderFooter()}
+                <Comments comments = {comments} style = {{gridArea:"comments"}}>
+
+            </Wrapper>
+        );
     }
 }
 
 
-//Prob COULD just make selector. to avoid implementing should component update.
-//also since passing in an arry might be good. But no real SELECTING happening is thing.
-//Well COULD just store post in state
-//then select view count and like count from it.
-//Also is storing likes like this fine?
-//How will adding like work?
-//actually just update the field lmao.
-//I'm retarded.
-//Also only need to update it when they leave
-//otherwise alot of calls to db from people liking and unliking it.
+
 const mapStateToProps = (state) => {
 
     if (state==null) return null;
