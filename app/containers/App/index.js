@@ -25,6 +25,7 @@ import { createStructuredSelector} from 'reselect';
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import NewsPage from 'containers/NewsPage/Loadable';
+import NewsPostPage from 'containers/NewsPostPage/Loadable';
 
 import EventsPage from 'containers/EventsPage';
 import EventPage from 'containers/EventPage';
@@ -41,7 +42,7 @@ import UpdateProfilePage from 'containers/ProfileRelated/UpdateProfilePage';
 import { LOGIN_PATH,REGISTER_PATH,
   ACCOUNT_RECOVERY_PATH, RESET_PASSWORD_PATH, 
   USER_PROFILE_PATH, UPDATE_USER_PROFILE_PATH,
-  BLOG_PATH,SPECIFIC_BLOG,  EVENTS_PATH, SPECIFIC_EVENT } from 'components/Header/pages';
+  BLOG_PATH,SPECIFIC_POST,  EVENTS_PATH, SPECIFIC_EVENT } from 'components/Header/pages';
 import 'react-dropdown/style.css'
 import LoginPage from '../AccountRelated/LoginPage';
 import { withCookies } from 'react-cookie';
@@ -63,7 +64,10 @@ const AppWrapper = styled.div`
 `;
 
 const BodyWrapper = styled.div`
-  height:100%;
+
+  //Like, I want this, but not, cause then padds when not needed.
+  //but better than having fatty white space.
+  min-height:100vh;
   margin:0;
   padding:0;
 `;
@@ -188,7 +192,7 @@ class App  extends Component{
               <Route exact path = {USER_PROFILE_PATH+"/update"} component = {UpdateProfilePage}/>
             
               <Route exact path = {BLOG_PATH} component = {NewsPage}/>
-            
+              <Route exact path = {SPECIFIC_POST} component = {NewsPostPage}/>
               <Route exact path = {EVENTS_PATH} component = {EventsPage}/>
               <Route exact path = {SPECIFIC_EVENT} component = {EventPage}/>
               <Route component={NotFoundPage} />

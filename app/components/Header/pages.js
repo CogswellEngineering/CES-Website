@@ -38,7 +38,7 @@ export const USER_PROFILE_PATH = "/account/:uid";
 export const USER_INVENTORY_PATH = "/account/inventory";
 export const UPDATE_USER_PROFILE_PATH = "/account/update";
 export const BLOG_PATH = "/news";
-export const SPECIFIC_BLOG = "/news/:uid"
+export const SPECIFIC_POST = "/news/:uid"
 export const EVENTS_PATH = "/events";
 export const SPECIFIC_EVENT = "/events/:uid";
 
