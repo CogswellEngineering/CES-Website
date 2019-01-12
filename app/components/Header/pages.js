@@ -42,5 +42,5 @@ export const SPECIFIC_POST = "/news/:uid"
 export const EVENTS_PATH = "/events";
 export const SPECIFIC_EVENT = "/events/:uid";
 
-
+export const ADMIN_PATH = "/admin";
 

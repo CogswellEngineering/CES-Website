@@ -13,7 +13,7 @@ const Wrapper = styled.form`
 `;
 
 
-class TagForm extends Component{
+export default class TagForm extends Component{
 
 
     constructor(props){
