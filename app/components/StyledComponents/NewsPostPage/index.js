@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Linkify from 'react-linkify';
 
 const Wrapper = styled.div`
 
@@ -35,7 +36,7 @@ const Header = styled.div`
 
 `;
 
-const Body = styled.div`
+const Body = styled(Linkify)`
 
     border:2px solid black;
     grid-area:body;

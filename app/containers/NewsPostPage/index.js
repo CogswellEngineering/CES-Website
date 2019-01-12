@@ -99,8 +99,8 @@ class NewsPost extends Component{
 
         if (this.props.post == null) return null;
 
-        const {thumbnail, comments} = this.props.post;
-
+        const {thumbnail} = this.props.post;
+        const comments = this.props.comments;
         return (
 
             <Wrapper>
