@@ -101,13 +101,13 @@ class BlogPage extends Component{
 
         const props = this.props;
         const fireStoreRef = props.firebase.firestore();
-        const blogRef = fireStoreRef.collection("Blog");
+        const newsCards = fireStoreRef.collection("ClubInfo").doc("News").collection("NewsCards");
         const options = {
             //For changes to alrady added posts.
             includeMetadataChanges: true,
         };
 
-        this.unsubscribe = blogRef.onSnapshot(options,(docSnapshot) => {
+        this.unsubscribe = newsCards.onSnapshot(options,(docSnapshot) => {
 
                     var newPosts = [];
                     const docs = docSnapshot.docs;
@@ -133,12 +133,11 @@ class BlogPage extends Component{
     }
 
 
-    onCardClicked = (newsCard) =>{
+    onCardClicked = (postUid) =>{
 
 
-        const newsUid = newsCard.fullReference;
-
-        this.props.history.push("/news/"+newsUid);
+        console.log("news card", postUid);
+        this.props.history.push("/news/"+postUid);
     }
     
     render(){
@@ -150,7 +149,6 @@ class BlogPage extends Component{
             onFieldChanged, onPostClicked, onLoadMore,  } = props;
 
 
-        if (posts == null || postContent == null) return null;
 
 
         return (<BlogPageWrapper>
@@ -160,12 +158,7 @@ class BlogPage extends Component{
                                       
                     {posts && posts.map(post => {
 
-                        return <div>
-                            
-                            
-                            <NewsCard key ={post.topic + "_" + post.author} {...post} style = {{marginTop:"1%"}} onCardClicked = {this.onCardClicked}/> 
-                            <hr style = {{border:"0.5px solid black"}}></hr>
-                            </div>
+                        return <NewsCard  key ={post.topic + "_" + post.author} {...post} style = {{marginTop:"1%"}} onCardClicked = {this.onCardClicked}/> 
                     })}
 
                     
@@ -183,7 +176,7 @@ class BlogPage extends Component{
                 <PostPanelButton name = "postModalOpen" hidden = {!isAdmin} onClick = {this.openModal}> Add Post </PostPanelButton>
                 
                 {/*At this point, this should honestly be in it's own folder, would just have to pass in more props.*/}
-                <BlogPostPanel name = "postModalOpen" open = {this.state.postModalOpen} center = {true} onClose={this.closeModal}>
+                {postContent && <BlogPostPanel name = "postModalOpen" open = {this.state.postModalOpen} center = {true} onClose={this.closeModal}>
 
 
 
@@ -228,6 +221,7 @@ class BlogPage extends Component{
 
                   
                 </BlogPostPanel>
+                }
 
             </BlogPageWrapper>
         )

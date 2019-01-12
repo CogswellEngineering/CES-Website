@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Modal from 'react-responsive-modal';
 
 //Honestly most will also have mainContentWrapper on them, but also specific ones.
+//I don't want it to be empty like that at start
 const BlogPageWrapper = styled.div`
 
 
@@ -9,7 +10,7 @@ const BlogPageWrapper = styled.div`
     display:grid;
     margin-top:5%;
     grid-template-columns: 100%;
-    grid-template-rows: 80% 5%;
+    grid-template-rows: auto 1fr;
     grid-template-areas:
     "blogs"
     "loadMore";
@@ -25,10 +26,7 @@ const BlogsPanel = styled.div`
     grid-area:blogs;
     width:80%;
     margin:auto;
-    height:100%;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-evenly;
+   
 
 `;
 

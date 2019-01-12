@@ -66,7 +66,7 @@ class NewsPost extends Component{
 
         return (<Header>
             
-                <div style = {{gridArea:"title". fontSize:"20px". fontWeight:"bold"}}> {title} </div>
+                <div style = {{gridArea:"title", fontSize:"20px", fontWeight:"bold"}}> {title} </div>
                 <div style = {{gridArea:"uploadDate"}}> {uploadDate} </div>
                 <div style = {{gridArea:"author"}}> by {author} </div>
             
@@ -109,7 +109,7 @@ class NewsPost extends Component{
                 {this.renderHeader()}
                 {this.renderBody()}
                 {this.renderFooter()}
-                <Comments comments = {comments} style = {{gridArea:"comments"}}>
+                <Comments comments = {comments} style = {{gridArea:"comments"}}/>
 
             </Wrapper>
         );
@@ -124,9 +124,9 @@ const mapStateToProps = (state) => {
 
     const newsPostState = state.get(SPECIFIC_POST);
 
-    if (newsPostState == null) return null;
+    if (newsPostState == null) return {};
 
-
+    console.log("Ever get here?",newsPostState);
     return {
 
         post: newsPostState.get("postInfo"),
@@ -170,11 +170,11 @@ const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withReducer = injectReducer({key: SPECIFIC_POST, reducer});
 const withSaga = injectSaga({key: SPECIFIC_POST, saga});
 
-export default compose{
+export default compose(
 
     withConnect,
     withReducer,
     withSaga
-}(NewsPost);
+)(NewsPost);
 
 

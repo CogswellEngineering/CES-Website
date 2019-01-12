@@ -23,7 +23,6 @@ function* loadPostSaga(payload){
     const {postUid} = payload;
 
     const firestore = firebase.firestore();
-
     const postRef = firestore.collection("ClubInfo").doc("News").collection("NewsPosts").doc(postUid);
 
     const post = yield postRef.get();
@@ -35,8 +34,8 @@ function* loadPostSaga(payload){
         yield put(loadFailed({notFound:true}));
     }
     else{
-
-        yield put(postUpdated(post.doc()));
+        console.log("here", post.data());
+        yield put(postUpdated(post.data()));
 
         const commentsRef = postRef.collection("Comments");
 
@@ -53,7 +52,9 @@ function* loadPostSaga(payload){
 
             snapshot.docs.forEach( doc => {
 
-                comments.push(doc.data());
+                console.log ("doc", doc);
+                if (!doc.exists)
+                    comments.push(doc.data());
             })
 
             yield put(updatedComments(comments));
