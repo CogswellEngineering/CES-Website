@@ -13,10 +13,10 @@ const Wrapper = styled.div`
     width:100%;
     height:240px;
     display:grid;
-    
+    border: 2px solid black;
     grid-column-gap: 2%;
     grid-template-columns: 30% 60%; 
-    grid-template-rows: 1fr 1fr 1fr 0.5fr;
+    grid-template-rows: 1fr 2fr 1fr 1fr;
 
     grid-template-areas:
     "thumbnail header"
@@ -35,13 +35,13 @@ const Thumbnail = styled.div`
     grid-area: thumbnail;
 
     background-image: url(${props => props.image});
-    background-size: 80%;
+    background-size: 100% 100%;
     background-position:center;
     background-repeat: no-repeat;
 
 
     ${Wrapper}:hover & {
-        background-size:contain;
+        //background-size:contain;
     }  
 `;
 
@@ -77,9 +77,12 @@ const UploadDate = styled.div`
     align-self:start;
 `;
 
-const Description = styled.div`
+//Prob just first paragraph / sentence of news post.
+//That will be done via form submission of adding new posts.
+const Description = styled.p`
 
     grid-area:description;
+    word-wrap: break-word;
 `;
 
 
@@ -124,10 +127,10 @@ const NewsCard = props => {
 
 
 
-    const {thumbnail,topic,author, postDate, body,tags, onCardClicked} = props;
+    const {postUid,thumbnail,topic,author, postDate, body,tags, onCardClicked} = props;
     console.log("post date", postDate);
     return (
-        <Wrapper onClick = {onCardClicked} style = {props.style}>
+        <Wrapper onClick = { () => {onCardClicked(postUid)}} style = {props.style}>
 
 
             <Thumbnail image = {thumbnail} />

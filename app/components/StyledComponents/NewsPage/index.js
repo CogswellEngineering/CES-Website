@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Modal from 'react-responsive-modal';
 
 //Honestly most will also have mainContentWrapper on them, but also specific ones.
+//I don't want it to be empty like that at start
 const BlogPageWrapper = styled.div`
 
 
@@ -9,7 +10,7 @@ const BlogPageWrapper = styled.div`
     display:grid;
     margin-top:5%;
     grid-template-columns: 100%;
-    grid-template-rows: 80% 5%;
+    grid-template-rows: auto 1fr;
     grid-template-areas:
     "blogs"
     "loadMore";
@@ -25,55 +26,7 @@ const BlogsPanel = styled.div`
     grid-area:blogs;
     width:80%;
     margin:auto;
-    height:100%;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-evenly;
-
-`;
-
-
-//Pannel for posting.
-const BlogPostPanel = styled(Modal)`
-
-    margin-top:2.5%;
-
-`;
-
-
-
-const PostPanelButton = styled.button`
-
-`;
-
-const PostActions = styled.span`
-
-
-`;
-
-const PostActionButtons = styled.button`
-
-
-`;
-
-
-const StyledTextArea = styled.textarea`
-
-    width:100%;
-    padding-bottom:20%;
-    border: 1px solid black;
-    vertical-align: baseline;
-    font-family: sans-serif;
-    font-size: 14px;
-    line-height: 20px;
-    &:focus{
-
-        border:1px solid #c6e28d;
-        box-shadow: 0 0 1px;
-
-
-        outline:none;
-    };
+   
 
 `;
 
@@ -95,11 +48,4 @@ export{
     BlogPageWrapper,
     BlogsPanel,
     LoadMoreButton,
-    BlogPostPanel,
-    PostPanelButton,
-    PostActions,
-    PostActionButtons,
-    StyledPagination,
-    StyledTextArea,
-    AddLinkPanel,
 };

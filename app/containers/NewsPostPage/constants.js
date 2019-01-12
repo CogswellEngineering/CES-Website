@@ -1,0 +1,21 @@
+const PREFIX = "CES/CONTAINERS/EVENTPAGE";
+
+const ADD_VIEW = PREFIX + "/ADD_VIEW";
+const ADD_LIKE = PREFIX + "/ADD_LIKE";
+//This could be local state for coloring, hmm low prio on likes.
+const LOAD_POST = PREFIX + "/LOAD_POST";
+const POST_UPDATED = PREFIX + "/POST_UPDATED";
+const LOAD_FAILED = PREFIX + "/LOAD_FAILED";
+const COMMENT_POSTED = PREFIX + "/COMMENT_POSTED";
+const COMMENTS_UPDATED = PREFIX + "/COMMENTS_UPDATED";
+
+
+export{
+    ADD_VIEW,
+    ADD_LIKE,
+    LOAD_POST,
+    POST_UPDATED,
+    LOAD_FAILED,
+    COMMENT_POSTED,
+    COMMENTS_UPDATED,
+}
