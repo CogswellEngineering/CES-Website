@@ -140,6 +140,11 @@ export default class NewsPostForm extends Component{
                     <ContentField type = "text" id = "content" value = {this.state.content} onChange = {this.onUpdateTextField}/>
                 </div>
 
+                <div>
+                    <Label> Tag your Post </Label>
+                    <TagForm onAddTag = {this.onTagAdded}/>
+                </div>
+
                 <Button type = "submit"/>
 
 
