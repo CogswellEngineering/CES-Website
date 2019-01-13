@@ -1,5 +1,10 @@
 import {takeLatest, call,put } from 'redux-saga/effects';
 import firebase from 'firebase';
+
+//Url to backend, prob rename this to ces back end too. kinda saying alot in it lmao
+import { fbAdminAPI } from 'utils/apiLinks';
+import request from 'utils/request';
+
 import{
 
     POST_NEWS,
@@ -170,6 +175,45 @@ function* postNews(payload){
 
                         return tag.type === "event";
                     })};
+
+                    //really uid, and full link will be /news/etc.
+                    //would be domain name, prob just prepend it at backend, it's fine.
+                    const postId = newsPostRef.id;
+
+
+                    const body = {
+
+                        eventTags,
+                        postId,
+                    };
+
+                    try{
+
+
+                        //Sends call to back end to update trackers.
+                        const response = yield call(
+
+                            request,
+                            fbAdminAPI+"/updateEventTrackers",
+                            //I forgot exactly what this is called http headers? something like that no good forgetting this stuff
+                            //lol, it'll recollect.
+                            {
+                                method:"POST",
+                                body:JSON.stringify(body),
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                            }
+                        );
+
+                        console.log("response", response);
+
+                    }
+
+                    catch (err){
+
+                        console.log("Failed to update trackers on news post", err);
+                    }
 
 
                     //Then send all of the event tags along with this news post to backend to notify all trackers.
