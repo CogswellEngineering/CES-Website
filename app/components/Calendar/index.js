@@ -159,14 +159,17 @@ class Calendar extends Component{
         const eventId = evt.target.id.split("_");
         console.log("split ", eventId);
         
+        //Then this is also happening
+
         //Then pull corresponding event.
         const {events, onSelectEvent} = this.props;
 
         for (var i = 0; i < events.length; ++i){
 
+            console.log("current event looking at ", events[i]);
 
-            if (events[i].title === eventId[0] && dateFns.isEqual(events[i].startDate, eventId[1])){
-
+            if (events[i].title === eventId[0] && dateFns.isSameDay(events[i].startDate, eventId[1])){
+                console.log("But I don't happen during this part");
                 onSelectEvent(events[i]);
             }
         }
@@ -282,7 +285,6 @@ class Calendar extends Component{
                 {
                     colorOfCell = "gray";
                 }
-
                 cells.push(<Cell key ={toShow} dayNumber = {i} onClick = {this.onCellClicked}  id ={toShow}
                 color = {colorOfCell}>
 
@@ -294,18 +296,24 @@ class Calendar extends Component{
 
                                     var innerHtml = "";
                                     
-                                    //Does the visual.. but now onclick??
-                                    if (dateFns.isWithinRange(toShow, event.startDate, event.endDate)){
+                                    if (dateFns.isSameDay(event.startDate, toShow)){
 
-                                        if (dateFns.isEqual(event.startDate, toShow)){
-                                            innerHtml = event.title;
-                                        }
+                                        innerHtml = event.title;
+
                                         const {type, title} = event;
                                         //Class is for onclick events
                                         return <EventFlag key = {event.title+toShow} color = {this.eventColors[type]} title = {innerHtml} id = {title + "_" +  event.startDate}
                                         onClick = {this.onEventClicked}
                                         >
                                          {innerHtml} </EventFlag>
+                                    }
+                                    else if (dateFns.isWithinRange(toShow, event.startDate, event.endDate)){
+                                       
+                                        const {type, title} = event;
+                                        //Class is for onclick events
+                                        return <EventFlag key = {event.title+toShow} color = {this.eventColors[type]} id = {title + "_" +  event.startDate}
+                                        onClick = {this.onEventClicked}
+                                        />
                                     }
                                     else{
                                         return null;

@@ -116,7 +116,7 @@ const EventInfo = (props) => {
                         <InfoBlock>
                                 <EventHeader>
                                         <EventTitle>{title}</EventTitle>
-                                        {  " hosted by "} <HostLink href="#"> {host || "TBD"} </HostLink> 
+                                        {  " hosted by "} <HostLink href="#"> {host.namen || "TBD"} </HostLink> 
                                         <TimeInfo> 
                                            
                                                 Date: {formattedStartDate + " - " + formattedEndDate} 
