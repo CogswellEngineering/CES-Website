@@ -1,11 +1,19 @@
 import styled from 'styled-components';
-import Dropzone from 'react-dropzone'
-
-
-export const ThumbnailDropzone = styled(Dropzone)`
 
 
 
+
+export const ThumbnailDropzone = styled.div`
+
+
+    border:2px dashed black;
+
+`;
+
+export const Title = styled.p`
+
+    text-align:center;
+    font-size:2em;
 
 `;
 export const Label = styled.label`
@@ -20,8 +28,12 @@ export const Field = styled.input`
 
 `;
 
+export const ContentField = styled(Field)`
+    height:400px;
+`;
 
-export const Button = styled.div`
+//For submitting
+export const Button = styled.button`
 
 
 `;
