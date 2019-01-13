@@ -45,7 +45,6 @@ export default class EventPostForm extends Component{
             //UNLESS HAVE FILTER FOR LOCATION, but that's later.
             location: "",
             //Find package for picking dates.
-            eventDate:new Date(),
             startDate: new Date(),
             endDate: new Date(),
             //Optional
@@ -94,12 +93,14 @@ export default class EventPostForm extends Component{
             //pdate event page to just concat thumbnail at start of gallery.
             thumbnail:null,
             title:"",
+            type:"",
             description:"",
             //Prob object instead, just being lazy now, just string is okay, no need to separate
             //UNLESS HAVE FILTER FOR LOCATION, but that's later.
             location: "",
             //Find package for picking dates.
-            eventDate:new Date(),
+            startDate:new Date(),
+            endDate: new Date(),
             //Optional
             tags:[],
             agenda:[],

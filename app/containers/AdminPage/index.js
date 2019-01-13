@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
+import {createStructuredSelector} from 'reselect';
 import _  from 'lodash';
 import injectSaga from 'utils/injectSaga';
 import saga from './saga';
 
+import {makeSelectLoggedInProfile, makeSelectLoggedIn} from 'containers/App/selectors';
 import {
 
     postNews,
@@ -50,6 +52,7 @@ class AdminPage extends Component{
         }
 
         this.toggleForm = this.toggleForm.bind(this);
+        this.onAddNews = this.onAddNews.bind(this);
     }
 
     toggleForm = (evt) => {
@@ -71,6 +74,18 @@ class AdminPage extends Component{
 
     }
 
+    onAddNews = (post) => {
+
+
+        console.log("More overhead, but better? Than passing loggedInProfile props over to News post? Lol");
+        const {onAddNews, loggedInProfile} = this.props;
+
+        this.props.onAddNews(post, author: {
+            name: this.props.loggedInProfile.displayName,
+            uid: this.props.loggedInAuth.uid,
+        });
+    } 
+
 
     render(){
 
@@ -80,7 +95,7 @@ class AdminPage extends Component{
         //add the onclick events and hook to sagas
         //Complete rest of the parts for EventForm.
 
-        const {onAddNews, onAddEvent} = this.props;
+        const {onAddEvent} = this.props;
         return (
             <Wrapper>
 
@@ -96,7 +111,7 @@ class AdminPage extends Component{
 
                  { this.state.newEventFormOpen && <EventForm style = {{gridArea: "form"}} onSubmit = {onAddEvent} /> }
 
-                 { this.state.newNewsPostFormOpen && <NewsPostForm  style = {{gridArea: "form"}} onSubmit = {onAddNews}  /> }
+                 { this.state.newNewsPostFormOpen && <NewsPostForm  style = {{gridArea: "form"}} onSubmit = {this.onAddNews}  /> }
 
             </Wrapper>
         )
@@ -104,10 +119,11 @@ class AdminPage extends Component{
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = createStructuredSelector({
 
-    return {}
-}
+    loggedInAuth: makeSelectLoggedIn(),
+    loggedInProfile: makeSelectLoggedInProfile(),
+});
 
 const mapDispatchToProps = dispatch => {
 
@@ -119,7 +135,7 @@ const mapDispatchToProps = dispatch => {
             return dispatch(postEvent(post));
         },
 
-        onAddNews: (post) => {
+        onAddNews: (post, author) => {
 
             return dispatch(postNews(post));
         }

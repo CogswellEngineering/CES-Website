@@ -68,7 +68,8 @@ class NewsPost extends Component{
             
                 <div style = {{gridArea:"title", fontSize:"20px", fontWeight:"bold"}}> {title} </div>
                 <div style = {{gridArea:"uploadDate"}}> {uploadDate} </div>
-                <div style = {{gridArea:"author"}}> by {author} </div>
+                {/*Change this to link to profile later*/}
+                <div style = {{gridArea:"author"}}> by {author.name} </div>
             
             </Header>);
     }

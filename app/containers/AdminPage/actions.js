@@ -5,13 +5,14 @@ import {
 } from './constants';
 
 
-function postNews(post){
+function postNews(post, author){
 
 
     return {
 
         type:POST_NEWS,
         post,
+        author,
     };
 }
 

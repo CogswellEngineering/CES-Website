@@ -111,12 +111,78 @@ function* postNews(payload){
 
 
 
-    const {post} = payload;
+    const {post, author} = payload;
     //Need to check tags, then send api call to backend to notify all trackers via email.
     //Create news card
     //create news post.
     //REMEMBER AUTHOR, this time will just be logged in user?
     //Hmm debatable.
+    const firestore = firebase.firestore();
+    const newsThumbnailsRef = firebase.storage().ref("NewsThumbnails/"+post.thumbnail.name);
+
+
+    newsThumbnailsRef.put(post.thumbnail)
+        .then ( res => {
+
+
+            newsThumbnailsref.getDownloadURL()
+                .then (url => {
+
+
+                    const newsRef = firestore.collection("ClubInfo").doc("News")
+                    const newsCardref = newsRef.collection("NewsCards").doc();
+                    const newsPostRef = newsRef.collection("NewsPosts").doc();
+
+                    console.log("post", post);
+
+                    const {topic, content, tags} = post;
+                    const uploadDate = new Date();
+                   
+                    newsCardRef.set({
+
+
+                        topic,
+                        content,
+                        tags,
+                        author,
+                        uploadDate,
+                        thumbnail: url,
+                        postUid: newsPostRef.id,
+
+                    });
+
+                    //Same here, the news will have comments and such later.
+                    newsPostRef.set({
+
+                        topic,
+                        content,
+                        tags,
+                        author,
+                        uploadDate,
+                        thumbnail: url,
+                        postUid: newsPostRef.id,
+                    });
+
+                    //ToDo: 
+                    //Set up back end to send notifiers to all trackers, so I need to check tags.
+
+                    const eventTags = {tags.filter( tag => {
+
+                        return tag.type === "event";
+                    })};
+
+
+                    //Then send all of the event tags along with this news post to backend to notify all trackers.
+                    //Getting list of trackers itself will be in backend.
+                })
+
+        })
+
+        .catch ( err => {
+
+            console.log("failed to add post", err);
+        })
+
 }
 
 

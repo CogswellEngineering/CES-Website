@@ -59,8 +59,7 @@ class LoginPage extends Component {
                 domains:"http://localhost"
             };
 
-            //Setting it is fucking it up?
-            //Yeah router is auto doing it, which is fine.
+            
             //Will replace doing this for with node cookies instead.
             //commenting out for now
             /*
@@ -72,7 +71,6 @@ class LoginPage extends Component {
 
             console.log("cookies", this.props.cookies);
 
-           //Why did this break???
 
            console.log("I happenr ight?")// Router may redirect accordingly, so we'll find out lol.
            //This SHOULD be set, or can set via node intead withCookie
