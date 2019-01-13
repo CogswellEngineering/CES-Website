@@ -16,8 +16,9 @@ import Tags from 'components/Tags';
 
 import "react-datepicker/dist/react-datepicker.css";
 
-const Wrapper = styled.form`
+const Wrapper = styled.div`
 
+   
 
 `;
 
@@ -59,8 +60,25 @@ export default class EventPostForm extends Component{
 
     }
 
+    
+
+
+    componentWillUnmount(){
+
+        if (this.state.thumbnail != null){
+
+            window.URL.revokeObjectURL(this.state.thumbnail);   
+        }
+    }
 
     resetState(){
+
+
+        if (this.state.thumbnail != null){
+
+            window.URL.revokeObjectURL(this.state.thumbnail);
+            
+        }
 
         this.setState({
 
@@ -85,8 +103,17 @@ export default class EventPostForm extends Component{
     //Alot of these similiar to other form.
     onThumbnailFieldUpdated = (acceptedFiles, rejectedFiles) => {
 
-        this.setState({
-            thumbnail:acceptedFiles[0],
+        this.setState( state => {
+
+            if (state.thumbnail != null){
+
+                    //Get rid of cached preview of thumbnail uploaded before.
+                    window.URL.revokeObjectURL(state.thumbnail);
+            }
+
+            return {
+                thumbnail:acceptedFiles[0]
+            }
         });
     }
 
@@ -157,25 +184,33 @@ export default class EventPostForm extends Component{
         return (
             <Wrapper >
                 <Title> Create Event </Title>
-                <div>
-                    <Label> Select the Date of your Event </Label>
+               
+                <Dropzone id = "thumbnail" onDrop = {this.onThumbnailFieldUpdated}>
+
+                    {({getRootProps, getInputProps}) => (
+                <ThumbnailDropzone {...getRootProps()}>
+                <input {...getInputProps()} />
+                {this.state.thumbnail?
+                    
+                    <img style = {{width:"inherit",height:"inherit"}} src = {window.URL.createObjectURL(this.state.thumbnail)}/>
+                :
+                <p>Add A Thumbnail For Your Event</p>
+                }
+                </ThumbnailDropzone>
+          )}
+                </Dropzone>
+
+                <div style = {{gridArea:"dateSelection", marginTop:"1%"}}>
+                    <Label >  Select the Date of your Event </Label>
                     <DatePicker
+                            showTimeSelect
                             selected={this.state.eventDate}
-                            onChange={this.handleChange}
+                            onChange={this.onUpdateEventDate    }
                         />
                 </div>
 
-                    <Dropzone id = "thumbnail" onDrop = {this.onThumbnailFieldUpdated}>
 
-                    {({getRootProps, getInputProps}) => (
-            <ThumbnailDropzone {...getRootProps()}>
-              <input {...getInputProps()} />
-                <p>Add A Thumbnail For Your Event</p>
-            </ThumbnailDropzone>
-          )}
-                    </Dropzone>
-
-                <div>
+                <div style = {{marginTop:"1%"}}>
 
                     <Label for = "title"> Title </Label>
                     <Field type = "text" id = "title" value = {this.state.title} onChange = {this.onUpdateTextField}/>
@@ -183,8 +218,11 @@ export default class EventPostForm extends Component{
                 </div>
 
                 <div>
-                    <Label for = "description"> Description </Label>   
-                    <ContentField type = "text" id = "description" value = {this.state.description} onChange = {this.onUpdateTextField}/>
+                    <Label for = "description" style = {{display:"block"}}> Description </Label>   
+                    <ContentField type = "text" id = "description" value = {this.state.description}
+                    
+                    minRows = {5}
+                    onChange = {this.onUpdateTextField}/>
                 </div>
 
                 <div>
@@ -194,7 +232,7 @@ export default class EventPostForm extends Component{
                     <TagForm onAddTag = {this.onTagAdded}/>
                 </div>
 
-                <Button onClick = {this.onEventSubmitted}>
+                <Button onClick = {this.onEventSubmitted}style = {{width:"50%",marginLeft:"25%",marginTop:"2%", }}>
                         Post Event
                 </Button>
 

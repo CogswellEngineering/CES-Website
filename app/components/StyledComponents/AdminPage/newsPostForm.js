@@ -46,7 +46,22 @@ export default class NewsPostForm extends Component{
 
     }
 
+    componentWillUnmount(){
+
+        if (this.state.thumbnail != null){
+
+            window.URL.revokeObjectURL(this.state.thumbnail);   
+        }
+    }
+
     resetState = () => {
+
+
+        if (this.state.thumbnail != null){
+
+            window.URL.revokeObjectURL(this.state.thumbnail);
+            
+        }
 
         this.setState({
 
@@ -58,11 +73,22 @@ export default class NewsPostForm extends Component{
 
     }
 
+    //Gota think of way to reuse these functions for both components.
     onThumbnailFieldUpdated = (acceptedFiles, rejectedFiles) => {
+ 
+        this.setState( state => {
 
-        this.setState({
-            thumbnail:acceptedFiles[0],
+            if (state.thumbnail != null){
+
+                    //Get rid of cached preview of thumbnail uploaded before.
+                    window.URL.revokeObjectURL(state.thumbnail);
+            }
+
+            return {
+                thumbnail:acceptedFiles[0]
+            }
         });
+
     }
 
     
@@ -71,7 +97,7 @@ export default class NewsPostForm extends Component{
         const target = evt.target;
 
         this.setState({
-            [target.name] : target.value
+            [target.id] : target.value
         });
     }
 
@@ -110,6 +136,8 @@ export default class NewsPostForm extends Component{
         evt.preventDefault();
 
         this.props.onSubmit(this.state);
+
+        //This will do the revoking of thumbnail for me.
         this.resetState();
     }
 
@@ -123,15 +151,21 @@ export default class NewsPostForm extends Component{
                     <Dropzone id = "thumbnail" onDrop = {this.onThumbnailFieldUpdated}>
 
                     {({getRootProps, getInputProps}) => (
+                        //Should make this the same size as thumbnail would be for news.
             <ThumbnailDropzone {...getRootProps()}>
               <input {...getInputProps()} />
-                <p>Add A Thumbnail For The Post</p>
+                {this.state.thumbnail?
+                    
+                    <img style = {{width:"inherit",height:"inherit"}} src = {window.URL.createObjectURL(this.state.thumbnail)}/>
+                :
+                <p>Add A Thumbnail For Your Event</p>
+                }
             </ThumbnailDropzone>
           )}
                     </Dropzone>
                 </div>
 
-                <div>
+                <div style = {{marginTop:"1%"}}>
 
                     <Label for = "topic"> Topic </Label>
                     <Field type = "text" id = "topic" value = {this.state.topic} onChange = {this.onUpdateTextField}/>
@@ -139,8 +173,10 @@ export default class NewsPostForm extends Component{
                 </div>
 
                 <div>
-                    <Label for = "content"> Content </Label>
-                    <ContentField type = "text" id = "content" value = {this.state.content} onChange = {this.onUpdateTextField}/>
+                    <Label for = "content" style = {{display:"block"}}> Content </Label>
+                    <ContentField type = "text" id = "content" value = {this.state.content} onChange = {this.onUpdateTextField}
+                        minRows = {5} 
+                    />
                 </div>
 
                 <div>
@@ -149,7 +185,7 @@ export default class NewsPostForm extends Component{
                     <TagForm onAddTag = {this.onTagAdded}/>
                 </div>
 
-                <Button onClick = {this.onPostSubmitted}>
+                <Button onClick = {this.onPostSubmitted}  style = {{width:"50%",marginLeft:"25%",marginTop:"2%", }}>
                         Add News Post
                 </Button>
 

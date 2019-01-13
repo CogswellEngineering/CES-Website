@@ -11,9 +11,7 @@ const Wrapper = styled.form`
 
     border: 1px solid black;
     display:flex;
-    width:60%;
-    justify-content:space-between;
-    padding:4px;
+
 `;
 
 
@@ -89,7 +87,7 @@ export default class TagForm extends Component{
                     <Field id = "eventUid" type = "text" value = {this.state.eventUid} onChange = {this.onFieldChanged}/>
                 </div>
 
-                <Button type = "submit" >
+                <Button type = "submit"  style = {{width:"100px"}}>
                      Add Tag 
                 </Button>
             </Wrapper>
