@@ -1,4 +1,5 @@
-import {takeLatest, put} from 'react-saga/effects';
+import {takeLatest, call,put } from 'redux-saga/effects';
+import firebase from 'firebase';
 import{
 
     POST_NEWS,
@@ -10,12 +11,112 @@ function* postEvent(payload){
 
 
     const {post} = payload;
+    const firestore = firebase.firestore();
+
+    const eventsRef = firestore.collection("ClubInfo").doc("Events");
+
+    const eventCard = eventsRef.collection("EventCards").doc();
+    const eventItem = eventsRef.collection("EventList").doc();
+    const newTag = firestore.collection("Tags").doc();
+
+    //Maybe add date and location to card, but I'll decide that later.
+    //Wait...There are no event cards. wait.. Yes there are. When I click the event on calendar it opens it as modal
+    //I need to list view or grid view o display them as actual cards too, actually I DO NEED date for that 
+    //Wait I'm dumb need to upload thumbnail to storage then get download url.
+
+    const {thumbnail} = post;
+
+    const storageRef = firebase.storage().ref("EventThumbnails/"+thumbnail.name);
+    storageRef.put(thumbnail)
+        .then (snapshot => {
+
+            console.log("storageRef", storageRef);
+
+            storageRef.getDownloadURL()
+                .then (url => {
+
+
+                    console.log("post", post);
+                    console.log("post title", post.title);
+                    const {title, type, description, tags, startDate, endDate, gallery, agenda } = post;
+                    
+                    console.log("get to here?");
+                    console.log("post after event card data", post);
+        
+                    //I forgot host of all things lmao.
+                    //Prob just going to add in during this part
+                    //not FULLY synced due to it but its okay.
+
+                    const host = {name : post.hostName, email : post.hostEmail};
+                    eventCard.set({
+                        host,
+                        title,
+                        type,
+                        description,
+                        tags,
+                        startDate,
+                        endDate,
+                        thumbnail:url,
+                        eventUid:eventItem.id,
+
+
+                    });
+
+                    eventItem.set({
+
+                        host,
+                        title,
+                        type,
+                        description,
+                        tags,
+                        startDate,
+                        endDate,
+                        thumbnail:url,
+                        gallery,
+                        agenda,
+                    })
+                    .then (eventRef => {
+
+                        console.log("eventItem", eventItem);
+                        const tagData = {
+        
+                            title,
+                            type:"event",
+                            eventUid: eventItem.id,
+                        };
+        
+                            // Have to update news post form
+                            //to provide event tags to choose from as well.
+                         newTag.set(tagData);
+        
+                    })
+                    .catch ( err => {
+        
+                        console.log(err);
+                    })
+        
+                })
+            })
+            .catch (err => {
+
+                console.log("failed to upload", err);
+            });
 
 }
 
+
+//Doing this first, cause easier? Question mark. Actually no
+//event first.
 function* postNews(payload){
 
+
+
     const {post} = payload;
+    //Need to check tags, then send api call to backend to notify all trackers via email.
+    //Create news card
+    //create news post.
+    //REMEMBER AUTHOR, this time will just be logged in user?
+    //Hmm debatable.
 }
 
 

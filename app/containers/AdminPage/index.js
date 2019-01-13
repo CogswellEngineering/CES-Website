@@ -5,6 +5,11 @@ import _  from 'lodash';
 import injectSaga from 'utils/injectSaga';
 import saga from './saga';
 
+import {
+
+    postNews,
+    postEvent,
+} from './actions';
 
 import {ADMIN_PATH} from 'components/Header/pages';
 
@@ -74,6 +79,8 @@ class AdminPage extends Component{
         //add buttons to alternate between these 2 forms.
         //add the onclick events and hook to sagas
         //Complete rest of the parts for EventForm.
+
+        const {onAddNews, onAddEvent} = this.props;
         return (
             <Wrapper>
 
@@ -87,9 +94,9 @@ class AdminPage extends Component{
                         
                 </OptionsPanel>
 
-                 { this.state.newEventFormOpen && <EventForm style = {{gridArea: "form"}} /> }
+                 { this.state.newEventFormOpen && <EventForm style = {{gridArea: "form"}} onSubmit = {onAddEvent} /> }
 
-                 { this.state.newNewsPostFormOpen && <NewsPostForm  style = {{gridArea: "form"}}  /> }
+                 { this.state.newNewsPostFormOpen && <NewsPostForm  style = {{gridArea: "form"}} onSubmit = {onAddNews}  /> }
 
             </Wrapper>
         )
@@ -97,10 +104,34 @@ class AdminPage extends Component{
     }
 }
 
+const mapStateToProps = (state) => {
+
+    return {}
+}
+
+const mapDispatchToProps = dispatch => {
+
+
+    return {
+
+        onAddEvent: (post) => {
+
+            return dispatch(postEvent(post));
+        },
+
+        onAddNews: (post) => {
+
+            return dispatch(postNews(post));
+        }
+    };
+}
+
+const withConnect = connect(mapStateToProps,mapDispatchToProps);
 const withSaga = injectSaga({key:ADMIN_PATH, saga});
 
 export default compose(
 
+    withConnect,
     withSaga
 
 )(AdminPage);
