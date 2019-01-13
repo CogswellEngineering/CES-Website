@@ -116,6 +116,7 @@ class EventPage extends Component{
 
         const {title, startDate, host} = this.props.event;
         const {onAttendEvent, onTrackEvent, loggedInUser, isTracking, isAttending, onCancelEvent, onUntrackEvent} = this.props;
+        console.log("loggedInUser", loggedInUser);
         const eventUid = this.props.match.params.uid;
         console.log("props", this.props);
         console.log(startDate);
@@ -141,7 +142,16 @@ class EventPage extends Component{
 
                     <HeaderButton style = {{gridArea:"attendButton"}} onClick = {() => {onCancelEvent(loggedInUser.uid, eventUid);}}> Cancel Attendance </HeaderButton>
                     :
-                    <HeaderButton style = {{gridArea:"attendButton"}} onClick = {() => {onAttendEvent(loggedInUser.uid, eventUid);}}> Attend </HeaderButton>
+                    <HeaderButton style = {{gridArea:"attendButton"}} onClick = {() => {
+                        
+                        onAttendEvent(loggedInUser.uid, eventUid);
+
+                        //Check for performance and lessen access to backend.
+                        if (!isTracking){
+                            onTrackEvent(loggedInUser,eventUid);
+                        }
+                    
+                    }}> Attend </HeaderButton>
                     }
                     
                  </div>
@@ -164,8 +174,9 @@ class EventPage extends Component{
         const {gallery } = this.props.event;
         console.log("gallery", gallery);
         var i = {key: 0};
-        return (
-             <Gallery>
+        return ( 
+             <Gallery isEmpty = {gallery}>
+                
 
                 {gallery && gallery.map( picture => {
 
@@ -316,8 +327,8 @@ class EventPage extends Component{
             return null;
         }
         console.log("event on eventpage", this.state);
-        
-        const poster = this.state.posterPicture || event.gallery[0] || event.poster;
+        console.log("event", event);
+        const poster = this.state.posterPicture || event.gallery[0] || event.thumbnail;
         return (
             <Wrapper>
             

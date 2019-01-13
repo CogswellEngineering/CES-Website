@@ -1,4 +1,4 @@
-import {put, takeLatest} from 'redux-saga/effects';
+import {put, takeLatest, takeEvery} from 'redux-saga/effects';
 import firebase from 'firebase';
 import {
 
@@ -14,6 +14,7 @@ import {
 
     loadedEvent,
     updateAttendance,
+    trackEvent,
     updateTracking,
 } from './actions';
 
@@ -130,9 +131,9 @@ function* untrackEventSaga(payload){
 
 
     const tagsRef = firestore.collection("Tags")
-    const query = eventTagsRef.where("type","==","event").where("eventUid", "==",eventUid);
+    const query = tagsRef.where("type","==","event").where("eventUid", "==",eventUid);
 
-    const querySnapshot = yield query.get();
+    const querySnapshot = yield query.get();    
 
     //Again same logic, it should never happen that it doesn't exist.
     //And there should only be one.
@@ -181,6 +182,8 @@ function* attendEventSaga(payload){
     });
 
     yield put(updateAttendance(succeeded));
+   // yield put(updateTracking(succeeded));
+
 
 }
 
@@ -221,13 +224,18 @@ function* cancelAttendanceSaga(payload){
     
 }
 
+//Take Every because when attending, will also make user auto track it, and I want those to be triggered the same time
+//and latest will cancel all other sagas, I don't want attending saga to be cancelled when track event saga triggered.
 
 function* saga(){
 
     yield takeLatest(LOAD_EVENT, loadEventSaga);
-    yield takeLatest(TRACK_EVENT, trackEventSaga);
+    yield takeEvery(TRACK_EVENT, trackEventSaga);
     yield takeLatest(UNTRACK_EVENT, untrackEventSaga);
-    yield takeLatest(ATTEND_EVENT, attendEventSaga);
+
+    
+    yield takeEvery(ATTEND_EVENT, attendEventSaga);
+
     yield takeLatest(CANCEL_ATTENDANCE, cancelAttendanceSaga);
 }
 

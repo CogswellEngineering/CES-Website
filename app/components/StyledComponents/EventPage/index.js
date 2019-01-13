@@ -60,10 +60,9 @@ const HeaderButton = styled.div`
 const Gallery = styled.div`
 
     grid-area:Gallery;
-    //So images are considered text, good to know.
     white-space: nowrap; /* will prevent text from wrapping */
 
-    overflow-x:scroll;
+    overflow-x: ${props => props.isEmpty? "hidden" : "scroll"};
      position: relative;
 `;
 
