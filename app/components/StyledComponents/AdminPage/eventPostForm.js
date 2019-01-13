@@ -34,15 +34,24 @@ export default class EventPostForm extends Component{
 
             //pdate event page to just concat thumbnail at start of gallery.
             thumbnail:null,
+            hostName:"",
+            hostEmail:"",
             title:"",
+
+            //Later make choose from drop down or other.
+            type:"",
             description:"",
             //Prob object instead, just being lazy now, just string is okay, no need to separate
             //UNLESS HAVE FILTER FOR LOCATION, but that's later.
             location: "",
             //Find package for picking dates.
             eventDate:new Date(),
+            startDate: new Date(),
+            endDate: new Date(),
             //Optional
             tags:[],
+
+            //Below still need to be added as fields, but low priority.
             agenda:[],
             gallery:[],
 
@@ -123,7 +132,7 @@ export default class EventPostForm extends Component{
         const target = evt.target;
 
         this.setState({
-            [target.name] : target.value
+            [target.id] : target.value
         });
     }
 
@@ -159,11 +168,18 @@ export default class EventPostForm extends Component{
 
 
     //Been alternating arrows and not, honestly no real reason.
-    onUpdateEventDate = (date) =>{
+    onUpdateEventDate = (prefix,date) =>{
 
+
+        //Need to add check for validity and
+        //prob auto update end to start
+        //when select start. Hmm
+        //Maybe good to actually make these separate afterall due to differences
+        //instead of adding processing with a check.
+        //For now it's confiring saga working, but def needed add not just polish thing.
         this.setState({
 
-            eventDate: date,
+            [prefix+"Date"]: date,
         });
     }
 
@@ -171,7 +187,7 @@ export default class EventPostForm extends Component{
     onEventSubmitted = (evt) => {
 
         evt.preventDefault();
-
+        console.log("state at submission", this.state);
         this.props.onSubmit(this.state);
         this.resetState();
     }
@@ -200,14 +216,28 @@ export default class EventPostForm extends Component{
           )}
                 </Dropzone>
 
-                <div style = {{gridArea:"dateSelection", marginTop:"1%"}}>
-                    <Label >  Select the Date of your Event </Label>
+                <div style = {{gridArea:"dateSelection", marginTop:"1%", width:"100%"}}>
+                    <Label >  Select the Starting Date of your Event </Label>
                     <DatePicker
+
+                            dateFormat="MMMM d, yyyy h:mmaa "
                             showTimeSelect
-                            selected={this.state.eventDate}
-                            onChange={this.onUpdateEventDate    }
+                            selected={this.state.startDate}
+                            onChange={ (date) => {this.onUpdateEventDate("start",date);   } }
                         />
                 </div>
+
+                <div style = {{gridArea:"dateSelection", marginTop:"1%", width:"100%"}}>
+                    <Label >  Select the Ending Date of your Event </Label>
+                    <DatePicker
+                            
+                            dateFormat="MMMM d, yyyy h:mmaa"
+                            showTimeSelect
+                            selected={this.state.endDate}
+                            onChange={ (date) => {this.onUpdateEventDate("end",date);   } }
+                        />
+                </div>
+
 
 
                 <div style = {{marginTop:"1%"}}>
@@ -215,6 +245,25 @@ export default class EventPostForm extends Component{
                     <Label for = "title"> Title </Label>
                     <Field type = "text" id = "title" value = {this.state.title} onChange = {this.onUpdateTextField}/>
 
+                </div>
+
+                
+                <div  style = {{marginTop:"1%"}}>
+
+                    <Label for = "type"> Type </Label>
+                    <Field type = "text" id = "type" value = {this.state.type} onChange = {this.onUpdateTextField}/>
+
+                </div>
+
+                <div  style = {{marginTop:"1%"}}>
+
+                        <Label style = {{display:"block"}}> Host </Label> 
+                       
+                        <Label for = "hostName"> Name </Label>
+                        <Field type = "text" id = "hostName" value = {this.state.hostName} onChange = {this.onUpdateTextField}/>
+                       
+                        <Label for = "hostEmail"> Email </Label>
+                        <Field type = "email" id = "hostEmail" value = {this.state.hostEmail} onChange = {this.onUpdateTextField}/>
                 </div>
 
                 <div>

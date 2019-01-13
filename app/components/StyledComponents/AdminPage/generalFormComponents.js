@@ -25,8 +25,7 @@ export const Title = styled.p`
 `;
 export const Label = styled.label`
 
-    color: red;
-
+    color:white;
 `;
 
 export const Field = styled.input`
