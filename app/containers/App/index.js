@@ -26,10 +26,9 @@ import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import NewsPage from 'containers/NewsPage/Loadable';
 import NewsPostPage from 'containers/NewsPostPage/Loadable';
-
 import EventsPage from 'containers/EventsPage';
 import EventPage from 'containers/EventPage';
-
+import AdminPage from 'containers/AdminPage';
 import Login from 'containers/AccountRelated/LoginPage/Loadable';
 import Register from 'containers/AccountRelated/RegistrationPage/Loadable';
 import AccountRecovery from 'containers/AccountRelated/AccountRecovery/Loadable';
@@ -42,11 +41,11 @@ import UpdateProfilePage from 'containers/ProfileRelated/UpdateProfilePage';
 import { LOGIN_PATH,REGISTER_PATH,
   ACCOUNT_RECOVERY_PATH, RESET_PASSWORD_PATH, 
   USER_PROFILE_PATH, UPDATE_USER_PROFILE_PATH,
-  BLOG_PATH,SPECIFIC_POST,  EVENTS_PATH, SPECIFIC_EVENT } from 'components/Header/pages';
+  BLOG_PATH,SPECIFIC_POST,  EVENTS_PATH, SPECIFIC_EVENT , ADMIN_PATH} from 'components/Header/pages';
 import 'react-dropdown/style.css'
 import LoginPage from '../AccountRelated/LoginPage';
 import { withCookies } from 'react-cookie';
-import { makeSelectLocation, makeSelectDoneLoading} from './selectors';
+import { makeSelectLocation, makeSelectDoneLoading, makeSelectLoggedInProfile} from './selectors';
 
 
 
@@ -195,6 +194,20 @@ class App  extends Component{
               <Route exact path = {SPECIFIC_POST} component = {NewsPostPage}/>
               <Route exact path = {EVENTS_PATH} component = {EventsPage}/>
               <Route exact path = {SPECIFIC_EVENT} component = {EventPage}/>
+              <Route path = {ADMIN_PATH} render = {routerProps => {
+                
+                console.log("props ", props);
+                if (props.loggedInProfile && props.loggedInProfile.isAdmin){
+
+                  return <AdminPage {...routerProps}/>
+                }
+                else{
+
+                  return <Redirect to = "/"/>
+                }
+                
+                
+              }}/>
               <Route component={NotFoundPage} />
 
 
@@ -213,6 +226,7 @@ class App  extends Component{
 const mapStateToProps = createStructuredSelector({
 
     location: makeSelectLocation(),
+    loggedInProfile: makeSelectLoggedInProfile(),
     doneLoading: makeSelectDoneLoading(),
 
 

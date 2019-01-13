@@ -6,7 +6,7 @@ import { withFirebase } from 'react-redux-firebase'
 import {compose} from 'redux';
 
 import {logout} from './actions'
-import {LOGIN_PATH,REGISTER_PATH, USER_PROFILE_PATH} from 'components/Header/pages';
+import {LOGIN_PATH,REGISTER_PATH, USER_PROFILE_PATH, ADMIN_PATH} from 'components/Header/pages';
 import reducer from './reducer';
 import { createStructuredSelector } from 'reselect'; 
 import { makeSelectLoggedIn, makeSelectLoggedInProfile } from 'containers/App/selectors';
@@ -53,11 +53,13 @@ class UserActions extends React.PureComponent{
             
             :
           (
-                <UserActionsWrapper>
+                <UserActionsWrapper isAdmin = {props.loggedInUser.isAdmin}>
 
                     {/* Hello, {props.profile.displayName} */}
 
+                        <UserActionLink to = {ADMIN_PATH}> Admin Panel </UserActionLink>
                         <UserActionLink to = {profilePath+props.loggedInUser.uid}> View Profile </UserActionLink>
+
                         {/*Will switch to include uid if do decide make inventory public
                      <UserActionLink to = {"/account/inventory"}> Inventory </UserActionLink>
 */}

@@ -9,9 +9,10 @@ import {Link} from 'react-router-dom';
 const UserActionsWrapper = styled.div`
 
     display:grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: ${props => props.isAdmin? "1fr 1fr" : "1fr 1fr 1fr"};
+
     grid-template-rows: 100%;
-    width:20%;
+    width:30%;
     
     
 `
