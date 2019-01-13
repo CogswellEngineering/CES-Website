@@ -1,5 +1,5 @@
 
-import { FIELD_CHANGED } from './constants';
+import { FIELD_CHANGED, LOADED_LOGGED_PROFILE } from './constants';
 
   
 export function fieldChanged(page,fieldName,value) {

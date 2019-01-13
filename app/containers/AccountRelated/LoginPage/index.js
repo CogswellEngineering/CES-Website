@@ -60,6 +60,10 @@ class LoginPage extends Component {
             };
 
             //Setting it is fucking it up?
+            //Yeah router is auto doing it, which is fine.
+            //Will replace doing this for with node cookies instead.
+            //commenting out for now
+            /*
             this.props.cookies.set("authToken",this.props.authToken,cookiesOptions);
 
             //This is needed as they will printing service will require credits, and layout there need display name.
@@ -70,7 +74,10 @@ class LoginPage extends Component {
 
            //Why did this break???
 
+           console.log("I happenr ight?")// Router may redirect accordingly, so we'll find out lol.
+           //This SHOULD be set, or can set via node intead withCookie
             this.props.history.push("/");   
+            */
         }
     }
     render(){
@@ -82,6 +89,7 @@ class LoginPage extends Component {
                 <MainContent onSubmit = {(evt) => {evt.preventDefault();
                 //So, basically I need to change this cause I need the token.
                     props.firebase.login({email:props.email,password:props.password});
+
                     //Need to figure out when I'll set the cookies on this end.
                 }
                     }>

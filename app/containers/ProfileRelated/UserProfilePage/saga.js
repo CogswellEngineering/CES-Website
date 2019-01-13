@@ -28,7 +28,8 @@ function* loadProfileCall(action){
             //Adding uid, for checking if same when clicked to skip reloading.
             userInfo.uid = action.uid;
            
-            
+            //Maybe just pull this from gate. To be safe.
+            //And so the admin thing actually fucking works
             yield put(loadedProfile(userInfo));
 
         }

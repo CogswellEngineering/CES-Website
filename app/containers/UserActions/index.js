@@ -38,7 +38,8 @@ class UserActions extends React.PureComponent{
 
             const profilePath = USER_PROFILE_PATH.split(":")[0];
 
-           actions = props.loggedInUser.isEmpty?
+            console.log("loggedin", props.loggedInUser);
+           actions = !props.profile?
 
                 //If it's empty then remove the cookie
 
@@ -53,11 +54,11 @@ class UserActions extends React.PureComponent{
             
             :
           (
-                <UserActionsWrapper isAdmin = {props.loggedInUser.isAdmin}>
+                <UserActionsWrapper >
 
                     {/* Hello, {props.profile.displayName} */}
 
-                        <UserActionLink to = {ADMIN_PATH}> Admin Panel </UserActionLink>
+                    {props.profile.isAdmin && <UserActionLink to = {ADMIN_PATH}> Admin Panel </UserActionLink>}
                         <UserActionLink to = {profilePath+props.loggedInUser.uid}> View Profile </UserActionLink>
 
                         {/*Will switch to include uid if do decide make inventory public

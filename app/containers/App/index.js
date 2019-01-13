@@ -13,15 +13,17 @@
 
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { createStructuredSelector} from 'reselect';
+
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import {withFirebase} from 'react-redux-firebase';
 import injectReducer from 'utils/injectReducer';
 import reducer from './reducer';
-import { createStructuredSelector} from 'reselect';
+
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import NewsPage from 'containers/NewsPage/Loadable';
@@ -108,6 +110,8 @@ class App  extends Component{
 
     }
 
+
+  
   
     render(){
 
@@ -118,6 +122,7 @@ class App  extends Component{
         //This isn't the problem, something happend, cause not re-rendering anymore
         return null;
       }
+      console.log("props", props);
       //I don't think it was anything I changed.
       //I'll test the old working version and see.
       //Yeah, auto logged out there too. It's the connection here.
@@ -154,7 +159,7 @@ class App  extends Component{
                 //Check if logged in already.
                 if (props.firebase.auth().currentUser == null){
 
-                  return <Register/>;
+                  return <Register {...routerProps}/>;
                 }
                 else{
                   return <Redirect to ="/"/>;
@@ -196,7 +201,7 @@ class App  extends Component{
               <Route exact path = {SPECIFIC_EVENT} component = {EventPage}/>
               <Route path = {ADMIN_PATH} render = {routerProps => {
                 
-                console.log("props ", props);
+                console.log("props at admin path", props);
                 if (props.loggedInProfile && props.loggedInProfile.isAdmin){
 
                   return <AdminPage {...routerProps}/>
@@ -243,6 +248,7 @@ export default compose(
   withConnect,
   withFirebase,
   withCookies,
+  withRouter,
 )(App);
 
 

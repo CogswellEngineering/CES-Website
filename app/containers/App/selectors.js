@@ -15,10 +15,11 @@ const makeSelectLoggedIn = () => createSelector(
 )
 const makeSelectLoggedInProfile = () => createSelector(
 
-  selectFirebase,
-  (firebaseState) => {
-    if (firebaseState == null) return null;
-    return firebaseState.profile;
+  selectCES,
+  (CESState) => {
+    if (CESState == null) return null;
+
+    return CESState.get("loggedInProfile");
   }
 )
 const makeSelectLocation = () => createSelector(

@@ -8,13 +8,9 @@ import {Link} from 'react-router-dom';
 //same for now.
 const UserActionsWrapper = styled.div`
 
-    display:grid;
-    grid-template-columns: ${props => props.isAdmin? "1fr 1fr" : "1fr 1fr 1fr"};
-
-    grid-template-rows: 100%;
-    width:30%;
-    
-    
+    display:flex;
+    width:25%;
+    justify-content:flex-end;    
 `
 
 const DisplayName = styled.p`
@@ -26,8 +22,7 @@ const DisplayName = styled.p`
 const UserActionLink = styled(Link)`
 
     text-decoration:none;
-    text-align:center;
-    place-self:center;
+    margin-right:5%;
     color: rgb(254, 161, 0);
     &:hover {
         color:white;
