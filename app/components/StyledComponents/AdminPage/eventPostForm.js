@@ -1,14 +1,17 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 import DatePicker from "react-datepicker"; 
-
+import Dropzone from 'react-dropzone'
 import {
     Label,
     Field,
     ThumbnailDropzone,
     Button,
+    ContentField,
+    Title
 } from './generalFormComponents';
 import TagForm from './tagForm';
+import Tags from 'components/Tags';
 
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -47,7 +50,7 @@ export default class EventPostForm extends Component{
 
         this.onEventSubmitted = this.onEventSubmitted.bind(this);
         this.onUpdateEventDate = this.onUpdateEventDate.bind(this);
-        this.onThumbnailField = this.onThumbnailField.bind(this);
+        this.onThumbnailFieldUpdated = this.onThumbnailFieldUpdated.bind(this);
         this.onUpdateTextField = this.onUpdateTextField.bind(this);
         this.onTagAdded = this.onTagAdded.bind(this);
         this.onTagRemoved = this.onTagRemoved.bind(this);
@@ -142,7 +145,7 @@ export default class EventPostForm extends Component{
 
         evt.preventDefault();
 
-        this.props.onEventSubmitted(this.state);
+        this.props.onSubmit(this.state);
         this.resetState();
     }
 
@@ -152,8 +155,8 @@ export default class EventPostForm extends Component{
 
 
         return (
-            <Wrapper onSubmit = {this.onEventSubmitted}>
-
+            <Wrapper >
+                <Title> Create Event </Title>
                 <div>
                     <Label> Select the Date of your Event </Label>
                     <DatePicker
@@ -162,18 +165,20 @@ export default class EventPostForm extends Component{
                         />
                 </div>
 
-                <div>
-                    <ThumbnailDropzone id = "thumbnail">
+                    <Dropzone id = "thumbnail" onDrop = {this.onThumbnailFieldUpdated}>
 
-                        <Label for = "thumbnail"> Upload thumbnail </Label>
-
-                    </ThumbnailDropzone>
-                </div>
+                    {({getRootProps, getInputProps}) => (
+            <ThumbnailDropzone {...getRootProps()}>
+              <input {...getInputProps()} />
+                <p>Add A Thumbnail For Your Event</p>
+            </ThumbnailDropzone>
+          )}
+                    </Dropzone>
 
                 <div>
 
                     <Label for = "title"> Title </Label>
-                    <Input type = "text" id = "title" value = {this.state.title} onChange = {this.onUpdateTextField}/>
+                    <Field type = "text" id = "title" value = {this.state.title} onChange = {this.onUpdateTextField}/>
 
                 </div>
 
@@ -184,10 +189,14 @@ export default class EventPostForm extends Component{
 
                 <div>
                     <Label> Tag your Event </Label>
+                    <Tags tags = {this.state.tags}/>
+
                     <TagForm onAddTag = {this.onTagAdded}/>
                 </div>
 
-                <Button type = "submit"/>
+                <Button onClick = {this.onEventSubmitted}>
+                        Post Event
+                </Button>
 
             </Wrapper>
         )

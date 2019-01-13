@@ -1,27 +1,25 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
-
+import Dropzone from 'react-dropzone'
+import Tags from 'components/Tags';
 import {
     Label,
     Field,
     ThumbnailDropzone,
     Button,
+    ContentField,
+    Title,
 } from './generalFormComponents';
 import TagForm from './tagForm';
 
-const Wrapper = styled.form`
+const Wrapper = styled.div`
 
 
 `;
 
-const TitleField = styled(Field)`
 
-`;
 
-const ContentField = styled(Field)`
-    height:400px;
-    overflow:auto;
-`;
+
 
 export default class NewsPostForm extends Component{
 
@@ -39,7 +37,7 @@ export default class NewsPostForm extends Component{
             
         }
 
-        this.onThumbnailField = this.onThumbnailField.bind(this);
+        this.onThumbnailFieldUpdated = this.onThumbnailFieldUpdated.bind(this);
         this.onUpdateTextField = this.onUpdateTextField.bind(this);
         this.onTagAdded = this.onTagAdded.bind(this);
         this.onTagRemoved = this.onTagRemoved.bind(this);
@@ -111,27 +109,32 @@ export default class NewsPostForm extends Component{
 
         evt.preventDefault();
 
-        this.props.onNewsPostSubmitted(this.state);
+        this.props.onSubmit(this.state);
         this.resetState();
     }
 
     render(){
 
         return (
-            <Wrapper onSubmit = {this.onPostSubmitted}>
+            <Wrapper >
+                <Title> Create News Post </Title>
 
                 <div>
-                    <ThumbnailDropzone id = "thumbnail">
+                    <Dropzone id = "thumbnail" onDrop = {this.onThumbnailFieldUpdated}>
 
-                         <Label for = "thumbnail"> Upload thumbnail </Label>
-
-                    </ThumbnailDropzone>
+                    {({getRootProps, getInputProps}) => (
+            <ThumbnailDropzone {...getRootProps()}>
+              <input {...getInputProps()} />
+                <p>Add A Thumbnail For The Post</p>
+            </ThumbnailDropzone>
+          )}
+                    </Dropzone>
                 </div>
 
                 <div>
 
                     <Label for = "topic"> Topic </Label>
-                    <Input type = "text" id = "topic" value = {this.state.topic} onChange = {this.onUpdateTextField}/>
+                    <Field type = "text" id = "topic" value = {this.state.topic} onChange = {this.onUpdateTextField}/>
 
                 </div>
 
@@ -142,10 +145,13 @@ export default class NewsPostForm extends Component{
 
                 <div>
                     <Label> Tag your Post </Label>
+                    <Tags tags = {this.state.tags}/>
                     <TagForm onAddTag = {this.onTagAdded}/>
                 </div>
 
-                <Button type = "submit"/>
+                <Button onClick = {this.onPostSubmitted}>
+                        Add News Post
+                </Button>
 
 
 
