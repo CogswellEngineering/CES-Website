@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import dateFns from 'date-fns';
 import Tags from 'components/Tags';
-import {Link} from 'react-router-dom';
+import {AuthorLink} from 'components/General';
 //Aight, Ima just copy common news card layouts 
 //seen in league, overwatch, runescape.
 //I also want to do better than than that.. Fuck it that can be done later/
@@ -38,6 +38,18 @@ const Wrapper = styled.div`
     }
 `;  
 
+
+const Clickable = styled.p`
+
+    cursor:pointer;
+    color:white;
+    &:hover{
+
+        color: rgb(254, 161, 0);
+
+    }
+`;
+
 const Thumbnail = styled.div`
 
     grid-area: thumbnail;
@@ -46,11 +58,7 @@ const Thumbnail = styled.div`
     background-size: 100% 100%;
     background-position:center;
     background-repeat: no-repeat;
-
     cursor:pointer;
-    ${Wrapper}:hover & {
-        //background-size:contain;
-    }  
 `;
 
 //Will include title and author
@@ -65,7 +73,7 @@ const Header = styled.div`
     "author uploadDate";
 `;
 
-const Title = styled.p`
+const Title = styled(Clickable)`
 
     grid-area:title;
     font-weight: bold;
@@ -85,18 +93,6 @@ const Author = styled.div`
     grid-area:author;
 `;
 
-const AuthorLink = styled(Link)`
-
-    text-decoration:none;
-    font-style:italic;
-    color:white;
-    &:hover{
-
-        color: rgb(254, 161, 0);
-
-    }
-
-`;
 
 const UploadDate = styled.div`
 
@@ -117,17 +113,13 @@ const Description = styled.p`
 const Footer = styled.div`
 
     display:flex;
-    width:100%;
-    flex-wrap: nowrap;
     justify-content:space-between;
-
 `;
 
 
 
-const Button = styled.div`
+const Button = styled(Clickable)`
 
-    align-self:flex-end;
 `;
 
 
@@ -152,7 +144,8 @@ const NewsCard = props => {
 
             <Description> {content} </Description>
             <Footer>
-                <Tags tags = {tags}/>
+                <Tags tags = {tags} />
+                <Button onClick = { () => {onCardClicked(postUid)}}> View More </Button> 
             </Footer>
 
         </Wrapper>

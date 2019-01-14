@@ -39,6 +39,10 @@ import {
     SharedSection,
 } from 'components/StyledComponents/NewsPostPage';
 
+import {
+    AuthorLink
+} from 'components/General';
+
 import Comments from 'components/Comments';
 
 class NewsPost extends Component{
@@ -81,7 +85,8 @@ class NewsPost extends Component{
                 <div style = {{gridArea:"title", fontSize:"20px", textAlign:"center", fontWeight:"bold"}}> {topic} </div>
                 <div style = {{gridArea:"date", textAlign:"center"}}> {dateFns.format(postDate,format)} </div>
                 {/*Change this to link to profile later*/}
-                <div style = {{gridArea:"author", textAlign:"center", textTransform:"uppercase"}}> BY {author.name} </div>
+                <div style = {{gridArea:"author", textAlign:"center", }}> BY 
+                <AuthorLink to = {"/account/" + author.uid}> {author.name} </AuthorLink> </div>
             
             </Header>);
     }
@@ -115,11 +120,11 @@ class NewsPost extends Component{
                 <Title style = {{gridArea:"shareTitle"}}> Share this Post! </Title>
                 <SharedSection style = {{gridArea:"share"}}>
 
-                    <FacebookShareButton url = {shareUrl}>
+                    <FacebookShareButton url = {shareUrl} style = {{cursor:"pointer"}}>
                         <FacebookIcon size = {48} round = {true}/>
                     </FacebookShareButton>
                     
-                    <LinkedinShareButton url = {shareUrl}  style = {{marginLeft:"1%"}}>
+                    <LinkedinShareButton url = {shareUrl}  style = {{marginLeft:"1%", cursor:"pointer"}}>
                         <LinkedinIcon size = {48} round = {true}/>
                     </LinkedinShareButton>
 

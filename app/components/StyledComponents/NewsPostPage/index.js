@@ -62,6 +62,20 @@ const Header = styled.div`
 const Body = styled(Linkify)`
 
     grid-area:body;
+    
+    //So raw.
+    & > a {
+
+        text-decoration:none;
+        font-style:italic;
+        color:white;
+        &:hover{
+        
+            color: rgb(254, 161, 0);
+        
+        }
+      
+    }
 `;
 
 const Footer = styled.div`
@@ -75,7 +89,7 @@ const Footer = styled.div`
     "tagTitle shareTitle"
     "tags share";
 
-  //  justify-items: center;
+
 
 `;
 
