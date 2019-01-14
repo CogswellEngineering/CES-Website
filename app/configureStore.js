@@ -63,11 +63,18 @@ export default function configureStore(initialState = {}, history) {
   // Create the store with two middlewares
   // 1. sagaMiddleware: Makes redux-sagas work
   // 2. routerMiddleware: Syncs the location/URL path to the state
+  history.listen((location, action) => {
+    
+      window.scrollTo(0,0); 
+
+  });
   const middlewares = [
     sagaMiddleware,
     routerMiddleware(history),
 
   ];
+
+  
 
   const enhancers = [
     applyMiddleware(...middlewares),

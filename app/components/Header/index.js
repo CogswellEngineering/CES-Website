@@ -21,7 +21,8 @@ const HeaderWrapper = styled.div`
   
   width:100%;
   margin:auto;
-
+  position: sticky;
+  top:0;
   //height:50px;
  
   display:flex;
