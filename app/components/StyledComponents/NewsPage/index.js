@@ -25,7 +25,14 @@ const BlogPageWrapper = styled.div`
 const FilterPanel = styled.div`
 
     grid-area:filter;
-    border: 2px solid black;
+    text-align:center;
+    width:80%;
+    margin:auto;
+    border-bottom: 1px solid black;
+
+    //Prob turn this into grid
+    //Then have drop down of most popular tags.
+    //This means need tos tore it.
 `;
 
 
@@ -36,6 +43,9 @@ const BlogsPanel = styled.div`
     width:80%;
     margin:auto;
     margin-top:5%;
+    padding-bottom:5%;
+    border-bottom: 1px solid black;
+
    
     
 `;
@@ -54,6 +64,7 @@ const LoadMoreButton = styled.div`
     width:10%;
     text-align:center;
     margin:auto;
+    margin-top:2.5%;
 `;
 
 export{

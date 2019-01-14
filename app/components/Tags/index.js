@@ -16,15 +16,19 @@ export const Tag = styled.p`
     align-self: flex-start;
     text-align:center;
     background-color: ${props => props.color};
-    border-style:double;
+    border-style:solid;
     color:rgb(254, 161, 0);
-    border-radius:25px;
+    border-radius:15px;
     padding-right:5px;
     padding-left:5px;
     min-width:80px;
     cursor: ${props => props.clickable? "pointer" : ""};
     flex-shrink:2;
     margin-right:1%;    
+    &:hover{
+
+        border-style:double;
+    }
 `;
 
 const Tags = (props) => {

@@ -2,7 +2,7 @@
 //This component is for
 import React from 'react';
 import styled from 'styled-components';
-import { formatMDY} from 'utils/formatDate'; 
+import dateFns from 'date-fns';
 import Modal from 'react-responsive-modal';
 
 
@@ -100,11 +100,15 @@ const EventInfo = (props) => {
    
     var {title, host, description, startDate, endDate } = event;
 
-    const formattedStartDate = formatMDY(startDate);
-    const formattedEndDate = formatMDY(endDate);
+    const format = "MM/D/YYYY";
+    const formattedStartDate = dateFns.format(startDate,format);
+    const formattedEndDate = dateFns.format(endDate,format);
     //This will be pop up over the calendar instead, probably modal.
     console.log("props of event info", props);
 
+    //So either reformat this
+    //or say fuck it. Remake this
+    //Or both?
 
     return (
        
@@ -118,7 +122,7 @@ const EventInfo = (props) => {
                         <InfoBlock>
                                 <EventHeader>
                                         <EventTitle>{title}</EventTitle>
-                                        {  " hosted by "} <HostLink href="#"> {host.namen || "TBD"} </HostLink> 
+                                        {  " hosted by "} <HostLink href="#"> {host.name || "TBD"} </HostLink> 
                                         <TimeInfo> 
                                            
                                                 Date: {formattedStartDate + " - " + formattedEndDate} 

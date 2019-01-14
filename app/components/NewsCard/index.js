@@ -30,11 +30,6 @@ const Wrapper = styled.div`
 
     &:hover{
         background-color:rgba(2, 28, 73,0.5);
-        //Not really sure what hover effect for this should be.
-        //Or maybe instead of whole thing clickable, title and thumbnail can be
-        //that way the author is also clickable
-        //then also have a see more? But still need some indication that thumbnail clickable and title is on hover
-
     }
 `;  
 

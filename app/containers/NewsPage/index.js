@@ -103,7 +103,7 @@ class BlogPage extends Component{
         return (<BlogPageWrapper>
 
                 <FilterPanel>
-                    <p>Filters Applied </p>
+                    <p style = {{fontWeight:"bold", color:"rgb(230, 151, 7)", textTransform:"uppercase  "}}> News Tagged </p>
                     <Tags tags = {filterApplied} onTagClicked = {onTagRemove}/>
 
                 </FilterPanel>
@@ -118,7 +118,6 @@ class BlogPage extends Component{
                     })}
 
                 </BlogsPanel>
-                <hr style = {{border:"1px solid black"}}></hr>
 
                  { amountToShow < maxAmountToShow && <LoadMoreButton onClick = {(evt) => {
                         evt.preventDefault();
