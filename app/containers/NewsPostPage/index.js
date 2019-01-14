@@ -54,6 +54,7 @@ class NewsPost extends Component{
 
     componentDidMount(){
 
+        window.scrollTo(0,0);
         this.pullPostInfo();
         //Implement a buffer so if same news post don't pull just reuse.
         //Maybe even have a prebuffer before this is ever visited, based on views.

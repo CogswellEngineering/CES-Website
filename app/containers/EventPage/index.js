@@ -76,6 +76,9 @@ class EventPage extends Component{
 
 
     componentDidMount(){
+
+        //Unfortunate that have to repeat this, but whatever
+      //  window.scrollTo(0,0);
         this.pullEventData();
 
 
@@ -127,9 +130,11 @@ class EventPage extends Component{
                 <div style = {{ gridArea:"date", }}>{dateFns.format(startDate,format)}</div>
                 <div style = {{fontSize:"1.5em",gridArea:"title", }}>{title}</div>
                 <div style = {{gridArea:"host", fontStyle:"" }}>by {host.name}</div>
-                <div style = {{gridArea:"footer", display:"flex", flexWrap:"nowrap", placeSelf: "bottom", justifyContent:"space-evenly"}}>
+                {loggedInUser.isEmpty?
+                    <p style = {{textAlign:"center", color:"red"}}> You must be logged in to track or attend an event. </p>
+                :<div style = {{gridArea:"footer", display:"flex", flexWrap:"nowrap", placeSelf: "bottom", justifyContent:"space-evenly"}}>
                 
-                  
+                    {}
 
                     {!isTracking?
                     
@@ -138,7 +143,9 @@ class EventPage extends Component{
                         <HeaderButton style = {{gridArea:"trackButton"}} onClick = {() => {onUntrackEvent(loggedInUser.uid, eventUid);}}> Untrack </HeaderButton>
                     }
 
-                    {isAttending?
+                    {
+                        
+                    isAttending?
 
                     <HeaderButton style = {{gridArea:"attendButton"}} onClick = {() => {onCancelEvent(loggedInUser.uid, eventUid);}}> Cancel Attendance </HeaderButton>
                     :
@@ -152,9 +159,10 @@ class EventPage extends Component{
                         }
                     
                     }}> Attend </HeaderButton>
-                    }
-                    
+                    }   
                  </div>
+                }
+
             </Header>
         );
     }
@@ -346,6 +354,7 @@ class EventPage extends Component{
 }
 
 
+//Maybe should have jsut made selectors, eh.
 const mapStateToProps = (state) => {
 
 
@@ -353,6 +362,7 @@ const mapStateToProps = (state) => {
     if (state == null || state.get(SPECIFIC_EVENT)==null) return {};
 
     const loggedInUser = state.get("firebase").auth;
+    console.log("loggedInUser", loggedInUser);
     const eventPageState = state.get(SPECIFIC_EVENT);
     //So it's going here
     console.log("eventpage state", eventPageState);

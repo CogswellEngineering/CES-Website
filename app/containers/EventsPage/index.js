@@ -160,6 +160,7 @@ class EventsPage extends Component{
 
         const {history, selectedEvent} = this.props;
         
+        //becaues I do this. Better if i make it a link.
         history.push("/events/"+ selectedEvent.eventUid);
 
     }

@@ -56,6 +56,8 @@ const EventDescription = styled.p`
 const TimeInfo = styled.div`
 `
 
+
+//Could remake this to be Link, did and worked fine, but the scrolling not as intended.
 const ViewMoreButton = styled.div`
 
         cursor:pointer;
@@ -138,7 +140,7 @@ const EventInfo = (props) => {
                         <AttendingNotice> You are attending this event</AttendingNotice>
                  }
 
-                 <ViewMoreButton onClick = { () => {onMoreClicked(); props.onExit();}}> See more </ViewMoreButton>
+                 <ViewMoreButton onClick = { () => {props.onExit(); onMoreClicked(); }}> See more </ViewMoreButton>
 
         </EventInfoWrapper>
         );

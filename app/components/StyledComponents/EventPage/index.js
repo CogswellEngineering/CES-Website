@@ -14,7 +14,7 @@ const Wrapper = styled.div`
     grid-template-rows: 1fr auto 2fr auto;
     //temp to see how big they are
     grid-row-gap:1%;
-    grid-column-gap:1.5%;
+    grid-column-gap:5%;
     grid-template-areas:
     "Poster Header"
     "Gallery Gallery"
