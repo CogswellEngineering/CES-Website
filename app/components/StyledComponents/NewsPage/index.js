@@ -7,17 +7,26 @@ const BlogPageWrapper = styled.div`
 
 
 
-    display:grid;
+   // display:grid;
     margin-top:5%;
     grid-template-columns: 100%;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: 0.5fr 2fr 0.5fr;
     grid-template-areas:
+    "filter"
     "blogs"
     "loadMore";
+
+    padding-bottom:10px;
+
 
 
 `;
 
+const FilterPanel = styled.div`
+
+    grid-area:filter;
+    border: 2px solid black;
+`;
 
 
 ///Panel of all the posts
@@ -26,6 +35,7 @@ const BlogsPanel = styled.div`
     grid-area:blogs;
     width:80%;
     margin:auto;
+    margin-top:5%;
    
     
 `;
@@ -41,11 +51,15 @@ const LoadMoreButton = styled.div`
     padding:5px;
     align-self:center;
     justify-self:center;
+    width:10%;
+    text-align:center;
+    margin:auto;
 `;
 
 export{
 
     BlogPageWrapper,
+    FilterPanel,
     BlogsPanel,
     LoadMoreButton,
 };

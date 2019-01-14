@@ -85,7 +85,7 @@ class NewsPost extends Component{
                 <div style = {{gridArea:"title", fontSize:"20px", textAlign:"center", fontWeight:"bold"}}> {topic} </div>
                 <div style = {{gridArea:"date", textAlign:"center"}}> {dateFns.format(postDate,format)} </div>
                 {/*Change this to link to profile later*/}
-                <div style = {{gridArea:"author", textAlign:"center", }}> BY 
+                <div style = {{gridArea:"author", textAlign:"center", }}>  
                 <UserLink to = {"/account/" + author.uid}> {author.name} </UserLink> </div>
             
             </Header>);

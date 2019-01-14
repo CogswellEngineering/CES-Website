@@ -55,6 +55,19 @@ const makeSelectPosts = () => createSelector(
     }
 );
 
+//For visual and deleting them.
+const makeSelectTagFilter = () => createSelector(
+
+    blogPageState,
+    (blogPageState) => {
+
+        if (blogPageState == null) return [];
+
+        return Array.from(blogPageState.get("tagFilter"));
+    }
+
+)
+
 const makeSelectAmountToShow = () => createSelector(
 
 
@@ -88,6 +101,8 @@ const makeSelectMaxAmountToShow = () => createSelector(
 
 
 export{
+
+    makeSelectTagFilter,
     makeSelectPosts,
     makeSelectMaxAmountToShow,
     makeSelectAmountToShow,

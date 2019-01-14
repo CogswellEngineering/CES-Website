@@ -5,10 +5,10 @@ import { createStructuredSelector } from 'reselect';
 import { withFirebase } from 'react-redux-firebase';
 import injectReducer from 'utils/injectReducer';
 import reducer from './reducer';
-import { makeSelectPosts, makeSelectAmountToShow, makeSelectMaxAmountToShow
+import { makeSelectPosts, makeSelectAmountToShow, makeSelectMaxAmountToShow,makeSelectTagFilter
 } from './selectors';
 
-import { modificationsMade, loadMore, tagClicked} from './actions';
+import { modificationsMade, loadMore, tagClicked, removeTagFilter} from './actions';
 
 
 import { BLOG_PATH } from 'components/Header/pages';
@@ -25,9 +25,11 @@ import {
     BlogPostPanel,
     PostPanelButton,
     StyledTextArea,
+    FilterPanel,
     
 } from 'components/StyledComponents/NewsPage';
 
+import Tags from 'components/Tags';
 
 
 class BlogPage extends Component{
@@ -92,25 +94,28 @@ class BlogPage extends Component{
 
         const props = this.props;
 
-        const { posts, amountToShow,maxAmountToShow, error, postContent, posting,
-            onFieldChanged, onPostClicked, onLoadMore,  } = props;
+        const { posts, amountToShow,maxAmountToShow, error,
+            onTagClicked, onTagRemove, onLoadMore, filterApplied, } = props;
 
 
-
+            console.log("filterApplied", filterApplied);
 
         return (<BlogPageWrapper>
 
+                <FilterPanel>
+                    <p>Filters Applied </p>
+                    <Tags tags = {filterApplied} onTagClicked = {onTagRemove}/>
+
+                </FilterPanel>
              
                 <BlogsPanel>
                                       
                     {posts && posts.map(post => {
 
                         return <NewsCard  key ={post.topic + "_" + post.author.name} {...post} style = {{marginTop:"1%"}} 
-                        onCardClicked = {this.onCardClicked} onTagClicked = {this.props.onTagClicked}/> 
+                        onCardClicked = {this.onCardClicked} onTagClicked = {onTagClicked}/> 
                         
                     })}
-
-                    
 
                 </BlogsPanel>
                 <hr style = {{border:"1px solid black"}}></hr>
@@ -133,6 +138,7 @@ class BlogPage extends Component{
 
 const mapStateToProps = createStructuredSelector({
     
+    filterApplied : makeSelectTagFilter(),
     maxAmountToShow: makeSelectMaxAmountToShow(),
     amountToShow : makeSelectAmountToShow(),
     posts: makeSelectPosts(),
@@ -149,6 +155,12 @@ const mapStateToProps = createStructuredSelector({
 
             return dispatch(tagClicked(tag));
         },
+
+        onTagRemove: (tag) => {
+
+            return dispatch(removeTagFilter(tag));
+        },
+
         onLoadMore : (amount) => {
 
             return dispatch(loadMore(amount));

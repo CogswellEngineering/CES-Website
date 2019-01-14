@@ -13,20 +13,20 @@ const Wrapper = styled.div`
 
 
     width:100%;
-    //Random hard coded height, no bueno.
-    //I want to set this to soemthing else.
-    height:315px;
+
+    //I REALLY want it to be auto, but it doesn't look good if not uniform lol.
+    height:auto;
+    height:20em;
+
     display:grid;
-   // border-bottom: 2px solid black;
-    grid-column-gap: 2%;
+    grid-column-gap: 1%;
     grid-template-columns: 30% 60%; 
-    grid-template-rows: 1fr 2fr 1fr 1fr;
+    grid-template-rows: auto auto auto;
 
     grid-template-areas:
     "thumbnail header"
     "thumbnail description"
-    "thumbnail footer"
-    "thumbnail . ";
+    "thumbnail footer";
 
     &:hover{
         background-color:rgba(2, 28, 73,0.5);
@@ -67,7 +67,7 @@ const Header = styled.div`
     grid-area:header;
     display:grid;
     grid-template-columns: 1fr 2fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: auto auto;
     grid-template-areas:
     "title title"
     "author uploadDate";
@@ -105,15 +105,20 @@ const UploadDate = styled.div`
 const Description = styled.p`
 
     grid-area:description;
-    word-wrap: break-word;
+    place-self:start;
 `;
 
 
 
 const Footer = styled.div`
 
+    
     display:grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 3fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+    "tags button";
+    place-items:start;
 `;
 
 
@@ -145,8 +150,8 @@ const NewsCard = props => {
 
             <Description> {content} </Description>
             <Footer>
-                <Tags tags = {tags} onTagClicked = {onTagClicked} />
-                <Button onClick = { () => {onCardClicked(postUid)}}> View More </Button> 
+                <Tags style = {{gridArea:"tags"}} tags = {tags} onTagClicked = {onTagClicked} />
+                <Button style = {{gridArea:"button"}} onClick = { () => {onCardClicked(postUid)}}> View More </Button> 
             </Footer>
 
         </Wrapper>

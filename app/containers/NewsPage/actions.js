@@ -5,6 +5,7 @@ import {
     LOADED_POSTS,
     MODIFICATIONS_MADE,
     ON_TAG_CLICKED,
+    REMOVE_TAG_FILTER,
 } from './constants';
 
 
@@ -58,6 +59,14 @@ function tagClicked(tag){
     };
 }
 
+function removeTagFilter(tag){
+
+    return {
+
+        type: REMOVE_TAG_FILTER,
+        tag,
+    };
+}
 //Adding in posts actions
 
 
@@ -70,5 +79,6 @@ export {
     loadedPosts,
     modificationsMade,
     tagClicked,
+    removeTagFilter,
 };
 

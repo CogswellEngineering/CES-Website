@@ -17,7 +17,7 @@ const Wrapper = styled.div`
     margin:auto;
     margin-top:5%;
     grid-template-columns:auto;
-    grid-template-rows: 3fr auto auto 1fr auto;
+    grid-template-rows: 1.5fr auto auto 1fr auto;
 
     grid-template-areas:
     "thumbnail"
@@ -40,8 +40,6 @@ const Thumbnail = styled.div`
     background-size: 100% 100%;
     background-position:center;
     background-repeat: no-repeat;
-
-    border:2px solid black;
 
 `;
 

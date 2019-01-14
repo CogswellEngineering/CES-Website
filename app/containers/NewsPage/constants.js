@@ -12,6 +12,7 @@ const prefix = 'ces/BlogPage/'
  
 
  const ON_TAG_CLICKED = prefix + 'ON_TAG_CLICKED';
+ const REMOVE_TAG_FILTER = prefix + 'REMOVE_TAG_FILTER';
 
 
 export {
@@ -21,5 +22,6 @@ export {
     LOADED_POSTS,
     MODIFICATIONS_MADE,
     ON_TAG_CLICKED,
+    REMOVE_TAG_FILTER,
 
 }

@@ -6,28 +6,25 @@ const TagsWrapper = styled.div`
     display:flex;
     flex-direction:row;
     flex-wrap: wrap;
+
 `;
 
 //I want to limit flex per column better.
-export const Tag = styled.div`
+export const Tag = styled.p`
 
 
+    align-self: flex-start;
     text-align:center;
-
     background-color: ${props => props.color};
     border-style:double;
     color:rgb(254, 161, 0);
     border-radius:25px;
-    height:60px;
     padding-right:5px;
     padding-left:5px;
-    min-width:100px;
-    margin-right:10px;
-    margin-top:10px;
-    display:grid;
-
+    min-width:80px;
     cursor: ${props => props.clickable? "pointer" : ""};
-    
+    flex-shrink:2;
+    margin-right:1%;    
 `;
 
 const Tags = (props) => {
@@ -42,7 +39,8 @@ const Tags = (props) => {
           
             return <Tag key = {tag.title} clickable = {props.onTagClicked != null} color = {color} onClick = {() => {props.onTagClicked(tag)}}> 
 
-                <p style = {{placeSelf:"center"}}>{tag.title}</p>
+                {/*This should be an x instead */}
+     {tag.title}
              </Tag>;
 
         })}

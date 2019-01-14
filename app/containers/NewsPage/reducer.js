@@ -1,13 +1,12 @@
 import { fromJS} from 'immutable';
 import { LOADING_POSTS, LOADED_POSTS, MODIFICATIONS_MADE,
-     LOAD_MORE, ON_TAG_CLICKED} from './constants';
+     LOAD_MORE, ON_TAG_CLICKED, REMOVE_TAG_FILTER} from './constants';
 
 
 
 const initialState = fromJS({  
 
     allPosts : [],
-    //not seeing this?
     tagFilter:[],
     amountToShow:2,
     loadingPosts:false,
@@ -25,10 +24,26 @@ export default function blogPageReducer(state = initialState, action){
             //Hmm maybe just change filter?
             const currentTags = state.get("tagFilter");
 
+            if (currentTags.contains(action.tag)){
+                return state;
+            }
+
             const newTagFilters = currentTags.concat(action.tag);
 
             return state
                 .set("tagFilter", newTagFilters);
+
+        case REMOVE_TAG_FILTER:
+
+            const currTags = state.get("tagFilter");
+
+            const newTags = currTags.filter(tag => {
+
+                return tag.title !== action.tag.title;
+            });
+
+            return state
+                .set("tagFilter", newTags);
 
         case LOAD_MORE:
             const currentAmountShown = state.get("amountToShow");
