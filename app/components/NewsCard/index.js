@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import dateFns from 'date-fns';
 import Tags from 'components/Tags';
-import {AuthorLink} from 'components/General';
+import {UserLink} from 'components/General';
 //Aight, Ima just copy common news card layouts 
 //seen in league, overwatch, runescape.
 //I also want to do better than than that.. Fuck it that can be done later/
@@ -138,7 +138,7 @@ const NewsCard = props => {
             <Header>
 
                 <Title  onClick = { () => {onCardClicked(postUid)}}> {topic} </Title>
-                  <Author> by <AuthorLink to = {"/account/" + author.uid}>{author.name}</AuthorLink> </Author> <UploadDate>{ postDate && dateFns.format(postDate.toDate(), "MMMM     DD YYYY")} </UploadDate> 
+                  <Author> by <UserLink to = {"/account/" + author.uid}>{author.name}</UserLink> </Author> <UploadDate>{ postDate && dateFns.format(postDate.toDate(), "MMMM     DD YYYY")} </UploadDate> 
 
             </Header>
 

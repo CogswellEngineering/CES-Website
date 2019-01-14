@@ -31,6 +31,7 @@ import {
 
 import  {
 
+    HostLink,
     Wrapper,
     Title,
     Gallery,
@@ -51,7 +52,7 @@ import  {
     Location,
 
 } from 'components/StyledComponents/EventPage';
-
+import { AuthorLink } from 'components/General';
 import Tags from 'components/Tags';
 
 class EventPage extends Component{
@@ -129,7 +130,15 @@ class EventPage extends Component{
 
                 <div style = {{ gridArea:"date", }}>{dateFns.format(startDate,format)}</div>
                 <div style = {{fontSize:"1.5em",gridArea:"title", }}>{title}</div>
-                <div style = {{gridArea:"host", fontStyle:"" }}>by {host.name}</div>
+                <div style = {{gridArea:"host", fontStyle:"" }}> by  
+                   
+                    {host.uid?
+                        <UserLink to = {"/account/"+host.uid}> {host.name} </UserLink>
+                    :
+                        <HostLink href = {"mailto:"+host.email}> {host.name} </HostLink>
+                    }
+                    
+                </div>
                 {loggedInUser.isEmpty?
                     <p style = {{textAlign:"center", color:"red"}}> You must be logged in to track or attend an event. </p>
                 :<div style = {{gridArea:"footer", display:"flex", flexWrap:"nowrap", placeSelf: "bottom", justifyContent:"space-evenly"}}>
@@ -270,9 +279,9 @@ class EventPage extends Component{
                     {/*The host info should have email to*/}
                     <Title> Contact </Title>
                     <p> If you have questions about the event, you can contact the
-                         <a style = { {color: "rgb(254, 161, 0)" }} href = {"mailto:"+host.email}> host </a>
+                         <HostLink href = {"mailto:"+host.email}> Host</HostLink>
                           </p>
-                    <p> If you are experiencing any issues. Contact <a style = {{color: "rgb(254, 161, 0)" }} href = {"mailto:ces@cogswell.edu"}> us </a> </p>
+                    <p> If you are experiencing any issues. Contact <HostLink href = {"mailto:ces@cogswell.edu"}> us</HostLink> </p>
                 </Contact>
 
 

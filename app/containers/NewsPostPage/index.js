@@ -40,7 +40,7 @@ import {
 } from 'components/StyledComponents/NewsPostPage';
 
 import {
-    AuthorLink
+    UserLink
 } from 'components/General';
 
 import Comments from 'components/Comments';
@@ -86,7 +86,7 @@ class NewsPost extends Component{
                 <div style = {{gridArea:"date", textAlign:"center"}}> {dateFns.format(postDate,format)} </div>
                 {/*Change this to link to profile later*/}
                 <div style = {{gridArea:"author", textAlign:"center", }}> BY 
-                <AuthorLink to = {"/account/" + author.uid}> {author.name} </AuthorLink> </div>
+                <UserLink to = {"/account/" + author.uid}> {author.name} </UserLink> </div>
             
             </Header>);
     }

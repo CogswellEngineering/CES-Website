@@ -1,6 +1,8 @@
 
 import styled from 'styled-components';
 
+
+
 const Wrapper = styled.div`
 
     //This will be huge grid for whole thing.
@@ -158,6 +160,19 @@ const Contact = styled.div`
     grid-area:contact;
 `;
 
+const HostLink = styled.a`
+
+    text-decoration:none;
+
+    color:white;
+    &:hover{
+
+
+        color:  rgb(254, 161, 0);
+    }
+
+`;
+
 const CallToAction = styled.div`
 
     font-weight:bold;
@@ -180,6 +195,7 @@ const Share = styled.div`
 
 export {
 
+    HostLink,
     Wrapper,
     Gallery,
     Picture,
