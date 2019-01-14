@@ -4,6 +4,7 @@ import {
     LOADING_POSTS,
     LOADED_POSTS,
     MODIFICATIONS_MADE,
+    ON_TAG_CLICKED,
 } from './constants';
 
 
@@ -49,6 +50,14 @@ function modificationsMade(posts){
     };
 }
 
+function tagClicked(tag){
+
+    return {
+        type: ON_TAG_CLICKED,
+        tag,
+    };
+}
+
 //Adding in posts actions
 
 
@@ -60,5 +69,6 @@ export {
     loadingPosts,
     loadedPosts,
     modificationsMade,
+    tagClicked,
 };
 

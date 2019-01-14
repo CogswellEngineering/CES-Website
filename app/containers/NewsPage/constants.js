@@ -11,6 +11,8 @@ const prefix = 'ces/BlogPage/'
  const MODIFICATIONS_MADE = prefix+'MODIFICATIONS_MADE';
  
 
+ const ON_TAG_CLICKED = prefix + 'ON_TAG_CLICKED';
+
 
 export {
     LOAD_MORE,
@@ -18,5 +20,6 @@ export {
     LOADING_POSTS,
     LOADED_POSTS,
     MODIFICATIONS_MADE,
+    ON_TAG_CLICKED,
 
 }

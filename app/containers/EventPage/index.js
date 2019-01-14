@@ -130,7 +130,7 @@ class EventPage extends Component{
 
                 <div style = {{ gridArea:"date", }}>{dateFns.format(startDate,format)}</div>
                 <div style = {{fontSize:"1.5em",gridArea:"title", }}>{title}</div>
-                <div style = {{gridArea:"host", fontStyle:"" }}> by  
+                <div style = {{gridArea:"host", marginLeft:"0.5%" }}> hosted by  
                    
                     {host.uid?
                         <UserLink to = {"/account/"+host.uid}> {host.name} </UserLink>

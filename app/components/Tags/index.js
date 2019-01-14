@@ -16,12 +16,17 @@ export const Tag = styled.div`
 
     background-color: ${props => props.color};
     border-style:double;
-    border-color: ${props => props.color};
-    border-radius: 25px;
     color:rgb(254, 161, 0);
-    padding:5px;
+    border-radius:25px;
+    height:60px;
+    padding-right:5px;
+    padding-left:5px;
+    min-width:100px;
     margin-right:10px;
-    margin-bottom:5px;
+    margin-top:10px;
+    display:grid;
+
+    cursor: ${props => props.clickable? "pointer" : ""};
     
 `;
 
@@ -35,7 +40,10 @@ const Tags = (props) => {
         
             var color = "black";
           
-            return <Tag key = {tag.title} color = {color}> {tag.title} </Tag>;
+            return <Tag key = {tag.title} clickable = {props.onTagClicked != null} color = {color} onClick = {() => {props.onTagClicked(tag)}}> 
+
+                <p style = {{placeSelf:"center"}}>{tag.title}</p>
+             </Tag>;
 
         })}
 

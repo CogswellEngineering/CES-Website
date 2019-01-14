@@ -36,6 +36,9 @@ export default class EventPostForm extends Component{
             thumbnail:null,
             hostName:"",
             hostEmail:"",
+            //In future there will be way to search for users, and that tool will be used to select the host
+            //or this if host is not a user.
+            hostUid:"",
             title:"",
 
             //Later make choose from drop down or other.
@@ -94,6 +97,8 @@ export default class EventPostForm extends Component{
             thumbnail:null,
             title:"",
             type:"",
+            //Might seprate this into fields, if needed
+            location:"",
             description:"",
             //Prob object instead, just being lazy now, just string is okay, no need to separate
             //UNLESS HAVE FILTER FOR LOCATION, but that's later.
@@ -239,7 +244,12 @@ export default class EventPostForm extends Component{
                         />
                 </div>
 
+                <div>
+                    <Label> Location </Label>
+                    <Field type = "text" id = "location" value = {this.state.location} onChange = {this.onUpdateTextField}/>
 
+
+                </div>
 
                 <div style = {{marginTop:"1%"}}>
 
@@ -265,6 +275,9 @@ export default class EventPostForm extends Component{
                        
                         <Label for = "hostEmail"> Email </Label>
                         <Field type = "email" id = "hostEmail" value = {this.state.hostEmail} onChange = {this.onUpdateTextField}/>
+                        
+                        <Label for = "hostUid"> Unique Id </Label>
+                        <Field type = "text" id = "hostUid" value = {this.state.hostUid} onChange = {this.onUpdateTextField}/>
                 </div>
 
                 <div>

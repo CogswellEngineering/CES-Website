@@ -8,7 +8,7 @@ import reducer from './reducer';
 import { makeSelectPosts, makeSelectAmountToShow, makeSelectMaxAmountToShow
 } from './selectors';
 
-import { modificationsMade, loadMore} from './actions';
+import { modificationsMade, loadMore, tagClicked} from './actions';
 
 
 import { BLOG_PATH } from 'components/Header/pages';
@@ -105,7 +105,8 @@ class BlogPage extends Component{
                                       
                     {posts && posts.map(post => {
 
-                        return <NewsCard  key ={post.topic + "_" + post.author.name} {...post} style = {{marginTop:"1%"}} onCardClicked = {this.onCardClicked}/> 
+                        return <NewsCard  key ={post.topic + "_" + post.author.name} {...post} style = {{marginTop:"1%"}} 
+                        onCardClicked = {this.onCardClicked} onTagClicked = {this.props.onTagClicked}/> 
                         
                     })}
 
@@ -144,18 +145,14 @@ const mapStateToProps = createStructuredSelector({
 
     return {
 
+        onTagClicked: (tag) => {
 
+            return dispatch(tagClicked(tag));
+        },
         onLoadMore : (amount) => {
 
             return dispatch(loadMore(amount));
         },
-       
-        onLinkAdded : (content) => {
-
-            return dispatch(addLink(content));
-
-        },
-        
         onModificationMade : (posts) => {
 
             return dispatch(modificationsMade(posts));

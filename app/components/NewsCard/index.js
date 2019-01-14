@@ -15,7 +15,7 @@ const Wrapper = styled.div`
     width:100%;
     //Random hard coded height, no bueno.
     //I want to set this to soemthing else.
-    height:240px;
+    height:315px;
     display:grid;
    // border-bottom: 2px solid black;
     grid-column-gap: 2%;
@@ -112,14 +112,15 @@ const Description = styled.p`
 
 const Footer = styled.div`
 
-    display:flex;
-    justify-content:space-between;
+    display:grid;
+    grid-template-columns: 2fr 1fr;
 `;
 
 
 
 const Button = styled(Clickable)`
 
+    place-self:end;
 `;
 
 
@@ -128,7 +129,7 @@ const NewsCard = props => {
 
 
 
-    const {postUid,thumbnail,topic,author, postDate, content,tags, onCardClicked} = props;
+    const {postUid,thumbnail,topic,author, postDate, content,tags, onCardClicked, onTagClicked} = props;
     console.log("post date", postDate);
     return (
         <Wrapper style = {props.style}>
@@ -144,7 +145,7 @@ const NewsCard = props => {
 
             <Description> {content} </Description>
             <Footer>
-                <Tags tags = {tags} />
+                <Tags tags = {tags} onTagClicked = {onTagClicked} />
                 <Button onClick = { () => {onCardClicked(postUid)}}> View More </Button> 
             </Footer>
 

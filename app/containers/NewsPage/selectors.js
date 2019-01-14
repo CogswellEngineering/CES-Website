@@ -14,9 +14,40 @@ const makeSelectPosts = () => createSelector(
         const toShow = [];
         const amountToShow = blogPageState.get("amountToShow");
         const allPosts = blogPageState.get("allPosts");
-        for (var i = 0; i < amountToShow && i < allPosts.length; ++i){
+        const tagFilter = blogPageState.get("tagFilter");
+        //So adding filter for tags
+        console.log("all tags", tagFilter);
+        const filteredPosts = tagFilter.size == 0? allPosts : allPosts.filter( post => {
 
-            toShow.push(allPosts[i]);
+            var matches = 0;
+           
+            for (var i = 0; i < tagFilter.size; ++i){
+
+                //If matches any tag in post.
+                console.log("tag filter", tagFilter.get(i))
+                console.log("post", post);
+
+                for (var j = 0; j < post.tags.length; ++j){
+
+                    console.log("post tag", post.tags[j]);
+                    if (post.tags[j].title === tagFilter.get(i).title){
+
+                        //Actually can't just return true, caues should meet ALL FILTERS.
+                        matches += 1;
+                    }
+                }
+            }
+
+            return matches == tagFilter.size;
+
+        });
+
+        console.log("filteredPosts", filteredPosts);
+
+
+        for (var i = 0; i < amountToShow && i < filteredPosts.length; ++i){
+
+            toShow.push(filteredPosts[i]);
         }
         console.log(toShow);
         
