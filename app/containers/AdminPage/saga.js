@@ -159,6 +159,7 @@ function* postNews(payload){
                     //Same here, the news will have comments and such later.
                     newsPostRef.set({
 
+                        postInfo:{
                         topic,
                         content,
                         tags,
@@ -166,16 +167,12 @@ function* postNews(payload){
                         postDate,
                         thumbnail: url,
                         postUid: newsPostRef.id,
+                        },
+                        viewCount:0,
+                        likeCount:0,
                     });
 
-                    //ToDo: 
-                    //Set up back end to send notifiers to all trackers, so I need to check tags.
-
-                    const eventTags = tags.filter( tag => {
-
-                        return tag.type === "event";
-                    });
-
+               
 
 
                     //Then send all of the event tags along with this news post to backend to notify all trackers.
@@ -193,9 +190,12 @@ function* postNews(payload){
         
         const postId = newsPostRef.id;
          
-        const eventTags = tags.filter( tag => {                    
-            return tag.type === "event";
+        const eventTags = tags.filter( tag => {    
+            console.log("tag", tag);                
+            return tag.eventUid != null;
         }); 
+
+        console.log("event tags", eventTags);
 
 
         const body = {

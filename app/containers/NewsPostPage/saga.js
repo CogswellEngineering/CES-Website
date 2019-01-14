@@ -34,8 +34,12 @@ function* loadPostSaga(payload){
         yield put(loadFailed({notFound:true}));
     }
     else{
-        console.log("here", post.data());
-        yield put(postUpdated(post.data()));
+        //So has data here.
+
+        const postData = post.data();
+        postData.postInfo.postDate = postData.postInfo.postDate.toDate();
+
+        yield put(postUpdated(postData));
 
         const commentsRef = postRef.collection("Comments");
 

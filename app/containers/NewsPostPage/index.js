@@ -1,14 +1,22 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import {
+
+    FacebookShareButton,
+    FacebookIcon,
+    LinkedinShareButton,
+    LinkedinIcon,
+} from 'react-share';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import saga from './saga';
 import reducer from './reducer';
+import dateFns from 'date-fns';
 import {
     SPECIFIC_POST,
 } from 'components/Header/pages';
-
+import Tags from 'components/Tags';
 import {
 
     loadPost,
@@ -22,11 +30,13 @@ import {
 
 import {
 
+    Title,
     Wrapper,
     Thumbnail,
     Header,
     Body,
     Footer,
+    SharedSection,
 } from 'components/StyledComponents/NewsPostPage';
 
 import Comments from 'components/Comments';
@@ -61,15 +71,16 @@ class NewsPost extends Component{
     renderHeader(){
 
 
-        const {title, uploadDate, author} = this.props.post;
 
-
+        const {topic, postDate, author} = this.props.post;
+        console.log(postDate);
+        const format = "MMMM D, YYYY";
         return (<Header>
             
-                <div style = {{gridArea:"title", fontSize:"20px", fontWeight:"bold"}}> {title} </div>
-                <div style = {{gridArea:"uploadDate"}}> {uploadDate} </div>
+                <div style = {{gridArea:"title", fontSize:"20px", textAlign:"center", fontWeight:"bold"}}> {topic} </div>
+                <div style = {{gridArea:"date", textAlign:"center"}}> {dateFns.format(postDate,format)} </div>
                 {/*Change this to link to profile later*/}
-                <div style = {{gridArea:"author"}}> by {author.name} </div>
+                <div style = {{gridArea:"author", textAlign:"center", textTransform:"uppercase"}}> BY {author.name} </div>
             
             </Header>);
     }
@@ -77,19 +88,44 @@ class NewsPost extends Component{
     renderBody(){
 
 
-        const {description} = this.props.post;
+        const {content} = this.props.post;
 
         return (<Body>
 
-                {description}
+                {content}
             
             </Body>);
     }
 
     renderFooter(){
 
+        const {tags} = this.props.post;
 
+        //Prob not have tags be circuluar
+        //or have a min size.
+        //SO MANY SIMILIARTIES IN THESE POSTS, NEED TO HAVE COMMON FILE FOR THESE STYLED COMPONENTSSS YO! LOL.
+        const domain = "http://localhost:3000";
+        const shareUrl = domain + "/news/" + this.props.match.params.uid;
         return (<Footer>
+
+            <div style = {{gridArea:"tags"}}>
+                <Title> Tags </Title>
+                {tags && <Tags tags = {tags}/>}
+            </div>
+            <div style = {{gridArea:"share"}}>
+                <Title> Share this Post! </Title>
+                <SharedSection>
+
+                        <FacebookShareButton url = {shareUrl}>
+                        <FacebookIcon size = {48} round = {true}/>
+                        </FacebookShareButton>
+
+                        <LinkedinShareButton url = {shareUrl} style = {{marginLeft:"1%"}}>
+                        <LinkedinIcon size = {48} round = {true}/>
+                        </LinkedinShareButton>
+
+                </SharedSection>
+            </div>
 
             </Footer>)
     }
@@ -98,10 +134,12 @@ class NewsPost extends Component{
     render(){
 
 
+        console.log("post loaded", this.props.post);
         if (this.props.post == null) return null;
 
         const {thumbnail} = this.props.post;
         const comments = this.props.comments;
+        
         return (
 
             <Wrapper>
@@ -121,7 +159,7 @@ class NewsPost extends Component{
 
 const mapStateToProps = (state) => {
 
-    if (state==null) return null;
+    if (state==null) return {};
 
     const newsPostState = state.get(SPECIFIC_POST);
 

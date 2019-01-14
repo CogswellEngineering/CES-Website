@@ -1,11 +1,22 @@
 import styled from 'styled-components';
 import Linkify from 'react-linkify';
 
+
+//Need to do alot of refactoring to reuse stuff.
+const Title = styled.p`
+
+`;
+
+
+
 const Wrapper = styled.div`
 
     display:grid;
+    width:60%;
+    margin:auto;
+    margin-top:5%;
     grid-template-columns:auto;
-    grid-template-rows: auto 1fr auto 1fr auto;
+    grid-template-rows: 3fr auto auto 1fr auto;
 
     grid-template-areas:
     "thumbnail"
@@ -20,6 +31,7 @@ const Wrapper = styled.div`
 const Thumbnail = styled.div`
 
     grid-area:thumbnail;
+    
     background-image: url(${props => props.image});
     background-size: 100% 100%;
     background-position:center;
@@ -32,40 +44,52 @@ const Thumbnail = styled.div`
 const Header = styled.div`
 
     grid-area:header;
-    border:2px solid black;
-
+    width:50%;
+    margin:auto;
+    //border:2px solid black;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+    "title title"
+    "date author";
 `;
 
 const Body = styled(Linkify)`
 
-    border:2px solid black;
     grid-area:body;
-    display:grid;
-    grid-template-columns: auto auto;
-    grid-template-rows: 2fr 1fr;
-
-    grid-template-areas:
-    "title title"
-    "postDate author";
+    margin:auto;    
 
 `;
 
 const Footer = styled.div`
 
-    border:2px solid black;
 
     grid-area:footer;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+    "tags share";
+    justify-items: center;
 `;
 
 
+const SharedSection = styled.div`
 
+    display:flex;
+    grid-area:share;
+
+
+`;
 export{
 
     Wrapper,
     Thumbnail,
     Header,
     Body,
+    Title,
     Footer,
-
+    SharedSection,
  
 };

@@ -23,7 +23,7 @@ export const OptionsPanel = styled.div`
     border-bottom: 0px;
 `;
 
-export const Option = styled.button`
+export const Option = styled.div`
 
     cursor:pointer;
     font-weight: ${props=> props.selected? "bold": ""};

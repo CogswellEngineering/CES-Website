@@ -57,16 +57,18 @@ class AdminPage extends Component{
 
     toggleForm = (evt) => {
 
+
+     
         const target = evt.target;
 
         this.setState( state => {
 
-            const form = target.name+"Open";
+            const form = target.id+"Open";
             const formOpen = !state[form];
             const newState = _.mapValues(state, () => false);
             newState[form] = formOpen;
 
-
+            console.log("new state", newState);
             //Then set all other forms close.
             return newState;
 
@@ -102,11 +104,11 @@ class AdminPage extends Component{
             <Wrapper>
 
                 <OptionsPanel>
-
-                        <Option name = "newEventForm" onClick = {this.toggleForm} selected = {this.state.newEventFormOpen}>
+                    {/**Hmm why isn't onClick working for div anymore??????? It did before */}
+                        <Option id = "newEventForm" onClick = {this.toggleForm} selected = {this.state.newEventFormOpen}>
                          Add Event </Option>
 
-                        <Option name =  "newNewsPostForm" onClick = {this.toggleForm} selected = {this.state.newNewsPostFormOpen}>
+                        <Option id =  "newNewsPostForm" onClick ={this.toggleForm} selected = {this.state.newNewsPostFormOpen}>
                          Add News Post </Option>
                         
                 </OptionsPanel>

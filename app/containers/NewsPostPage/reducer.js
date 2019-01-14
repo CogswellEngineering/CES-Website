@@ -31,6 +31,7 @@ export default function reducer(state = initialState, action){
 
             const {postInfo, viewCount, likeCount} = action.post;
 
+            //fuck keep forgetting this lmao.
             return state
                 .set("postInfo", postInfo)
                 .set("viewCount", viewCount)

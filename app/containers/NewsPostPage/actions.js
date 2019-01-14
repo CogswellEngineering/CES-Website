@@ -31,6 +31,7 @@ export function loadFailed(reason){
 
 export function postUpdated(post){
 
+    console.log("at update action post ", post);
     return {
         
         type: POST_UPDATED,
