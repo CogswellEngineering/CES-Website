@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import dateFns from 'date-fns';
+import Tags from 'components/Tags';
 //Aight, Ima just copy common news card layouts 
 //seen in league, overwatch, runescape.
 //I also want to do better than than that.. Fuck it that can be done later/
@@ -11,9 +12,11 @@ const Wrapper = styled.div`
 
 
     width:100%;
+    //Random hard coded height, no bueno.
+    //I want to set this to soemthing else.
     height:240px;
     display:grid;
-    border: 2px solid black;
+   // border-bottom: 2px solid black;
     grid-column-gap: 2%;
     grid-template-columns: 30% 60%; 
     grid-template-rows: 1fr 2fr 1fr 1fr;
@@ -27,7 +30,14 @@ const Wrapper = styled.div`
 
     cursor:pointer;
 
-   
+    &:hover{
+        background-color:rgba(2, 28, 73,0.5);
+        //Not really sure what hover effect for this should be.
+        //Or maybe instead of whole thing clickable, title and thumbnail can be
+        //that way the author is also clickable
+        //then also have a see more? But still need some indication that thumbnail clickable and title is on hover
+
+    }
 `;  
 
 const Thumbnail = styled.div`
@@ -96,25 +106,7 @@ const Footer = styled.div`
 
 `;
 
-const Tags = styled.div`
 
-    display:flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items:space-evenly;
-    flex:1;
-    text-align:center;
-`;
-
-const Tag = styled.div`
-
-    width:15%;
-    box-sizing: border-box;
-    border-radius:10px;
-    color:white;
-    align-self: center;
-    background-color:black;
-`;
 
 const Button = styled.div`
 
@@ -143,13 +135,7 @@ const NewsCard = props => {
 
             <Description> {content} </Description>
             <Footer>
-                <Tags>
-                    {tags && tags.map( tag => {
-
-                        return <Tag key = {tag.title}> {tag.title}</Tag>
-                    })}
-                </Tags>
-                {/* Maybe instead of see more just make whole thing clickable liek overwatch instead of just thumbnail */}
+                <Tags tags = {tags}/>
             </Footer>
 
         </Wrapper>

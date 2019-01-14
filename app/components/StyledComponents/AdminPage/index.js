@@ -21,6 +21,8 @@ export const OptionsPanel = styled.div`
 
     grid-area: options;
     border-bottom: 0px;
+    margin-top:5%;
+
 `;
 
 export const Option = styled.div`

@@ -33,6 +33,7 @@ const Title = styled.div`
 const SubTitle = styled.div`
 
     grid-area:subtitle;
+    font-weight:bold;
 `;
 
 const Description = styled.div`

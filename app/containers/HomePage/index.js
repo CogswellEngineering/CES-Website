@@ -55,14 +55,12 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
           <EventHeader  style = {{placeSelf: "center"}}>  Events we've done </EventHeader>
 
           <EventList>
-            {/*This will need a pull*/}
+            {/*This will need a pull. Nah just can be updated manually, I don't mind... well I kinda do lol.
+              Also will likely be links to the events, if that's the case I do need pull, or again manual fine.*/}
             <EventItem> ACM Competition</EventItem>
 
-            <EventItem> ACM Competition</EventItem>
+            <EventItem> Hackathon</EventItem>
 
-            <EventItem> ACM Competition</EventItem>
-            <EventItem> ACM Competition</EventItem>
-         
           </EventList>
         </HostEventsBlock>
         

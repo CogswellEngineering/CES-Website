@@ -13,6 +13,7 @@ export const Tag = styled.div`
 
 
     text-align:center;
+
     background-color: ${props => props.color};
     border-style:double;
     border-color: ${props => props.color};
