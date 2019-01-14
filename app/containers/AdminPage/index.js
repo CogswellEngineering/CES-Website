@@ -79,11 +79,13 @@ class AdminPage extends Component{
 
         console.log("More overhead, but better? Than passing loggedInProfile props over to News post? Lol");
         const {onAddNews, loggedInProfile} = this.props;
-
-        this.props.onAddNews(post, author: {
+        
+        const author = {
             name: this.props.loggedInProfile.displayName,
             uid: this.props.loggedInAuth.uid,
-        });
+        };
+
+        this.props.onAddNews(post, author);
     } 
 
 
@@ -137,7 +139,7 @@ const mapDispatchToProps = dispatch => {
 
         onAddNews: (post, author) => {
 
-            return dispatch(postNews(post));
+            return dispatch(postNews(post,author));
         }
     };
 }

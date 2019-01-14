@@ -124,24 +124,24 @@ function* postNews(payload){
     //Hmm debatable.
     const firestore = firebase.firestore();
     const newsThumbnailsRef = firebase.storage().ref("NewsThumbnails/"+post.thumbnail.name);
-
+    const newsRef = firestore.collection("ClubInfo").doc("News")
+    const newsCardRef = newsRef.collection("NewsCards").doc();
+    const newsPostRef = newsRef.collection("NewsPosts").doc();
+    const {topic, content, tags} = post;
 
     newsThumbnailsRef.put(post.thumbnail)
         .then ( res => {
 
 
-            newsThumbnailsref.getDownloadURL()
+            newsThumbnailsRef.getDownloadURL()
                 .then (url => {
 
 
-                    const newsRef = firestore.collection("ClubInfo").doc("News")
-                    const newsCardref = newsRef.collection("NewsCards").doc();
-                    const newsPostRef = newsRef.collection("NewsPosts").doc();
+                
 
                     console.log("post", post);
 
-                    const {topic, content, tags} = post;
-                    const uploadDate = new Date();
+                    const postDate = new Date();
                    
                     newsCardRef.set({
 
@@ -150,7 +150,7 @@ function* postNews(payload){
                         content,
                         tags,
                         author,
-                        uploadDate,
+                        postDate,
                         thumbnail: url,
                         postUid: newsPostRef.id,
 
@@ -163,7 +163,7 @@ function* postNews(payload){
                         content,
                         tags,
                         author,
-                        uploadDate,
+                        postDate,
                         thumbnail: url,
                         postUid: newsPostRef.id,
                     });
@@ -171,49 +171,11 @@ function* postNews(payload){
                     //ToDo: 
                     //Set up back end to send notifiers to all trackers, so I need to check tags.
 
-                    const eventTags = {tags.filter( tag => {
+                    const eventTags = tags.filter( tag => {
 
                         return tag.type === "event";
-                    })};
+                    });
 
-                    //really uid, and full link will be /news/etc.
-                    //would be domain name, prob just prepend it at backend, it's fine.
-                    const postId = newsPostRef.id;
-
-
-                    const body = {
-
-                        eventTags,
-                        postId,
-                    };
-
-                    try{
-
-
-                        //Sends call to back end to update trackers.
-                        const response = yield call(
-
-                            request,
-                            fbAdminAPI+"/updateEventTrackers",
-                            //I forgot exactly what this is called http headers? something like that no good forgetting this stuff
-                            //lol, it'll recollect.
-                            {
-                                method:"POST",
-                                body:JSON.stringify(body),
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                            }
-                        );
-
-                        console.log("response", response);
-
-                    }
-
-                    catch (err){
-
-                        console.log("Failed to update trackers on news post", err);
-                    }
 
 
                     //Then send all of the event tags along with this news post to backend to notify all trackers.
@@ -226,6 +188,55 @@ function* postNews(payload){
 
             console.log("failed to add post", err);
         })
+
+
+        
+        const postId = newsPostRef.id;
+         
+        const eventTags = tags.filter( tag => {                    
+            return tag.type === "event";
+        }); 
+
+
+        const body = {
+            eventTags,
+            postId,
+        };
+
+        try{
+
+
+                        
+                const response = yield call(
+
+                request,
+                fbAdminAPI+"/updateEventTrackers",
+                //I forgot exactly what this is called http headers? something like that no good forgetting this stuff
+                //lol, it'll recollect.                        
+                {
+                
+                    method:"POST",
+                 
+                    body:JSON.stringify(body),
+                 
+                    headers: {
+                 
+                        'Content-Type': 'application/json',
+                 
+                    },
+                 
+                }
+                
+                
+            );
+
+            console.log("response", response);    
+        }
+
+        catch (err){
+
+            console.log("Failed to update trackers on news post", err);
+        }
 
 }
 

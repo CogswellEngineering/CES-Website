@@ -127,7 +127,7 @@ const NewsCard = props => {
 
 
 
-    const {postUid,thumbnail,topic,author, postDate, body,tags, onCardClicked} = props;
+    const {postUid,thumbnail,topic,author, postDate, content,tags, onCardClicked} = props;
     console.log("post date", postDate);
     return (
         <Wrapper onClick = { () => {onCardClicked(postUid)}} style = {props.style}>
@@ -141,12 +141,12 @@ const NewsCard = props => {
 
             </Header>
 
-            <Description> {body} </Description>
+            <Description> {content} </Description>
             <Footer>
                 <Tags>
                     {tags && tags.map( tag => {
 
-                        return <Tag key = {tag}> {tag}</Tag>
+                        return <Tag key = {tag.title}> {tag.title}</Tag>
                     })}
                 </Tags>
                 {/* Maybe instead of see more just make whole thing clickable liek overwatch instead of just thumbnail */}

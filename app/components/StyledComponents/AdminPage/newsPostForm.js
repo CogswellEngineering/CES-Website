@@ -135,6 +135,8 @@ export default class NewsPostForm extends Component{
 
         evt.preventDefault();
 
+
+        console.log("I happen in form");
         this.props.onSubmit(this.state);
 
         //This will do the revoking of thumbnail for me.

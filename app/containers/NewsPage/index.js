@@ -37,11 +37,7 @@ class BlogPage extends Component{
 
         this.unsubscribe = null;
 
-        this.state =  {
-            postModalOpen:false,
-            linkModalOpen:false,
-            tags:[],
-        }
+    
 
         this.onCardClicked = this.onCardClicked.bind(this);
     }
@@ -109,7 +105,7 @@ class BlogPage extends Component{
                                       
                     {posts && posts.map(post => {
 
-                        return <NewsCard  key ={post.topic + "_" + post.author} {...post} style = {{marginTop:"1%"}} onCardClicked = {this.onCardClicked}/> 
+                        return <NewsCard  key ={post.topic + "_" + post.author.name} {...post} style = {{marginTop:"1%"}} onCardClicked = {this.onCardClicked}/> 
                     })}
 
                     
