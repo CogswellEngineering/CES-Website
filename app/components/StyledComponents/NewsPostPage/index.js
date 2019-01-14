@@ -5,6 +5,7 @@ import Linkify from 'react-linkify';
 //Need to do alot of refactoring to reuse stuff.
 const Title = styled.p`
 
+
 `;
 
 
@@ -24,6 +25,9 @@ const Wrapper = styled.div`
     "body"
     "footer"
     "comments";
+
+    grid-row-gap: 10px;
+
 
 `;
 
@@ -58,20 +62,21 @@ const Header = styled.div`
 const Body = styled(Linkify)`
 
     grid-area:body;
-    margin:auto;    
-
 `;
 
 const Footer = styled.div`
 
-
+   // margin-left:10%;
     grid-area:footer;
     display:grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto;
+    grid-template-rows: 1fr 1fr;
     grid-template-areas:
+    "tagTitle shareTitle"
     "tags share";
-    justify-items: center;
+
+  //  justify-items: center;
+
 `;
 
 

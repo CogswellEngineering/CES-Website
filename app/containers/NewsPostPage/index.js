@@ -109,24 +109,21 @@ class NewsPost extends Component{
         const shareUrl = domain + "/news/" + this.props.match.params.uid;
         return (<Footer>
 
-            <div style = {{gridArea:"tags"}}>
-                <Title> Tags </Title>
-                {tags && <Tags tags = {tags}/>}
-            </div>
-            <div style = {{gridArea:"share"}}>
-                <Title> Share this Post! </Title>
-                <SharedSection>
+                <Title style = {{gridArea:"tagTitle"}}> Tags </Title>
+                {  <Tags tags = {tags}  style = {{gridArea:"tags"}}/>}
 
-                        <FacebookShareButton url = {shareUrl}>
+                <Title style = {{gridArea:"shareTitle"}}> Share this Post! </Title>
+                <SharedSection style = {{gridArea:"share"}}>
+
+                    <FacebookShareButton url = {shareUrl}>
                         <FacebookIcon size = {48} round = {true}/>
-                        </FacebookShareButton>
-
-                        <LinkedinShareButton url = {shareUrl} style = {{marginLeft:"1%"}}>
+                    </FacebookShareButton>
+                    
+                    <LinkedinShareButton url = {shareUrl}  style = {{marginLeft:"1%"}}>
                         <LinkedinIcon size = {48} round = {true}/>
-                        </LinkedinShareButton>
+                    </LinkedinShareButton>
 
-                </SharedSection>
-            </div>
+            </SharedSection>
 
             </Footer>)
     }

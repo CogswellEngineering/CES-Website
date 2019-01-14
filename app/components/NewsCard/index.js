@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import dateFns from 'date-fns';
 import Tags from 'components/Tags';
+import {Link} from 'react-router-dom';
 //Aight, Ima just copy common news card layouts 
 //seen in league, overwatch, runescape.
 //I also want to do better than than that.. Fuck it that can be done later/
@@ -27,9 +28,6 @@ const Wrapper = styled.div`
     "thumbnail footer"
     "thumbnail . ";
 
-
-    cursor:pointer;
-
     &:hover{
         background-color:rgba(2, 28, 73,0.5);
         //Not really sure what hover effect for this should be.
@@ -49,7 +47,7 @@ const Thumbnail = styled.div`
     background-position:center;
     background-repeat: no-repeat;
 
-
+    cursor:pointer;
     ${Wrapper}:hover & {
         //background-size:contain;
     }  
@@ -71,14 +69,33 @@ const Title = styled.p`
 
     grid-area:title;
     font-weight: bold;
-    color: rgb(254, 161, 0);
-    
+    color:white;
+    cursor:pointer;
+
+    &:hover{
+
+        color: rgb(254, 161, 0);
+
+    }
 
 `;
 
 const Author = styled.div`
 
     grid-area:author;
+`;
+
+const AuthorLink = styled(Link)`
+
+    text-decoration:none;
+    font-style:italic;
+    color:white;
+    &:hover{
+
+        color: rgb(254, 161, 0);
+
+    }
+
 `;
 
 const UploadDate = styled.div`
@@ -122,14 +139,14 @@ const NewsCard = props => {
     const {postUid,thumbnail,topic,author, postDate, content,tags, onCardClicked} = props;
     console.log("post date", postDate);
     return (
-        <Wrapper onClick = { () => {onCardClicked(postUid)}} style = {props.style}>
+        <Wrapper style = {props.style}>
 
 
-            <Thumbnail image = {thumbnail} />
+            <Thumbnail image = {thumbnail}  onClick = { () => {onCardClicked(postUid)}} />
             <Header>
 
-                <Title> {topic} </Title>
-                  <Author> by <i>{author.name}</i> </Author> <UploadDate>{ postDate && dateFns.format(postDate.toDate(), "MMMM     DD YYYY")} </UploadDate> 
+                <Title  onClick = { () => {onCardClicked(postUid)}}> {topic} </Title>
+                  <Author> by <AuthorLink to = {"/account/" + author.uid}>{author.name}</AuthorLink> </Author> <UploadDate>{ postDate && dateFns.format(postDate.toDate(), "MMMM     DD YYYY")} </UploadDate> 
 
             </Header>
 

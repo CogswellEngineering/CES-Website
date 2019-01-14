@@ -34,6 +34,8 @@ const Tags = (props) => {
 
         
             var color = "black";
+           /* 
+            Type no longer a thing. Hmm will maybe re-add for SEO.
             switch (tag.type){
                 case "Language":
                     color = "red";
@@ -48,7 +50,7 @@ const Tags = (props) => {
                 break;
                 
             }
-
+*/
             return <Tag key = {tag.title} color = {color}> {tag.title} </Tag>;
 
         })}
