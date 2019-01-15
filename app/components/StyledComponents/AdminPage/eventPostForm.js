@@ -63,6 +63,7 @@ export default class EventPostForm extends Component{
         this.onEventSubmitted = this.onEventSubmitted.bind(this);
         this.onUpdateEventDate = this.onUpdateEventDate.bind(this);
         this.onThumbnailFieldUpdated = this.onThumbnailFieldUpdated.bind(this);
+        this.onHostIconUpdated = this.onHostIconUpdated.bind(this);
         this.onUpdateTextField = this.onUpdateTextField.bind(this);
         this.onTagAdded = this.onTagAdded.bind(this);
         this.onTagRemoved = this.onTagRemoved.bind(this);
@@ -97,6 +98,7 @@ export default class EventPostForm extends Component{
             thumbnail:null,
             title:"",
             type:"",
+            hostIcon:null,
             //Might seprate this into fields, if needed
             location:"",
             description:"",
@@ -130,6 +132,21 @@ export default class EventPostForm extends Component{
                 thumbnail:acceptedFiles[0]
             }
         });
+    }
+
+    onHostIconUpdated = (acceptedFiles, rejectFiles) => {
+
+        this.setState( state => {
+
+            if (state.hostIcon != null){
+
+                window.URL.revokedObjectURL(state.hostIcon);
+            }
+
+            return {
+                hostIcon:acceptedFiles[0]
+            }
+        })
     }
 
     
@@ -268,8 +285,24 @@ export default class EventPostForm extends Component{
 
                 <div  style = {{marginTop:"1%"}}>
 
+
+
                         <Label style = {{display:"block"}}> Host </Label> 
-                       
+
+
+                        <Dropzone onDrop = {this.onHostIconUpdated}>
+                        {({getRootProps, getInputProps}) => (
+
+                            <ThumbnailDropzone {...getRootProps()}>
+                                <input {...getInputProps()} />
+                                {this.state.hostIcon?
+                                    
+                                    <img style = {{width:"inherit",height:"inherit"}} src = {window.URL.createObjectURL(this.state.hostIcon)}/>
+                                :
+                                <p>Add Host Icon For Your Event</p>
+                                }
+                            </ThumbnailDropzone>)}
+                       </Dropzone>
                         <Label for = "hostName"> Name </Label>
                         <Field type = "text" id = "hostName" value = {this.state.hostName} onChange = {this.onUpdateTextField}/>
                        

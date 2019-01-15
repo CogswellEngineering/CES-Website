@@ -4,7 +4,7 @@ import { withFirebase} from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect'
 import { compose } from 'redux';
-
+import EventCard from 'components/EventCard';
 import EventInfo from 'components/EventInfo';
 import reducer from './reducer';
 import injectReducer from 'utils/injectReducer';
@@ -31,37 +31,49 @@ import {
 } from './selectors';
 
 
+
 const EventsWrapper = styled.div`
 
-margin-top:5%;
-
+    margin-top:5%;
+    display:grid;
+    grid-template-columns: auto;
+    grid-template-rows:1fr auto;
+    grid-template-areas:
+    "header"
+    "content";
     
 `
 
-const CalendarWrapper = styled.div`
 
-  
-   
+const ViewSelection = styled.div`
+
+    margin:auto;
+    width:20%;
+    grid-area:header;   
+    display:flex;
+    justify-content: space-evenly;;
 `;
 
-const FilteringSection = styled.div`
+const Button = styled.div`
 
+    text-align:center;
 `;
 
 
+const GridView = styled.div`
 
-const FilterHeader = styled.p`
+    grid-area:content;
+    
+    width:100%;
+    display:flex;
+    margin-top:5%;
 
-    font-weight:bold;
-    //border-bottom: 1px solid black;
-    //width:80%;
+    flex-wrap:wrap;
+    justify-content:space-evenly;
+    align-items: flex-start;
+    align-content: space-around;
+
 `;
-
-const FilterLabel = styled.label`
-
-    display:block;
-`;
-
 
 
 class EventsPage extends Component{
@@ -74,10 +86,14 @@ class EventsPage extends Component{
         this.unsubscribe = null;
         this.state = {
 
-            possibleFilters:[],
+            //I REALLY only need calendar to be vs grid view
+            //but for brevity and extension of other views, for whatever reason I'll do same as 
+            //admin panel selection.
+            calendarView: false,
         }
 
 
+        this.onChangeView = this.onChangeView.bind(this);
         this.onGoToEvent = this.onGoToEvent.bind(this);
         
     }
@@ -153,36 +169,43 @@ class EventsPage extends Component{
         }
     }
 
+    onChangeView(view){
 
-    onGoToEvent(){
+        //This way IS kind of ugly lol.
+        //But cleaner way is waste of variables when I know there won't be other options to turn off here.
+        if (view == "Calendar"){
+
+            this.setState({
+
+                calendarView: true,
+            });
+        }
+        else{
+
+            this.setState({
+
+                calendarView: false,
+            })
+        }
+    }
+
+    onGoToEvent(event){
 
         console.log(this.props);
 
         const {history, selectedEvent} = this.props;
         
+        console.log("event",event);
         //becaues I do this. Better if i make it a link.
-        history.push("/events/"+ selectedEvent.eventUid);
+        history.push("/events/"+ event.eventUid);
 
     }
 
-    renderEventsFooter(){
-
-
-        
-
-
-    }
 
     render(){
 
         const { selectedEvent, events, error ,isAttendee, filter,
             onCloseEvent, onEventSelected, onFilterChanged} = this.props;
-        
-
-        if (events == null || this.state.possibleFilters.length == 0){
-
-           // return null;
-        }
 
 
         //Make it so when open, make big calendar hidden too.
@@ -190,24 +213,42 @@ class EventsPage extends Component{
         
         
         <EventsWrapper>
-        <CalendarWrapper >
 
 
-            <Calendar events = {events} onSelectEvent = {onEventSelected} style={{width:"60%", margin:"auto"}} />
-            
-            
 
-            <EventInfo event = {selectedEvent} onMoreClicked = {this.onGoToEvent}  onExit = {onCloseEvent}
-               isAttendee = {isAttendee} loggedInUser = {this.props.firebase.auth().currentUser}/>
+            <ViewSelection>
+                {/*Todo: Replace these with icons*/}
+                <Button onClick = {() => {this.onChangeView("Grid")}}> Grid View </Button>
+                <Button onClick = {() => {this.onChangeView("Calendar")}}> Calendar View </Button>
+
+            </ViewSelection>
+
+            {this.state.calendarView?
+
+            <div style = {{gridArea:"content", marginTop:"5%"}}>
+                <Calendar events = {events} onSelectEvent = {onEventSelected} style={{width:"60%", margin:"auto"}} />
+                <EventInfo event = {selectedEvent} onMoreClicked = {this.onGoToEvent}  onExit = {onCloseEvent}
+                    isAttendee = {isAttendee} loggedInUser = {this.props.firebase.auth().currentUser}/>
+            </div>
+            :
+            <GridView>
             
+         
+                {events && events.map( event => {
+
+                    return <EventCard  
+                    onCardClicked = {() => {this.onGoToEvent(event);}}
+                    style = {{width:"30%", height:"20em", marginBottom:"5em"}} key = {event.eventUid} {...event}/>
+                })}
+
+            </GridView>
+
             
-            </CalendarWrapper>
-            <FilteringSection>
+            }
                 {/*This will have buttons for filtering, and getting notifications for specific type of events*/}
 
 
 
-            </FilteringSection>
             </EventsWrapper>);
 
     }

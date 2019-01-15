@@ -43,7 +43,7 @@ function* postEvent(payload){
 
                     console.log("post", post);
                     console.log("post title", post.title);
-                    const {title, type, description, tags, startDate, endDate, gallery, agenda } = post;
+                    const {title, type, description, tags, startDate, endDate, gallery, agenda , location} = post;
                     
                     console.log("get to here?");
                     console.log("post after event card data", post);
@@ -57,8 +57,17 @@ function* postEvent(payload){
                     //Will be optional, click to profile if user
                     //otherwise open emial
                     if (post.hostUid != null && post.Uid !== ""){
+                        //N
                         host.uid = post.hostUid;
                     }
+
+                    //Prob won't be used.
+                    if (post.hostIcon != null){
+
+
+                        host.icon = post.hostIcon;
+                    }
+
                     eventCard.set({
                         host,
                         title,
@@ -67,6 +76,7 @@ function* postEvent(payload){
                         tags,
                         startDate,
                         endDate,
+                        location,
                         thumbnail:url,
                         eventUid:eventItem.id,
 
@@ -80,6 +90,7 @@ function* postEvent(payload){
                         type,
                         description,
                         tags,
+                        location,
                         startDate,
                         endDate,
                         thumbnail:url,

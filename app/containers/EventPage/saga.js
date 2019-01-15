@@ -198,10 +198,12 @@ function* cancelAttendanceSaga(payload){
     //Then I want to do where attendee equal to user uid and eventUid equal event
     //Using event uid I don't need start date and title to be primary keys anymore, idk what i was thinking before.
     //Oh cause the events on calendar were the FULL events not previews.
-    const query = attendanceRef.where("attendee", "==", userUid).where("event","==",eventUid);
+    console.log("userUId", userUid);
+    console.log("eventUid", eventUid);
+    const query = attendanceRef.where("attendee", "==", userUid).where("eventUid","==",eventUid);
 
-    const querySnapshot = yield query.get();
-
+    const querySnapshot = yield query.get()
+       
     //This check not needed if everything working correctly. It'll actually hide what would be errors.
     if (!querySnapshot.empty){
 

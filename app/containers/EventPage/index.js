@@ -215,7 +215,7 @@ class EventPage extends Component{
     renderBody(){
 
 
-
+        console.log("event", this.props.event);
         const {description, agenda, startDate, endDate, location, callToAction, contact, host} = this.props.event;
         //Body will be it's own grid
 
@@ -228,9 +228,9 @@ class EventPage extends Component{
                 <p>{description}</p>
                 {<Agenda> 
 
-                    <Title> Agenda </Title>
+                    {agenda.length > 0 && <Title> Agenda </Title>}
                     {
-                        agenda && agenda.map(item => {
+                        agenda.map(item => {
 
                             const timeFormat = "h:mm a";
                             const {start, end} = item.timeframe;

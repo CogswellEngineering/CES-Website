@@ -18,10 +18,9 @@ const Card = styled.div`
 
     display:grid;
     grid-template-columns: 100%;
-    grid-template-rows: 1fr 2fr 1fr;
+    grid-template-rows: 1fr auto;
     grid-template-areas:
     "prize"
-    "host"
     "fade";  
     //color:rgb(254, 161, 0);
     color:white;
@@ -62,7 +61,6 @@ const FadeArea = styled.div`
 const PrizeInfo = styled.div`
 
     grid-area:prize;
-
     
     background-image: url(${props => props.image});
 
@@ -103,8 +101,7 @@ const Footer = styled.div`
     grid-area:footer;
     margin:auto;
     display:flex;
-    width:90%;
-    justify-content: space-between;
+    width:100%;
     display:grid;
     grid-template-columns:auto auto;
     grid-template-rows: 100%;
@@ -114,40 +111,35 @@ const Footer = styled.div`
 const Location = styled.div`
 
     place-self:end;
+    margin-right:2.5%;
 
 `;
 
 const Date = styled.div`
     
+    
     justify-self:start;
     align-self:end;
-
+    margin-left:2.5%;
 `;
 
 const EventCard = props => {
 
 
-    //Maybe just an image?
     //Becaues will be filtered by year / semester, only need month and day.
     const dateFormat = "MMM DD";
-    const {title,host, location, startDate, endDate, thumbnail, prizeInfo, onClickCard} = props;
-
-    //Will be up to discretion of uploader of event.
-
-
-    const hostIcon = "https://firebasestorage.googleapis.com/v0/b/ceswebsite-cf841.appspot.com/o/EventThumbnails%2FCES_Signup_Poster.png?alt=media&token=cc890cb6-c48c-4972-bdca-184df8d8e2f9";
-
+    const {title,host, location, startDate, endDate, thumbnail, prizeInfo, onCardClicked} = props;
+    console.log("host", host);
     const sameDay = dateFns.isSameDay(startDate, endDate);
-    console.log("hostIcon", hostIcon);
     return (
 
-            <Card image = {thumbnail} style = {props.style} onClick = {onClickCard}>
+            <Card image = {thumbnail} style = {props.style} onClick = {onCardClicked}>
 
             
                 <PrizeInfo image = {prizeInfo}> prize Info </PrizeInfo>
 
-                <HostIcon image = {hostIcon}>  </HostIcon>
-
+                {/*I'll get feedback for this later <HostIcon image = {hostIcon}>  </HostIcon>
+                */}
                 <FadeArea>
 
 
@@ -159,7 +151,7 @@ const EventCard = props => {
                         {dateFns.format(startDate,dateFormat)} {!sameDay && <span> - </span>} { !sameDay && <span> - </span> && dateFns.format(endDate,dateFormat) }
                     </Date>
 
-                    <Location> {location ||  "Rm. 147, Cogswell College"} </Location>
+                    <Location> {location} </Location>
 
                 </Footer>
 

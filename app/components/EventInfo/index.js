@@ -21,7 +21,21 @@ const Button = styled.button`
 
 const EventInfoWrapper = styled(Modal)`
       
-        
+        display:grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 2fr 1fr;
+        grid-template-areas:
+        "header header"
+        "body body"
+        "footer footer";
+`;
+
+const Footer = styled.div`
+
+        grid-area:footer;
+        display:flex;
+        justify-content:space-between;
+
 `;
 
 const HostLink = styled.a`
@@ -36,7 +50,7 @@ const HostLink = styled.a`
 const InfoBlock = styled.div`
 
         margin-top:50px;
-
+        grid-area:header;
 
 `
 
@@ -51,6 +65,11 @@ const EventTitle = styled.h2`
 `;
 
 const EventDescription = styled.p`
+
+        grid-area:body;
+        line-height:1.6em;
+        height:6em;
+        overflow:hidden;
 `;
 
 const TimeInfo = styled.div`
@@ -61,6 +80,7 @@ const TimeInfo = styled.div`
 const ViewMoreButton = styled.div`
 
         cursor:pointer;
+        place-self:center;
         text-decoration:underline;
 
 `;
@@ -73,7 +93,7 @@ const GuestBlock = styled.span`
 
 const AttendingNotice = styled.p`
 
-
+        color:green;
 `;
 
 //There will be event list via bigCalendar and clicking on them will pop up this page.
@@ -110,6 +130,7 @@ const EventInfo = (props) => {
     //or say fuck it. Remake this
     //Or both?
 
+    console.log("loggedInUser", loggedInUser);
     return (
        
         <EventInfoWrapper  
@@ -118,6 +139,7 @@ const EventInfo = (props) => {
                 onClose={() => {props.onExit()}}
                 center = {true}>
             
+
                                         
                         <InfoBlock>
                                 <EventHeader>
@@ -135,17 +157,24 @@ const EventInfo = (props) => {
                                 </GuestBlock>
                                 
         
-                                <EventDescription> {description} </EventDescription>
                         </InfoBlock>
+                        <EventDescription> {description} </EventDescription>
                 
+                <Footer>
+                {loggedInUser &&
+                        <AttendingNotice>  
+                                
+                                {isAttendee? 
+                                        "You are attending this event"
+                                :       ""
+                                }
 
-                {loggedInUser && isAttendee &&
 
-                        <AttendingNotice> You are attending this event</AttendingNotice>
+                        </AttendingNotice>
                  }
 
                  <ViewMoreButton onClick = { () => {props.onExit(); onMoreClicked(); }}> See more </ViewMoreButton>
-
+                 </Footer>
         </EventInfoWrapper>
         );
 

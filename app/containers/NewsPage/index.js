@@ -98,15 +98,15 @@ class BlogPage extends Component{
             onTagClicked, onTagRemove, onLoadMore, filterApplied, } = props;
 
 
-            console.log("filterApplied", filterApplied);
 
+        //Just hide filter header until filter applied until have dropdown of most views implemented.
         return (<BlogPageWrapper>
 
-                <FilterPanel>
+                {filterApplied.length > 0 &&<FilterPanel>
                     <p style = {{fontWeight:"bold", color:"rgb(230, 151, 7)", textTransform:"uppercase  "}}> News Tagged </p>
                     <Tags tags = {filterApplied} onTagClicked = {onTagRemove}/>
 
-                </FilterPanel>
+                </FilterPanel>}
              
                 <BlogsPanel>
                                       
