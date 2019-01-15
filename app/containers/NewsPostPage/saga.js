@@ -34,28 +34,25 @@ function* loadPostSaga(payload){
         yield put(loadFailed({notFound:true}));
     }
     else{
-        //So has data here.
 
         const postData = post.data();
         postData.postInfo.postDate = postData.postInfo.postDate.toDate();
 
+        //Load post.
         yield put(postUpdated(postData));
 
+
+        //Then move on to loading comments, lower load priority.
         const commentsRef = postRef.collection("Comments");
 
         const snapshot = yield commentsRef.orderBy("postDate","desc").get();
         if (!snapshot.empty){
 
-            //Sending just docs directly is fine, then dereferencing to get data
-            //just gotta keep in mind. Hmm, actually idk lol
-            //Nvm will iterate to get comments, might take little longer but that versus
-            //constant overhead of dereferencing to get data. But less flexibility as well
-            //incase replies to comments become a thing, but prob not.
+      
             const comments = [];
 
             snapshot.docs.forEach( doc => {
 
-                console.log ("doc", doc);
                 if (doc.exists){
                     const data = doc.data();
                     data.postDate = data.postDate.toDate();
@@ -80,8 +77,7 @@ function* postCommentSaga(payload){
 
     const firestore = firebase.firestore();
 
-    //Only thing don't like about this is I have to load in everything else just to concat comments...
-    //Fuck it no, collection afterall.
+    //So only adding onto collection, but not retrieving it, just building ontop of current collection pulled.
     const postRef = firestore.collection("ClubInfo").doc("News").collection("NewsPosts").doc(postUid);
 
     const commentsRef = postRef.collection("Comments");
@@ -106,7 +102,9 @@ function* postCommentSaga(payload){
         })
 
 
-    //Easy to change to show all comments if need be, but unlikely.
+    //UX wise, only post what you added, along with what you had.
+    //Instead of refreshing all comments.
+    //Only problem is it won't be in same position as you'd think on refresh, but that is fine.
     const commentsToShow = [newCommentObj].concat(currentCommentLoad);
 
     

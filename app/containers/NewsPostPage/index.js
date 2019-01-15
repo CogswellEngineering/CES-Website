@@ -160,7 +160,6 @@ class NewsPost extends Component{
 
         const {comments, loggedInProfile,} = this.props;
 
-        console.log("comments",comments);
         return (
         <div style ={{gridArea:"comments"}}>
                 <PostComment style = {{paddingBottom:"5%"}} loggedInProfile = {loggedInProfile} onPost = {this.onCommentPosted}/>

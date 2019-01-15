@@ -132,10 +132,11 @@ class EventPage extends Component{
                 <div style = {{fontSize:"1.5em",gridArea:"title", }}>{title}</div>
                 <div style = {{gridArea:"host", marginLeft:"0.5%" }}> hosted by  
                    
-                    {host.uid?
+                    {
+                        host.uid?
                         <UserLink to = {"/account/"+host.uid}> {host.name} </UserLink>
                     :
-                        <HostLink href = {"mailto:"+host.email}> {host.name} </HostLink>
+                        <HostLink href = {"mailto:"+host.email}> {host.name || "TBD"} </HostLink>
                     }
                     
                 </div>

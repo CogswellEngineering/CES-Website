@@ -13,7 +13,9 @@ const logger = require('../../server/logger');
 const pkg = require(path.resolve(process.cwd(), 'package.json'));
 const dllPlugin = pkg.dllPlugin;
 
+
 const plugins = [
+
   new webpack.HotModuleReplacementPlugin(), // Tell webpack we want hot reloading
   new webpack.NoEmitOnErrorsPlugin(),
   new HtmlWebpackPlugin({
