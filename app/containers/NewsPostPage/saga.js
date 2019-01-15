@@ -43,7 +43,7 @@ function* loadPostSaga(payload){
 
         const commentsRef = postRef.collection("Comments");
 
-        const snapshot = yield commentsRef.get();
+        const snapshot = yield commentsRef.orderBy("postDate","desc").get();
         if (!snapshot.empty){
 
             //Sending just docs directly is fine, then dereferencing to get data
@@ -90,10 +90,7 @@ function* postCommentSaga(payload){
 
     const newCommentObj = {
 
-        poster:{
-            name,
-            uid
-        },
+        poster:commenter,
         postDate: new Date(),
         content: comment
     };
@@ -110,7 +107,7 @@ function* postCommentSaga(payload){
 
 
     //Easy to change to show all comments if need be, but unlikely.
-    const commentsToShow = currentCommentLoad.concat(newCommentObj);
+    const commentsToShow = [newCommentObj].concat(currentCommentLoad);
 
     
     yield put(updatedComments(commentsToShow));

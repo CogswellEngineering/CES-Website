@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 import dateFns from 'date-fns';
+import {Link} from 'react-router-dom';
 
 //Will move these to be own component later on.
 const Wrapper = styled.div`
@@ -11,32 +12,39 @@ const Wrapper = styled.div`
 
 const Comment = styled.div`
 
-
+    color:white;
     display:grid;
-
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr auto;
-
+    margin-top:5%;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto auto auto ;
     grid-template-areas:
-    "icon author"
-    "icon postDate"
-    "content content";
+    "icon author postDate"
+    "icon content content"
+    "icon content content";
+
+    grid-column-gap:1%;
 `;
 
-const Icon = styled.div`
+//Could prob make this a generic user icon for posting.
+const Icon = styled(Link)`
 
     grid-area:icon;
-    background-image: url(${props => props.image});
+    background-image:url(${props => props.image});
     background-size: 100% 100%;
     background-position:center;
-    background-repeat: no-repeat;
-
+    background-repeat:no-repeat;
+    border:1px solid black;
+    border-radius:25px;
+    width:50px;
+    height:50px;
 `;
 
-const Author = styled.div`
+const Author = styled(Link)`
 
     grid-area:author;
-
+    font-style:italic;
+    text-decoration:none;
+    color:rgb(230, 151, 7);
 `;
 
 const Content = styled.div`
@@ -63,11 +71,13 @@ class Comments extends React.PureComponent{
         
             {comments && comments.map(comment => {
 
-                const {icon, name, postDate, content} = comment;
+                const {poster, postDate, content} = comment;
+                console.log("icon", poster)
                 const format = "MM/D/YYYY";
-                return <Comment>
-                        <Icon image = {icon}/>
-                        <Author> {name} </Author>
+
+                return <Comment key = {poster.uid + content}>
+                        <Icon image = {poster.icon} to = {"/account/"+poster.uid}/>
+                        <Author to = {"/account/"+poster.uid}> {poster.name} </Author>
                         <PostDate> {dateFns.format(postDate,format)} </PostDate>
 
                         <Content> {content} </Content>    

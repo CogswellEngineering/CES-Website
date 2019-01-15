@@ -81,13 +81,13 @@ class NewsPost extends Component{
 
         const commentData = {
 
-            commenter: {uid: loggedInUser.uid, name: loggedInProfile.displayName},
+            
+            commenter: {uid: loggedInUser.uid, name: loggedInProfile.displayName, icon: loggedInProfile.profilePicture.url},
             comment,
             postUid: this.props.match.params.uid,
             currentCommentLoad: this.props.comments,
         };
 
-        console.log("onCommentPosted in NewsPostPage:", commentData);
 
         //Dispatches comment posted to saga.
         commentPosted(commentData);
@@ -163,7 +163,7 @@ class NewsPost extends Component{
         console.log("comments",comments);
         return (
         <div style ={{gridArea:"comments"}}>
-                <PostComment loggedInProfile = {loggedInProfile} onPost = {this.onCommentPosted}/>
+                <PostComment style = {{paddingBottom:"5%"}} loggedInProfile = {loggedInProfile} onPost = {this.onCommentPosted}/>
                 <Comments comments = {comments} />
         </div>);
     }
