@@ -44,6 +44,7 @@ import {
 } from 'components/General';
 
 import Comments from 'components/Comments';
+import PostComment from 'components/PostComment';
 
 class NewsPost extends Component{
 
@@ -134,6 +135,18 @@ class NewsPost extends Component{
     }
 
 
+    renderComments(){
+
+
+        const {comments,commentPosted, loggedInProfile,} = this.props;
+
+        return (
+        <div style ={{gridArea:"comments"}}>
+                <PostComment loggedInProfile = {loggedInProfile} onPost = {commentPosted}/>
+                <Comments comments = {comments} />
+        </div>);
+    }
+
     render(){
 
 
@@ -141,7 +154,6 @@ class NewsPost extends Component{
         if (this.props.post == null) return null;
 
         const {thumbnail} = this.props.post;
-        const comments = this.props.comments;
         
         return (
 
@@ -151,8 +163,8 @@ class NewsPost extends Component{
                 {this.renderHeader()}
                 {this.renderBody()}
                 {this.renderFooter()}
-                <Comments comments = {comments} style = {{gridArea:"comments"}}/>
-
+                {this.renderComments()}
+                
             </Wrapper>
         );
     }
@@ -168,9 +180,12 @@ const mapStateToProps = (state) => {
 
     if (newsPostState == null) return {};
 
+    const loggedInProfile = state.get("CES").get("loggedInProfile");
+
     console.log("Ever get here?",newsPostState);
     return {
 
+        loggedInProfile,
         post: newsPostState.get("postInfo"),
         comments: newsPostState.get("comments"),
         //Will have buffer  for this

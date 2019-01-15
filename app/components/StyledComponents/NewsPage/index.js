@@ -44,7 +44,7 @@ const BlogsPanel = styled.div`
     margin:auto;
     margin-top:5%;
     padding-bottom:5%;
-    border-bottom: 1px solid black;
+    //border-bottom: 1px solid black;
 
    
     

@@ -92,6 +92,7 @@ const Title = styled.p`
 
     grid-area:title;
     justify-self:center;
+    text-align:center;
     font-size:2.5em;
 `;
 
@@ -136,7 +137,7 @@ const EventCard = props => {
             <Card image = {thumbnail} style = {props.style} onClick = {onCardClicked}>
 
             
-                <PrizeInfo image = {prizeInfo}> prize Info </PrizeInfo>
+                <PrizeInfo image = {prizeInfo}>  </PrizeInfo>
 
                 {/*I'll get feedback for this later <HostIcon image = {hostIcon}>  </HostIcon>
                 */}

@@ -17,7 +17,7 @@ const Wrapper = styled.div`
     margin:auto;
     margin-top:5%;
     grid-template-columns:auto;
-    grid-template-rows: 1.5fr auto auto 1fr auto;
+    grid-template-rows: 3fr auto auto 1fr auto;
 
     grid-template-areas:
     "thumbnail"
@@ -78,11 +78,10 @@ const Body = styled(Linkify)`
 
 const Footer = styled.div`
 
-   // margin-left:10%;
     grid-area:footer;
     display:grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows:auto auto;
     grid-template-areas:
     "tagTitle shareTitle"
     "tags share";

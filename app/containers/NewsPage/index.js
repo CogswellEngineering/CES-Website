@@ -58,7 +58,7 @@ class BlogPage extends Component{
         };
 
         //Not really NEED to be real time for this lol, but eh for now its fine lol.
-        this.unsubscribe = newsCards.onSnapshot(options,(docSnapshot) => {
+        this.unsubscribe = newsCards.orderBy("postDate","desc").onSnapshot(options,(docSnapshot) => {
 
                     var newPosts = [];
                     const docs = docSnapshot.docs;
@@ -102,8 +102,8 @@ class BlogPage extends Component{
         //Just hide filter header until filter applied until have dropdown of most views implemented.
         return (<BlogPageWrapper>
 
-                {filterApplied.length > 0 &&<FilterPanel>
-                    <p style = {{fontWeight:"bold", color:"rgb(230, 151, 7)", textTransform:"uppercase  "}}> News Tagged </p>
+                {filterApplied.length > 0 && <FilterPanel>
+                    <p style = {{fontWeight:"bold", color:"rgb(230, 151, 7)", textTransform:"uppercase"}}> News Tagged </p>
                     <Tags tags = {filterApplied} onTagClicked = {onTagRemove}/>
 
                 </FilterPanel>}
@@ -119,7 +119,10 @@ class BlogPage extends Component{
 
                 </BlogsPanel>
 
-                 { amountToShow < maxAmountToShow && <LoadMoreButton onClick = {(evt) => {
+                    
+
+                 { amountToShow < maxAmountToShow && <div style = {{width:"80%", border:"0.5px solid white", margin:"auto"}}/> &&
+                    <LoadMoreButton onClick = {(evt) => {
                         evt.preventDefault();
 
                         onLoadMore(5);

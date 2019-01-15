@@ -72,6 +72,7 @@ const Title = styled(Clickable)`
 
     grid-area:title;
     font-weight: bold;
+    font-size:1.5em;
     color:white;
     cursor:pointer;
 
@@ -109,11 +110,12 @@ const Footer = styled.div`
 
     
     display:grid;
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: auto;
     grid-template-areas:
     "tags button";
-    place-items:start;
+    align-items:end;
+    
 `;
 
 
@@ -121,6 +123,7 @@ const Footer = styled.div`
 const Button = styled(Clickable)`
 
     justify-self:end;
+    align-self:end;
 `;
 
 

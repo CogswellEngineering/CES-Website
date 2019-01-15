@@ -85,6 +85,8 @@ const Cell = styled.div`
     height:100px;
     background-color: ${props => props.color};
     cursor: pointer;
+    overflow:hidden;
+    
 `;
 
 
@@ -265,10 +267,16 @@ class Calendar extends Component{
 
         var day = startDate;
 
+        //Using as map to count.
+        //this could be something delegate to others.
+        var flagsPerCell = {};
+
         while (day < endDate){
 
             //Then loop for seven days.
 
+            //Need to think of way to limit the amount of event flags per cell.
+            //Maybe an array or map of date to count.
             for (var i = 0; i < 7; ++i){
 
                 const toShow = dateFns.addDays(day,i);
@@ -285,10 +293,13 @@ class Calendar extends Component{
                 {
                     colorOfCell = "gray";
                 }
+                
+                flagsPerCell[toShow] = 0;
                 cells.push(<Cell key ={toShow} dayNumber = {i} onClick = {this.onCellClicked}  id ={toShow}
                 color = {colorOfCell}>
 
                         {dateFns.format(toShow, dateFormat)}
+                        
                         <EventFlags>
 
                             {
@@ -298,6 +309,9 @@ class Calendar extends Component{
                                     console.log("Event looking at for day: ", event.title, toShow );
                                     if (dateFns.isSameDay(event.startDate, toShow)){
 
+                                        //FUck this calendar sucks lmao.
+                                        //Not worth spending time grid view looks better anyway tbh.
+                                        flagsPerCell[toShow] += 1;
                                         innerHtml = event.title;
 
                                         const {type, title} = event;
@@ -310,6 +324,8 @@ class Calendar extends Component{
                                     else if (dateFns.isWithinRange(toShow, event.startDate, event.endDate)){
                                        
                                         const {type, title} = event;
+                                        flagsPerCell[toShow] += 1;
+
                                         //Class is for onclick events
                                         return <EventFlag key = {event.title+toShow} color = {"orange"} id = {title + "_" +  event.startDate}
                                         onClick = {this.onEventClicked}

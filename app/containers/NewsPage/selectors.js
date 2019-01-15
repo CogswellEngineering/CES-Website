@@ -1,7 +1,39 @@
 import { createSelector } from 'reselect';
 import { BLOG_PATH } from 'components/Header/pages';
 
+
+
+
 const blogPageState = (state) => state.get(BLOG_PATH);
+
+
+function getFilteredPosts(filter, posts){
+
+    const filteredPosts = filter.size == 0? posts : posts.filter( post => {
+
+        var matches = 0;
+       
+        for (var i = 0; i < filter.size; ++i){
+
+            //If matches any tag in post.
+
+            for (var j = 0; j < post.tags.length; ++j){
+
+                console.log("post tag", post.tags[j]);
+                if (post.tags[j].title === filter.get(i).title){
+
+                    //Actually can't just return true, caues should meet ALL FILTERS.
+                    matches += 1;
+                }
+            }
+        }
+        return matches == filter.size;
+
+    });
+
+    return filteredPosts;
+}
+
 
 const makeSelectPosts = () => createSelector(
 
@@ -17,30 +49,7 @@ const makeSelectPosts = () => createSelector(
         const tagFilter = blogPageState.get("tagFilter");
         //So adding filter for tags
         console.log("all tags", tagFilter);
-        const filteredPosts = tagFilter.size == 0? allPosts : allPosts.filter( post => {
-
-            var matches = 0;
-           
-            for (var i = 0; i < tagFilter.size; ++i){
-
-                //If matches any tag in post.
-                console.log("tag filter", tagFilter.get(i))
-                console.log("post", post);
-
-                for (var j = 0; j < post.tags.length; ++j){
-
-                    console.log("post tag", post.tags[j]);
-                    if (post.tags[j].title === tagFilter.get(i).title){
-
-                        //Actually can't just return true, caues should meet ALL FILTERS.
-                        matches += 1;
-                    }
-                }
-            }
-
-            return matches == tagFilter.size;
-
-        });
+        const filteredPosts = getFilteredPosts(tagFilter, allPosts);
 
         console.log("filteredPosts", filteredPosts);
 
@@ -92,8 +101,13 @@ const makeSelectMaxAmountToShow = () => createSelector(
         if (blogPageState == null) return 0;
 
         const allPosts = blogPageState.get("allPosts");
+        const tagFilter = blogPageState.get("tagFilter");
+        //So adding filter for tags
+        const filteredPosts = getFilteredPosts(tagFilter, allPosts);
 
-        return allPosts.length;
+        //All posts filtered.
+
+        return filteredPosts.length;
     }
 )
 

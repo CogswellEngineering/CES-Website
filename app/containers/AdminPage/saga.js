@@ -31,7 +31,8 @@ function* postEvent(payload){
 
     const {thumbnail} = post;
 
-    const storageRef = firebase.storage().ref("EventThumbnails/"+thumbnail.name);
+    //prefixing with uid of event to avoid revoking download urls of same name files.
+    const storageRef = firebase.storage().ref("EventThumbnails/"+eventItem.id+"_"+thumbnail.name);
     storageRef.put(thumbnail)
         .then (snapshot => {
 
@@ -140,10 +141,11 @@ function* postNews(payload){
     //REMEMBER AUTHOR, this time will just be logged in user?
     //Hmm debatable.
     const firestore = firebase.firestore();
-    const newsThumbnailsRef = firebase.storage().ref("NewsThumbnails/"+post.thumbnail.name);
     const newsRef = firestore.collection("ClubInfo").doc("News")
     const newsCardRef = newsRef.collection("NewsCards").doc();
     const newsPostRef = newsRef.collection("NewsPosts").doc();
+    const newsThumbnailsRef = firebase.storage().ref("NewsThumbnails/"+ newsPostRef.id + "_" + post.thumbnail.name);
+    
     const {topic, content, tags} = post;
 
     newsThumbnailsRef.put(post.thumbnail)

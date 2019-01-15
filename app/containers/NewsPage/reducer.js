@@ -18,6 +18,7 @@ export default function blogPageReducer(state = initialState, action){
 
     switch (action.type){
 
+        //Anytime filter changes reset amount to show.Honestly prob should just show all
 
         case ON_TAG_CLICKED:
 
@@ -31,7 +32,8 @@ export default function blogPageReducer(state = initialState, action){
             const newTagFilters = currentTags.concat(action.tag);
 
             return state
-                .set("tagFilter", newTagFilters);
+                .set("tagFilter", newTagFilters)
+                .set("amountToShow", 2);
 
         case REMOVE_TAG_FILTER:
 
@@ -43,7 +45,9 @@ export default function blogPageReducer(state = initialState, action){
             });
 
             return state
-                .set("tagFilter", newTags);
+                .set("tagFilter", newTags)
+                .set("amountToShow", 2);
+
 
         case LOAD_MORE:
             const currentAmountShown = state.get("amountToShow");

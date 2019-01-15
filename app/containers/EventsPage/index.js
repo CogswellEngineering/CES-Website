@@ -135,7 +135,7 @@ class EventsPage extends Component{
 
        
 
-        this.unsubscribe = eventsRef.orderBy("startDate").orderBy("endDate").onSnapshot(options, querySnapshot => {
+        this.unsubscribe = eventsRef.orderBy("startDate").onSnapshot(options, querySnapshot => {
 
                 var events = [];
         
@@ -214,14 +214,14 @@ class EventsPage extends Component{
         <EventsWrapper>
 
 
-
+{/* Until fix calendar these gone.
             <ViewSelection>
-                {/*Todo: Replace these with icons*/}
+                {/*Todo: Replace these with icons
                 <Button onClick = {() => {this.onChangeView("Grid")}}> Grid View </Button>
                 <Button onClick = {() => {this.onChangeView("Calendar")}}> Calendar View </Button>
 
             </ViewSelection>
-
+*/}
             {this.state.calendarView?
 
             <div style = {{gridArea:"content", marginTop:"5%"}}>

@@ -6,9 +6,6 @@ const TagsWrapper = styled.div`
     display:flex;
     flex-direction:row;
     flex-wrap: wrap;
-    align-content:flex-end;
-    align-items:flex-end;
-
 `;
 
 //I want to limit flex per column better.
