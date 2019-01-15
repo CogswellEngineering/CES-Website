@@ -135,8 +135,7 @@ class EventsPage extends Component{
 
        
 
-
-        this.unsubscribe = eventsRef.onSnapshot(options, querySnapshot => {
+        this.unsubscribe = eventsRef.orderBy("startDate").orderBy("endDate").onSnapshot(options, querySnapshot => {
 
                 var events = [];
         

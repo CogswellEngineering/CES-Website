@@ -295,14 +295,14 @@ class Calendar extends Component{
                                 events.map( event => {
 
                                     var innerHtml = "";
-                                    
+                                    console.log("Event looking at for day: ", event.title, toShow );
                                     if (dateFns.isSameDay(event.startDate, toShow)){
 
                                         innerHtml = event.title;
 
                                         const {type, title} = event;
                                         //Class is for onclick events
-                                        return <EventFlag key = {event.title+toShow} color = {this.eventColors[type]} title = {innerHtml} id = {title + "_" +  event.startDate}
+                                        return <EventFlag key = {event.title+toShow} color = {"orange"} title = {innerHtml} id = {title + "_" +  event.startDate}
                                         onClick = {this.onEventClicked}
                                         >
                                          {innerHtml} </EventFlag>
@@ -311,7 +311,7 @@ class Calendar extends Component{
                                        
                                         const {type, title} = event;
                                         //Class is for onclick events
-                                        return <EventFlag key = {event.title+toShow} color = {this.eventColors[type]} id = {title + "_" +  event.startDate}
+                                        return <EventFlag key = {event.title+toShow} color = {"orange"} id = {title + "_" +  event.startDate}
                                         onClick = {this.onEventClicked}
                                         />
                                     }

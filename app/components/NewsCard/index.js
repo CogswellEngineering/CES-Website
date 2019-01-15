@@ -120,7 +120,7 @@ const Footer = styled.div`
 
 const Button = styled(Clickable)`
 
-    place-self:end;
+    justify-self:end;
 `;
 
 
