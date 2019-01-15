@@ -55,6 +55,7 @@ class NewsPost extends Component{
 
         console.log("props", props);
         
+        this.onCommentPosted = this.onCommentPosted.bind(this);
     }
 
     componentDidMount(){
@@ -72,6 +73,25 @@ class NewsPost extends Component{
         const {loadPost} = this.props;
 
         loadPost(postUid);
+    }
+
+    onCommentPosted(comment){
+
+        const {commentPosted, loggedInUser, loggedInProfile} = this.props;
+
+        const commentData = {
+
+            commenter: {uid: loggedInUser.uid, name: loggedInProfile.displayName},
+            comment,
+            postUid: this.props.match.params.uid,
+            currentCommentLoad: this.props.comments,
+        };
+
+        console.log("onCommentPosted in NewsPostPage:", commentData);
+
+        //Dispatches comment posted to saga.
+        commentPosted(commentData);
+
     }
 
     renderHeader(){
@@ -138,11 +158,12 @@ class NewsPost extends Component{
     renderComments(){
 
 
-        const {comments,commentPosted, loggedInProfile,} = this.props;
+        const {comments, loggedInProfile,} = this.props;
 
+        console.log("comments",comments);
         return (
         <div style ={{gridArea:"comments"}}>
-                <PostComment loggedInProfile = {loggedInProfile} onPost = {commentPosted}/>
+                <PostComment loggedInProfile = {loggedInProfile} onPost = {this.onCommentPosted}/>
                 <Comments comments = {comments} />
         </div>);
     }
@@ -178,13 +199,15 @@ const mapStateToProps = (state) => {
 
     const newsPostState = state.get(SPECIFIC_POST);
 
-    if (newsPostState == null) return {};
+    const firebaseState = state.get("firebase");
+    if (newsPostState == null || firebaseState == null) return {};
 
     const loggedInProfile = state.get("CES").get("loggedInProfile");
 
     console.log("Ever get here?",newsPostState);
     return {
 
+        loggedInUser: firebaseState.auth,
         loggedInProfile,
         post: newsPostState.get("postInfo"),
         comments: newsPostState.get("comments"),

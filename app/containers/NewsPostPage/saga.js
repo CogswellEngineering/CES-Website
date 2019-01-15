@@ -44,7 +44,6 @@ function* loadPostSaga(payload){
         const commentsRef = postRef.collection("Comments");
 
         const snapshot = yield commentsRef.get();
-
         if (!snapshot.empty){
 
             //Sending just docs directly is fine, then dereferencing to get data
@@ -57,9 +56,14 @@ function* loadPostSaga(payload){
             snapshot.docs.forEach( doc => {
 
                 console.log ("doc", doc);
-                if (!doc.exists)
-                    comments.push(doc.data());
-            })
+                if (doc.exists){
+                    const data = doc.data();
+                    data.postDate = data.postDate.toDate();
+                    comments.push(data);
+                }
+            });
+
+            console.log("comments ", comments);
 
             yield put(updatedComments(comments));
         }
@@ -68,7 +72,9 @@ function* loadPostSaga(payload){
 
 function* postCommentSaga(payload){
 
-    const {commenter, comment, postUid, currentCommentLoad} = payload;
+
+    console.log("I made it to saga", payload.comment);
+    const {commenter, comment, postUid, currentCommentLoad} = payload.comment;
 
     const {name, uid} = commenter;
 
@@ -88,16 +94,25 @@ function* postCommentSaga(payload){
             name,
             uid
         },
+        postDate: new Date(),
         content: comment
     };
 
-    //Yield NOT really needed here? honestly.
-    /*yield*/newCommentRef.set(newCommentObj);
+    newCommentRef.set(newCommentObj)
+        .then (res => {
+
+            console.log("Comment posted");
+        })
+        .catch (err => {
+
+            console.log("Failed to post comment", err);
+        })
 
 
     //Easy to change to show all comments if need be, but unlikely.
     const commentsToShow = currentCommentLoad.concat(newCommentObj);
 
+    
     yield put(updatedComments(commentsToShow));
 }
 

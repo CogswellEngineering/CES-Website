@@ -4,7 +4,7 @@ import {Label, Button} from 'components/StyledComponents/AdminPage/generalFormCo
 import Textarea from 'react-textarea-autosize';
 
 
-const Wrapper = styled.div`
+const Wrapper = styled.form`
 
 
     display:grid;
@@ -62,11 +62,13 @@ export default class PostComment extends Component{
             minRows:1
         });
     }
+    
 
     componentWillUnmount(){
 
         this.resetState();
     }
+    
 
     onUpdateComment(evt){
 
@@ -76,8 +78,9 @@ export default class PostComment extends Component{
         });
     }
 
-    onPostComment(){
+    onPostComment(evt){
 
+        evt.preventDefault();
         this.props.onPost(this.state.comment);
         this.resetState();
     }
@@ -85,7 +88,6 @@ export default class PostComment extends Component{
     onFocusUpdated(focused){
 
 
-        console.log("Am i being calld?");
         const minRows = focused? 5 : 1;
 
         this.setState({
@@ -97,9 +99,9 @@ export default class PostComment extends Component{
     render(){
 
         const {loggedInProfile} = this.props;
-        console.log("min rows",this.state.minRows );
+        
         return (
-            <Wrapper style = {this.props.style}>
+            <Wrapper style = {this.props.style} onSubmit = {this.onPostComment}>
             <Poster profilePicture = {loggedInProfile.profilePicture.url}/>
             <CommentField placeholder = "Type your comment here" 
             minRows = {this.state.minRows} 
@@ -107,8 +109,8 @@ export default class PostComment extends Component{
             value = {this.state.comment}
             onFocus = {() => {this.onFocusUpdated(true);}}
             onBlur = {() => {this.onFocusUpdated(false);}}/>
-            <div style = {{gridArea:"options", justifySelf:"end"}}>
-            <Button onClick = {this.onPostComment}> Post </Button>
+            <div style = {{gridArea:"options", justifySelf:"end", alignSelf:"start"}}>
+            <Button type = "submit" > Post </Button>
             </div>
             </Wrapper>
         )

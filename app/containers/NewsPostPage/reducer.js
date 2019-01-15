@@ -40,8 +40,9 @@ export default function reducer(state = initialState, action){
         //For uploading view when current user adds a comment.
         case COMMENTS_UPDATED:
 
+            console.log("Do I happen?", action);
             return state
-                .set("coments", action.comments);
+                .set("comments", action.comments);
 
         case LOAD_FAILED:
 

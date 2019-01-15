@@ -64,7 +64,7 @@ class Comments extends React.PureComponent{
             {comments && comments.map(comment => {
 
                 const {icon, name, postDate, content} = comment;
-                const format = "MM D, YYYY";
+                const format = "MM/D/YYYY";
                 return <Comment>
                         <Icon image = {icon}/>
                         <Author> {name} </Author>
