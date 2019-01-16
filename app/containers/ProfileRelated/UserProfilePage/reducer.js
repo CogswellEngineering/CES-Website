@@ -12,7 +12,6 @@ import { actionTypes } from 'react-redux-firebase'
 
 const initialState = fromJS({
 
-    ownProfile: false,
     needReload: true,
     profile:null,
     error:"",

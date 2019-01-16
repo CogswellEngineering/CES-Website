@@ -1,14 +1,7 @@
-import { LOAD_PROFILE, LOADED_PROFILE,LOADED_PROFILE_FAIL, FOUND_OWNER_STATUS,
+import { LOAD_PROFILE, LOADED_PROFILE,LOADED_PROFILE_FAIL
 } from './constants';
 
-export function foundOwnerStatus(doesOwn){
 
-    return {
-        type: FOUND_OWNER_STATUS,
-        doesOwn,
-    };
-
-}
 
 export function loadProfile(uid){
 
