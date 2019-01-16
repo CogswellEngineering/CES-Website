@@ -30,6 +30,11 @@ import {
 
 import {
 
+    tagClicked
+} from 'containers/NewsPage/actions';
+
+import {
+
     Title,
     Wrapper,
     Thumbnail,
@@ -56,6 +61,7 @@ class NewsPost extends Component{
         console.log("props", props);
         
         this.onCommentPosted = this.onCommentPosted.bind(this);
+        this.onTagClicked = this.onTagClicked.bind(this);
     }
 
     componentDidMount(){
@@ -124,6 +130,17 @@ class NewsPost extends Component{
             </Body>);
     }
 
+    onTagClicked = (tag) =>{
+
+
+        //Push onto history to go to News apge.
+        const {history, onTagClicked} = this.props;
+
+        this.props.history.push("/news");
+        this.props.onTagClicked(tag);
+
+    }
+
     renderFooter(){
 
         const {tags} = this.props.post;
@@ -136,7 +153,7 @@ class NewsPost extends Component{
         return (<Footer>
 
                 <Title style = {{gridArea:"tagTitle"}}> Tags </Title>
-                {  <Tags tags = {tags}  style = {{gridArea:"tags"}}/>}
+                {  <Tags tags = {tags}  onTagClicked = {this.onTagClicked} style = {{gridArea:"tags"}}/>}
 
                 <Title style = {{gridArea:"shareTitle"}}> Share this Post! </Title>
                 <SharedSection style = {{gridArea:"share"}}>
@@ -222,6 +239,12 @@ const mapDispatchToProps = dispatch => {
     return {
 
         
+
+        onTagClicked: (tag) => {
+
+            return dispatch(tagClicked(tag));
+        },
+
         loadPost: (postUid) => {
 
             return dispatch(loadPost(postUid));
