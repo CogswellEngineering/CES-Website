@@ -78,7 +78,7 @@ export default class PostComment extends Component{
     render(){
 
         const {loggedInProfile} = this.props;
-        
+        console.log("comment", this.state.comment);
         return (
             <Wrapper style = {this.props.style} onSubmit = {this.onPostComment} id = "postComment">
             <Poster profilePicture = {loggedInProfile.profilePicture.url}/>
@@ -88,8 +88,6 @@ export default class PostComment extends Component{
             minRows = {1}
             onChange = {this.onUpdateComment} 
             value = {this.state.comment}
-           // onFocus = {() => {this.onFocusUpdated(true);}}
-           // onBlur = {() => {this.onFocusUpdated(false);}}
             style = {{gridArea:"comment"}}/>
             <div style = {{gridArea:"options", justifySelf:"end", alignSelf:"start"}}>
             {<Button type = "submit" style = {{padding:"5px", marginTop:"5px"}} > Post </Button>}

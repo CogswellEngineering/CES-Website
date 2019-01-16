@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import styled from 'styled-components';
 import dateFns from 'date-fns';
 import {Link} from 'react-router-dom';
+import Textarea from 'react-textarea-autosize';
 
 //Will move these to be own component later on.
 const Wrapper = styled.div`
@@ -47,9 +48,11 @@ const Author = styled(Link)`
     color:rgb(230, 151, 7);
 `;
 
-const Content = styled.div`
+const Content = styled(Textarea)`
 
+    resize:none;
     grid-area:content;
+    
 
 `;
 
@@ -74,13 +77,13 @@ class Comments extends React.PureComponent{
                 const {poster, postDate, content} = comment;
                 console.log("icon", poster)
                 const format = "MM/D/YYYY";
-
-                return <Comment key = {poster.uid + content}>
+                console.log("comment content[",content,"]");
+                return <Comment key = {poster.uid + postDate + content}>
                         <Icon image = {poster.icon} to = {"/account/"+poster.uid}/>
                         <Author to = {"/account/"+poster.uid}> {poster.name} </Author>
                         <PostDate> {dateFns.format(postDate,format)} </PostDate>
 
-                        <Content> {content} </Content>    
+                        <Content disabled value=  {content}> </Content>    
                         
                         </Comment>
             })}
