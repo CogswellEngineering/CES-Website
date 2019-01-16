@@ -2,15 +2,14 @@ import React, {Component} from 'react';
 import styled from 'styled-components';
 import Dropzone from 'react-dropzone'
 import Tags from 'components/Tags';
+import {StyledLabel as Label,ErrorMessage,StyledInput as Field, StyledLink, ContentField} from 'components/StyledForm'
+
 import {
-    Label,
-    Field,
     ThumbnailDropzone,
-    Button,
-    ContentField,
     Title,
 } from './generalFormComponents';
 import TagForm from './tagForm';
+import {Button} from 'components/General';
 
 const Wrapper = styled.div`
 
@@ -182,7 +181,7 @@ export default class NewsPostForm extends Component{
                 </div>
 
                 <div>
-                    <Label> Tag your Post </Label>
+                    <Label style = {{textAlign:"center", marginTop:"5%"}}> Tag your Post </Label>
                     <Tags tags = {this.state.tags}/>
                     <TagForm onAddTag = {this.onTagAdded}/>
                 </div>

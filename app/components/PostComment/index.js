@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
-import {Label, Button} from 'components/StyledComponents/AdminPage/generalFormComponents';
-import Textarea from 'react-textarea-autosize';
-
+import {ContentField} from 'components/StyledForm';
+import {Button} from 'components/General';
 
 const Wrapper = styled.form`
 
@@ -28,13 +27,6 @@ const Poster = styled.div`
     height:50px;
 `;
 
-const CommentField = styled(Textarea)`
-
-    grid-area:comment;
-    border:1px solid black;
-`;
-
-
 
 
 export default class PostComment extends Component{
@@ -47,19 +39,16 @@ export default class PostComment extends Component{
         this.state = {
 
             comment: "",
-            minRows: 1,
         };
 
         this.onUpdateComment = this.onUpdateComment.bind(this);
         this.onPostComment = this.onPostComment.bind(this);
-        this.onFocusUpdated = this.onFocusUpdated.bind(this);
     }
 
     resetState(){
 
         this.setState({
             comment: "",
-            minRows:1
         });
     }
     
@@ -85,32 +74,25 @@ export default class PostComment extends Component{
         this.resetState();
     }
 
-    onFocusUpdated(focused){
-
-
-        const minRows = focused? 5 : 1;
-
-        this.setState({
-
-            minRows,
-        });
-    }
 
     render(){
 
         const {loggedInProfile} = this.props;
         
         return (
-            <Wrapper style = {this.props.style} onSubmit = {this.onPostComment}>
+            <Wrapper style = {this.props.style} onSubmit = {this.onPostComment} id = "postComment">
             <Poster profilePicture = {loggedInProfile.profilePicture.url}/>
-            <CommentField placeholder = "Type your comment here" 
-            minRows = {this.state.minRows} 
+            <ContentField placeholder = "Type your comment here" 
+            form = "postComment"
+            //This works like expected except gotta click button twice.
+            minRows = {1}
             onChange = {this.onUpdateComment} 
             value = {this.state.comment}
-            onFocus = {() => {this.onFocusUpdated(true);}}
-            onBlur = {() => {this.onFocusUpdated(false);}}/>
+           // onFocus = {() => {this.onFocusUpdated(true);}}
+           // onBlur = {() => {this.onFocusUpdated(false);}}
+            style = {{gridArea:"comment"}}/>
             <div style = {{gridArea:"options", justifySelf:"end", alignSelf:"start"}}>
-            {this.state.minRows == 5 && <Button type = "submit" style = {{padding:"5px", marginTop:"5px"}} > Post </Button>}
+            {<Button type = "submit" style = {{padding:"5px", marginTop:"5px"}} > Post </Button>}
             </div>
             </Wrapper>
         )

@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-import Textarea from 'react-textarea-autosize';
 
 
 
@@ -21,33 +20,6 @@ export const Title = styled.p`
 
     text-align:center;
     font-size:2em;
+    color: rgb(230, 151, 7);
 
-`;
-export const Label = styled.label`
-
-    color:white;
-`;
-
-export const Field = styled.input`
-
-    border:1px solid black;
-
-`;
-
-export const ContentField = styled(Textarea)`
-
-    border:2px solid black;
-    width:100%;
-    resize: none;
-
-`;
-
-//For submitting
-export const Button = styled.button`
-
-    width:auto;
-    text-align:center;
-    cursor:pointer;
-    margin: auto ;
-    border:2px solid black;
 `;

@@ -1,12 +1,31 @@
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
+import Textarea from 'react-textarea-autosize';
+
 
 export default styled.form`
 
     border: 2px solid black;
 
 `;
+export const ContentField = styled(Textarea)`
 
+    width:100%;
+    resize: none;
+    font-size:1.2em;
+    border:1px solid black;
+    font-family: sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    &:focus{
+
+        border:1px solid #c6e28d;
+        box-shadow: 0 0 2px;
+        outline:none;
+
+    }
+
+`;
 export const StyledLink = styled(Link)`
 
     text-decoration:none;

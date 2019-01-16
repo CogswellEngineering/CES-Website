@@ -1,16 +1,14 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
-import {
-    Label,
-    Field,
-    Button
-} from './generalFormComponents';
 
+import {StyledLabel as Label,ErrorMessage,StyledInput as Field, StyledLink, ContentField} from 'components/StyledForm'
+
+import {Button} from 'components/General';
 
 const Wrapper = styled.form`
 
-    border: 1px solid black;
     display:flex;
+    justify-content:space-between;
 
 `;
 
@@ -87,7 +85,7 @@ export default class TagForm extends Component{
                     <Field id = "eventUid" type = "text" value = {this.state.eventUid} onChange = {this.onFieldChanged}/>
                 </div>
 
-                <Button type = "submit"  style = {{width:"100px"}}>
+                <Button type = "submit"  >
                      Add Tag 
                 </Button>
             </Wrapper>

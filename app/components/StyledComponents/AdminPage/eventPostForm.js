@@ -2,16 +2,16 @@ import React, {Component} from 'react';
 import styled from 'styled-components';
 import DatePicker from "react-datepicker"; 
 import Dropzone from 'react-dropzone'
+import {StyledLabel,ErrorMessage,StyledInput, StyledLink, ContentField} from 'components/StyledForm'
+
+//I want to replace these with form compnents already have.
 import {
-    Label,
-    Field,
     ThumbnailDropzone,
-    Button,
-    ContentField,
     Title
 } from './generalFormComponents';
 import TagForm from './tagForm';
 import Tags from 'components/Tags';
+import {Button} from 'components/General';
 
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -241,7 +241,7 @@ export default class EventPostForm extends Component{
                 </Dropzone>
 
                 <div style = {{gridArea:"dateSelection", marginTop:"1%", width:"100%"}}>
-                    <Label >  Select the Starting Date of your Event </Label>
+                    <StyledLabel >  Select the Starting Date of your Event </StyledLabel>
                     <DatePicker
 
                             dateFormat="MMMM d, yyyy h:mmaa "
@@ -252,7 +252,7 @@ export default class EventPostForm extends Component{
                 </div>
 
                 <div style = {{gridArea:"dateSelection", marginTop:"1%", width:"100%"}}>
-                    <Label >  Select the Ending Date of your Event </Label>
+                    <StyledLabel >  Select the Ending Date of your Event </StyledLabel>
                     <DatePicker
                             
                             dateFormat="MMMM d, yyyy h:mmaa"
@@ -263,24 +263,24 @@ export default class EventPostForm extends Component{
                 </div>
 
                 <div>
-                    <Label> Location </Label>
-                    <Field type = "text" id = "location" value = {this.state.location} onChange = {this.onUpdateTextField}/>
+                    <StyledLabel> Location </StyledLabel>
+                    <StyledInput type = "text" id = "location" value = {this.state.location} onChange = {this.onUpdateTextField}/>
 
 
                 </div>
 
                 <div style = {{marginTop:"1%"}}>
 
-                    <Label for = "title"> Title </Label>
-                    <Field type = "text" id = "title" value = {this.state.title} onChange = {this.onUpdateTextField}/>
+                    <StyledLabel for = "title"> Title </StyledLabel>
+                    <StyledInput type = "text" id = "title" value = {this.state.title} onChange = {this.onUpdateTextField}/>
 
                 </div>
 
                 
                 <div  style = {{marginTop:"1%"}}>
 
-                    <Label for = "type"> Type </Label>
-                    <Field type = "text" id = "type" value = {this.state.type} onChange = {this.onUpdateTextField}/>
+                    <StyledLabel for = "type"> Type </StyledLabel>
+                    <StyledInput type = "text" id = "type" value = {this.state.type} onChange = {this.onUpdateTextField}/>
 
                 </div>
 
@@ -288,7 +288,7 @@ export default class EventPostForm extends Component{
 
 
 
-                        <Label style = {{display:"block"}}> Host </Label> 
+                        <StyledLabel style = {{display:"block"}}> Host </StyledLabel> 
 
 
                         <Dropzone onDrop = {this.onHostIconUpdated}>
@@ -304,18 +304,18 @@ export default class EventPostForm extends Component{
                                 }
                             </ThumbnailDropzone>)}
                        </Dropzone>
-                        <Label for = "hostName"> Name </Label>
-                        <Field type = "text" id = "hostName" value = {this.state.hostName} onChange = {this.onUpdateTextField}/>
+                        <StyledLabel for = "hostName"> Name </StyledLabel>
+                        <StyledInput type = "text" id = "hostName" value = {this.state.hostName} onChange = {this.onUpdateTextField}/>
                        
-                        <Label for = "hostEmail"> Email </Label>
-                        <Field type = "email" id = "hostEmail" value = {this.state.hostEmail} onChange = {this.onUpdateTextField}/>
+                        <StyledLabel for = "hostEmail"> Email </StyledLabel>
+                        <StyledInput type = "email" id = "hostEmail" value = {this.state.hostEmail} onChange = {this.onUpdateTextField}/>
                         
-                        <Label for = "hostUid"> Unique Id </Label>
-                        <Field type = "text" id = "hostUid" value = {this.state.hostUid} onChange = {this.onUpdateTextField}/>
+                        <StyledLabel for = "hostUid"> Unique Id </StyledLabel>
+                        <StyledInput type = "text" id = "hostUid" value = {this.state.hostUid} onChange = {this.onUpdateTextField}/>
                 </div>
 
                 <div>
-                    <Label for = "description" style = {{display:"block"}}> Description </Label>   
+                    <StyledLabel for = "description" style = {{display:"block"}}> Description </StyledLabel>   
                     <ContentField type = "text" id = "description" value = {this.state.description}
                     
                     minRows = {5}
@@ -323,7 +323,7 @@ export default class EventPostForm extends Component{
                 </div>
 
                 <div>
-                    <Label> Tag your Event </Label>
+                    <StyledLabel  style = {{textAlign:"center", marginTop:"5%"}}> Tag your Event </StyledLabel>
                     <Tags tags = {this.state.tags}/>
 
                     <TagForm onAddTag = {this.onTagAdded}/>
