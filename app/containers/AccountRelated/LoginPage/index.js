@@ -85,6 +85,7 @@ class LoginPage extends Component {
                 
                 <MainContent onSubmit = {(evt) => {evt.preventDefault();
                 //So, basically I need to change this cause I need the token.
+                //Stopped verification emails for now, because might bother users and not really needed.
                     props.firebase.login({email:props.email,password:props.password});
 
                     //Need to figure out when I'll set the cookies on this end.

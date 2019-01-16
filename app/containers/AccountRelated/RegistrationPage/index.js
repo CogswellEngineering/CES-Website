@@ -1,7 +1,7 @@
 import React, { Component} from 'react'
 import PropTypes from 'prop-types';
 import {fieldChanged} from 'containers/App/actions';
-import StyledForm, {StyledButton,StyledLabel,ErrorMessage,StyledInput, StyledLink } from 'components/StyledForm'
+import  {StyledButton,StyledLabel,ErrorMessage,StyledInput, StyledLink } from 'components/StyledForm'
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import injectReducer from 'utils/injectReducer';
@@ -25,7 +25,7 @@ import  {
 
 import {
     Button
-} from 'components/general';
+} from 'components/General';
 
 class RegistrationPage extends Component{
  
