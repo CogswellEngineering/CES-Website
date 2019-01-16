@@ -1,9 +1,16 @@
 import styled from 'styled-components';
-
+import {Link} from 'react-router-dom';
 
 export default styled.form`
 
     border: 2px solid black;
+
+`;
+
+export const StyledLink = styled(Link)`
+
+    text-decoration:none;
+    color: rgb(222, 147, 9);
 
 `;
 
@@ -30,7 +37,6 @@ export const StyledLabel = styled.label`
 
     color:green;
     display:block;
-    width:50%;
 
 
 `;
@@ -45,7 +51,6 @@ export const ErrorMessage =  styled.p`
 
 export const StyledInput =  styled.input`
 
-    width:100%;
     font-size:1.2em;
     border:1px solid black;
     font-family: sans-serif;
@@ -58,8 +63,6 @@ export const StyledInput =  styled.input`
         outline:none;
 
     }
-    
-
 `;
 
 export const StyledSelect = styled.select`

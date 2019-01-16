@@ -1,8 +1,7 @@
 import React, { Component} from 'react'
 import PropTypes from 'prop-types';
-import {Link,Route} from 'react-router-dom';
 import {fieldChanged} from 'containers/App/actions';
-import StyledForm, {StyledButton,StyledLabel,ErrorMessage,StyledInput, } from 'components/StyledForm'
+import StyledForm, {StyledButton,StyledLabel,ErrorMessage,StyledInput, StyledLink } from 'components/StyledForm'
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import injectReducer from 'utils/injectReducer';
@@ -23,6 +22,10 @@ import  {
     StyledDropDown,
 } from 'components/StyledComponents/RegistrationPage';
 
+
+import {
+    Button
+} from 'components/general';
 
 class RegistrationPage extends Component{
  
@@ -123,8 +126,8 @@ class RegistrationPage extends Component{
                                 value={props.year} placeholder="Select your year" />
 
                     <ErrorMessage> {props.error} </ErrorMessage>
-                    <StyledButton type="submit"> Register </StyledButton> 
-                    <p>Already have an account? <Link to = {LOGIN_PATH}> Login  </Link> </p>
+                    <Button type="submit" style = {{width:"40%"}}> Register </Button> 
+                    <p>Already have an account? <StyledLink to = {LOGIN_PATH}> Login  </StyledLink> </p>
 
                     </GeneralInfo>
 

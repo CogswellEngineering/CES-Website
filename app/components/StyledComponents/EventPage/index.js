@@ -2,7 +2,6 @@
 import styled from 'styled-components';
 
 
-
 const Wrapper = styled.div`
 
     //This will be huge grid for whole thing.
@@ -48,16 +47,7 @@ const Header = styled.div`
     "footer";
 `;
 
-const HeaderButton = styled.div`
 
-    align-self:flex-end;
-    cursor: pointer;
-    border: 2px solid rgb(2, 28, 73);
-    padding:5px;
-    color: rgb(254, 161, 0);
-    //background-color:rgb(2, 28, 73);
-    background-color:black;
-`;
 
 const Gallery = styled.div`
 

@@ -2,55 +2,48 @@ import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import {StyledInput, StyledButton,} from 'components/StyledForm'
 
-const LoginInput = styled(StyledInput)`
-
-    width:40%;
-
-`;
 
 const LoginWrapper = styled.div`
 
-    width:50%;
-    margin:auto;
     margin-top:5%;
-    padding-bottom:20%;
+    padding-bottom:5%;
+    display:grid;
+    grid-template-columns:auto;
+    grid-template-rows: 1fr auto;
+    justify-content:center;
+`   
 
-`
 
-const LoginButton = styled(StyledButton)`
+const LoginInput = styled(StyledInput)`
 
-margin-top:5%;
-
-
-`
-
-const StyledLink = styled(Link)`
-
-text-decoration:none;
 
 `;
 
 const MainContent = styled.form`
 
-width:100%;
-margin-left:30%;
-margin-top:5%;
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr auto;
+    place-items:center;
+    grid-template-areas:
+    "emailGroup emailGroup"
+    "passwordGroup passwordGroup"
+    "options options"
+    "error error";
 
 `
 
 const AlternativeOptions = styled.div`
-margin-left:30%;
-width:100%;
+
 `
 
 
 export{
     
-    StyledLink,
     LoginWrapper,
     MainContent,
     AlternativeOptions,
     LoginInput,
-    LoginButton,
 
 }

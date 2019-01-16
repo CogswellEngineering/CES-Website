@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {fieldChanged} from 'containers/App/actions';
-import StyledForm, {StyledButton,StyledLabel,ErrorMessage,StyledInput} from 'components/StyledForm'
+import StyledForm, {StyledButton,StyledLabel,ErrorMessage,StyledInput, StyledLink} from 'components/StyledForm'
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import { withFirebase } from 'react-redux-firebase'
@@ -15,20 +15,37 @@ import { checkToken, resetTokenUsed, changePassword } from './actions';
 import saga from './saga';
 import injectSaga from 'utils/injectSaga';
 import queryString from 'query-string';
+import {Button} from 'components/General';
+import styled from 'styled-components';
 
 
+const Wrapper = styled.div`
+
+
+    text-align:center;
+`;
 
 class ResetPasswordPage extends Component{
     
     constructor(props){
         super(props);
         this.token = "";
+
+        this.state = {
+
+            password:"",
+            retypedPassword:"",
+        };
+
+        //Will do same update to this. in terms of styling
+        //and removing stuff that don't need to be in reducer.
+        this.onFieldChanged = this.onFieldChanged.bind(this);
     }
 
     componentDidMount(){
 
+        //Ahhh this one.
         const params = queryString.parse(this.props.location.search);
-        console.log("params",params);
         this.token = params.resetToken;
 
         if (this.token != null && !this.props.tokenChecked){
@@ -38,9 +55,20 @@ class ResetPasswordPage extends Component{
 
     componentDidUpdate(){
 
+        const props = this.props;
         if (props.tokenChecked && !props.tokenExpired){
             props.tokenUsed(this.token)
         }
+    }
+
+    onFieldChanged(evt){
+
+        const target = evt.target;
+
+        this.setState({
+
+            [target.id] : target.value
+        });
     }
     
     render(){
@@ -57,9 +85,9 @@ class ResetPasswordPage extends Component{
             if (!props.expiredThisSession){
 
                 return (
-                    <div>
+                    <Wrapper>
                         <h2> This token has expired and / or has already been used </h2>
-                    </div>
+                    </Wrapper>
                 )
            }
         }
@@ -72,29 +100,27 @@ class ResetPasswordPage extends Component{
         if (!props.passwordChanged){
 
             return (
-                <div>
+                <Wrapper>
                     
-                    <StyledForm onSubmit = {(evt) => {props.newPassword(evt,props.password,this.token);}
+                    <StyledForm onSubmit = {(evt) => { evt.preventDefault(); props.newPassword(evt,this.state.password,this.token);}
                         }>
                         <p> Enter your new password </p>
-                        <StyledLabel htmlFor="password"> Email </StyledLabel>
-                        <StyledInput type="password" id = "password" name ="password" value={props.password} onChange={(evt)=>{props.fieldChanged(evt)}}/>
-                        <StyledLabel htmlFor="retypedPassword"> Email </StyledLabel>
-                        <StyledInput type="password" id = "retypedPassword" name ="retypedPassword" value={props.retypedPassword} onChange={(evt)=>{props.fieldChanged(evt)}}/>
-                        
-                        
+                        <StyledLabel htmlFor="password"> Password </StyledLabel>
+                        <StyledInput type="password" id = "password"  value={this.state.password} onChange={this.onFieldChanged}/>
+                        <StyledLabel htmlFor="retypedPassword"> Re-typed Password </StyledLabel>
+                        <StyledInput type="password" id = "retypedPassword" value={this.state.retypedPassword} onChange={this.onFieldChanged}/>
                         <ErrorMessage> {props.error} </ErrorMessage>
-                        <StyledButton type="submit"> Change Password </StyledButton> 
+                        <Button type="submit"> Change Password </Button> 
                     </StyledForm>
-                </div>
+                </Wrapper>
             )
         }
         else{
             return (
-                <div>
-                    <p> Your password has been changed. Try logging in <Link to={LOGIN_PATH}> here </Link>  </p>
+                <Wrapper>
+                    <p> Your password has been changed. Try logging in <StyledLink to={LOGIN_PATH}> here </StyledLink>  </p>
 
-                </div>
+                </Wrapper>
             )
         }
     }
@@ -109,8 +135,6 @@ const mapStateToProps = createStructuredSelector({
     tokenChecked: formSelector.makeSelectField("tokenChecked"),
     tokenExpired: formSelector.makeSelectField("tokenExpired"),
     passwordChanged: formSelector.makeSelectField("passwordChanged"),
-    password: formSelector.makeSelectField("password"),
-    retypedPassword: formSelector.makeSelectField("retypedPassword"),
     error: formSelector.makeSelectField("error"),
 });
 

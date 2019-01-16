@@ -183,7 +183,7 @@ class App  extends Component{
                 //Check if logged in already. 
                 if (props.firebase.auth().currentUser == null){
 
-                  return <ResetPasswordPage/>;
+                  return <ResetPasswordPage {...routerProps}/>;
                 }
                 else{
                   return <Redirect to ="/"/>;

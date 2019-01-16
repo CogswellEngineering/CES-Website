@@ -9,8 +9,6 @@ const initialState = fromJS({
     tokenExpired:null,
     tokenChecked:false,
     passwordChanged:false,
-    password: "",
-    retypedPassword: "",
     error: "",
 });
 
@@ -36,11 +34,6 @@ export default function  resetPWReducer(state = initialState, action){
             return state
                 .set("passwordChanged",true);
 
-
-        case FIELD_CHANGED:
-            return state
-                .set(action.fieldName,action.value)
-                .set("error","");
         default:
             return state;
 

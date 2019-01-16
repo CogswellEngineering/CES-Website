@@ -1,7 +1,7 @@
 import React, { Component} from 'react'
 import PropTypes from 'prop-types';
 import {fieldChanged} from 'containers/App/actions';
-import StyledForm, { FormGroup,StyledButton,StyledLabel,ErrorMessage,StyledInput} from 'components/StyledForm'
+import StyledForm, { FormGroup,StyledButton,StyledLabel,ErrorMessage,StyledInput, StyledLink} from 'components/StyledForm'
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import { withFirebase } from 'react-redux-firebase'
@@ -16,21 +16,20 @@ import { ACCOUNT_RECOVERY_PATH, REGISTER_PATH, LOGIN_PATH } from 'components/Hea
 import { withCookies, Cookies } from 'react-cookie';
 import { makeSelectLoggedInProfile } from 'containers/App/selectors';
 import { createSelectAuthToken} from './selectors';
-
 const CircularJSON = require('circular-json');
 
 var util = require('util');
 
 import {
     
-    StyledLink,
     LoginWrapper,
     MainContent,
     AlternativeOptions,
     LoginInput,
-    LoginButton,
 
 } from 'components/StyledComponents/LoginPage';
+
+import {Button} from 'components/General';
 
 class LoginPage extends Component { 
     
@@ -92,26 +91,26 @@ class LoginPage extends Component {
                 }
                     }>
 
-                    <FormGroup>
+                    <div style = {{gridArea:"emailGroup"}}>
                     <StyledLabel htmlFor="email"> Email </StyledLabel>
                     <LoginInput autoFocus type="email" id = "email" name ="email" value={props.email} onChange={(evt)=>{props.fieldChanged(evt)}}/>
-                    </FormGroup>
+                    </div>
 
-                    <FormGroup>
+                    <div style = {{gridArea:"passwordGroup"}}>
                     <StyledLabel htmlFor="password"> Password </StyledLabel>
                     <LoginInput type="password" id="password" name="password" value={props.password} onChange={(evt)=>{props.fieldChanged(evt)}}/>
-                    </FormGroup>
+                    </div>
 
-                    <LoginButton type="submit"> Login </LoginButton> 
-                    
-                 
+                    <div style = {{gridArea:"options"}}>
+                        <StyledLink to = {ACCOUNT_RECOVERY_PATH}> Forgot Password? </StyledLink>                     
+                        <Button type="submit"  > Login </Button> 
+                    </div>
 
-                    <ErrorMessage> {props.error} </ErrorMessage>
+                    <ErrorMessage style = {{gridArea:"error"}}> {props.error} </ErrorMessage>
                     
                 </MainContent>
     
                 <AlternativeOptions>
-                    <StyledLink to = {ACCOUNT_RECOVERY_PATH}> Forgot Password? </StyledLink> 
                     <p>Don't have an account? <StyledLink to = {REGISTER_PATH}> Join here </StyledLink> </p>
                 </AlternativeOptions>
     

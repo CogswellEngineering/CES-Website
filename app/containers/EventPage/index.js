@@ -28,6 +28,7 @@ import {
     trackEvent,
     untrackEvent,
 } from './actions';
+import {Button} from 'components/General';
 
 import  {
 
@@ -37,7 +38,6 @@ import  {
     Gallery,
     Picture,
     Header,
-    HeaderButton,
     Body,
     Poster,
     Footer,
@@ -148,18 +148,18 @@ class EventPage extends Component{
 
                     {!isTracking?
                     
-                        <HeaderButton style = {{gridArea:"trackButton"}} onClick = {() => {onTrackEvent(loggedInUser,eventUid);}}> Track </HeaderButton>
+                        <Button style = {{gridArea:"trackButton", alignSelf:"end"}} onClick = {() => {onTrackEvent(loggedInUser,eventUid);}}> Track </Button>
                     :
-                        <HeaderButton style = {{gridArea:"trackButton"}} onClick = {() => {onUntrackEvent(loggedInUser.uid, eventUid);}}> Untrack </HeaderButton>
+                        <Button style = {{gridArea:"trackButton", alignSelf:"end"}} onClick = {() => {onUntrackEvent(loggedInUser.uid, eventUid);}}> Untrack </Button>
                     }
 
                     {
                         
                     isAttending?
 
-                    <HeaderButton style = {{gridArea:"attendButton"}} onClick = {() => {onCancelEvent(loggedInUser.uid, eventUid);}}> Cancel Attendance </HeaderButton>
+                    <Button style = {{gridArea:"attendButton", alignSelf:"end"}} onClick = {() => {onCancelEvent(loggedInUser.uid, eventUid);}}> Cancel Attendance </Button>
                     :
-                    <HeaderButton style = {{gridArea:"attendButton"}} onClick = {() => {
+                    <Button style = {{gridArea:"attendButton", alignSelf:"end"}} onClick = {() => {
                         
                         onAttendEvent(loggedInUser.uid, eventUid);
 
@@ -168,7 +168,7 @@ class EventPage extends Component{
                             onTrackEvent(loggedInUser,eventUid);
                         }
                     
-                    }}> Attend </HeaderButton>
+                    }}> Attend </Button>
                     }   
                  </div>
                 }

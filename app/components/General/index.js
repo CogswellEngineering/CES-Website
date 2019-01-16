@@ -14,3 +14,13 @@ export const UserLink = styled(Link)`
 
     }
 `;
+
+export const Button = styled.button`
+
+    cursor:pointer;
+    border: 2px solid rgb(2, 28, 73);
+    padding:5px;
+    color: rgb(254, 161, 0);
+    background-color:black;
+
+`;
