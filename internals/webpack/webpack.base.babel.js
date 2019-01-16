@@ -102,7 +102,13 @@ module.exports = (options) => ({
       },
     }),
     new webpack.NamedModulesPlugin(),
-   new CopyWebpackPlugin([{from:path.resolve(process.cwd(),'app/public'), to: '.'}]),
+   new CopyWebpackPlugin([
+     {
+       from:path.resolve(process.cwd(),'app/public'), 
+       to: '.'
+      }
+    
+    ]),
 
   ]),
   resolve: {

@@ -27,9 +27,6 @@ export default function userProfileReducer(state = initialState, action){
 
         case actionTypes.LOGOUT:
 
-            //Because if logged out this is impossible
-            return state
-                .set("ownProfile",false);
 
         case FOUND_OWNER_STATUS:
 

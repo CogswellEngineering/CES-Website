@@ -7,10 +7,10 @@ import { compose } from 'redux';
 import saga from './saga';
 import reducer from './reducer';
 import { loadProfile, loadedProfile, foundOwnerStatus } from './actions'
-import { makeSelectCollection, makeSelectProfile, makeSelectNeedReload, makeSelectOwnership, } from './selectors';
+import {makeSelectProfile, makeSelectNeedReload, makeSelectOwnership, } from './selectors';
 import { createStructuredSelector } from 'reselect';
 import { USER_PROFILE_PATH, UPDATE_USER_PROFILE_PATH } from 'components/Header/pages';
-import { makeSelectLoggedInProfile } from 'containers/App/selectors';
+import { makeSelectLoggedInProfile, makeSelectLoggedIn } from 'containers/App/selectors';
 import {dimensions} from 'components/ProfileImage';
 
 
@@ -44,29 +44,18 @@ class UserProfilePage extends Component{
 
     loadProfile(){
         
+        console.log("loggedInProfile", this.props.loggedInUserProfile);
 
         const uid = this.props.match.params.uid;
-      
-        const currUser = this.props.firebase.auth().currentUser;
+        const currUser = this.props.loggedInUser;
 
         if (currUser == null || uid != currUser.uid){
 
-         //   this.props.ownsProfile(false);
             this.props.loadProfile(uid);
         }
         else{
-            
-            //The doneloading cache thing is done in app, but if go to this url directly, will reset needReload before have something to reload
-            //so this check needed for that.
-            if (!this.props.loggedInUserProfile.isEmpty){
-                 
-                this.props.ownsProfile(true);
-                this.props.alreadyLoaded(this.props.loggedInUserProfile);
-            }
-            else{
-                this.props.ownsProfile(false);
-                
-            }
+                            
+            this.props.alreadyLoaded(this.props.loggedInUserProfile);
         }
 
 
@@ -99,7 +88,7 @@ class UserProfilePage extends Component{
         }
 
         const {firstName, lastName, bio, major, year, profilePicture, mediaLinks} = props.userInfo;
-
+    
         var profilePicUrl = "default_avator.png";
        
         if (profilePicture != null){
@@ -107,10 +96,9 @@ class UserProfilePage extends Component{
         }
 
         const uid = this.props.match.params.uid;
-        const ownProfile = uid == props.userInfo.uid
+        const ownProfile = (uid == props.loggedInUser.uid);
 
-        console.log("own profile", ownProfile);
-        
+        //Gotta do this every render cause they log out.
         return (
             <ProfileWrapper>
                 <HeaderDiv>
@@ -175,8 +163,8 @@ class UserProfilePage extends Component{
 
 const mapStateToProps = createStructuredSelector({
 
-    ownProfile : makeSelectOwnership(),
     needReload: makeSelectNeedReload(),
+    loggedInUser: makeSelectLoggedIn(),
     loggedInUserProfile: makeSelectLoggedInProfile(),
     userInfo: makeSelectProfile(),
 
@@ -186,9 +174,6 @@ function mapDispatchToProps(dispatch){
 
     return {
 
-        ownsProfile : (doesOwn) => {
-            return dispatch(foundOwnerStatus(doesOwn));
-        },
         replaceInventory : (inventoryID, page ) => {
 
             return dispatch(nextPageClicked(inventoryID,page));
