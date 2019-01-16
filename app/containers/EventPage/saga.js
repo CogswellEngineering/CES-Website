@@ -72,6 +72,11 @@ function* loadEventSaga(payload){
         }
 
         //Loads event, so only show when information accurate.
+
+        if (event.gallery.length > 0){
+
+            event.gallery = [event.thumbnail].concat(event.gallery);
+        }
         yield put (loadedEvent(event));
 
 

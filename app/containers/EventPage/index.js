@@ -193,10 +193,10 @@ class EventPage extends Component{
         console.log("gallery", gallery);
         var i = {key: 0};
         return ( 
-             <Gallery isEmpty = {gallery}>
+             <Gallery isEmpty = {!gallery || gallery.length == 0 }>
                 
 
-                {gallery && gallery.map( picture => {
+                {gallery.map( picture => {
 
                     console.log("picture", picture);
                     //Prob should make something here lol.
@@ -204,7 +204,7 @@ class EventPage extends Component{
                     //but I should later on add a check for that or make key more unique.
                     const newObj = {key: i.key + 1};
                     i.key += 1;
-                   return <Picture key = {newObj.key + picture} selected = {newObj.key == this.state.selectedIndex} src = {picture} onClick = { (evt) => {this.updatePosterPicture(newObj,picture)}}/>
+                   return <Picture key = {newObj.key + picture} selected = {newObj.key == this.state.selectedIndex || (newObj.key == 1 && this.state.posterPicture == null)} src = {picture} onClick = { (evt) => {this.updatePosterPicture(newObj,picture)}}/>
                 })}
                 
 

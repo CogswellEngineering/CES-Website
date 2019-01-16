@@ -18,7 +18,8 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const Wrapper = styled.div`
 
-   
+
+    
 
 `;
 

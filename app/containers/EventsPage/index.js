@@ -147,7 +147,7 @@ class EventsPage extends Component{
                         //That's alot of requests to the server which is probably slow.
                     event.startDate = event.startDate.toDate();
                     event.endDate = event.endDate.toDate();
-                    console.log("event", event);
+                   
                     events.push(event);
                     
                 });

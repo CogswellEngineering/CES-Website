@@ -54,7 +54,7 @@ function* postEvent(payload){
                     //not FULLY synced due to it but its okay.
                     //Hmm should hosts have to be users?
                     var host = {name : post.hostName, email : post.hostEmail};
-
+                    
                     //Will be optional, click to profile if user
                     //otherwise open emial
                     if (post.hostUid != null && post.Uid !== ""){

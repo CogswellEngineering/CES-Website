@@ -5,6 +5,7 @@ export const Wrapper = styled.div`
     width:80%;
     margin:auto;
     margin-top:5%;
+    padding-bottom:5%;
 
     display:grid;
     grid-column-gap:5%;

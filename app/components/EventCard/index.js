@@ -2,7 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import dateFns from 'date-fns';
-
+import Tags from 'components/Tags';
 
 
 const Card = styled.div`
@@ -20,7 +20,7 @@ const Card = styled.div`
     grid-template-columns: 100%;
     grid-template-rows: 1fr auto;
     grid-template-areas:
-    "prize"
+    "extraInfo"
     "fade";  
     //color:rgb(254, 161, 0);
     color:white;
@@ -58,9 +58,9 @@ const FadeArea = styled.div`
 
 
 //Will always be there, but will not always be populated.
-const PrizeInfo = styled.div`
+const ExtraInfo = styled.div`
 
-    grid-area:prize;
+    grid-area:extraInfo;
     
     background-image: url(${props => props.image});
 
@@ -129,7 +129,7 @@ const EventCard = props => {
 
     //Becaues will be filtered by year / semester, only need month and day.
     const dateFormat = "MMM DD";
-    const {title,host, location, startDate, endDate, thumbnail, prizeInfo, onCardClicked} = props;
+    const {title,host, location, startDate, endDate, thumbnail, tags, prizeInfo, onCardClicked} = props;
     console.log("host", host);
     const sameDay = dateFns.isSameDay(startDate, endDate);
     return (
@@ -137,7 +137,9 @@ const EventCard = props => {
             <Card image = {thumbnail} style = {props.style} onClick = {onCardClicked}>
 
             
-                <PrizeInfo image = {prizeInfo}>  </PrizeInfo>
+                {prizeInfo && <ExtraInfo image = {prizeInfo}>  </ExtraInfo>}
+                {/*Tags is too much happening on the card*/}
+                {/*<Tags tags = {tags} style = {{gridArea:"extraInfo", }}/>*/}
 
                 {/*I'll get feedback for this later <HostIcon image = {hostIcon}>  </HostIcon>
                 */}
