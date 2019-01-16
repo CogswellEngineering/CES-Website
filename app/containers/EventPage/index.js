@@ -141,25 +141,26 @@ class EventPage extends Component{
                     
                 </div>
                 {loggedInUser.isEmpty?
-                    <p style = {{textAlign:"center", color:"red"}}> You must be logged in to track or attend an event. </p>
-                :<div style = {{gridArea:"footer", display:"flex", flexWrap:"nowrap", placeSelf: "bottom", justifyContent:"space-evenly"}}>
+                    <p style = {{textAlign:"center", color:"red", placeSelf:"bottom", gridArea:"footer"}}> You must be logged in to track or attend an event. </p>
+                :
+                <div style = {{gridArea:"footer", display:"flex", flexWrap:"nowrap", placeSelf: "bottom", justifyContent:"space-evenly"}}>
                 
-                    {}
+                        
 
                     {!isTracking?
                     
-                        <Button style = {{gridArea:"trackButton", alignSelf:"end"}} onClick = {() => {onTrackEvent(loggedInUser,eventUid);}}> Track </Button>
+                        <Button style = {{gridArea:"trackButton", alignSelf:"flex-end"}} onClick = {() => {onTrackEvent(loggedInUser,eventUid);}}> Track </Button>
                     :
-                        <Button style = {{gridArea:"trackButton", alignSelf:"end"}} onClick = {() => {onUntrackEvent(loggedInUser.uid, eventUid);}}> Untrack </Button>
+                        <Button style = {{gridArea:"trackButton", alignSelf:"flex-end"}} onClick = {() => {onUntrackEvent(loggedInUser.uid, eventUid);}}> Untrack </Button>
                     }
 
                     {
                         
                     isAttending?
 
-                    <Button style = {{gridArea:"attendButton", alignSelf:"end"}} onClick = {() => {onCancelEvent(loggedInUser.uid, eventUid);}}> Cancel Attendance </Button>
+                    <Button style = {{gridArea:"attendButton", alignSelf:"flex-end"}} onClick = {() => {onCancelEvent(loggedInUser.uid, eventUid);}}> Cancel Attendance </Button>
                     :
-                    <Button style = {{gridArea:"attendButton", alignSelf:"end"}} onClick = {() => {
+                    <Button style = {{gridArea:"attendButton", alignSelf:"flex-end"}} onClick = {() => {
                         
                         onAttendEvent(loggedInUser.uid, eventUid);
 

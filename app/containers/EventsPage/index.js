@@ -134,6 +134,8 @@ class EventsPage extends Component{
 
 
        
+        //If I didn't make this an onSnapshot and just a get instead, would be easer to cache.
+        //Also need to look into optimizing this.
 
         this.unsubscribe = eventsRef.orderBy("startDate").onSnapshot(options, querySnapshot => {
 
@@ -154,11 +156,7 @@ class EventsPage extends Component{
                     //So have to compile it all together afterwards since OR doesn't exist  only AND.
                     //I could also keep it simple and filter on the selector. I'll get food and try to think of solutions while I eat.
                     this.props.onEventsUpdated(events);
-            });
-                
-        
-        
-      
+            });  
     }
     
     componentWillUnmount(){

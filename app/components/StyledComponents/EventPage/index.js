@@ -11,11 +11,11 @@ const Wrapper = styled.div`
     margin-top:5%;
     padding-bottom:5%;
 
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.5fr 1fr;
     grid-template-rows: 1fr 1fr auto 2fr auto;
     //temp to see how big they are
     grid-row-gap:1%;
-    grid-column-gap:5%;
+    grid-column-gap:1%;
     grid-template-areas:
     "Poster Header"
     "Poster Header"
@@ -36,10 +36,11 @@ const Poster = styled.div`
 
 const Header = styled.div`
 
+    border-left:0px;
     grid-area:Header;
     display:grid;
     grid-template-columns: auto;
-    grid-template-rows: 1fr 0.5fr 0.5fr 1fr;
+    grid-template-rows: 1fr auto 1fr auto;
     grid-template-areas:
     "date"
     "title"
