@@ -24,7 +24,7 @@ function* loadProfileCall(action){
             //Contemplated just putting all in profile, but if want only credits, don't want to pull all that extra info.
             const userInfo = snapshot.data();
             
-            
+            console.log("userInfo", userInfo);
             //Adding uid, for checking if same when clicked to skip reloading.
             userInfo.uid = action.uid;
            
@@ -36,7 +36,7 @@ function* loadProfileCall(action){
         else{
             yield put(failedToLoadProfile());
         }
-        }
+    }
     catch(err){
         console.log(err);
             yield put(failedToLoadProfile());

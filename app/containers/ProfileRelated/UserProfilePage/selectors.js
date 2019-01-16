@@ -6,7 +6,17 @@ const profileState = (state) => state.get(USER_PROFILE_PATH);
 
 
 
+export const makeSelectError = () => createSelector(
 
+    profileState,
+    (profileState) => {
+
+        if (profileState == null) return  "";
+
+        return profileState.get("error");
+    }
+
+)
 export const makeSelectNeedReload = () => createSelector(
 
     profileState,
@@ -16,21 +26,6 @@ export const makeSelectNeedReload = () => createSelector(
         return profileState.get("needReload");
     }
     
-)
-
-export const makeSelectOwnership = () => createSelector(
-
-
-    profileState,
-    (profileState) => {
-
-        if (profileState == null){
-            return null;
-        }
-        else{
-            return profileState.get("ownProfile");
-        }
-    }
 )
 
 export const makeSelectProfile = () => createSelector(

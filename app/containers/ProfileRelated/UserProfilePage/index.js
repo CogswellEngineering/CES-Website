@@ -7,7 +7,7 @@ import { compose } from 'redux';
 import saga from './saga';
 import reducer from './reducer';
 import { loadProfile, loadedProfile, foundOwnerStatus } from './actions'
-import {makeSelectProfile, makeSelectNeedReload, makeSelectOwnership, } from './selectors';
+import {makeSelectProfile, makeSelectNeedReload, makeSelectOwnership, makeSelectError } from './selectors';
 import { createStructuredSelector } from 'reselect';
 import { USER_PROFILE_PATH, UPDATE_USER_PROFILE_PATH } from 'components/Header/pages';
 import { makeSelectLoggedInProfile, makeSelectLoggedIn } from 'containers/App/selectors';
@@ -30,6 +30,7 @@ import {
     StyledLink,
     StyledImageLink,
 } from 'components/StyledComponents/UserProfilePage';
+import { isNull } from 'util';
 
 
 
@@ -44,67 +45,59 @@ class UserProfilePage extends Component{
 
     loadProfile(){
         
-        console.log("loggedInProfile", this.props.loggedInUserProfile);
 
         const uid = this.props.match.params.uid;
         const currUser = this.props.loggedInUser;
 
+        //It sucks, but this needs to happen.
         if (currUser == null || uid != currUser.uid){
 
             this.props.loadProfile(uid);
         }
-        else{
-                            
-            this.props.alreadyLoaded(this.props.loggedInUserProfile);
-        }
+        
 
 
         
     }
 
     
+
 
     componentDidUpdate(){
 
 
-        
-        //Does get updated here, but need reload shouldn't happen
-        if (this.props.needReload == true){
+        if (this.props.error != ""){
 
-                this.loadProfile();
+            this.props.history.push("/NotFound");
+        }
+
+         //Does get updated here, but need reload shouldn't happen
+         if (this.props.needReload == true){
+
+            this.loadProfile();
         }
     }
 
+    //Need to add check on render of this in App where I check if it's a user, so need to load in all user uids.
+    //at start? Or push on check in the saga.
+    renderContent(userInfo, ownProfile){
 
-    render(){
+        if (userInfo == null) return null;
 
-        
-        
-        //Welp, all the userINfo stuff was waste of time, but still works.
-        const props = this.props;
+        const {firstName, lastName, bio, major, year, profilePicture, mediaLinks} = userInfo;
 
-        if (!props.userInfo){
-            return null;
-        }
-
-        const {firstName, lastName, bio, major, year, profilePicture, mediaLinks} = props.userInfo;
-    
-        var profilePicUrl = "default_avator.png";
+        var profilePicUrl = null;
        
         if (profilePicture != null){
             profilePicUrl = profilePicture.url;
         }
 
-        const uid = this.props.match.params.uid;
-        const ownProfile = (uid == props.loggedInUser.uid);
 
-        //Gotta do this every render cause they log out.
-        return (
-            <ProfileWrapper>
+        return (<ProfileWrapper>
                 <HeaderDiv>
                 
                 
-               
+            
                     {ownProfile?  
                     //It's so weird that /account/update doesn't work. Not even go to not found. I'm not using anything specific from url th
                         <div>
@@ -139,8 +132,8 @@ class UserProfilePage extends Component{
 
                 <ProfileHeadline> 
                     <ProfileHeadLineH1>{firstName} {lastName}</ProfileHeadLineH1>
-                      <ProfileHeadLineH2> {major} </ProfileHeadLineH2>
-                      <ProfileHeadLineH2> {year} </ProfileHeadLineH2>
+                    <ProfileHeadLineH2> {major} </ProfileHeadLineH2>
+                    <ProfileHeadLineH2> {year} </ProfileHeadLineH2>
 
                 </ProfileHeadline>
                 
@@ -154,8 +147,35 @@ class UserProfilePage extends Component{
                 </ProfileBio>          
 
             </ProfileWrapper>
+        );
 
-        )
+    }
+
+    render(){
+
+        
+        
+        //Welp, all the userINfo stuff was waste of time, but still works.
+        const props = this.props;
+
+        if (!props.userInfo && this.props.loggedInUserProfile == null){
+            return null;
+        }
+
+        var userInfo = this.props.userInfo;
+        var ownProfile = false;
+        if (this.props.match.params.uid == this.props.loggedInUserProfile.uid){
+
+            ownProfile = true;
+            userInfo = this.props.loggedInUserProfile;
+        }
+
+    
+        
+        
+        //Gotta do this every render cause they log out.
+        return  this.renderContent(userInfo,ownProfile);
+        
     }
 }
 
@@ -167,6 +187,7 @@ const mapStateToProps = createStructuredSelector({
     loggedInUser: makeSelectLoggedIn(),
     loggedInUserProfile: makeSelectLoggedInProfile(),
     userInfo: makeSelectProfile(),
+    error: makeSelectError(),
 
 });
 

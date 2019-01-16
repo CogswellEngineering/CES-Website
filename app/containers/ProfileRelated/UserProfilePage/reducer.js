@@ -55,13 +55,15 @@ export default function userProfileReducer(state = initialState, action){
                 const uid = pathSplit[pathSplit.length - 1];
 
                     if (uid == state.get("profile").uid){
-                        return state;   
+                        return state
+                            .set("error","");
                     }
                     else{
 
                         //Forces need reload
                         return state
-                            .set("needReload",true);
+                            .set("needReload",true)
+                            .set("error","");
 
                     }
                 
@@ -75,6 +77,7 @@ export default function userProfileReducer(state = initialState, action){
 
         case LOADED_PROFILE_FAIL:
 
+            //Only fail if not exists, so just force redirect or have fail
             return state
                 .set("error","Failed to load profile, try refreshing the page");
 
