@@ -48,11 +48,18 @@ class UserProfilePage extends Component{
 
         const uid = this.props.match.params.uid;
         const currUser = this.props.loggedInUser;
+        console.log("Loading profile", currUser);
 
         //It sucks, but this needs to happen.
-        if (currUser == null || uid != currUser.uid){
-
+        if (currUser.isEmpty || uid != currUser.uid)
+        {   console.log("here though?");
             this.props.loadProfile(uid);
+        }
+        else{
+            //Otherwise don't reload.
+            console.log("but yes here");
+            this.props.alreadyLoaded(null);
+
         }
         
 
@@ -74,6 +81,7 @@ class UserProfilePage extends Component{
          //Does get updated here, but need reload shouldn't happen
          if (this.props.needReload == true){
 
+            console.log("I'm here");
             this.loadProfile();
         }
     }
@@ -102,7 +110,7 @@ class UserProfilePage extends Component{
                     //It's so weird that /account/update doesn't work. Not even go to not found. I'm not using anything specific from url th
                         <div>
                             
-                            <ProfileLink to={props.location.pathname+"/update"}> Update Profile </ProfileLink>
+                            <ProfileLink to={this.props.location.pathname+"/update"}> Update Profile </ProfileLink>
                             
                         </div>
                     : null }
@@ -164,7 +172,8 @@ class UserProfilePage extends Component{
 
         var userInfo = this.props.userInfo;
         var ownProfile = false;
-        if (this.props.match.params.uid == this.props.loggedInUserProfile.uid){
+
+        if (this.props.match.params.uid == this.props.loggedInUser.uid){
 
             ownProfile = true;
             userInfo = this.props.loggedInUserProfile;

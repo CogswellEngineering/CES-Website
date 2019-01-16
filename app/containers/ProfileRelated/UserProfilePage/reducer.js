@@ -25,7 +25,14 @@ export default function userProfileReducer(state = initialState, action){
    
     switch (action.type){
 
+
+        //Both logging out and setting profile require need reload.
         case actionTypes.LOGOUT:
+
+        case actionTypes.SET_PROFILE:
+
+            return state
+                .set("needReload", true);
 
 
         case FOUND_OWNER_STATUS:
