@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import dateFns from 'date-fns';
 import Tags from 'components/Tags';
 import {UserLink} from 'components/General';
+const advanceIcon = require('images/icons8-advance-48.png');
 //Aight, Ima just copy common news card layouts 
 //seen in league, overwatch, runescape.
 //I also want to do better than than that.. Fuck it that can be done later/
@@ -111,10 +112,10 @@ const Footer = styled.div`
     
     display:grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto;
+    grid-template-rows: 1fr;
     grid-template-areas:
     "tags button";
-    align-items:end;
+    align-items:center;
     
 `;
 
@@ -122,8 +123,15 @@ const Footer = styled.div`
 
 const Button = styled(Clickable)`
 
+    grid-area:button;
     justify-self:end;
     align-self:end;
+    background-image:url(${props => props.image});
+    background-size: 100% 100%;
+    background-position:center;
+    background-repeat:no-repeat;
+    width:48px;
+    height:48px;
 `;
 
 
@@ -149,7 +157,7 @@ const NewsCard = props => {
             <Description> {content} </Description>
             <Footer>
                 <Tags style = {{gridArea:"tags"}} tags = {tags} onTagClicked = {onTagClicked} />
-                <Button style = {{gridArea:"button"}} onClick = { () => {onCardClicked(postUid)}}> View More </Button> 
+                <Button style = {{gridArea:"button"}} onClick = { () => {onCardClicked(postUid)}} image = {advanceIcon}/> 
             </Footer>
 
         </Wrapper>

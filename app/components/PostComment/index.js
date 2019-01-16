@@ -110,7 +110,7 @@ export default class PostComment extends Component{
             onFocus = {() => {this.onFocusUpdated(true);}}
             onBlur = {() => {this.onFocusUpdated(false);}}/>
             <div style = {{gridArea:"options", justifySelf:"end", alignSelf:"start"}}>
-            <Button type = "submit" > Post </Button>
+            {this.state.minRows == 5 && <Button type = "submit" style = {{padding:"5px", marginTop:"5px"}} > Post </Button>}
             </div>
             </Wrapper>
         )
