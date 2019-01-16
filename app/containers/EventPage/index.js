@@ -52,7 +52,7 @@ import  {
     Location,
 
 } from 'components/StyledComponents/EventPage';
-import { AuthorLink } from 'components/General';
+import { UserLink } from 'components/General';
 import Tags from 'components/Tags';
 
 class EventPage extends Component{
