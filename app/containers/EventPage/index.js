@@ -220,7 +220,7 @@ class EventPage extends Component{
         const {description, agenda, startDate, endDate, location, callToAction, contact, host} = this.props.event;
         //Body will be it's own grid
 
-        const dateFormat = "MMMM D YYYY h:mm A";
+        const dateFormat = "ddd, MMMM D YYYY h:mm A";
         return (
             <Body>
                 {/*Prob doesn't need to be styled component, just set grid name*/}
@@ -261,6 +261,7 @@ class EventPage extends Component{
                 {/*does need to be cause maybe a grid in itself*/}
                 <div style = {{gridArea:"aside",  }}>
                 <DateAndTime> 
+
                        <Title> Date and Time</Title>
                        <p> {dateFns.format(startDate, dateFormat)} - {dateFns.format(endDate, dateFormat)} </p>
 
