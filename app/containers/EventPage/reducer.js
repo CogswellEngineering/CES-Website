@@ -1,4 +1,5 @@
 import {fromJS} from 'immutable';
+import { LOCATION_CHANGE } from 'react-router-redux';
 
 import {
 
@@ -22,6 +23,12 @@ export default function reducer( state = initialState, action){
 
     switch (action.type){
 
+
+        //Will get rid of it persisting problem
+        //Though later I do want to cache to reuse instead of repulling.
+        case LOCATION_CHANGE:
+
+            return initialState;
         case LOADED_EVENT:
 
 

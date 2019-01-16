@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
-import {ContentField} from 'components/StyledForm';
+import {ContentField, StyledLink} from 'components/StyledForm';
 import {Button} from 'components/General';
+import {LOGIN_PATH} from 'components/Header/pages';
 
 const Wrapper = styled.form`
 
@@ -80,6 +81,8 @@ export default class PostComment extends Component{
         const {loggedInProfile} = this.props;
         console.log("comment", this.state.comment);
         return (
+            loggedInProfile?
+
             <Wrapper style = {this.props.style} onSubmit = {this.onPostComment} id = "postComment">
             <Poster profilePicture = {loggedInProfile.profilePicture.url}/>
             <ContentField placeholder = "Type your comment here" 
@@ -93,6 +96,9 @@ export default class PostComment extends Component{
             {<Button type = "submit" style = {{padding:"5px", marginTop:"5px"}} > Post </Button>}
             </div>
             </Wrapper>
+            :
+            //Alot of hard literalling the strings recently, they exist, I should use.
+            <p> You must be logged in to comment. <StyledLink to = {LOGIN_PATH}> Login </StyledLink> </p>
         )
 
     }

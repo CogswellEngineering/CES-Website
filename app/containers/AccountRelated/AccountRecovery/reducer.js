@@ -5,7 +5,8 @@
 import { FIELD_CHANGED} from 'containers/App/constants';
 import { fromJS } from 'immutable';
 import { RECOVER_LINK_SENT } from './constants';
-import { actionTypes } from 'react-redux-firebase';
+import { LOCATION_CHANGE } from 'react-router-redux';
+
 
 //Will add more as needed
 const initialState = fromJS({
@@ -19,7 +20,7 @@ export default function accountRecoveryReducer(state = initialState, action){
 
     switch (action.type){
 
-        case actionTypes.CHANGE_LOCATION:
+        case LOCATION_CHANGE:
             return initialState;
       
         case RECOVER_LINK_SENT:

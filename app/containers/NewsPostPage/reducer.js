@@ -1,4 +1,5 @@
 import {fromJS} from 'immutable';
+import { LOCATION_CHANGE } from 'react-router-redux';
 
 import {
 
@@ -23,6 +24,10 @@ export default function reducer(state = initialState, action){
 
     switch (action.type){
 
+
+        case LOCATION_CHANGE:
+
+            return initialState;
 
         //Don't think neccessarry to have a load failed action?
         //maybe is to be more specific then page not found though

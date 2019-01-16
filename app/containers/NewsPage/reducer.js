@@ -2,7 +2,7 @@ import { fromJS} from 'immutable';
 import { LOADING_POSTS, LOADED_POSTS, MODIFICATIONS_MADE,
      LOAD_MORE, ON_TAG_CLICKED, REMOVE_TAG_FILTER} from './constants';
 
-
+import {LOCATION_CHANGE} from 'react-router-redux';
 
 const initialState = fromJS({  
 
@@ -20,6 +20,12 @@ export default function blogPageReducer(state = initialState, action){
 
         //Anytime filter changes reset amount to show.Honestly prob should just show all
 
+
+        case LOCATION_CHANGE:
+
+            return initialState;
+
+            
         case ON_TAG_CLICKED:
 
             //Hmm maybe just change filter?
