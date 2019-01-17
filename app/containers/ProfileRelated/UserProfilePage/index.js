@@ -1,9 +1,12 @@
 import React, { Component} from 'react';
 import { withFirebase} from 'react-redux-firebase';
-import injectReducer from 'utils/injectReducer';
-import injectSaga from 'utils/injectSaga';
+import _  from 'lodash';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+
+import injectReducer from 'utils/injectReducer';
+import injectSaga from 'utils/injectSaga';
+
 import saga from './saga';
 import reducer from './reducer';
 import { loadProfile, loadedProfile, foundOwnerStatus } from './actions'
@@ -12,31 +15,59 @@ import { createStructuredSelector } from 'reselect';
 import { USER_PROFILE_PATH, UPDATE_USER_PROFILE_PATH } from 'components/Header/pages';
 import { makeSelectLoggedInProfile, makeSelectLoggedIn } from 'containers/App/selectors';
 import {dimensions} from 'components/ProfileImage';
-
+import {StyledLink} from 'components/StyledForm';
+import Tags from 'components/Tags';
 
 import {
 
     ProfileWrapper,
-    HeaderDiv,
-    ProfileHeadline,
-    ProfileBio,
+    Header,
+    Options,
+    Option,
+    Footer,
     ProfileImage,
     BioText,
     BioHeader,
-    ProfileHeadLineH1,
-    ProfileHeadLineH2,
     Links,
-    ProfileLink,
-    StyledLink,
     StyledImageLink,
 } from 'components/StyledComponents/UserProfilePage';
 import { isNull } from 'util';
-
+import {Button} from 'components/General';
 
 
 
 
 class UserProfilePage extends Component{
+
+
+    constructor(props){
+
+        super(props);
+
+        this.state = {
+
+            bioOpen:false,
+            eventsHostedOpen:false,
+            newsPostedOpen:false,
+        };
+
+        this.onContentViewUpdated = this.onContentViewUpdated.bind(this);
+    }
+
+
+    onContentViewUpdated(toOpen){
+
+        this.setState(state => {
+
+
+            const newState = _.mapValues(state, () => false);
+
+            newState[toOpen] = true;
+
+            return newState;
+        })
+
+    }
 
     componentDidMount(){
 
@@ -48,18 +79,14 @@ class UserProfilePage extends Component{
 
         const uid = this.props.match.params.uid;
         const currUser = this.props.loggedInUser;
-        console.log("Loading profile", currUser);
 
-        //It sucks, but this needs to happen.
         if (currUser.isEmpty || uid != currUser.uid)
-        {   console.log("here though?");
+        {  
             this.props.loadProfile(uid);
         }
         else{
-            //Otherwise don't reload.
-            console.log("but yes here");
+            
             this.props.alreadyLoaded(null);
-
         }
         
 
@@ -78,10 +105,8 @@ class UserProfilePage extends Component{
             this.props.history.push("/NotFound");
         }
 
-         //Does get updated here, but need reload shouldn't happen
          if (this.props.needReload == true){
 
-            console.log("I'm here");
             this.loadProfile();
         }
     }
@@ -101,58 +126,73 @@ class UserProfilePage extends Component{
         }
 
 
+        const concentrations = [{title:"Wrapper"}, {title:"Phisolaraptor"}, {title:"Yes"}, {title:"Animator"},{title:"Pornstar"},
+        {title:"f"},{title:"sdsf"},{title:"sdfsfs"}, {title:"Phisolaraptor"}, {title:"Phisolaraptor"}, {title:"Phisolaraptor"},];
+
+
+        //Using grid areas so order of mark up doesn't matter.
         return (<ProfileWrapper>
-                <HeaderDiv>
-                
-                
-            
+
+                <Header>
+
+                    <div style = {{justifySelf:"end",gridArea:"actions", display:"flex", justifyContent:"flex-end"}}>                     
                     {ownProfile?  
-                    //It's so weird that /account/update doesn't work. Not even go to not found. I'm not using anything specific from url th
-                        <div>
                             
-                            <ProfileLink to={this.props.location.pathname+"/update"}> Update Profile </ProfileLink>
+                            <StyledLink to={this.props.location.pathname+"/update"}> Update </StyledLink>
                             
-                        </div>
                     : null }
+                    </div>
+
+                    <p style = {{gridArea:"role"}}> Developer </p>
+                    <ProfileImage src={profilePicUrl} alt={"No image given"}  width={dimensions.width} height={dimensions.height}/>
+                    <p style = {{gridArea:"name"}}> {firstName} {lastName} </p>
+                    <p style = {{gridArea:"standing"}}> {major}, {year} </p>
+                </Header>
+
+                <Tags tags = {concentrations} style = {{gridArea:"concentrations", width:"25%", justifyContent:"center"}}/>
+                
+                <Footer>
+                        {/*Will maybe add more as needed */}
+
+                        <Options>
+
+                            {/*Will be buttons later*/}
+                            <Option selected = {this.state.bioOpen}onClick = {() => {this.onContentViewUpdated("bioOpen");}}> Bio </Option>
+                            <Option selected = {this.state.eventsHostedOpen} onClick = {() => {this.onContentViewUpdated("eventsHostedOpen");}}> Events Hosted </Option>
+                            <Option selected = {this.state.newsPostedOpen} onClick = {() => {this.onContentViewUpdated("newsPostedOpen");}}> News Posted </Option>
+
+                        </Options>
+
+                        {/*So then depending on what's clicked will show diff content */}
+
+
+
+                </Footer>
+            
 
 
 
                 {/*If profile image not downloaded then stop, it no longer takes while
                 after first session I could send get request for profile lodaed
                 This works, but so that image loads in faster, I will instead send ftp request and save it
-                locally.*/}
-                <ProfileImage src={profilePicUrl} alt={"No image given"}  width={dimensions.width} height={dimensions.height}/>
+                locally.
                 <Links>
                 
-                    {/*Need to add media links, and bio in update profile.*/}
+                    {/*Need to add media links, and bio in update profile.*
                     { (mediaLinks == null)? null : 
 
                         mediaLinks.map(link => {
 
-                            return (<StyledLink href={link.url}> <StyledImageLink src = {link.image}/> {link.name} </StyledLink>);
+                            return (<a href={link.url}> <StyledImageLink src = {link.image}/> {link.name} </a>);
                         })
                     }
                     
-                <StyledLink href="https://github.com/ChristianBasiga"><StyledImageLink  src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png"/></StyledLink>
 
 
                 </Links>
+                */}
 
-                <ProfileHeadline> 
-                    <ProfileHeadLineH1>{firstName} {lastName}</ProfileHeadLineH1>
-                    <ProfileHeadLineH2> {major} </ProfileHeadLineH2>
-                    <ProfileHeadLineH2> {year} </ProfileHeadLineH2>
-
-                </ProfileHeadline>
-                
-            
-                </HeaderDiv>
-
-
-                <ProfileBio>
-                    <BioHeader> Bio </BioHeader>
-                    <BioText> {bio || "No Bio given"} </BioText>
-                </ProfileBio>          
+    
 
             </ProfileWrapper>
         );

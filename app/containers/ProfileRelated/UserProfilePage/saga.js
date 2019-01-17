@@ -2,7 +2,6 @@ import { put, call, takeLatest } from 'redux-saga/effects'
 import firebase from 'firebase';
 import { LOAD_PROFILE } from './constants'
 import { failedToLoadProfile, loadedProfile } from './actions';
-import request from 'utils/request';
 
 function* loadProfileCall(action){
 
@@ -14,7 +13,6 @@ function* loadProfileCall(action){
      const docRef = fireStoreRef.collection("users").doc(action.uid);
      try{
 
-        var profileToReturn = null;   
 
         const snapshot = yield (docRef.get());
 
@@ -24,7 +22,6 @@ function* loadProfileCall(action){
             //Contemplated just putting all in profile, but if want only credits, don't want to pull all that extra info.
             const userInfo = snapshot.data();
             
-            console.log("userInfo", userInfo);
             //Adding uid, for checking if same when clicked to skip reloading.
             userInfo.uid = action.uid;
            
