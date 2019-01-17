@@ -30,6 +30,7 @@ export default class NewsPostForm extends Component{
         this.state = {
 
             thumbnail: null,
+            thumbnailPreview,
             topic: "",
             content: "",
             tags:[],
@@ -80,11 +81,13 @@ export default class NewsPostForm extends Component{
             if (state.thumbnail != null){
 
                     //Get rid of cached preview of thumbnail uploaded before.
-                    window.URL.revokeObjectURL(state.thumbnail);
+                    window.URL.revokeObjectURL(state.thumbnailPreview);
             }
 
+            const thumbnailPreview = window.URL.createObjectURL(acceptedFiles[0]);
             return {
-                thumbnail:acceptedFiles[0]
+                thumbnail:acceptedFiles[0],
+                thumbnailPreview,
             }
         });
 
@@ -157,7 +160,7 @@ export default class NewsPostForm extends Component{
               <input {...getInputProps()} />
                 {this.state.thumbnail?
                     
-                    <img style = {{width:"inherit",height:"inherit"}} src = {window.URL.createObjectURL(this.state.thumbnail)}/>
+                    <img style = {{width:"inherit",height:"inherit"}} src = {this.state.thumbnailPreview}/>
                 :
                 <p>Add A Thumbnail For Your Event</p>
                 }

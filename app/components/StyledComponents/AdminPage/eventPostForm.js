@@ -35,6 +35,7 @@ export default class EventPostForm extends Component{
 
             //pdate event page to just concat thumbnail at start of gallery.
             thumbnail:null,
+            thumbnailPreview:"",
             hostName:"",
             hostEmail:"",
             //In future there will be way to search for users, and that tool will be used to select the host
@@ -126,10 +127,13 @@ export default class EventPostForm extends Component{
             if (state.thumbnail != null){
 
                     //Get rid of cached preview of thumbnail uploaded before.
-                    window.URL.revokeObjectURL(state.thumbnail);
+                    window.URL.revokeObjectURL(state.thumbnailPreview);
             }
 
+            const thumbnailPreview = window.URL.createObjectURL(acceptedFiles[0]);
+
             return {
+                thumbnailPreview,
                 thumbnail:acceptedFiles[0]
             }
         });
@@ -232,7 +236,8 @@ export default class EventPostForm extends Component{
                 <input {...getInputProps()} />
                 {this.state.thumbnail?
                     
-                    <img style = {{width:"inherit",height:"inherit"}} src = {window.URL.createObjectURL(this.state.thumbnail)}/>
+                    //Just noticed this actually recreates one every render.
+                    <img style = {{width:"inherit",height:"inherit"}} src = {this.state.thumbnailPreview}/>
                 :
                 <p>Add A Thumbnail For Your Event</p>
                 }
