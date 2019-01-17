@@ -26,6 +26,7 @@ import {
     Options,
     Option,
     Footer,
+    Content,
     ProfileImage,
     BioText,
     BioHeader,
@@ -38,6 +39,10 @@ import {Button} from 'components/General';
 import EventCard from 'components/EventCard';
 import NewsCard from 'components/NewsCard';
 
+import {
+
+    tagClicked
+} from 'containers/NewsPage/actions';
 
 
 
@@ -56,6 +61,12 @@ class UserProfilePage extends Component{
         };
 
         this.onContentViewUpdated = this.onContentViewUpdated.bind(this);
+
+        //Unfortunately need to duplicate these functions for now, until think of better way to do this
+        //does affect the store in terms of histoy, so maybe can create action
+        //not huge duplicate though, so it's kinda fine lol.
+        this.onGoToEvent = this.onGoToEvent.bind(this);
+        this.onCardClicked = this.onCardClicked.bind(this);
     }
 
 
@@ -100,7 +111,23 @@ class UserProfilePage extends Component{
     }
 
     
+    onGoToEvent(event){
 
+        console.log(this.props);
+
+        const {history} = this.props;
+        
+        //becaues I do this. Better if i make it a link.
+        history.push("/events/"+ event.eventUid);
+
+    }
+
+
+    onCardClicked = (postUid) =>{
+
+
+        this.props.history.push("/news/"+postUid);
+    }
 
     componentDidUpdate(){
 
@@ -123,6 +150,8 @@ class UserProfilePage extends Component{
     renderContent(userInfo, ownProfile){
 
         if (userInfo == null) return null;
+
+        const {events, news, onTagClicked} = this.props;
 
         const {firstName, lastName, bio, major, year, profilePicture, mediaLinks} = userInfo;
 
@@ -170,9 +199,28 @@ class UserProfilePage extends Component{
 
                         </Options>
 
+                        <Content>
+                        {this.state.eventsHostedOpen && events && events.map( event => {
+
+                        return <EventCard  
+
+                        //Oh this may be a problem. This isn't an action I can dispatch, I would just have to duplicate it unfortunately.
+                        onCardClicked = {() => {this.onGoToEvent(event);}}
+                        //It's aligned the most at margin left 5%, but problem is there's weird leak on the fade
+                        style = {{width:"40%", height:"20em", margin:"auto", marginBottom:"5em", marginLeft:"40px"}} key = {event.eventUid} {...event}/>
+                        })}
+
                         {/*So then depending on what's clicked will show diff content */}
+                        {this.state.newsPostedOpen && news && news.map(post => {
 
+                        return <NewsCard  key ={post.topic + "_" + post.author.name} {...post}
+                        style = {{margin:"auto", width:"90%",}} 
+                        onCardClicked = {this.onCardClicked} onTagClicked = {onTagClicked}/> 
 
+                        })}
+                        </Content>
+
+                       
 
                 </Footer>
             
@@ -253,6 +301,11 @@ function mapDispatchToProps(dispatch){
 
     return {
 
+
+        onTagClicked : (tag) => {
+
+            return dispatch(tagClicked(tag));
+        },
         replaceInventory : (inventoryID, page ) => {
 
             return dispatch(nextPageClicked(inventoryID,page));

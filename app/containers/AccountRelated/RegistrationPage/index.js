@@ -72,7 +72,7 @@ class RegistrationPage extends Component{
                 <div>
 
                 {/*  Might not have verification to reduce hassle on them <p> A verification email has been sent*/}
-                    <p> Your account has been created, click <Link to={LOGIN_PATH}> here </Link> to login. </p>
+                    <p> Your account has been created, click <StyledLink to={LOGIN_PATH}> here </StyledLink> to login. </p>
                 </div>
 
 

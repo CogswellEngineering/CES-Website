@@ -26,7 +26,6 @@ const FilterPanel = styled.div`
 
     grid-area:filter;
     text-align:center;
-    width:80%;
     margin:auto;
     border-bottom: 1px solid black;
 
@@ -40,7 +39,7 @@ const FilterPanel = styled.div`
 const BlogsPanel = styled.div`
 
     grid-area:blogs;
-    width:80%;
+    width:100%;
     margin:auto;
     margin-top:5%;
     padding-bottom:5%;

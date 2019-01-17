@@ -42,6 +42,7 @@ const FadeArea = styled.div`
 
     grid-area:fade;
     height:100%;
+    background-size: 100% 100%;
     background: linear-gradient(
         to top,
         black, 

@@ -17,7 +17,6 @@ const Wrapper = styled.div`
 
     //I REALLY want it to be auto, but it doesn't look good if not uniform lol.
     height:auto;
-    height:20em;
 
     display:grid;
     grid-column-gap: 1%;
@@ -150,7 +149,7 @@ const NewsCard = props => {
             <Header>
 
                 <Title  onClick = { () => {onCardClicked(postUid)}}> {topic} </Title>
-                  <Author> by <UserLink to = {"/account/" + author.uid}>{author.name}</UserLink> </Author> <UploadDate>{ postDate && dateFns.format(postDate.toDate(), "MMMM     DD YYYY")} </UploadDate> 
+                  <Author> by <UserLink to = {"/account/" + author.uid}>{author.name}</UserLink> </Author> <UploadDate>{ postDate && dateFns.format(postDate, "MMMM     DD YYYY")} </UploadDate> 
 
             </Header>
 

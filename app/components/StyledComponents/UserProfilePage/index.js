@@ -50,7 +50,7 @@ const Options = styled.div`
     grid-area:options;
     display:grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-column-gap:3em;
+    grid-column-gap:10em;
 `;
 
 //Will Actually be custom button for this.
@@ -63,17 +63,32 @@ const Option = styled.div`
 
 `;
 
+const Content = styled.div`
+
+
+    
+
+    grid-area:content;
+    display:flex;
+    flex-wrap:wrap;
+    margin-top:5%;
+    justify-content:center;
+    
+
+`;
+
 const Footer = styled.div`
 
     grid-area:footer;
     display:grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: 1fr auto 1fr;
 
     grid-template-rows: auto auto;
     grid-template-areas:
     //Maybe these three will be different actually.
-    "options options options"
+    ". options ."
     "content content content";
+
 `;
 
 
@@ -128,6 +143,7 @@ export {
     Options,
     Option,
     Footer,
+    Content,
     BioText,
     BioHeader,
     ProfileHeadLineH1,

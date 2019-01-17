@@ -67,7 +67,11 @@ class BlogPage extends Component{
                         const doc = docs[index];
 
                         if (doc.exists){
-                            newPosts.push(doc.data());
+
+                            const newsCard = doc.data();
+
+                            newsCard.postDate = newsCard.postDate.toDate();
+                            newPosts.push(newsCard);
                         }
                     }
 
