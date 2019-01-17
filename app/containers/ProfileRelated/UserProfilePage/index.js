@@ -9,7 +9,7 @@ import injectSaga from 'utils/injectSaga';
 
 import saga from './saga';
 import reducer from './reducer';
-import { loadProfile, loadedProfile, foundOwnerStatus } from './actions'
+import { loadProfile, loadedProfile, loadNews, loadEvents } from './actions'
 import {makeSelectProfile, makeSelectNeedReload, makeSelectOwnership, makeSelectError,
     makeSelectNews, makeSelectEvents } from './selectors';
 import { createStructuredSelector } from 'reselect';
@@ -94,7 +94,8 @@ class UserProfilePage extends Component{
         }
         
 
-
+        this.props.loadEvents(uid);
+        this.props.loadNews(uid);
         
     }
 
@@ -255,6 +256,16 @@ function mapDispatchToProps(dispatch){
         replaceInventory : (inventoryID, page ) => {
 
             return dispatch(nextPageClicked(inventoryID,page));
+        },
+
+        loadNews : (uid) => {
+
+            return dispatch(loadNews(uid));
+        },
+
+        loadEvents : (uid) => {
+
+            return dispatch(loadEvents(uid));
         },
 
         loadProfile : (uid) => {

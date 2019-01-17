@@ -1,6 +1,6 @@
-import { put, call, takeLatest } from 'redux-saga/effects'
+import { put, call, takeEvery } from 'redux-saga/effects'
 import firebase from 'firebase';
-import { LOAD_PROFILE } from './constants'
+import { LOAD_PROFILE, LOAD_NEWS, LOAD_EVENTS } from './constants'
 import { failedToLoadProfile, loadedProfile, loadedEvents, loadedNews, } from './actions';
 
 function* loadProfileCall(action){
@@ -27,63 +27,6 @@ function* loadProfileCall(action){
            
             yield put(loadedProfile(userInfo));
 
-            //Then after set the profile, pull users activity.
-
-            //Pulling events hosted by user.
-            const clubInfoRef = firestore.collection("ClubInfo");
-
-            const eventCardsRef = clubInfoRef.doc("Events").collection("EventCards");
-            const hostQuery = eventCardsRef.where("host.uid","==", action.uid);
-
-            const eventsSnapshot = yield hostQuery.get();
-
-            const events = [];
-
-            eventsSnapshot.docs.forEach( docSnapshot => {
-
-                //In this case since I'm only user it should show all events.
-                if (docSnapshot.exists){
-
-                    const event = docSnapshot.data();
-
-                    event.startDate = event.startDate.toDate();
-                    event.endDate = event.endDate.toDate();
-                    console.log("event", event);
-                    events.push(event);
-                }
-            });
-
-            yield put(loadedEvents(events));
-            
-
-            
-            //Pulling news posted by user.
-
-            const newsCardsRef = clubInfoRef.doc("News").collection("NewsCards");
-            const postedNewsQuery = newsCardsRef.where("author.uid", "==", action.uid);
-            
-            const newsCards = [];
-
-            const newsCardsSnapshot = yield postedNewsQuery.get();
-
-            newsCardsSnapshot.docs.forEach( docSnapshot => {
-
-
-                if (docSnapshot.exists){
-
-                    const newsCard = docSnapshot.data();
-
-                    newsCard.postDate = newsCard.postDate.toDate();
-
-                    console.log("newsCard", newsCard);
-
-                    newsCards.push(newsCards);
-                }
-
-            });
-
-            yield put(loadedNews(newsCards));
-
         }
         else{
             yield put(failedToLoadProfile());
@@ -97,10 +40,91 @@ function* loadProfileCall(action){
 }
 
 
-function* checkProfile(){
+function* loadHostedEventsSaga(payload){
 
-    yield takeLatest(LOAD_PROFILE,loadProfileCall);
+    console.log("What about me?");
+    const firestore = firebase.firestore();
+
+
+    const clubInfoRef = firestore.collection("ClubInfo");
+        
+    const eventCardsRef = clubInfoRef.doc("Events").collection("EventCards");
+    
+    const hostQuery = eventCardsRef.where("host.uid","==", payload.uid);
+    
+    const eventsSnapshot = yield hostQuery.get();
+    
+    const events = [];
+
+    eventsSnapshot.docs.forEach( docSnapshot => {
+
+                //In this case since I'm only user it should show all events.
+        if (docSnapshot.exists){
+
+
+                const event = docSnapshot.data();
+
+
+                event.startDate = event.startDate.toDate();
+
+                event.endDate = event.endDate.toDate();
+
+                console.log("event", event);
+
+                events.push(event);
+
+        }
+
+    });
+
+        
+    yield put(loadedEvents(events));
+}
+
+
+function* loadNewsSaga(payload){
+
+
+    console.log("Am I happening?");
+     const firestore = firebase.firestore();
+
+     //Pulling news posted by user.
+     const clubInfoRef = firestore.collection("ClubInfo");
+     const newsCardsRef = clubInfoRef.doc("News").collection("NewsCards");
+     const postedNewsQuery = newsCardsRef.where("author.uid", "==", payload.uid);
+     
+     const newsCards = [];
+
+     const newsCardsSnapshot = yield postedNewsQuery.get();
+
+     newsCardsSnapshot.docs.forEach( docSnapshot => {
+
+
+         if (docSnapshot.exists){
+
+             const newsCard = docSnapshot.data();
+
+             newsCard.postDate = newsCard.postDate.toDate();
+
+             console.log("newsCard", newsCard);
+
+             newsCards.push(newsCard);
+         }
+
+     });
+
+     yield put(loadedNews(newsCards));
+
 
 }
 
-export default checkProfile;
+
+function* saga(){
+
+    yield takeEvery(LOAD_EVENTS, loadHostedEventsSaga);
+    yield takeEvery(LOAD_NEWS, loadNewsSaga);
+    yield takeEvery(LOAD_PROFILE,loadProfileCall);
+
+}
+
+export default saga;

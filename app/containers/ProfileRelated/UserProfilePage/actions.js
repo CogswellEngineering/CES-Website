@@ -1,7 +1,27 @@
-import { LOAD_PROFILE, LOADED_PROFILE,LOADED_PROFILE_FAIL, LOADED_EVENTS, LOADED_NEWS
+import { LOAD_PROFILE, LOADED_PROFILE,LOADED_PROFILE_FAIL, LOADED_EVENTS, LOADED_NEWS, LOAD_EVENTS, LOAD_NEWS,
 } from './constants';
 
 
+
+export function loadNews(uid){
+
+    return{
+        
+        type:LOAD_NEWS,
+        uid
+    };
+
+}
+
+export function loadEvents(uid){
+
+    return {
+
+        type:LOAD_EVENTS,
+        uid
+    };
+
+}
 
 
 export function loadProfile(uid){
