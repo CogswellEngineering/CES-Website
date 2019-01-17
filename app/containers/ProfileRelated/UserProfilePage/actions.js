@@ -1,5 +1,6 @@
-import { LOAD_PROFILE, LOADED_PROFILE,LOADED_PROFILE_FAIL
+import { LOAD_PROFILE, LOADED_PROFILE,LOADED_PROFILE_FAIL, LOADED_EVENTS, LOADED_NEWS
 } from './constants';
+
 
 
 
@@ -25,4 +26,21 @@ export function loadedProfile(profile){
     };
 }
 
+export function loadedEvents(events){
+
+    return {
+
+        type: LOADED_EVENTS,
+        events
+    };
+}
+
+export function loadedNews(news){
+
+    return {
+
+        type: LOADED_NEWS,
+        news
+    };
+}
 

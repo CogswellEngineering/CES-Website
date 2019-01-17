@@ -1,16 +1,16 @@
 import { put, call, takeLatest } from 'redux-saga/effects'
 import firebase from 'firebase';
 import { LOAD_PROFILE } from './constants'
-import { failedToLoadProfile, loadedProfile } from './actions';
+import { failedToLoadProfile, loadedProfile, loadedEvents, loadedNews, } from './actions';
 
 function* loadProfileCall(action){
 
 
      //Otherwise load in profile from fire store.
-     const fireStoreRef = firebase.firestore();
+     const firestore = firebase.firestore();
      
 
-     const docRef = fireStoreRef.collection("users").doc(action.uid);
+     const docRef = firestore.collection("users").doc(action.uid);
      try{
 
 
@@ -25,9 +25,64 @@ function* loadProfileCall(action){
             //Adding uid, for checking if same when clicked to skip reloading.
             userInfo.uid = action.uid;
            
-            //Maybe just pull this from gate. To be safe.
-            //And so the admin thing actually fucking works
             yield put(loadedProfile(userInfo));
+
+            //Then after set the profile, pull users activity.
+
+            //Pulling events hosted by user.
+            const clubInfoRef = firestore.collection("ClubInfo");
+
+            const eventCardsRef = clubInfoRef.doc("Events").collection("EventCards");
+            const hostQuery = eventCardsRef.where("host.uid","==", action.uid);
+
+            const eventsSnapshot = yield hostQuery.get();
+
+            const events = [];
+
+            eventsSnapshot.docs.forEach( docSnapshot => {
+
+                //In this case since I'm only user it should show all events.
+                if (docSnapshot.exists){
+
+                    const event = docSnapshot.data();
+
+                    event.startDate = event.startDate.toDate();
+                    event.endDate = event.endDate.toDate();
+                    console.log("event", event);
+                    events.push(event);
+                }
+            });
+
+            yield put(loadedEvents(events));
+            
+
+            
+            //Pulling news posted by user.
+
+            const newsCardsRef = clubInfoRef.doc("News").collection("NewsCards");
+            const postedNewsQuery = newsCardsRef.where("author.uid", "==", action.uid);
+            
+            const newsCards = [];
+
+            const newsCardsSnapshot = yield postedNewsQuery.get();
+
+            newsCardsSnapshot.docs.forEach( docSnapshot => {
+
+
+                if (docSnapshot.exists){
+
+                    const newsCard = docSnapshot.data();
+
+                    newsCard.postDate = newsCard.postDate.toDate();
+
+                    console.log("newsCard", newsCard);
+
+                    newsCards.push(newsCards);
+                }
+
+            });
+
+            yield put(loadedNews(newsCards));
 
         }
         else{

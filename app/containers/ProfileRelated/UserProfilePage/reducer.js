@@ -1,8 +1,8 @@
 import { fromJS } from 'immutable';
 import { LOCATION_CHANGE } from 'react-router-redux';
-import { LIBRARY_UPDATED, BORROWED_UPDATED, ORDERS_UPDATED, 
+import {LOADED_EVENTS, LOADED_NEWS, 
     LOADED_PROFILE_FAIL, LOADED_PROFILE, FOUND_OWNER_STATUS,
-    NEXT_PAGE_CLICKED} from './constants';
+    } from './constants';
     
 import { actionTypes } from 'react-redux-firebase'
 
@@ -14,6 +14,8 @@ const initialState = fromJS({
 
     needReload: true,
     profile:null,
+    news:[],
+    events:[],
     error:"",
     
 });
@@ -23,6 +25,16 @@ export default function userProfileReducer(state = initialState, action){
 
    
     switch (action.type){
+
+        case LOADED_EVENTS:
+
+            return state
+                .set("events", action.events);
+
+        case LOADED_NEWS:
+
+            return state
+                .set("news", action.news);
 
 
         //Both logging out and setting profile require need reload.

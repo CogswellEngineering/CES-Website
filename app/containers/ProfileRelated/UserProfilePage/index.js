@@ -10,7 +10,8 @@ import injectSaga from 'utils/injectSaga';
 import saga from './saga';
 import reducer from './reducer';
 import { loadProfile, loadedProfile, foundOwnerStatus } from './actions'
-import {makeSelectProfile, makeSelectNeedReload, makeSelectOwnership, makeSelectError } from './selectors';
+import {makeSelectProfile, makeSelectNeedReload, makeSelectOwnership, makeSelectError,
+    makeSelectNews, makeSelectEvents } from './selectors';
 import { createStructuredSelector } from 'reselect';
 import { USER_PROFILE_PATH, UPDATE_USER_PROFILE_PATH } from 'components/Header/pages';
 import { makeSelectLoggedInProfile, makeSelectLoggedIn } from 'containers/App/selectors';
@@ -33,6 +34,9 @@ import {
 } from 'components/StyledComponents/UserProfilePage';
 import { isNull } from 'util';
 import {Button} from 'components/General';
+
+import EventCard from 'components/EventCard';
+import NewsCard from 'components/NewsCard';
 
 
 
@@ -109,6 +113,8 @@ class UserProfilePage extends Component{
 
             this.loadProfile();
         }
+
+        console.log("Props of user profile", this.props);
     }
 
     //Need to add check on render of this in App where I check if it's a user, so need to load in all user uids.
@@ -232,6 +238,8 @@ class UserProfilePage extends Component{
 
 const mapStateToProps = createStructuredSelector({
 
+    events: makeSelectEvents(),
+    news: makeSelectNews(),
     needReload: makeSelectNeedReload(),
     loggedInUser: makeSelectLoggedIn(),
     loggedInUserProfile: makeSelectLoggedInProfile(),

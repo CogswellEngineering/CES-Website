@@ -5,7 +5,32 @@ const profileState = (state) => state.get(USER_PROFILE_PATH);
 
 
 
+export const makeSelectEvents = () => createSelector(
 
+    profileState,
+    (profileState) => {
+
+        if (profileState == null) return  []
+
+        return profileState.get("events");
+    }
+
+
+);
+
+
+
+export const makeSelectNews = () => createSelector(
+
+    profileState,
+    (profileState) => {
+
+        if (profileState == null) return  []
+
+        return profileState.get("news");
+    }
+
+);
 export const makeSelectError = () => createSelector(
 
     profileState,
