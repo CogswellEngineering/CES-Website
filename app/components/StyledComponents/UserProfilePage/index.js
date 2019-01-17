@@ -2,55 +2,82 @@ import styled from 'styled-components';
 import { Link }  from 'react-router-dom';
 
 
+//Current layout is very mobile friendly
 const ProfileWrapper = styled.div`
 
-
-
-    width:60%;
-    margin:auto;
    // border:2px solid green;
     margin-top: 5%;
     padding-bottom:5%;
     color: rgb(254, 161, 0);
+    //Or can separate more?
+    display:grid;
 
-`
-
-
-const HeaderDiv = styled.div`
-
-    //display:inline;
-    width:90%;
-    border-bottom: 2px solid black;
-    margin:auto;
-
-
+    grid-template-columns: auto;
+    grid-template-rows: 1fr auto auto;
+    grid-template-areas: 
+    "header"
+    "concentrations"
+    "footer";
+    justify-items:center;
 `;
 
-const ProfileHeadline = styled.div`
+const Header = styled.div`
 
-    width:40%;
-    margin-top:1%;
-    padding-bottom:1%;
+    grid-area:header;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto 2fr auto auto;
+    grid-template-areas:
+    ". actions"
+    "role role"
+    "profilePicture profilePicture"
+    "name name"
+    "standing standing";
+    justify-items: center;
+    //Last two rows can be put inline, image could technically be too but already existed.
 
 `;
-
-
-
-const ProfileHeadLineH1 = styled.h1`
-
-    font-size:1.2em;
-`
-const ProfileHeadLineH2 = styled.h2`
-
-`
 
 const ProfileImage = styled.img`
 
-    margin-top:1%;
-    margin-right:25%;
+    //This is fine, change later to be similar to how I did event page
+    grid-area:profilePicture;
+    max-width:100%;
+`;
+
+const Options = styled.div`
+
+    grid-area:options;
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column-gap:3em;
+`;
+
+//Will Actually be custom button for this.
+const Option = styled.div`
+
+    cursor:pointer;
+    text-align:center;
+    border-bottom: ${props => props.selected? "2px solid rgb(254, 161, 0)" : "0"};
+    font-size:1.5em;
+
+`;
+
+const Footer = styled.div`
+
+    grid-area:footer;
+    display:grid;
+    grid-template-columns: auto auto auto;
+
+    grid-template-rows: auto auto;
+    grid-template-areas:
+    //Maybe these three will be different actually.
+    "options options options"
+    "content content content";
 `;
 
 
+//Oh actually may want to add contact
 const Links = styled.div`
 
     width: 40%;
@@ -59,6 +86,8 @@ const Links = styled.div`
     margin-top:5%;
     
 `;
+
+
 
 
 const ProfileBio = styled.div`
@@ -83,22 +112,7 @@ const BioText = styled.p`
 
 
 
-const ProfileLink = styled(Link)`
 
-    text-decoration:none;
-    display:block;
-    margin-top:1%;
-    text-align:center;
-    width:20%;
-
-`
-
-const StyledLink = styled.a`
-
-    width:10%;
-    display:block;
-    margin-top:1%;
-`
 const StyledImageLink = styled.img`
 
     
@@ -109,10 +123,11 @@ const StyledImageLink = styled.img`
 export {
 
     ProfileWrapper,
-    HeaderDiv,
-    ProfileHeadline,
-    ProfileBio,
     ProfileImage,
+    Header,
+    Options,
+    Option,
+    Footer,
     BioText,
     BioHeader,
     ProfileHeadLineH1,

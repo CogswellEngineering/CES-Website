@@ -1,7 +1,6 @@
 
 import Dropdown from 'react-dropdown'
 import styled from 'styled-components';
-import Dropzone from 'react-dropzone';
 
 
 import {StyledLabel } from 'components/StyledForm';
@@ -63,15 +62,15 @@ const ProfilePictureLabel = styled(StyledLabel)`
 
 `;
 
-const ProfilePictureDropzone = styled(Dropzone)    `
+const ProfilePictureDropzone = styled.div`
 
-    margin-top:1%;
+
     width : ${props =>  props.width};
     height : ${props => props.height};
-    border:3px dashed black;
-    
-    margin-left:1%;
-`
+    border:5px dashed black;
+
+
+`;
 
 const DropzonePrompt = styled.div`
     width : ${props =>  props.width};
