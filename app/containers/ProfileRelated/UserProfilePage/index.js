@@ -55,7 +55,7 @@ class UserProfilePage extends Component{
 
         this.state = {
 
-            bioOpen:false,
+            bioOpen:true,
             eventsHostedOpen:false,
             newsPostedOpen:false,
         };
@@ -192,7 +192,8 @@ class UserProfilePage extends Component{
 
                         <Options>
 
-                            {/*Will be buttons later*/}
+                            {/*Will be buttons later
+                                Need to still do the bio part, but that's literally easiest*/}
                             <Option selected = {this.state.bioOpen}onClick = {() => {this.onContentViewUpdated("bioOpen");}}> Bio </Option>
                             <Option selected = {this.state.eventsHostedOpen} onClick = {() => {this.onContentViewUpdated("eventsHostedOpen");}}> Events Hosted </Option>
                             <Option selected = {this.state.newsPostedOpen} onClick = {() => {this.onContentViewUpdated("newsPostedOpen");}}> News Posted </Option>
@@ -200,6 +201,14 @@ class UserProfilePage extends Component{
                         </Options>
 
                         <Content>
+
+                        {//May need to add a div wrapper to these
+                            this.state.bioOpen && <div style = {{textAlign:"left"} }>
+                            
+                            <BioHeader>I'm the president of CES</BioHeader>
+                            <BioText> {bio} </BioText>
+                        </div>
+                        }
                         {this.state.eventsHostedOpen && events && events.map( event => {
 
                         return <EventCard  

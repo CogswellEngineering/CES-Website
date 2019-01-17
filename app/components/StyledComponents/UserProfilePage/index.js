@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { Link }  from 'react-router-dom';
+import Linkify from 'react-linkify';
+
 
 
 //Current layout is very mobile friendly
@@ -72,8 +74,11 @@ const Content = styled.div`
     display:flex;
     flex-wrap:wrap;
     margin-top:5%;
-    justify-content:center;
     
+`;
+
+const ListWrapper = styled.div`
+
 
 `;
 
@@ -119,8 +124,10 @@ const BioHeader = styled.h3`
     text-align:center;
 
 `
-const BioText = styled.p`
+const BioText = styled(Linkify)`
 
+    width: 80%;
+    margin:auto;
 `;
 
 
