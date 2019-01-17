@@ -19,6 +19,8 @@ import { onUpdateClicked, profilePictureUploaded, onUpdateCancelled, pageLoaded 
 import injectSaga from 'utils/injectSaga';
 import { UPDATE_USER_PROFILE_PATH, LOGIN_PATH } from 'components/Header/pages';
 import {dimensions} from 'components/ProfileImage';
+import Dropzone from 'react-dropzone';
+
 
 import {
     UpdateProfileWrapper,
@@ -51,7 +53,7 @@ class UpdateProfilePage extends Component{
         ];
 
           //Might turn these into classses to avoid constatnly remaking this.
-          this.years = [
+        this.years = [
                     
             "Freshman",
             "Sophomore",
@@ -72,7 +74,67 @@ class UpdateProfilePage extends Component{
             "Project Management",
         ];
        
+        this.state = {
 
+            profilePicture:null,
+            profilePicturePreview:"",
+            displayName:"",
+            firstName:"",
+            lastName:"",
+            bio:"",
+            major:"",
+            year:"",
+        };
+
+        this.onFieldUpdate = this.onFieldUpdate.bind(this);
+        this.onDropdownSelected = this.onDropdownSelected.bind(this);
+        this.onProfilePictureUpdated = this.onProfilePictureUpdated.bind(this);
+    }
+
+    onFieldUpdate(evt){
+
+        const target = evt.target;
+        this.setState({
+
+            [target.id] : target.value
+        });
+    }
+
+    onProfilePictureUpdated(acceptedFiles, rejectedFiles){
+
+
+        this.setState( state => {
+
+            const lastUploaded = state.profilePicture;
+
+            if (lastUploaded != null){
+
+                window.URL.revokeObjectURL(state.profilePicturePreview);
+            }
+
+            const profilePicturePreview = window.URL.createObjectURL(acceptedFiles[0]);
+                                
+            const profilePicture = acceptedFiles[0];
+
+            return {
+
+                profilePicturePreview,
+                profilePicture,
+            };
+
+
+        })
+
+    }
+
+    onDropdownSelected(evt, dropDown){
+
+        console.log("evt on dropdown", evt);
+
+        this.setState({
+
+            [dropDown] : evt.value
+        });
     }
     
     componentDidMount(){
@@ -99,8 +161,8 @@ class UpdateProfilePage extends Component{
     render(){
 
 
-        const  { loading, profile, displayName, profilePicture, firstName,lastName, major, year, bio,
-        fieldChanged, onCancel, profilePictureUploaded, onUpdate, error, firebase} = this.props;
+        const  { displayName, profilePicture, profilePicturePreview, firstName,lastName, major, year, bio } = this.state;
+        const {  loading, profile, onCancel, onUpdate, error, firebase} = this.props;
 
         
        
@@ -123,7 +185,9 @@ class UpdateProfilePage extends Component{
                     
                     evt.preventDefault();
                     //These will be set up with original profile if empty
-                    //There has to be cleaner way than this. 
+                    //There has to be cleaner way than this.
+                    
+                    
                     const update = {
 
                     
@@ -137,8 +201,8 @@ class UpdateProfilePage extends Component{
                        
                     };
 
-                    console.log("Profile picture",profilePicture);
 
+                    //So can delete old one.
                     const profileImgs = {
                         
                             old:profile.profilePicture, 
@@ -153,71 +217,61 @@ class UpdateProfilePage extends Component{
                     }}>
 
 
-                    <ProfilePictureDiv>
 
-                        <StyledLabel> Drag an image into or click on the image to change it</StyledLabel>
+                        <Dropzone onDrop = {this.onProfilePictureUpdated}>
 
-                        <ProfilePictureDropzone  width={dimensions.width} height={dimensions.height} onDrop = {(fileDropped) => {
-
-                            profilePictureUploaded(fileDropped);
+                        {({getRootProps, getInputProps}) => (
+                        <ProfilePictureDropzone {...getRootProps()} width = {dimensions.width} height = {dimensions.height}>
+                        <input {...getInputProps()} />
                             
-                        }}>
-
                         {
                             profilePicture != null?
-                                <img src={profilePicture.preview} width={dimensions.width} height={dimensions.height}/>
-                            : profile.profilePicture != null?
+                            <img src={profilePicturePreview} width={dimensions.width} height={dimensions.height}/>
+                            : profile && profile.profilePicture != null?
                                 <img src={profile.profilePicture.url} width={dimensions.width} height={dimensions.height}/>
                             : <DropzonePrompt  width={dimensions.width} height={dimensions.height}>
 
-                                    <p> Click / Drag profile picture here </p>
+                                    <p> Click or Drag profile picture here </p>
 
-                            </DropzonePrompt>
-                                
-
+                             </DropzonePrompt>
+                
                         }
-
-                        {/* Will get feedback if having avatar editor is too much.
-                        <ReactAvatarEditor width = {dimensions.width} height = {dimensions.height}
-                        image = {profilePicture ||  profile.profilePicture}/>*/}
-
                         </ProfilePictureDropzone>   
-                    </ProfilePictureDiv>
+                        )}
+                        </Dropzone>
 
                     <FieldDiv>
                         
                         <NameDiv>
                             <StyledLabel htmlFor="displayName"> Display Name </StyledLabel>
                             <StyledInput type="text" id = "displayName" name ="displayName" placeholder = {profile.displayName} value={displayName} 
-                                onChange={(evt)=>{fieldChanged(evt.target.name,evt.target.value)}}/>
+                                onChange={this.onFieldUpdate}/>
 
                             <StyledLabel htmlFor="firstName"> First Name </StyledLabel>
                             <StyledInput type="text" id = "firstName" name ="firstName"  placeholder = {profile.firstName} value={firstName} 
-                            onChange={(evt)=>{fieldChanged(evt.target.name,evt.target.value);}}/>
+                              onChange={this.onFieldUpdate}/>
                         
                             <StyledLabel htmlFor="lastName"> Last Name </StyledLabel>
                             <StyledInput type="text" id = "lastName" name ="lastName"  placeholder = {profile.lastName} value={lastName} 
-                                onChange={(evt)=>{fieldChanged(evt.target.name,evt.target.value);}}/>
+                                onChange={this.onFieldUpdate}/>
                             
                         
                         </NameDiv>
                         <StyledDropdown id="major" options={this.majors} 
-                            onChange={(evt)=>{ console.log(evt);fieldChanged("major",evt.value); }} 
+                            onChange={ (evt) => {this.onDropdownSelected(evt,"major")} }
                             value={major} placeholder={profile.major || "Select your major"} />
 
 
 
                         <StyledDropdown options={this.years} 
-                            onChange={(evt)=>{ console.log(evt);fieldChanged("year",evt.value); }} 
+                            onChange={ (evt) => {this.onDropdownSelected(evt,"year")}} 
                             value={year} placeholder={profile.year} />
-
-
                         <BioInput>
 
                             <BioLabel htmlFor="bio"> Bio </BioLabel>
                             
                             <BioTextarea id="bio" name="bio" rows="1" placeholder={profile.bio} value={bio} 
-                            onChange={(evt)=>{fieldChanged(evt.target.name,evt.target.value)}}> 
+                            onChange={this.onFieldUpdate}> 
                             <a href ="#"> test</a>
                             </BioTextarea>
 
@@ -228,6 +282,7 @@ class UpdateProfilePage extends Component{
                         <ErrorMessage> {error} </ErrorMessage>
                         <StyledButton type="submit"> Update </StyledButton> 
                         <StyledButton onClick = {(evt) => {onCancel();}}> Cancel </StyledButton>
+
                     </FieldDiv>
                 </StyledForm>
             </UpdateProfileWrapper>
@@ -242,18 +297,10 @@ const mapStateToProps = createStructuredSelector({
 
 
     doneUpdating: formSelector.makeSelectDone("doneUpdating"),
-    major : formSelector.makeSelectField("major"),
-    year: formSelector.makeSelectField("year"),
-    bio: formSelector.makeSelectField("bio"),
-    displayName : formSelector.makeSelectField("displayName"),
-    firstName: formSelector.makeSelectField("firstName"),
-    lastName: formSelector.makeSelectField("lastName"),
     error : formSelector.makeSelectError(),
     loading : formSelector.makeSelectDone("loading"),
     loggedInUser : makeSelectLoggedIn(),
     profile : makeSelectLoggedInProfile(),
-
-    profilePicture: makeProfileImageSelector(),
 });
 
 
@@ -266,17 +313,6 @@ function mapDispatchToProps(dispatch){
 
                 return dispatch(pageLoaded(loggedInProfile));
         },
-
-        profilePictureUploaded: (img) => {
-
-            return dispatch(profilePictureUploaded(img));            
-        },
-
-        fieldChanged : (name,value) => {
-          
-            return dispatch(fieldChanged(UPDATE_USER_PROFILE_PATH,name,value))
-        },
-
         onCancel : (evt) => {
 
             if (evt && evt.preventDefault){

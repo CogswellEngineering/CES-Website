@@ -3,12 +3,11 @@ import { UPDATE_CLICKED } from './constants';
 import { updating, onUpdated, onUpdateFail} from './actions';
 import firebase from 'firebase';
 
-import Dropdown from 'react-dropdown'
+
 
 function* updateCall(action){
 
 
-    console.log("uid",action.uid);
     const uid = action.uid;
     //Provider data shouldn't be there.
     const update = action.update;
