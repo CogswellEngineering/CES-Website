@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
-
+import media from 'theme/media';
 
 //Probably turning this into popover, to match how linked in and stuff does for it,
 //better than just spacing them out differently.
@@ -11,6 +11,13 @@ const UserActionsWrapper = styled.div`
     display:flex;
     width:25%;
     justify-content:flex-end;    
+
+    ${media.phone`
+        
+        display:block;
+        width:100%;
+
+    `}
 `
 
 const DisplayName = styled.p`
@@ -22,7 +29,6 @@ const DisplayName = styled.p`
 const UserActionLink = styled(Link)`
 
     text-decoration:none;
-    margin-right:5%;
     color: rgb(254, 161, 0);
     &:hover {
         color:white;

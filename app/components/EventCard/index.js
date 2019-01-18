@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import dateFns from 'date-fns';
 import Tags from 'components/Tags';
 
-
 const Card = styled.div`
 
     
@@ -15,6 +14,8 @@ const Card = styled.div`
     background-position: center;
     background-repeat: no-repeat;
     
+    height:20em;
+    margin-bottom:5em;
 
     display:grid;
     grid-template-columns: 100%;
@@ -28,6 +29,7 @@ const Card = styled.div`
 
     transition: transform .2s; /* Animation */
 
+  
     &:hover{
 
         //padding:5px;

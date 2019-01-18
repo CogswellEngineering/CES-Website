@@ -1,5 +1,7 @@
 import React, { Component} from 'react';
 import styled from 'styled-components';
+import media from 'theme/media';
+
 import { withFirebase} from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect'
@@ -32,49 +34,13 @@ import {
 
 
 
-const EventsWrapper = styled.div`
+import {
 
-    margin-top:5%;
-    display:grid;
-    grid-template-columns: auto;
-    grid-template-rows:1fr auto;
-    grid-template-areas:
-    "header"
-    "content";
-    
-`
+    EventsWrapper,
+    GridView,
+    ViewSelection,
 
-
-const ViewSelection = styled.div`
-
-    margin:auto;
-    width:20%;
-    grid-area:header;   
-    display:flex;
-    justify-content: space-evenly;;
-`;
-
-const Button = styled.div`
-
-    text-align:center;
-`;
-
-
-const GridView = styled.div`
-
-    grid-area:content;
-    
-    width:100%;
-    display:flex;
-    margin-top:5%;
-
-    flex-wrap:wrap;
-    justify-content:space-evenly;
-    align-items: flex-start;
-    align-content: space-around;
-
-`;
-
+} from 'components/StyledComponents/EventsPage';
 
 class EventsPage extends Component{
 
@@ -235,7 +201,8 @@ class EventsPage extends Component{
 
                     return <EventCard  
                     onCardClicked = {() => {this.onGoToEvent(event);}}
-                    style = {{width:"30%", height:"20em", marginBottom:"5em"}} key = {event.eventUid} {...event}/>
+                    //I should avoid inline like this other than grid area.
+                    key = {event.eventUid} {...event}/>
                 })}
 
             </GridView>

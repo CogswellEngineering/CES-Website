@@ -1,18 +1,26 @@
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
-
+import media from 'theme/media';
 //
-export const PageLink = styled(Link)`
+export const NavLink = styled(Link)`
 
     color: rgb(254, 161, 0);
 
     text-decoration:none;
     border-bottom: 1px solid  ${props => props.active == 'true'? 'rgb(14, 80, 38)' : 'clear'};
-    adding-bottom: ${props => props.active? '0.5em' : '0'};
+    padding-bottom: ${props => props.active? '0.5em' : '0'};
     &:hover{
 
         color:white;
     }
+
+    ${media.phone`
+
+        font-size:1em;
+        border-bottom: 0.5px solid white;
+        color: ${props => props.active == 'true'? "white" : "rgb(254, 161, 0)"};
+        margin-top:5%;
+    `}
 
 `;
 

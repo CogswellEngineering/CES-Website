@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 
-//More like widely used but general fine.
+
 
 export const UserLink = styled(Link)`
 

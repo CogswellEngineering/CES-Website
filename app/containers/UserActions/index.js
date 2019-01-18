@@ -35,7 +35,7 @@ class UserActions extends React.PureComponent{
 
             const props = this.props;
             var actions = null; 
-
+            const {onActionSelected} = props;
             const profilePath = USER_PROFILE_PATH.split(":")[0];
 
             console.log("loggedin", props.loggedInUser);
@@ -45,8 +45,8 @@ class UserActions extends React.PureComponent{
 
                 (<UserActionsWrapper>
 
-                        <UserActionLink to={LOGIN_PATH} > Login </UserActionLink>
-                        <UserActionLink to={REGISTER_PATH} > Join us </UserActionLink>
+                        <UserActionLink to={LOGIN_PATH} onClick = {onActionSelected }> Login </UserActionLink>
+                        <UserActionLink to={REGISTER_PATH} onClick = {onActionSelected}> Join us </UserActionLink>
 
                     </UserActionsWrapper>
                 )
@@ -58,8 +58,8 @@ class UserActions extends React.PureComponent{
 
                     {/* Hello, {props.profile.displayName} */}
 
-                    {props.profile.isAdmin && <UserActionLink to = {ADMIN_PATH}> Admin Panel </UserActionLink>}
-                        <UserActionLink to = {profilePath+props.loggedInUser.uid}> View Profile </UserActionLink>
+                    {props.profile.isAdmin && <UserActionLink to = {ADMIN_PATH} onClick = {onActionSelected}> Admin Panel </UserActionLink>}
+                        <UserActionLink to = {profilePath+props.loggedInUser.uid} onClick = {onActionSelected}> View Profile </UserActionLink>
 
                         {/*Will switch to include uid if do decide make inventory public
                      <UserActionLink to = {"/account/inventory"}> Inventory </UserActionLink>
@@ -72,9 +72,9 @@ class UserActions extends React.PureComponent{
                             props.cookies.remove("authToken");
                             props.cookies.remove("loggedInProfile");
                             //Dispatch logout
-                            props.firebase.logout();}
-                            
-                            
+                            props.firebase.logout();
+                            onActionSelected();
+                            }
                             }> Logout </LogoutButton>
                     
                 </UserActionsWrapper>
