@@ -3,7 +3,7 @@ import { REGISTER_FAILED, REGISTERED, REGISTERING } from './constants';
 import { fromJS } from 'immutable';
 import { actionTypes } from 'react-redux-firebase'
 import { LOCATION_CHANGE } from 'react-router-redux';
-import { REGISTER_PATH } from 'components/Header/pages';
+import { REGISTER_PATH } from 'SiteData/constants';
 
 
 const initialState = fromJS({

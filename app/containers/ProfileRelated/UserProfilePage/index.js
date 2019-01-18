@@ -13,7 +13,7 @@ import { loadProfile, loadedProfile, loadNews, loadEvents } from './actions'
 import {makeSelectProfile, makeSelectNeedReload, makeSelectOwnership, makeSelectError,
     makeSelectNews, makeSelectEvents } from './selectors';
 import { createStructuredSelector } from 'reselect';
-import { USER_PROFILE_PATH, UPDATE_USER_PROFILE_PATH } from 'components/Header/pages';
+import { USER_PROFILE_PATH, UPDATE_USER_PROFILE_PATH } from 'SiteData/constants';
 import { makeSelectLoggedInProfile, makeSelectLoggedIn } from 'containers/App/selectors';
 import {dimensions} from 'components/ProfileImage';
 import {StyledLink} from 'components/StyledForm';

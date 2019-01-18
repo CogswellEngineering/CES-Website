@@ -3,7 +3,7 @@ import { REGISTER_CLICKED} from './constants'
 import { onRegistered, registering,onRegisterFail} from './actions';
 import request from 'utils/request';
 import { verifyPassword, verifyEmail } from 'utils/fieldVerifications';
-import { fbAdminAPI as url} from 'utils/apiLinks';
+import { BACK_END_URL as url} from 'SiteData/constants';
 //for testing put here
 
 function* registerCall(action){

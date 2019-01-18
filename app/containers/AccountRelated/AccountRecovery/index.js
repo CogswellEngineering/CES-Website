@@ -9,7 +9,7 @@ import injectReducer from 'utils/injectReducer';
 import { createStructuredSelector } from 'reselect';
 import reducer from './reducer';
 import FormSelectors from 'utils/genericFormSelectors';
-import { ACCOUNT_RECOVERY_PATH } from 'components/Header/pages';
+import { ACCOUNT_RECOVERY_PATH } from 'SiteData/constants';
 import { attemptRecover } from './actions';
 import saga from './saga';
 import injectSaga from 'utils/injectSaga';

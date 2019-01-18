@@ -1,7 +1,7 @@
 import { fromJS } from 'immutable';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import {LOADED_EVENTS, LOADED_NEWS, 
-    LOADED_PROFILE_FAIL, LOADED_PROFILE, FOUND_OWNER_STATUS,
+    LOADED_PROFILE_FAIL, LOADED_PROFILE,
     } from './constants';
     
 import { actionTypes } from 'react-redux-firebase'
@@ -44,12 +44,6 @@ export default function userProfileReducer(state = initialState, action){
 
             return state
                 .set("needReload", true);
-
-
-        case FOUND_OWNER_STATUS:
-
-            return state
-                .set("ownProfile",action.doesOwn);
 
        
         case LOCATION_CHANGE:

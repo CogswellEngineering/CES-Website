@@ -1,6 +1,6 @@
 import { takeLatest, put, call} from 'redux-saga/effects';
 import request from 'utils/request';
-import { fbAdminAPI as url} from 'utils/apiLinks';
+import { BACK_END_URL as url} from 'SiteData/constants';
 import { actionTypes } from 'react-redux-firebase';
 import { generatedAuthToken} from './actions';
 import firebase from 'firebase';

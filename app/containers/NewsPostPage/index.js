@@ -15,7 +15,7 @@ import reducer from './reducer';
 import dateFns from 'date-fns';
 import {
     SPECIFIC_POST,
-} from 'components/Header/pages';
+} from 'SiteData/constants';
 import Tags from 'components/Tags';
 import {
 

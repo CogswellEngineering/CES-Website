@@ -12,7 +12,7 @@ import { createStructuredSelector } from 'reselect';
 import saga from'./saga';
 import reducer from './reducer';
 import FormSelectors from 'utils/genericFormSelectors';
-import { ACCOUNT_RECOVERY_PATH, REGISTER_PATH, LOGIN_PATH } from 'components/Header/pages';
+import { ACCOUNT_RECOVERY_PATH, REGISTER_PATH, LOGIN_PATH } from 'SiteData/constants';
 import { withCookies, Cookies } from 'react-cookie';
 import { makeSelectLoggedInProfile } from 'containers/App/selectors';
 import { createSelectAuthToken} from './selectors';

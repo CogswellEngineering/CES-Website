@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { USER_PROFILE_PATH } from 'components/Header/pages';
+import { USER_PROFILE_PATH } from 'SiteData/constants';
 
 const profileState = (state) => state.get(USER_PROFILE_PATH);
 

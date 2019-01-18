@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import {BLOG_PATH, EVENTS_PATH, REGISTER_PATH } from 'components/Header/pages';
+import {BLOG_PATH, EVENTS_PATH, REGISTER_PATH } from 'SiteData/constants';
 
 import Wrapper, {WhoWeAre, WhatWeDo, JoinUs, Title, SubTitle, Description, Picture,
   HelpStudentsBlock, 

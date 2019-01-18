@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { LOGIN_PATH } from 'components/Header/pages';
+import { LOGIN_PATH } from 'SiteData/constants';
 
 const selectLogin = (state => state.get(LOGIN_PATH));
 

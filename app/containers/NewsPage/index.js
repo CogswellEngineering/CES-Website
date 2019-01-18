@@ -11,7 +11,7 @@ import { makeSelectPosts, makeSelectAmountToShow, makeSelectMaxAmountToShow,make
 import { modificationsMade, loadMore, tagClicked, removeTagFilter} from './actions';
 
 
-import { BLOG_PATH } from 'components/Header/pages';
+import { BLOG_PATH } from 'SiteData/constants';
 import NewsCard from 'components/NewsCard';
 
 //Might need select for categorizing it if that's neccessarry, that's easy change I can make later.

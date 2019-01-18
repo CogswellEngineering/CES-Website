@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { ATTEMPT_RECOVER } from './constants';
 import { recoveredAccount, recoverLinkSent } from  './actions';
-import { fbAdminAPI as url} from 'utils/apiLinks';
+import {BACK_END_URL as url} from 'SiteData/constants';
 import request from 'utils/request';
 
 //Okay, I have reset password code, done in my own app.

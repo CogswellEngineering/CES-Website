@@ -1,5 +1,5 @@
 import { call, put, takeLatest} from 'redux-saga/effects';
-import { fbAdminAPI as url} from 'utils/apiLinks';
+import { BACK_END_URL as url} from 'SiteData/constants';
 import request from 'utils/request';
 import { checkToken,tokenChecked, passwordChanged } from './actions';
 import { CHECK_TOKEN, RESET_TOKEN_USED, CHANGE_PASSWORD} from './constants';

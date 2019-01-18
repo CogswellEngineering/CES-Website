@@ -12,7 +12,7 @@ import saga from './saga';
 import { onRegisterClicked } from './actions';
 import { withFirebase } from 'react-redux-firebase';
 import injectSaga from 'utils/injectSaga';
-import { LOGIN_PATH, REGISTER_PATH} from 'components/Header/pages';
+import { LOGIN_PATH, REGISTER_PATH} from 'SiteData/constants';
 
 import  {
     RegistrationWrapper,

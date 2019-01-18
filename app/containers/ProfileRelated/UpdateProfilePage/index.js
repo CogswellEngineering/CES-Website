@@ -17,7 +17,7 @@ import FormSelectors from 'utils/genericFormSelectors';
 import saga from './saga';
 import { onUpdateClicked, profilePictureUploaded, onUpdateCancelled, pageLoaded } from './actions';
 import injectSaga from 'utils/injectSaga';
-import { UPDATE_USER_PROFILE_PATH, LOGIN_PATH } from 'components/Header/pages';
+import { UPDATE_USER_PROFILE_PATH, LOGIN_PATH } from 'SiteData/constants';
 import {dimensions} from 'components/ProfileImage';
 import Dropzone from 'react-dropzone';
 
@@ -89,6 +89,33 @@ class UpdateProfilePage extends Component{
         this.onFieldUpdate = this.onFieldUpdate.bind(this);
         this.onDropdownSelected = this.onDropdownSelected.bind(this);
         this.onProfilePictureUpdated = this.onProfilePictureUpdated.bind(this);
+    }
+
+
+    componentWillUnmount(){
+
+        this.resetState();
+    }
+
+    resetState() {
+
+
+        if (this.state.profilePicture){
+
+            window.URL.revokeObjectURL(this.state.profilePicturePreview);
+        }
+
+        this.setState( {
+
+            profilePicture:null,
+            profilePicturePreview:"",
+            displayName:"",
+            firstName:"",
+            lastName:"",
+            bio:"",
+            major:"",
+            year:"",
+        });
     }
 
     onFieldUpdate(evt){

@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { EVENTS_PATH } from 'components/Header/pages';
+import { EVENTS_PATH } from 'SiteData/constants';
 
 const eventState = (state) => {
    

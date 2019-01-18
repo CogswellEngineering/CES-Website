@@ -5,7 +5,7 @@
 import {FIELD_CHANGED} from 'containers/App/constants';
 import { fromJS } from 'immutable';
 import { actionTypes } from 'react-redux-firebase';
-import { LOGIN_PATH } from 'components/Header/pages';
+import { LOGIN_PATH } from 'SiteData/constants';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { GENERATED_AUTH_TOKEN} from './constants';
 

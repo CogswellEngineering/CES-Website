@@ -13,7 +13,7 @@ import {
     postEvent,
 } from './actions';
 
-import {ADMIN_PATH} from 'components/Header/pages';
+import {ADMIN_PATH} from 'SiteData/constants';
 
 import {
     Wrapper,

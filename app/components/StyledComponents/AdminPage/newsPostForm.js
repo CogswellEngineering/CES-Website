@@ -30,7 +30,7 @@ export default class NewsPostForm extends Component{
         this.state = {
 
             thumbnail: null,
-            thumbnailPreview,
+            thumbnailPreview: "",
             topic: "",
             content: "",
             tags:[],
@@ -48,10 +48,7 @@ export default class NewsPostForm extends Component{
 
     componentWillUnmount(){
 
-        if (this.state.thumbnail != null){
-
-            window.URL.revokeObjectURL(this.state.thumbnail);   
-        }
+        this.resetState();
     }
 
     resetState = () => {
@@ -59,13 +56,14 @@ export default class NewsPostForm extends Component{
 
         if (this.state.thumbnail != null){
 
-            window.URL.revokeObjectURL(this.state.thumbnail);
+            window.URL.revokeObjectURL(this.state.thumbnailPreview);
             
         }
 
         this.setState({
 
             thumbnail: null,
+            thumbnailPreview:"",
             topic: "",
             content: "",
             tags: [],

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import styled from 'styled-components';
 import {ContentField, StyledLink} from 'components/StyledForm';
 import {Button} from 'components/General';
-import {LOGIN_PATH} from 'components/Header/pages';
+import {LOGIN_PATH} from 'SiteData/constants';
 
 const Wrapper = styled.form`
 

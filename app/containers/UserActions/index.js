@@ -6,7 +6,7 @@ import { withFirebase } from 'react-redux-firebase'
 import {compose} from 'redux';
 
 import {logout} from './actions'
-import {LOGIN_PATH,REGISTER_PATH, USER_PROFILE_PATH, ADMIN_PATH} from 'components/Header/pages';
+import {LOGIN_PATH,REGISTER_PATH, USER_PROFILE_PATH, ADMIN_PATH} from 'SiteData/constants';
 import reducer from './reducer';
 import { createStructuredSelector } from 'reselect'; 
 import { makeSelectLoggedIn, makeSelectLoggedInProfile } from 'containers/App/selectors';

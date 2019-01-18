@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { BLOG_PATH } from 'components/Header/pages';
+import { BLOG_PATH } from 'SiteData/constants';
 
 
 

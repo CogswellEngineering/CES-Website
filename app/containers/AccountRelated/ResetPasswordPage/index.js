@@ -10,7 +10,7 @@ import injectReducer from 'utils/injectReducer';
 import { createStructuredSelector } from 'reselect';
 import reducer from './reducer';
 import FormSelectors from 'utils/genericFormSelectors';
-import { RESET_PASSWORD_PATH, LOGIN_PATH } from 'components/Header/pages';
+import { RESET_PASSWORD_PATH, LOGIN_PATH } from 'SiteData/constants';
 import { checkToken, resetTokenUsed, changePassword } from './actions';
 import saga from './saga';
 import injectSaga from 'utils/injectSaga';

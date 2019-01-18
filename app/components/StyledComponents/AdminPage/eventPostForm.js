@@ -81,8 +81,10 @@ export default class EventPostForm extends Component{
 
         if (this.state.thumbnail != null){
 
-            window.URL.revokeObjectURL(this.state.thumbnail);   
+            window.URL.revokeObjectURL(this.state.thumbnailPreview);   
         }
+
+        this.resetState();
     }
 
     resetState(){
@@ -90,7 +92,7 @@ export default class EventPostForm extends Component{
 
         if (this.state.thumbnail != null){
 
-            window.URL.revokeObjectURL(this.state.thumbnail);
+            window.URL.revokeObjectURL(this.state.thumbnailPreview);
             
         }
 
@@ -98,6 +100,7 @@ export default class EventPostForm extends Component{
 
             //pdate event page to just concat thumbnail at start of gallery.
             thumbnail:null,
+            thumbnailPreview: "",
             title:"",
             type:"",
             hostIcon:null,

@@ -19,7 +19,7 @@ import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import reducer from './reducer';
 import saga from './saga';
-import {SPECIFIC_EVENT} from 'components/Header/pages';
+import {SPECIFIC_EVENT} from 'SiteData/constants';
 import {
 
     loadEvent,
