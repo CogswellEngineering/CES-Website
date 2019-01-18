@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import {ContentField, StyledLink} from 'components/StyledForm';
 import {Button} from 'components/General';
 import {LOGIN_PATH} from 'SiteData/constants';
-
-const Wrapper = styled.form`
+import media from 'theme/media';
+import {isMobileOnly } from 'react-device-detect';
+const Wrapper = styled.div`
 
 
     display:grid;
@@ -13,7 +14,9 @@ const Wrapper = styled.form`
     grid-template-areas:
     "poster comment"
     "poster options";
-    grid-column-gap:1%;
+    grid-column-gap:10px;
+
+    
 `;
 
 const Poster = styled.div`
@@ -23,9 +26,32 @@ const Poster = styled.div`
     background-position:center;
     background-repeat:no-repeat;
     border:1px solid black;
-    border-radius:25px;
+    border-radius:100px;
+    
     width:50px;
     height:50px;
+    ${media.tablet`
+
+        width:100px;
+        height:100px;
+    `}
+
+    ${media.phone`
+
+        width:50px;
+        height:50px;
+    `}
+`;
+
+const Options = styled.div`
+
+    grid-area:options;
+    justify-self:end;
+    button{
+
+        margin-left:10px;
+    }
+
 `;
 
 
@@ -42,8 +68,16 @@ export default class PostComment extends Component{
             comment: "",
         };
 
+
+        this.minRows = 5;
+        if (isMobileOnly){
+
+            this.minRows = 3;
+        }
+
         this.onUpdateComment = this.onUpdateComment.bind(this);
         this.onPostComment = this.onPostComment.bind(this);
+        this.resetState = this.resetState.bind(this);
     }
 
     resetState(){
@@ -83,18 +117,19 @@ export default class PostComment extends Component{
         return (
             loggedInProfile?
 
-            <Wrapper style = {this.props.style} onSubmit = {this.onPostComment} id = "postComment">
+            <Wrapper style = {this.props.style}  id = "postComment">
             <Poster profilePicture = {loggedInProfile.profilePicture.url}/>
             <ContentField placeholder = "Type your comment here" 
             form = "postComment"
             //This works like expected except gotta click button twice.
-            minRows = {1}
+            minRows = {this.minRows}
             onChange = {this.onUpdateComment} 
             value = {this.state.comment}
             style = {{gridArea:"comment"}}/>
-            <div style = {{gridArea:"options", justifySelf:"end", alignSelf:"start"}}>
-            {<Button type = "submit" style = {{padding:"5px", marginTop:"5px"}} > Post </Button>}
-            </div>
+            <Options>
+            <Button onClick = {this.resetState}> Cancel </Button>
+            <Button onClick = {this.onPostComment} style = {{padding:"5px", marginTop:"5px"}} > Post </Button>
+            </Options>
             </Wrapper>
             :
             //Alot of hard literalling the strings recently, they exist, I should use.

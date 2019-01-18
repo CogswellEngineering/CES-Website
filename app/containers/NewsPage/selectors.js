@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { BLOG_PATH } from 'SiteData/constants';
 
-
+import {isBrowser}  from "react-device-detect";
 
 
 const blogPageState = (state) => state.get(BLOG_PATH);
@@ -42,17 +42,18 @@ const makeSelectPosts = () => createSelector(
         
         if (blogPageState == null) return [];
         
-
+      
         const toShow = [];
         const amountToShow = blogPageState.get("amountToShow");
         const allPosts = blogPageState.get("allPosts");
         const tagFilter = blogPageState.get("tagFilter");
-        //So adding filter for tags
-        console.log("all tags", tagFilter);
         const filteredPosts = getFilteredPosts(tagFilter, allPosts);
 
-        console.log("filteredPosts", filteredPosts);
 
+        if (!isBrowser){
+
+            return filteredPosts;
+        }
 
         for (var i = 0; i < amountToShow && i < filteredPosts.length; ++i){
 
@@ -86,8 +87,16 @@ const makeSelectAmountToShow = () => createSelector(
 
         if (blogPageState == null) return 0;
 
-        const amountToShow = blogPageState.get("amountToShow");
+        var amountToShow;
+        if (!isBrowser){
 
+            amountToShow = blogPageState.get("allPosts").length;
+             
+        }
+        else{
+
+            amountToShow = blogPageState.get("amountToShow");
+        }
         return amountToShow;
     }
 )

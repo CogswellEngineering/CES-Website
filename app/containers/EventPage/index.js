@@ -70,16 +70,12 @@ class EventPage extends Component{
         //OnAttend and OnTrack maybe better as dispatches actually
         //through a saga, since they both effect database.
        
-        this.onShareClicked = this.onShareClicked.bind(this);
-
         this.updatePosterPicture = this.updatePosterPicture.bind(this);
     }
 
 
     componentDidMount(){
 
-        //Unfortunate that have to repeat this, but whatever
-      //  window.scrollTo(0,0);
         this.pullEventData();
 
 
@@ -110,11 +106,6 @@ class EventPage extends Component{
 
         this.props.onLoadEvent(eventUid);
     }
-
-    onShareClicked = () => {
-
-    }
-
 
     renderHeader(){
 

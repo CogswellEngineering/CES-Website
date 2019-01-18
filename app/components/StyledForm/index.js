@@ -12,10 +12,8 @@ export const ContentField = styled(Textarea)`
 
     width:100%;
     resize: none;
-    font-size:1.2em;
     border:1px solid black;
     font-family: sans-serif;
-    font-size: 14px;
     line-height: 20px;
     &:focus{
 

@@ -21,6 +21,11 @@ export default function appReducer(state = initialState, action){
 
      
         case LOCATION_CHANGE:
+    
+            //Didn't think of doing this before lmao.
+            //Also with header not fixed NOT really needed anymore.
+            //though leaving so if make fixed in future.
+            window.scrollTo(0,0); 
 
             return state
                 .set("mainContentPath",action.payload.pathname);

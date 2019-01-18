@@ -50,6 +50,7 @@ const BlogsPanel = styled.div`
 `;
 
 
+//This actually shouldn't even exist if mobile.
 const LoadMoreButton = styled.div`
 
     grid-area:"loadMore";
@@ -60,7 +61,7 @@ const LoadMoreButton = styled.div`
     padding:5px;
     align-self:center;
     justify-self:center;
-    width:10%;
+    width:20%;
     text-align:center;
     margin:auto;
     margin-top:2.5%;

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Linkify from 'react-linkify';
 
+import media from 'theme/media';
 
 //Need to do alot of refactoring to reuse stuff.
 const Title = styled.p`
@@ -18,7 +19,7 @@ const Wrapper = styled.div`
     margin-top:5%;
     padding-bottom:5%;
     grid-template-columns:auto;
-    grid-template-rows: 3fr auto auto 1fr auto;
+    grid-template-rows: auto auto auto 1fr auto;
 
     grid-template-areas:
     "thumbnail"
@@ -28,6 +29,19 @@ const Wrapper = styled.div`
     "comments";
 
     grid-row-gap: 10px;
+
+    ${media.tablet`
+
+        font-size:2em;
+        width:90%;
+    `}
+
+    ${media.phone`
+
+        width:80%;
+        font-size:1em;
+
+    `}
 
 
 `;
@@ -41,6 +55,26 @@ const Thumbnail = styled.div`
     background-size: 100% 100%;
     background-position:center;
     background-repeat: no-repeat;
+
+    ${media.giant`
+
+        height:800px;
+    `}
+
+    ${media.desktop`
+
+        height:350px;
+    `}
+
+    ${media.tablet`
+
+        height:300px;
+
+    `}
+    ${media.phone`
+
+        height:200px;
+    `}
 
 `;
 
@@ -56,13 +90,17 @@ const Header = styled.div`
     grid-template-areas:
     "title title"
     "date author";
+
+    ${media.tablet`
+
+        width:100%;
+    `}
 `;
 
 const Body = styled(Linkify)`
 
     grid-area:body;
     
-    //So raw.
     & > a {
 
         text-decoration:none;
@@ -87,7 +125,10 @@ const Footer = styled.div`
     "tagTitle shareTitle"
     "tags share";
 
+    ${media.tablet`
 
+        display:block;
+    `}
 
 `;
 

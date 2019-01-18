@@ -66,7 +66,6 @@ class NewsPost extends Component{
 
     componentDidMount(){
 
-        window.scrollTo(0,0);
         this.pullPostInfo();
         //Implement a buffer so if same news post don't pull just reuse.
         //Maybe even have a prebuffer before this is ever visited, based on views.
@@ -109,7 +108,7 @@ class NewsPost extends Component{
         const format = "MMMM D, YYYY";
         return (<Header>
             
-                <div style = {{gridArea:"title", fontSize:"20px", textAlign:"center", fontWeight:"bold"}}> {topic} </div>
+                <div style = {{gridArea:"title", textAlign:"center", fontWeight:"bold"}}> {topic} </div>
                 <div style = {{gridArea:"date", textAlign:"center"}}> {dateFns.format(postDate,format)} </div>
                 {/*Change this to link to profile later*/}
                 <div style = {{gridArea:"author", textAlign:"center", }}>  

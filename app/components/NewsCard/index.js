@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import dateFns from 'date-fns';
 import Tags from 'components/Tags';
 import {UserLink} from 'components/General';
+import media from 'theme/media';
 const advanceIcon = require('images/icons8-advance-48.png');
 //Aight, Ima just copy common news card layouts 
 //seen in league, overwatch, runescape.
@@ -19,7 +20,7 @@ const Wrapper = styled.div`
     height:auto;
 
     display:grid;
-    grid-column-gap: 1%;
+    grid-column-gap: 10px;
     grid-template-columns: 30% 60%; 
     grid-template-rows: auto auto auto;
 
@@ -31,6 +32,22 @@ const Wrapper = styled.div`
     &:hover{
         background-color:rgba(2, 28, 73,0.5);
     }
+
+
+    ${media.tablet`
+
+        width:90%;
+        margin:auto;
+        grid-template-columns: 1fr auto;
+        grid-template-rows: auto auto auto auto;
+
+        grid-template-areas:
+        "thumbnail thumbnail"
+        "header header"
+        "description description"
+        "footer footer";
+
+    `}
 `;  
 
 
@@ -54,6 +71,17 @@ const Thumbnail = styled.div`
     background-position:center;
     background-repeat: no-repeat;
     cursor:pointer;
+
+    ${media.tablet`
+
+        height:300px;
+
+    `}
+
+    ${media.phone`
+
+        height:200px;
+    `}
 `;
 
 //Will include title and author
@@ -66,13 +94,21 @@ const Header = styled.div`
     grid-template-areas:
     "title title"
     "author uploadDate";
+
+    ${media.tablet`
+
+    font-size:2em;
+    `}
+    ${media.phone`
+
+        font-size:1em;
+    `}
 `;
 
 const Title = styled(Clickable)`
 
     grid-area:title;
     font-weight: bold;
-    font-size:1.5em;
     color:white;
     cursor:pointer;
 
@@ -84,9 +120,10 @@ const Title = styled(Clickable)`
 
 `;
 
-const Author = styled.div`
+const Author = styled.p`
 
     grid-area:author;
+   
 `;
 
 
@@ -102,6 +139,14 @@ const Description = styled.p`
 
     grid-area:description;
     place-self:start;
+    ${media.tablet`
+
+        font-size:2em;
+    `}
+    ${media.phone`
+
+        font-size:1em;
+    `}
 `;
 
 
@@ -116,6 +161,12 @@ const Footer = styled.div`
     "tags button";
     align-items:center;
     
+    //Won't show tags on mobile.
+    ${media.tablet`
+
+        display:block;
+        text-align:right;        
+    `}
 `;
 
 
@@ -123,14 +174,21 @@ const Footer = styled.div`
 const Button = styled(Clickable)`
 
     grid-area:button;
-    justify-self:end;
-    align-self:end;
+   
     background-image:url(${props => props.image});
     background-size: 100% 100%;
     background-position:center;
     background-repeat:no-repeat;
-    width:48px;
-    height:48px;
+   
+
+    ${media.tablet`
+
+    font-size:2em;
+    `}
+    ${media.phone`
+
+        font-size:1em;
+    `}
 `;
 
 
@@ -140,7 +198,6 @@ const NewsCard = props => {
 
 
     const {postUid,thumbnail,topic,author, postDate, content,tags, onCardClicked, onTagClicked} = props;
-    console.log("post date", postDate);
     return (
         <Wrapper style = {props.style}>
 
@@ -156,7 +213,7 @@ const NewsCard = props => {
             <Description> {content} </Description>
             <Footer>
                 <Tags style = {{gridArea:"tags"}} tags = {tags} onTagClicked = {onTagClicked} />
-                <Button style = {{gridArea:"button"}} onClick = { () => {onCardClicked(postUid)}} image = {advanceIcon}/> 
+                <Button style = {{gridArea:"button"}} onClick = { () => {onCardClicked(postUid)}} > See More </Button> 
             </Footer>
 
         </Wrapper>

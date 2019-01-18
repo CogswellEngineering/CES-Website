@@ -4,8 +4,8 @@ const sizes = {
 
     phone: 480,
     tablet: 768,
-    desktop: 992,
-    giant: 1170,
+    desktop: 1600,
+    giant: 2000,
 };
 
 function phone(...args) {
