@@ -51,10 +51,16 @@ const MobileHeader = styled.div`
 
 
 
-const StyledBrowser = styled(BrowserView)`
+const StyledBrowser = styled.div`
 
-  display:flex;
-  justify-content:space-evenly;
+  display:grid;
+  width:95%;
+  margin:auto;
+  grid-template-columns: auto 1fr 1fr;
+  grid-template-rows: 100%;
+  grid-template-areas:
+  "icon nav account";
+  align-items:center;
 
 `;
 
@@ -116,7 +122,6 @@ const ActionMenu = styled.div`
 
   left: ${props => props.open? "0%" : "100%"};
   right:0;
-  border:2px solid black;
   background-color: rgb(0, 24, 74);
 `;
 
@@ -128,6 +133,19 @@ const MobileNav = styled.div`
     display:flex;
     flex-direction:column;
     justify-content:space-evenly;
+
+    ${media.tablet`
+
+        font-size:2em;
+        text-align:center;
+  
+    `}
+
+    ${media.phone`
+
+        font-size:1em;
+        text-align:left;
+    `}
 `;
 
 
@@ -251,10 +269,11 @@ class Header extends Component{
 
     const props = this.props;
 
-    return <StyledBrowser>
-          <div style = {{display:"flex",  width:"80%"}}>
-                <ClubLogo src={require('images/CESLogo.png')} alt="sdf"/>
-                <Navbar>    
+    return <BrowserView><StyledBrowser>
+                
+        <ClubLogo src={require('images/CESLogo.png')} style = {{gridArea:"icon"}} alt="sdf"/>
+
+                <Navbar style = {{gridArea:"nav"}}>    
 
                   {
                     navPages.map(page => {
@@ -266,12 +285,12 @@ class Header extends Component{
 
               </Navbar>
 
-          </div>
 
-            <UserActions/>
+            <UserActions style = {{gridArea:"account", justifySelf:"end"}}/>
 
 
           </StyledBrowser>
+          </BrowserView>
   }
 
 

@@ -9,17 +9,18 @@ export const NavLink = styled(Link)`
     text-decoration:none;
     border-bottom: 1px solid  ${props => props.active == 'true'? 'rgb(14, 80, 38)' : 'clear'};
     padding-bottom: ${props => props.active? '0.5em' : '0'};
+    margin-left:10px;
     &:hover{
 
         color:white;
     }
 
-    ${media.phone`
+    ${media.tablet`
 
-        font-size:1em;
         border-bottom: 0.5px solid white;
         color: ${props => props.active == 'true'? "white" : "rgb(254, 161, 0)"};
         margin-top:5%;
+        padding-bottom:0;
     `}
 
 `;

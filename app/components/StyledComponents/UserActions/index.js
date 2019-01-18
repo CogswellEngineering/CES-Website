@@ -8,15 +8,12 @@ import media from 'theme/media';
 //same for now.
 const UserActionsWrapper = styled.div`
 
-    display:flex;
-    width:25%;
-    justify-content:flex-end;    
-
-    ${media.phone`
+    ${media.tablet`
         
-        display:block;
-        width:100%;
-
+        display:flex;
+        width:auto;
+        flex-direction:column;        
+        text-align:right;
     `}
 `
 
@@ -33,27 +30,31 @@ const UserActionLink = styled(Link)`
     &:hover {
         color:white;
       };
-`;
 
-
-const Button = styled.button`
-
-
-
-    &:hover {
-        color:white;
-      };
+    
+    ${media.tablet`
+      border-bottom: 0.5px solid white;
+      color: ${props => props.active == 'true'? "white" : "rgb(254, 161, 0)"};
+      margin-top:5%;
+    `}
 
 `;
+
 const LogoutButton = styled.button`
 
-    color:black;
     &:hover {
-        background: white;
+        color: white;
       };
     color: rgb(254, 161, 0);
     text-transform:uppercase;  
-
+    cursor:pointer;
+       
+    ${media.tablet`
+      border-bottom: 0.5px solid white;
+      color: ${props => props.active == 'true'? "white" : "rgb(254, 161, 0)"};
+      margin-top:5%;
+      text-align:right;
+    `}
 `;
 
 

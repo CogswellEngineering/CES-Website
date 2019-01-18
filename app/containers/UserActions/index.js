@@ -43,7 +43,7 @@ class UserActions extends React.PureComponent{
 
                 //If it's empty then remove the cookie
 
-                (<UserActionsWrapper>
+                (<UserActionsWrapper style = {this.props.style}>
 
                         <UserActionLink to={LOGIN_PATH} onClick = {onActionSelected }> Login </UserActionLink>
                         <UserActionLink to={REGISTER_PATH} onClick = {onActionSelected}> Join us </UserActionLink>
@@ -54,7 +54,7 @@ class UserActions extends React.PureComponent{
             
             :
           (
-                <UserActionsWrapper >
+                <UserActionsWrapper  style = {this.props.style}>
 
                     {/* Hello, {props.profile.displayName} */}
 
