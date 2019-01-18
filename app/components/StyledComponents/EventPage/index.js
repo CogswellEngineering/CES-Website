@@ -1,6 +1,6 @@
 
 import styled from 'styled-components';
-
+import media from 'theme/media';
 
 const Wrapper = styled.div`
 
@@ -11,11 +11,10 @@ const Wrapper = styled.div`
     margin-top:5%;
     padding-bottom:5%;
 
+    grid-row-gap:10px;
+    //For desktop view.
     grid-template-columns: 1.5fr 1fr;
     grid-template-rows: 1fr 1fr auto 2fr auto;
-    //temp to see how big they are
-    grid-row-gap:1%;
-    grid-column-gap:1%;
     grid-template-areas:
     "Poster Header"
     "Poster Header"
@@ -23,14 +22,41 @@ const Wrapper = styled.div`
     "Body Body" 
     "Footer Footer";
 
+
+    //Doing just tablet, cause same css for both phones and tablets.
+    ${media.tablet`
+
+        grid-template-columns: 100%;
+        grid-template-rows: auto auto auto 2fr auto;
+        grid-template-areas:
+        "Poster"
+        "Header"
+        "Gallery"
+        "Body"
+        "Footer";
+    `};
+
+    ${media.tablet`
+
+        grid-template-columns: 100%;
+        grid-template-rows: auto auto auto 2fr auto;
+        grid-template-areas:
+        "Poster"
+        "Header"
+        "Gallery"
+        "Body"
+        "Footer";
+    `}
+
 `;
 
 const Poster = styled.div`
+
     grid-area: Poster;
     background-image:url(${props => props.image});
     background-size: 100% 100%;
+    height:300px;
     background-position:center;
-    
     background-repeat: no-repeat;
 `;
 
@@ -40,12 +66,16 @@ const Header = styled.div`
     grid-area:Header;
     display:grid;
     grid-template-columns: auto;
-    grid-template-rows: 1fr auto 1fr auto;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
     grid-template-areas:
     "date"
     "title"
     "host"
     "footer";
+
+    ${media.phone`
+
+    `};
 `;
 
 
@@ -56,12 +86,10 @@ const Gallery = styled.div`
     white-space: nowrap; /* will prevent text from wrapping */
 
     overflow-x: ${props => props.isEmpty? "hidden" : "scroll"};
-     position: relative;
 `;
 
 const Picture = styled.img`
 
-    background-image:url(${props => props.image});
     cursor:pointer;
     width:100px;
     height:96px;
@@ -76,7 +104,6 @@ const Body = styled.div`
 
     display:grid;
     grid-template-columns: 1fr 1fr;
-    grid-row-gap:5%;
     grid-column-gap:5%;
 
     //I want to do the spanning stuff
@@ -89,6 +116,15 @@ const Body = styled.div`
     grid-template-areas:
     "description aside"
     "description .";
+
+    ${media.tablet`
+
+        grid-template-areas:
+        "aside aside"
+        "description description";
+        place-items:center;
+        grid-column-gap:0%;
+    `};
 
 `;
 

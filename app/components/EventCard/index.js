@@ -27,7 +27,7 @@ const Card = styled.div`
     color:white;
     font-weight:bold;
 
-    transition: transform .2s; /* Animation */
+    transition: transform .2s; 
 
   
     &:hover{
