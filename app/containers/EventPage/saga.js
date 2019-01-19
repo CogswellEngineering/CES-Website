@@ -241,7 +241,7 @@ function* addViewSaga(payload){
 
     //Just in events should be fine, right? Do I need to make analytics collection?
     //WHatever, as long as storing it
-    const analyticsRef = eventsRef.collection("Analytics",doc(payload.eventUid));
+    const analyticsRef = eventsRef.collection("Analytics").doc(payload.eventUid);
 
 
     firestore.runTransaction( transaction => {
@@ -278,7 +278,7 @@ function* addViewSaga(payload){
 
 function* saga(){
 
-    yield takeLatest(LOAD_EVENT, loadEventSaga);
+    yield takeEvery(LOAD_EVENT, loadEventSaga);
     yield takeEvery(ADD_VIEW, addViewSaga);
     yield takeEvery(TRACK_EVENT, trackEventSaga);
     yield takeLatest(UNTRACK_EVENT, untrackEventSaga);

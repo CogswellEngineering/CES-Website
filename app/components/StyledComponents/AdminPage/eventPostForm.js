@@ -9,7 +9,7 @@ import {
     ThumbnailDropzone,
     Title
 } from './generalFormComponents';
-import TagForm from './tagForm';
+import TagForm from 'components/TagForm';
 import Tags from 'components/Tags';
 import {Button} from 'components/General';
 

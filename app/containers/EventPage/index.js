@@ -20,7 +20,7 @@ import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import reducer from './reducer';
 import saga from './saga';
-import {SPECIFIC_EVENT} from 'SiteData/constants';
+import {SPECIFIC_EVENT, USER_PROFILE_PATH} from 'SiteData/constants';
 import {
 
     addView,
@@ -118,6 +118,8 @@ class EventPage extends Component{
         console.log("props", this.props);
         console.log(startDate);
         const format = "MMM D";
+        const profilePath = USER_PROFILE_PATH.split(":")[0];
+
         return (
             <Header>
 
@@ -127,7 +129,7 @@ class EventPage extends Component{
                    
                     {
                         host.uid?
-                        <UserLink to = {"/account/"+host.uid}> {host.name} </UserLink>
+                        <UserLink to = {profilePath+host.uid}> {host.name} </UserLink>
                     :
                         <HostLink href = {"mailto:"+host.email}> {host.name || "TBD"} </HostLink>
                     }

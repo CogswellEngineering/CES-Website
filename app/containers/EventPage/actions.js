@@ -96,6 +96,7 @@ function untrackEvent(userUid, eventUid){
 
 export{
 
+    addView,
     loadEvent,
     loadedEvent,
     attendEvent,

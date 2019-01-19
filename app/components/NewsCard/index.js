@@ -4,6 +4,7 @@ import dateFns from 'date-fns';
 import Tags from 'components/Tags';
 import {UserLink} from 'components/General';
 import media from 'theme/media';
+import {USER_PROFILE_PATH} from 'SiteData/constants';
 const advanceIcon = require('images/icons8-advance-48.png');
 //Aight, Ima just copy common news card layouts 
 //seen in league, overwatch, runescape.
@@ -212,6 +213,9 @@ const NewsCard = props => {
 
 
     const {postUid,thumbnail,topic,author, postDate, content,tags, onCardClicked, onTagClicked} = props;
+
+    const profilePath = USER_PROFILE_PATH.split(":")[0];
+
     return (
         <Wrapper style = {props.style}>
 
@@ -220,7 +224,7 @@ const NewsCard = props => {
             <Header>
 
                 <Title  onClick = { () => {onCardClicked(postUid)}}> {topic} </Title>
-                  <Author> by <UserLink to = {"/account/" + author.uid}>{author.name}</UserLink> </Author> <UploadDate>{ postDate && dateFns.format(postDate, "MMMM     DD YYYY")} </UploadDate> 
+                  <Author> by <UserLink to = { profilePath + author.uid}>{author.name}</UserLink> </Author> <UploadDate>{ postDate && dateFns.format(postDate, "MMMM     DD YYYY")} </UploadDate> 
 
             </Header>
 

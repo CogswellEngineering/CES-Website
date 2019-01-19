@@ -13,6 +13,8 @@ import {compose} from 'redux';
 import injectReducer from 'utils/injectReducer';
 import { createStructuredSelector } from 'reselect';
 import reducer from './reducer';
+import Dropzone from 'react-dropzone';
+
 import { makeSelectLoggedIn, makeSelectLoggedInProfile } from 'containers/App/selectors';
 
 import { makeProfileImageSelector } from './selectors';
@@ -22,9 +24,10 @@ import { onUpdateClicked, profilePictureUploaded, onUpdateCancelled, pageLoaded 
 import injectSaga from 'utils/injectSaga';
 import { UPDATE_USER_PROFILE_PATH, LOGIN_PATH } from 'SiteData/constants';
 import {dimensions} from 'components/ProfileImage';
-import Dropzone from 'react-dropzone';
 
 import {ProfilePicture} from 'components/General';
+import TagForm from 'components/TagForm';
+import Tags from 'components/Tags';
 import {
     UpdateProfileWrapper,
     BioInput,
@@ -88,12 +91,17 @@ class UpdateProfilePage extends Component{
             bio:"",
             major:"",
             year:"",
+            concentrations:[],
         };
 
         this.onFieldUpdate = this.onFieldUpdate.bind(this);
+        this.onAddConcentration = this.onAddConcentration.bind(this);
+        this.onRemoveConcentration = this.onRemoveConcentration.bind(this);
         this.onDropdownSelected = this.onDropdownSelected.bind(this);
+    
         this.onProfilePictureUpdated = this.onProfilePictureUpdated.bind(this);
         this.onUpdate = this.onUpdate.bind(this);
+    
     }
 
 
@@ -130,6 +138,39 @@ class UpdateProfilePage extends Component{
 
             [target.id] : target.value
         });
+    }
+
+    onAddConcentration(concentration){
+
+        this.setState(state => {
+
+            const newConcentrations = state.concentrations.concat(concentration);
+
+
+            return {
+
+                concentrations: newConcentrations,
+            }
+        });
+
+    }
+
+    onRemoveConcentration(concentration){
+        
+        this.setState(state => {
+
+            //Filtering to not include the removed tag
+            const newConcentrations = state.concentrations.filter( currentConcentration => {
+
+                return concentration.title !== concentration.title;
+            });
+
+
+            return {
+                concentrations: newConcentrations
+            };
+        });
+
     }
 
     onProfilePictureUpdated(acceptedFiles, rejectedFiles){
@@ -179,7 +220,8 @@ class UpdateProfilePage extends Component{
 
          this.profileUrl = "/account/"+currentUser.uid;
          this.setState({
-             bio:this.props.profile.bio
+             bio:this.props.profile.bio,
+             concentrations: this.props.profile.concentrations,
          });
 
          this.props.onLoad(this.props.profile);
@@ -195,7 +237,7 @@ class UpdateProfilePage extends Component{
 
     onUpdate(){
 
-        const  { displayName, profilePicture, profilePicturePreview, firstName,lastName, major, year, bio } = this.state;
+        const  { displayName, profilePicture, concentrations, profilePicturePreview, firstName,lastName, major, year, bio } = this.state;
 
         const { profile, onUpdate, firebase} = this.props;
 
@@ -204,6 +246,7 @@ class UpdateProfilePage extends Component{
             //Should work cause will use key to get same value from profile object.
             displayName: displayName == ""? profile.displayName : displayName,
             firstName: firstName == ""? profile.firstName : firstName,
+            concentrations: concentrations,
             lastName: lastName == ""? profile.lastName : lastName,
             major: major == ""? profile.major : major,
             year: year == ""? profile.year : year,
@@ -302,6 +345,14 @@ class UpdateProfilePage extends Component{
                                 value={year} placeholder={profile.year} />
                         </div>
                         </DropdownSection>
+
+                        <div>
+                            {/*Later add functionality to search users with this concentration*/}
+                            <Tags tags = {this.state.concentrations}/>
+                            <TagForm onAddTag = {this.onAddConcentration}/>
+
+                        </div>
+
                         <BioInput>
 
                             <BioLabel htmlFor="bio"> Bio </BioLabel>

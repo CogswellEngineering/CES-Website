@@ -8,7 +8,8 @@ import {
     ThumbnailDropzone,
     Title,
 } from './generalFormComponents';
-import TagForm from './tagForm';
+import TagForm from 'components/TagForm';
+
 import {Button} from 'components/General';
 
 const Wrapper = styled.div`

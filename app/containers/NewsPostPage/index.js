@@ -16,6 +16,7 @@ import reducer from './reducer';
 import dateFns from 'date-fns';
 import {
     SPECIFIC_POST,
+    USER_PROFILE_PATH,
 } from 'SiteData/constants';
 import Tags from 'components/Tags';
 import {
@@ -113,13 +114,16 @@ class NewsPost extends Component{
         const {topic, postDate, author} = this.props.post;
         console.log(postDate);
         const format = "MMMM D, YYYY";
+
+        const profilePath = USER_PROFILE_PATH.split(":")[0];
+
         return (<Header>
             
                 <Title style = {{gridArea:"title", textAlign:"center", fontWeight:"bold"}}> {topic} </Title>
                 <UploadDate style = {{gridArea:"date", textAlign:"center"}}> {dateFns.format(postDate,format)} </UploadDate>
                 {/*Change this to link to profile later*/}
                 <Author style = {{gridArea:"author", textAlign:"center", }}>  
-                <UserLink to = {"/account/" + author.uid}> {author.name} </UserLink> </Author>
+                <UserLink to = { profilePath + author.uid}> {author.name} </UserLink> </Author>
             
             </Header>);
     }
