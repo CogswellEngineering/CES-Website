@@ -11,8 +11,10 @@ const UserActionsWrapper = styled.div`
     ${media.tablet`
         
         display:flex;
-        width:auto;
-        flex-direction:column;        
+        width:100%;
+        flex-direction:column; 
+        
+        
     `}
 `
 
@@ -43,8 +45,6 @@ const LogoutButton = styled.button`
 export {
     
     UserActionsWrapper,
-    UserActionLink,
-    DisplayName,
     Button,
     LogoutButton,
 };

@@ -30,7 +30,9 @@ const HeaderWrapper = styled.div`
 
   background-color: rgb(0, 24, 74);// rgb(36, 154, 29);
   width:100%;
-  height:100%;
+  position:sticky;
+  top:0;  
+  z-index: 1;
   text-transform:uppercase;
   font-size:0.8em;
   padding-bottom:5px;
@@ -38,8 +40,9 @@ const HeaderWrapper = styled.div`
 
   ${media.tablet`
 
-    position: ${props=> props.sideOpen? 'fixed' :'sticky'};
 
+  //  position: ${props=> props.sideOpen? 'fixed' :'sticky'};
+    position:sticky;
     top:0;
   `}
 
@@ -100,39 +103,48 @@ const ClubLogo = styled.img`
 `;
 
 
-//Outside
 const MobileMenu = styled.div`
 
+   position:absolute;
+  width:100%;
+  height:${props => props.open? '90vh' : 'auto'};
 
-  position:fixed;
-  
-  height:100%;
   background-color: rgb(0, 24, 74);// rgb(36, 154, 29);
-  //Could prob isntead use css variable.
-  -webkit-transition:  ${props => props.open? 'width 0.2s ease-in-out' : ''};
-  -moz-transition:  ${props => props.open? 'width 0.2s ease-in-out' : ''};
-  -ms-transition: ${props => props.open? 'width 0.2s ease-in-out' : ''};   
-  -o-transition:  ${props => props.open? 'width 0.2s ease-in-out' : ''};
-  transition:  ${props => props.open? 'width 0.2s ease-in-out' : ''};
+ 
 
 
-  width: ${props => props.open? "100%" : "0"};
+  -webkit-transition:  ${props => props.open? 'right 0.2s ease-in-out' : ''};
+  -moz-transition:  ${props => props.open? ' right 0.2s ease-in-out' : ''};
+  -ms-transition:  ${props => props.open? 'right 0.2s ease-in-out' : ''}; 
+  -o-transition:  ${props => props.open? 'right 0.2s ease-in-out' : ''};
+  transition: ${props => props.open? 'right 0.2s ease-in-out' : ''}; 
+  
+  right: ${props => props.open? "0%" : "100%"};
+
+  
 `;
 
 const ActionMenu = styled.div`
 
-  position:fixed;
-  height:100%;
-  -webkit-transition:  ${props => props.open? 'left 0.2s ease-in-out' : ''};
-  -moz-transition:  ${props => props.open? 'left 0.2s ease-in-out' : ''};
-  -ms-transition:  ${props => props.open? 'left 0.2s ease-in-out' : ''}; 
-  -o-transition:  ${props => props.open? 'left 0.2s ease-in-out' : ''};
-  transition: ${props => props.open? 'left 0.2s ease-in-out' : ''}; 
-  width:100%
-  background-color: rgb(0, 24, 74);// rgb(36, 154, 29);
+   position:absolute;
+   width:100%;
+   height:${props => props.open? '90vh' : 'auto'};
+   
 
-  right:0;
-  left: ${props => props.open? "0%" : "100%"};
+ 
+//  transition: ${props => props.open? 'left 0.2s ease-in-out' : ''}; 
+  
+  //left: ${props => props.open? "0%" : "100%"};
+
+  
+  -webkit-transition:  ${props => props.open? 'right 0.2s ease-in-out' : ''};
+  -moz-transition:  ${props => props.open? ' right 0.2s ease-in-out' : ''};
+  -ms-transition:  ${props => props.open? 'right 0.2s ease-in-out' : ''}; 
+  -o-transition:  ${props => props.open? 'right 0.2s ease-in-out' : ''};
+  transition: ${props => props.open? 'right 0.2s ease-in-out' : ''}; 
+  
+  right: ${props => props.open? "0%" : "100%"};
+
   background-color: rgb(0, 24, 74);
 `;
 
@@ -204,8 +216,12 @@ class Header extends Component{
           <MobileMenu open = {this.props.navSideOpen}>
             
            { this.props.navSideOpen && <MobileNav>
+            
+            {/*
+          <ClubLogo src={require('images/CESLogo.png' )} style = {{gridArea:"icon"}} alt="sdf"/>
               
-              
+            <Hamburger style = {{gridArea:"hamburger"}} isOpen = {this.props.navSideOpen} menuClicked = {this.props.onNavToggle}
+            width={hamburgerDims.width} height={hamburgerDims.height} strokeWidth = {hamburgerDims.stroke}/>*/}
               {navPages.map(page => {
 
                     return <NavLink key={page.name} onClick = {this.props.closeAll} to={page.url} active={(page.url == props.activePage).toString()}> {page.name} </NavLink>
@@ -215,13 +231,13 @@ class Header extends Component{
 
           </MobileMenu>
 
-            <ActionMenu open = {this.props.accountSideOpen} >
+          <ActionMenu open = {this.props.accountSideOpen} >
 
               {this.props.accountSideOpen &&
               <MobileNav>
               
-
-                  <UserActions onActionSelected = {this.props.closeAll}/>
+              <UserActions onActionSelected = {this.props.closeAll}/>
+                  
             
                 </MobileNav>
               }

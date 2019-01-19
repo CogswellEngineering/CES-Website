@@ -87,12 +87,32 @@ class App  extends Component{
 
           navSidebarOpen:false,
           accSidebarOpen:false,
+          scrollingVertically:false,
         };
 
       
       } 
       this.onSideToggle = this.onSideToggle.bind(this);
       this.closeAllSides = this.closeAllSides.bind(this);
+      this.updateScrolling = this.updateScrolling.bind(this);
+    }
+
+    updateScrolling(val){
+
+      
+      if (this.state.navSidebarOpen || this.state.accSidebarOpen){
+
+        this.setState({
+          scrollingVertically:false,
+        });
+        return;
+      }
+      this.setState({
+
+        scrollingVertically:val,
+      });
+
+      console.log("Updated scrolling", this.state);
     }
     closeAllSides(){
 
@@ -112,7 +132,10 @@ class App  extends Component{
 
       console.log("called");
 
+      if (this.state.scrollingVertically){
 
+        return;
+      }
          //If this already true, and swiped that way, toggle
           //If other side
       if (side == 'navSidebarOpen'){
@@ -210,16 +233,19 @@ class App  extends Component{
       console.log("window outer height", window.innerHeight);
       return (
         <Swipe
-         // onSwipeRight = {() => {this.onSideToggle("navSidebarOpen")}}
-         // onSwipeLeft = {() => {this.onSideToggle("accSidebarOpen")}}
+       /*   onSwipeRight = {() => {this.onSideToggle("navSidebarOpen")}}
+          onSwipeLeft = {() => {this.onSideToggle("accSidebarOpen")}}
+          onSwipeUp = {() => {this.updateScrolling(true)}}
+          onSwipeDown = {() => {this.updateScrolling(true)}}
+          onSwipeEnd = {() => {this.updateScrolling(false)}}*/
           >
-        <AppWrapper height = {window.innerHeight + window.outerHeight}>
+        <AppWrapper>
           
           {isMobile && <Header activePage={this.props.location.pathname} navSideOpen = {this.state.navSidebarOpen} 
           accountSideOpen = {this.state.accSidebarOpen} onNavToggle = {() => {this.onSideToggle("navSidebarOpen")}}
       onAccToggle = {() => {this.onSideToggle("accSidebarOpen")}} closeAll = {this.closeAllSides}/> }
           {!isMobile && <Header activePage = {this.props.location.pathname}/>}
-          <BodyWrapper>
+          <BodyWrapper onClick = {() => {if (isMobile) this.closeAllSides()}}>
             <Switch>
               
               <Route exact path="/" component={HomePage} />
@@ -307,7 +333,7 @@ class App  extends Component{
             </Switch>
 
           </BodyWrapper>
-          <Footer/>
+          <Footer  onClick = {() => {if (isMobile) this.closeAllSides()}}/>
 
         </AppWrapper>
         </Swipe>

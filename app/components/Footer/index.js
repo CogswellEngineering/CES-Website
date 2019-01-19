@@ -53,7 +53,7 @@ const Footer = props => {
 
 
     //This will have link to contact, repository.
-    return (<Wrapper>
+    return (<Wrapper onClick = {props.onClick}>
         
         <Links>
 
