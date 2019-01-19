@@ -73,6 +73,7 @@ class NewsPost extends Component{
     componentDidMount(){
 
         this.pullPostInfo();
+        this.props.addView(this.props.match.params.uid);
         //Implement a buffer so if same news post don't pull just reuse.
         //Maybe even have a prebuffer before this is ever visited, based on views.
     }
@@ -256,9 +257,9 @@ const mapDispatchToProps = dispatch => {
             return dispatch(loadPost(postUid));
         },
 
-        addView: () => {
+        addView: (uid) => {
 
-            return dispatch(addView());
+            return dispatch(addView(uid));
         },
 
         commentPosted: (comment) => {

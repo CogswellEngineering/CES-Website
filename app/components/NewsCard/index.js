@@ -21,6 +21,7 @@ const Wrapper = styled.div`
     
     display:grid;
     grid-column-gap: 10px;
+    grid-row-gap:10px;
     grid-template-columns: 30% 60%; 
     grid-template-rows: 100px 100px 100px;
 

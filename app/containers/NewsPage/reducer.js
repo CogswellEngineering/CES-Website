@@ -8,7 +8,7 @@ const initialState = fromJS({
 
     allPosts : [],
     tagFilter:[],
-    amountToShow:2,
+    amountToShow:3,
     loadingPosts:false,
 })
 

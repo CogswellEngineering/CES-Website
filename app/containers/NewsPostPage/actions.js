@@ -68,11 +68,11 @@ export function updatedComments(comments){
 
 //To keep everything in sync, adding to view will be re-reading the view count from firestore at that point
 //then updating it
-//Cause if do with current view count loaded in, that may not be accurate.
-export function addView(){
+export function addView(uid){
 
     return {
-        type:ADD_VIEW
+        type:ADD_VIEW,
+        uid,
     };
 }
 

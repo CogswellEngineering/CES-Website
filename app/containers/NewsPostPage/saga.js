@@ -1,10 +1,11 @@
-import {takeLatest, put} from 'redux-saga/effects';
+import {takeLatest, takeEvery, put} from 'redux-saga/effects';
 import firebase from 'firebase';
 import{
 
 
     LOAD_POST,
     COMMENT_POSTED,
+    ADD_VIEW,
 } from './constants';
 
 import {
@@ -112,8 +113,48 @@ function* postCommentSaga(payload){
 }
 
 
+//Prob also add view for event page.
+
+function* addView(payload){
+
+
+    const firestore = firebase.firestore();
+
+    const postRef = firestore.collection("ClubInfo").doc("News").collection("NewsPosts").doc(payload.uid);
+
+    firestore.runTransaction( transaction => {
+
+        return transaction.get(postRef).then(postDoc => {
+
+            if (postDoc.exists){
+
+                const newViewCount = postDoc.data().viewCount + 1;
+
+                transaction.update(postRef,{viewCount: newViewCount});
+                return newViewCount;
+
+            }
+            else{
+                throw "Could not find post with uid:" + payload.uid;
+            }
+
+        });
+
+    })
+    .then (newViewCount => {
+
+        console.log("New View Count is " + newViewCount);
+    })
+    .catch(err => {
+
+        console.log(err);
+    })
+}
+
+
 export default function* saga(){
 
-    yield takeLatest(LOAD_POST, loadPostSaga);
+    yield takeEvery(LOAD_POST, loadPostSaga);
+    yield takeEvery(ADD_VIEW, addView);
     yield takeLatest(COMMENT_POSTED, postCommentSaga);
 }
