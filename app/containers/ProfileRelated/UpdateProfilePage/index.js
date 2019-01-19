@@ -93,7 +93,7 @@ class UpdateProfilePage extends Component{
         this.onFieldUpdate = this.onFieldUpdate.bind(this);
         this.onDropdownSelected = this.onDropdownSelected.bind(this);
         this.onProfilePictureUpdated = this.onProfilePictureUpdated.bind(this);
-        this.onRegister = this.onRegister.bind(this);
+        this.onUpdate = this.onUpdate.bind(this);
     }
 
 
@@ -193,11 +193,11 @@ class UpdateProfilePage extends Component{
         }
     }
 
-    onRegister(){
+    onUpdate(){
 
         const  { displayName, profilePicture, profilePicturePreview, firstName,lastName, major, year, bio } = this.state;
 
-        const { profile, onUpdate} = this.props;
+        const { profile, onUpdate, firebase} = this.props;
 
                     
         const update = {
@@ -220,6 +220,7 @@ class UpdateProfilePage extends Component{
             
         };
 
+        //Replace with selector later.
          const uid = firebase.auth().currentUser.uid;
         
          onUpdate(uid,profileImgs,update);
@@ -315,7 +316,7 @@ class UpdateProfilePage extends Component{
 
                         <ErrorMessage> {error} </ErrorMessage>
                         <Footer>
-                        <StyledButton onClick = {this.onRegister}> Update </StyledButton> 
+                        <StyledButton onClick = {this.onUpdate}> Update </StyledButton> 
                         <StyledButton onClick = {onCancel}> Cancel </StyledButton>
                         </Footer>
 

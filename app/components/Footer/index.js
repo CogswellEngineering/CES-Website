@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import {FOOTER_COLOR} from 'theme/colors';
 const githubLogo = require("images/icons8-github-64.png");
 const discordLogo = require("images/icons8-discord-48.png");
 
 
 const Wrapper = styled.div`
     
-    background-color: rgb(0, 24, 74);
+    background-color: ${FOOTER_COLOR};
     color: rgb(254, 161, 0);
 
     //I mean padding keeps it consistent.

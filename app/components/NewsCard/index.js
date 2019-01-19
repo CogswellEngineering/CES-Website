@@ -22,7 +22,7 @@ const Wrapper = styled.div`
     display:grid;
     grid-column-gap: 10px;
     grid-template-columns: 30% 60%; 
-    grid-template-rows: auto auto auto;
+    grid-template-rows: 100px 100px 100px;
 
     grid-template-areas:
     "thumbnail header"
@@ -73,13 +73,13 @@ const Thumbnail = styled.div`
     background-repeat: no-repeat;
     cursor:pointer;
 
-
+    height:300px;
 
     ${media.tablet`
 
     height:300px;
 
-`}
+    `}
 
 ${media.phone`
 
@@ -150,6 +150,7 @@ export const UploadDate = styled.p`
 //That will be done via form submission of adding new posts.
 const Description = styled.p`
 
+    //I want to parse it to first sentence.
     grid-area:description;
     place-self:start;
     ${media.tablet}
@@ -196,7 +197,6 @@ const Button = styled(Clickable)`
 
         
         place-self:center;
-
     `}
     ${media.phone`
 
@@ -226,7 +226,7 @@ const NewsCard = props => {
             <Description> {content} </Description>
             <Footer>
                 <Tags style = {{gridArea:"tags"}} tags = {tags} onTagClicked = {onTagClicked} />
-                <Button style = {{gridArea:"button"}} onClick = { () => {onCardClicked(postUid)}} > See More </Button> 
+                <Button style = {{gridArea:"button"}} onClick = { () => {onCardClicked(postUid)}} > More </Button> 
             </Footer>
 
         </Wrapper>

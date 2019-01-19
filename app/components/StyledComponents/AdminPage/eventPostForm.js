@@ -43,8 +43,6 @@ export default class EventPostForm extends Component{
             hostUid:"",
             title:"",
 
-            //Later make choose from drop down or other.
-            type:"",
             description:"",
             //Prob object instead, just being lazy now, just string is okay, no need to separate
             //UNLESS HAVE FILTER FOR LOCATION, but that's later.
@@ -285,12 +283,7 @@ export default class EventPostForm extends Component{
                 </div>
 
                 
-                <div  style = {{marginTop:"1%"}}>
-
-                    <StyledLabel for = "type"> Type </StyledLabel>
-                    <StyledInput type = "text" id = "type" value = {this.state.type} onChange = {this.onUpdateTextField}/>
-
-                </div>
+             
 
                 <div  style = {{marginTop:"1%"}}>
 

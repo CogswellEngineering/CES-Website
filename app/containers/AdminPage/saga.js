@@ -161,12 +161,31 @@ function* postNews(payload){
                     console.log("post", post);
 
                     const postDate = new Date();
+
+                    //Hmm but I want it to include the .
+                    var previewContent = content[0];
+
+                    for (var i = 1; i < content.length; ++i){
+
+
+                        previewContent = previewContent .concat(content[i]);
+
+                        //Or any ending punc like exclamation
+                        const currentChar = content[i];
+                        if ( (currentChar == '.'  || currentChar == '?' || currentChar == '!' ) 
+                        && (content[i+1] == ' ' || i + 1 == content.length) ){
+
+                            break;
+                        }
+
+                    }
+                    console.log(previewContent);
                    
                     newsCardRef.set({
 
 
                         topic,
-                        content,
+                        content: previewContent,
                         tags,
                         author,
                         postDate,
@@ -229,7 +248,7 @@ function* postNews(payload){
                 const response = yield call(
 
                 request,
-                fbAdminAPI+"/updateEventTrackers",
+                BACK_END_URL+"/updateEventTrackers",
                 //I forgot exactly what this is called http headers? something like that no good forgetting this stuff
                 //lol, it'll recollect.                        
                 {
