@@ -25,7 +25,6 @@ import {
     LoginWrapper,
     MainContent,
     AlternativeOptions,
-    LoginInput,
 
 } from 'components/StyledComponents/LoginPage';
 
@@ -94,12 +93,12 @@ class LoginPage extends Component {
 
                     <div style = {{gridArea:"emailGroup"}}>
                     <StyledLabel htmlFor="email"> Email </StyledLabel>
-                    <LoginInput autoFocus type="email" id = "email" name ="email" value={props.email} onChange={(evt)=>{props.fieldChanged(evt)}}/>
+                    <StyledInput autoFocus type="email" id = "email" name ="email" value={props.email} onChange={(evt)=>{props.fieldChanged(evt)}}/>
                     </div>
 
                     <div style = {{gridArea:"passwordGroup"}}>
                     <StyledLabel htmlFor="password"> Password </StyledLabel>
-                    <LoginInput type="password" id="password" name="password" value={props.password} onChange={(evt)=>{props.fieldChanged(evt)}}/>
+                    <StyledInput type="password" id="password" name="password" value={props.password} onChange={(evt)=>{props.fieldChanged(evt)}}/>
                     </div>
 
                     <div style = {{gridArea:"options"}}>

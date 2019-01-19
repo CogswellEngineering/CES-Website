@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import {StyledInput, StyledButton,} from 'components/StyledForm'
-
+import media from 'theme/media';
 
 const LoginWrapper = styled.div`
 
@@ -11,13 +11,11 @@ const LoginWrapper = styled.div`
     grid-template-columns:auto;
     grid-template-rows: 1fr auto;
     justify-content:center;
+
+    ${media.tablet}
+    ${media.phone}
 `   
 
-
-const LoginInput = styled(StyledInput)`
-
-
-`;
 
 const MainContent = styled.form`
 
@@ -44,6 +42,5 @@ export{
     LoginWrapper,
     MainContent,
     AlternativeOptions,
-    LoginInput,
 
 }
