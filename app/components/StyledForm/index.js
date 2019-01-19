@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import Textarea from 'react-textarea-autosize';
-
+import media from 'theme/media';
 
 export default styled.form`
 
@@ -14,7 +14,7 @@ export const ContentField = styled(Textarea)`
     resize: none;
     border:1px solid black;
     font-family: sans-serif;
-    line-height: 20px;
+    line-height: 1.6em;
     &:focus{
 
         border:1px solid #c6e28d;
@@ -22,6 +22,9 @@ export const ContentField = styled(Textarea)`
         outline:none;
 
     }
+
+    ${media.tablet}
+    ${media.phone}
 
 `;
 export const StyledLink = styled(Link)`
@@ -40,8 +43,9 @@ export const FormGroup = styled.div`
 export const StyledButton = styled.button`
 
     border: 1px solid black;
+    ${media.tablet}
+    ${media.phone}
     width:40%;
-    font-size:1.2em;
     &:hover{
 
         background-color:#D9D7D6;
@@ -54,7 +58,8 @@ export const StyledLabel = styled.label`
 
     color:green;
     display:block;
-
+    ${media.tablet}
+    ${media.phone}
 
 `;
 
@@ -63,16 +68,16 @@ export const ErrorMessage =  styled.p`
 
     color:red;
     text-weight:bold;
-
+    ${media.tablet}
+    ${media.phone}
 `;
 
 export const StyledInput =  styled.input`
 
-    font-size:1.2em;
     border:1px solid black;
     font-family: sans-serif;
-    font-size: 14px;
     line-height: 20px;
+    
     &:focus{
 
         border:1px solid #c6e28d;
@@ -80,6 +85,9 @@ export const StyledInput =  styled.input`
         outline:none;
 
     }
+
+    ${media.tablet}
+    ${media.phone}
 `;
 
 export const StyledSelect = styled.select`

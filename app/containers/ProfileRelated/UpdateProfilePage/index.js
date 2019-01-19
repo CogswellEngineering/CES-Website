@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 import ReactAvatarEditor from 'react-avatar-editor';
 import { withFirebase} from 'react-redux-firebase';
 import {Link} from 'react-router-dom';
+import Dropdown from 'react-dropdown'
+
 import {fieldChanged} from 'containers/App/actions';
-import StyledForm, {StyledButton,StyledLabel,ErrorMessage,StyledInput, StyledSelect, StyledOption} from 'components/StyledForm'
+import StyledForm, {StyledButton,StyledLabel,ErrorMessage,StyledInput, StyledSelect, StyledOption,
+ContentField} from 'components/StyledForm'
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import injectReducer from 'utils/injectReducer';
@@ -21,20 +24,21 @@ import { UPDATE_USER_PROFILE_PATH, LOGIN_PATH } from 'SiteData/constants';
 import {dimensions} from 'components/ProfileImage';
 import Dropzone from 'react-dropzone';
 
-
+import {ProfilePicture} from 'components/General';
 import {
     UpdateProfileWrapper,
-    NameDiv,
     BioInput,
     BioTextarea,
     BioLabel,
-    ProfilePictureDiv,
     ProfilePictureLabel,
     ProfilePictureDropzone,
     DropzonePrompt,
-    StyledDropdown,
-    FieldDiv,
+    DropdownSection,
+    Footer,
 } from 'components/StyledComponents/UpdateProfilePage';
+
+import 'react-dropdown/style.css'
+
 
 class UpdateProfilePage extends Component{
 
@@ -89,6 +93,7 @@ class UpdateProfilePage extends Component{
         this.onFieldUpdate = this.onFieldUpdate.bind(this);
         this.onDropdownSelected = this.onDropdownSelected.bind(this);
         this.onProfilePictureUpdated = this.onProfilePictureUpdated.bind(this);
+        this.onRegister = this.onRegister.bind(this);
     }
 
 
@@ -173,6 +178,9 @@ class UpdateProfilePage extends Component{
          }
 
          this.profileUrl = "/account/"+currentUser.uid;
+         this.setState({
+             bio:this.props.profile.bio
+         });
 
          this.props.onLoad(this.props.profile);
     }
@@ -183,6 +191,39 @@ class UpdateProfilePage extends Component{
 
             this.props.history.push(this.profileUrl);
         }
+    }
+
+    onRegister(){
+
+        const  { displayName, profilePicture, profilePicturePreview, firstName,lastName, major, year, bio } = this.state;
+
+        const { profile, onUpdate} = this.props;
+
+                    
+        const update = {
+            //Should work cause will use key to get same value from profile object.
+            displayName: displayName == ""? profile.displayName : displayName,
+            firstName: firstName == ""? profile.firstName : firstName,
+            lastName: lastName == ""? profile.lastName : lastName,
+            major: major == ""? profile.major : major,
+            year: year == ""? profile.year : year,
+            bio: bio == ""? profile.bio : bio,
+           
+        };
+
+
+        //So can delete old one.
+        const profileImgs = {
+            
+                old:profile.profilePicture, 
+                new:profilePicture,
+            
+        };
+
+         const uid = firebase.auth().currentUser.uid;
+        
+         onUpdate(uid,profileImgs,update);
+        
     }
     
     render(){
@@ -208,54 +249,18 @@ class UpdateProfilePage extends Component{
         return (
             <UpdateProfileWrapper>
                 
-                <StyledForm onSubmit = {(evt) => {
-                    
-                    evt.preventDefault();
-                    //These will be set up with original profile if empty
-                    //There has to be cleaner way than this.
-                    
-                    
-                    const update = {
-
-                    
-                        //Should work cause will use key to get same value from profile object.
-                        displayName: displayName == ""? profile.displayName : displayName,
-                        firstName: firstName == ""? profile.firstName : firstName,
-                        lastName: lastName == ""? profile.lastName : lastName,
-                        major: major == ""? profile.major : major,
-                        year: year == ""? profile.year : year,
-                        bio: bio == ""? profile.bio : bio,
-                       
-                    };
-
-
-                    //So can delete old one.
-                    const profileImgs = {
-                        
-                            old:profile.profilePicture, 
-                            new:profilePicture,
-                        
-                    };
-
-                     const uid = firebase.auth().currentUser.uid;
-                    
-                     onUpdate(uid,profileImgs,update);
-                    
-                    }}>
-
-
-
+                
                         <Dropzone onDrop = {this.onProfilePictureUpdated}>
 
                         {({getRootProps, getInputProps}) => (
-                        <ProfilePictureDropzone {...getRootProps()} width = {dimensions.width} height = {dimensions.height}>
+                        <ProfilePictureDropzone {...getRootProps()}>
                         <input {...getInputProps()} />
                             
                         {
                             profilePicture != null?
-                            <img src={profilePicturePreview} width={dimensions.width} height={dimensions.height}/>
+                            <ProfilePicture src={profilePicturePreview}/>
                             : profile && profile.profilePicture != null?
-                                <img src={profile.profilePicture.url} width={dimensions.width} height={dimensions.height}/>
+                                <ProfilePicture src={profile.profilePicture.url} />
                             : <DropzonePrompt  width={dimensions.width} height={dimensions.height}>
 
                                     <p> Click or Drag profile picture here </p>
@@ -267,9 +272,7 @@ class UpdateProfilePage extends Component{
                         )}
                         </Dropzone>
 
-                    <FieldDiv>
                         
-                        <NameDiv>
                             <StyledLabel htmlFor="displayName"> Display Name </StyledLabel>
                             <StyledInput type="text" id = "displayName" name ="displayName" placeholder = {profile.displayName} value={displayName} 
                                 onChange={this.onFieldUpdate}/>
@@ -282,36 +285,40 @@ class UpdateProfilePage extends Component{
                             <StyledInput type="text" id = "lastName" name ="lastName"  placeholder = {profile.lastName} value={lastName} 
                                 onChange={this.onFieldUpdate}/>
                             
-                        
-                        </NameDiv>
-                        <StyledDropdown id="major" options={this.majors} 
-                            onChange={ (evt) => {this.onDropdownSelected(evt,"major")} }
-                            value={major} placeholder={profile.major || "Select your major"} />
+                        <DropdownSection>
+                        <div>
+                            <StyledLabel htmlFor = "major"> Major </StyledLabel>
+                            <Dropdown id="major" options={this.majors} 
+                                onChange={ (evt) => {this.onDropdownSelected(evt,"major")} }
+                                value={major} placeholder={profile.major || "Select your major"} />
+                        </div>
 
 
-
-                        <StyledDropdown options={this.years} 
-                            onChange={ (evt) => {this.onDropdownSelected(evt,"year")}} 
-                            value={year} placeholder={profile.year} />
+                        <div>
+                            <StyledLabel htmlFor = "year"> Year </StyledLabel>
+                            <Dropdown id = "year" options={this.years} 
+                                onChange={ (evt) => {this.onDropdownSelected(evt,"year")}} 
+                                value={year} placeholder={profile.year} />
+                        </div>
+                        </DropdownSection>
                         <BioInput>
 
                             <BioLabel htmlFor="bio"> Bio </BioLabel>
                             
-                            <BioTextarea id="bio" name="bio" rows="1" placeholder={profile.bio} value={bio} 
+                            <ContentField id="bio" name="bio" value={bio} 
                             onChange={this.onFieldUpdate}> 
-                            <a href ="#"> test</a>
-                            </BioTextarea>
+                            </ContentField>
 
                         </BioInput>
                           
                        
 
                         <ErrorMessage> {error} </ErrorMessage>
-                        <StyledButton type="submit"> Update </StyledButton> 
-                        <StyledButton onClick = {(evt) => {onCancel();}}> Cancel </StyledButton>
+                        <Footer>
+                        <StyledButton onClick = {this.onRegister}> Update </StyledButton> 
+                        <StyledButton onClick = {onCancel}> Cancel </StyledButton>
+                        </Footer>
 
-                    </FieldDiv>
-                </StyledForm>
             </UpdateProfileWrapper>
      )
     }

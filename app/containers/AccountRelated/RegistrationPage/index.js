@@ -16,12 +16,10 @@ import { LOGIN_PATH, REGISTER_PATH} from 'SiteData/constants';
 
 import  {
     RegistrationWrapper,
-    CredentialInfo,
-    RegistrationInput,
-    GeneralInfo,
     StyledDropDown,
 } from 'components/StyledComponents/RegistrationPage';
 
+import {DropdownSection} from 'components/StyledComponents/UpdateProfilePage';
 
 import {
     Button
@@ -93,45 +91,45 @@ class RegistrationPage extends Component{
         return (
             <RegistrationWrapper>
                 
-                <form onSubmit = {(evt) => {props.onRegister(evt,props.displayName,props.firstName,props.lastName,props.email,props.password,props.major);}}>
                     
                        
-                    <CredentialInfo>
                         <StyledLabel htmlFor="email"> Email (Must be a cogswell email) </StyledLabel>
-                        <RegistrationInput  type="email" id = "email" name ="email" value={props.email} onChange={(evt)=>{props.fieldChanged(evt)}} autoFocus/>
+                        <StyledInput  type="email" id = "email" name ="email" value={props.email} onChange={(evt)=>{props.fieldChanged(evt)}} autoFocus/>
                         <StyledLabel htmlFor="password"> Password </StyledLabel>
-                        <RegistrationInput type="password" id="password" name="password" value={props.password} onChange={(evt)=>{props.fieldChanged(evt)}}/>
-                    </CredentialInfo>
+                        <StyledInput type="password" id="password" name="password" value={props.password} onChange={(evt)=>{props.fieldChanged(evt)}}/>
 
-                    <GeneralInfo>
 
                         <StyledLabel htmlFor="displayName"> Display Name </StyledLabel>
                         
-                        <RegistrationInput type="text" id = "displayName" name ="displayName" value={props.displayName} onChange={(evt)=>{props.fieldChanged(evt)}}/>
+                        <StyledInput type="text" id = "displayName" name ="displayName" value={props.displayName} onChange={(evt)=>{props.fieldChanged(evt)}}/>
 
                         <StyledLabel htmlFor="firstName"> First Name </StyledLabel>
-                        <RegistrationInput type="text" id = "firstName" name ="firstName" value={props.firstName} onChange={(evt)=>{props.fieldChanged(evt)}}/>
+                        <StyledInput type="text" id = "firstName" name ="firstName" value={props.firstName} onChange={(evt)=>{props.fieldChanged(evt)}}/>
                         <StyledLabel htmlFor="lastName"> Last Name </StyledLabel>
-                        <RegistrationInput type="text" id = "lastName" name ="lastName" value={props.lastName} onChange={(evt)=>{props.fieldChanged(evt)}}/>
+                        <StyledInput type="text" id = "lastName" name ="lastName" value={props.lastName} onChange={(evt)=>{props.fieldChanged(evt)}}/>
                  
 
-                    <StyledDropDown options={this.majors} 
-                                onChange={(evt)=>{ console.log(evt);fieldChanged("major",evt.value); }} 
-                                value={props.major} placeholder="Select your major" />
+                    
+                    <DropdownSection style = {{width:"100%"}}>
+                    <div>
+                        <StyledLabel htmlFor = "major"> Major </StyledLabel>
+                        <StyledDropDown id = "major" options={this.majors} 
+                                    onChange={(evt)=>{ console.log(evt);fieldChanged("major",evt.value); }} 
+                                    value={props.major} placeholder="Select your major" />
+                    </div>
 
-
-
-                    <StyledDropDown options={this.years} 
-                                onChange={(evt)=>{ console.log(evt);fieldChanged("year",evt.value); }} 
-                                value={props.year} placeholder="Select your year" />
-
+                    <div>
+                        <StyledLabel htmlFor = "year"> Year </StyledLabel>
+                        <StyledDropDown id = "year" options={this.years} 
+                                    onChange={(evt)=>{ console.log(evt);fieldChanged("year",evt.value); }} 
+                                    value={props.year} placeholder="Select your year" />
+                    </div>
+                    </DropdownSection>
                     <ErrorMessage> {props.error} </ErrorMessage>
-                    <Button type="submit" style = {{width:"40%"}}> Register </Button> 
+                    <Button type="submit"  onClick = {(evt) => {props.onRegister(evt,props.displayName,props.firstName,props.lastName,props.email,props.password,props.major);}}> Register </Button> 
                     <p>Already have an account? <StyledLink to = {LOGIN_PATH}> Login  </StyledLink> </p>
 
-                    </GeneralInfo>
 
-                </form>
 
             </RegistrationWrapper>
         )

@@ -1,7 +1,28 @@
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
+import media from 'theme/media';
 
 
+export const ProfilePicture = styled.img`
+
+    width:300px;
+    height:250px;
+
+    ${media.tablet`
+
+        width:250px;
+        height:200px;
+
+    `}
+
+    ${media.phone`
+
+        width:150px;
+        height:150px;
+    `}
+
+
+`;
 
 export const UserLink = styled(Link)`
 
@@ -13,6 +34,8 @@ export const UserLink = styled(Link)`
         color: rgb(254, 161, 0);
 
     }
+    ${media.tablet}
+    ${media.phone}
 `;
 
 export const Button = styled.button`
@@ -22,5 +45,6 @@ export const Button = styled.button`
     padding:5px;
     color: rgb(254, 161, 0);
     background-color:black;
-
+    ${media.tablet}
+    ${media.phone}
 `;

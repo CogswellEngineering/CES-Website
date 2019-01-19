@@ -15,7 +15,6 @@ function phone(...args) {
         @media(max-width: ${sizes.phone}px) {
 
             ${css(...args)}
-            //hERE?
             font-size:16px;
         }
 

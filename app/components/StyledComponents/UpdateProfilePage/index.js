@@ -1,16 +1,16 @@
 
-import Dropdown from 'react-dropdown'
 import styled from 'styled-components';
 
-
-import {StyledLabel } from 'components/StyledForm';
-
+import {StyledLabel,ContentField } from 'components/StyledForm';
+import media from 'theme/media';
 
 const UpdateProfileWrapper = styled.div`
 
-    width:60%;
-    margin:auto;
-    
+    width:100%;    
+    display:grid;
+    place-items:center;
+    margin-top:5%;
+    padding-bottom:5%;
 
 `;
 
@@ -18,8 +18,8 @@ const NameDiv = styled.div`
 
 
     margin:auto;
-    width:70%;
     margin-top:3%;
+    padding-bottom:5%;
 
 `
 
@@ -27,10 +27,9 @@ const NameDiv = styled.div`
 const BioInput = styled.div`
 
 
-    clear:both;
-    width:50%;
-    margin-left:20%;
-    margin-top:2%;
+    padding-bottom:5%;
+    width:80%;
+
 
 
 `
@@ -52,8 +51,6 @@ const BioLabel = styled(StyledLabel)`
 
 const ProfilePictureDiv = styled.div`
 
-    margin-top:1%;
-    margin-left:5%;
 `
 
 const ProfilePictureLabel = styled(StyledLabel)`
@@ -65,48 +62,61 @@ const ProfilePictureLabel = styled(StyledLabel)`
 const ProfilePictureDropzone = styled.div`
 
 
-    width : ${props =>  props.width};
-    height : ${props => props.height};
-    border:5px dashed black;
-
+   
+    border:2px dashed black;
 
 `;
 
 const DropzonePrompt = styled.div`
-    width : ${props =>  props.width};
-    height : ${props => props.height};
+    
     margin-left:3%;
 
 `
 
-const StyledDropdown = styled(Dropdown)`
+const DropdownSection = styled.div`
 
-    width:30%;
-    margin-left:2%;
-    margin-top:2%;
-    
+    display:flex;
+    margin-top:5%;
+    padding-bottom:5%;
+    width:50%;
+    justify-content:space-evenly;
 
+    > div{
+        margin-left:5px;
+    }
+    ${media.tablet`
+
+        width:60%;
+
+        flex-direction:column;
+
+        > div{
+            margin-top:5%;
+        }
+
+    `}
+    ${media.phone}
 `;
 
-const FieldDiv = styled.div`
+const Footer = styled.div`
 
 
-    margin-top:1%;
-`
+    width:90%;
+    display:flex;
+    justify-content:space-evenly;
+`;
 
 
 export {
 
 
     UpdateProfileWrapper,
-    NameDiv,
     BioInput,
     BioTextarea,
     BioLabel,
-    ProfilePictureDiv,
     ProfilePictureLabel,
     ProfilePictureDropzone,
     DropzonePrompt,
-    StyledDropdown,
-    FieldDiv,
+    DropdownSection ,
+    Footer,
 };
