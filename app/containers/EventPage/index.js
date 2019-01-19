@@ -23,6 +23,7 @@ import saga from './saga';
 import {SPECIFIC_EVENT} from 'SiteData/constants';
 import {
 
+    addView,
     loadEvent,
     attendEvent,
     cancelAttendance,
@@ -79,7 +80,7 @@ class EventPage extends Component{
 
         this.pullEventData();
 
-
+        this.props.addView(this.props.match.params.uid);
     }
 
     shouldComponentUpdate( nextProps, nextState){
@@ -387,6 +388,11 @@ const mapDispatchToProps = (dispatch) => {
 
 
     return {
+
+            addView : (eventUid) => {
+
+                return dispatch(addView(eventUid));
+            },
 
             onLoadEvent: (eventUid) => {
 

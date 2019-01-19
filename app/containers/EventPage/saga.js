@@ -6,6 +6,7 @@ import {
     TRACK_EVENT,
     UNTRACK_EVENT,
     ATTEND_EVENT,
+    ADD_VIEW,
     CANCEL_ATTENDANCE,
 
 } from './constants';
@@ -231,12 +232,54 @@ function* cancelAttendanceSaga(payload){
     
 }
 
+function* addViewSaga(payload){
+
+
+    const firestore = firebase.firestore();
+
+    const eventsRef = firestore.collection("ClubInfo").doc("Events");
+
+    //Just in events should be fine, right? Do I need to make analytics collection?
+    //WHatever, as long as storing it
+    const analyticsRef = eventsRef.collection("Analytics",doc(payload.eventUid));
+
+
+    firestore.runTransaction( transaction => {
+
+        return transaction.get(analyticsRef)
+            .then (docSnapshot => {
+
+
+                if (docSnapshot.exists){
+
+                    const newViewCount = docSnapshot.data().viewCount + 1;
+
+                    transaction.update( analyticsRef, {
+
+                        viewCount: newViewCount
+                    });
+                }
+                else{
+
+                    throw "Failed to Update Views";
+                }
+
+            })
+
+    })
+    .catch (err => {
+
+        console.log(err);
+    })
+}
+
 //Take Every because when attending, will also make user auto track it, and I want those to be triggered the same time
 //and latest will cancel all other sagas, I don't want attending saga to be cancelled when track event saga triggered.
 
 function* saga(){
 
     yield takeLatest(LOAD_EVENT, loadEventSaga);
+    yield takeEvery(ADD_VIEW, addViewSaga);
     yield takeEvery(TRACK_EVENT, trackEventSaga);
     yield takeLatest(UNTRACK_EVENT, untrackEventSaga);
 

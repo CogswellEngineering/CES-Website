@@ -7,8 +7,19 @@ import {
     CANCEL_ATTENDANCE,
     TRACK_EVENT,
     EVENT_TRACKING_UPDATED,
-    UNTRACK_EVENT
+    UNTRACK_EVENT,
+    ADD_VIEW
 } from './constants';
+
+
+function addView(eventUid){
+
+    return {
+
+        type: ADD_VIEW,
+        eventUid,
+    }
+}
 
 function loadEvent(eventUid){
 

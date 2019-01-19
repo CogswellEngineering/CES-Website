@@ -22,6 +22,7 @@ function* postEvent(payload){
 
     const eventCard = eventsRef.collection("EventCards").doc();
     const eventItem = eventsRef.collection("EventList").doc();
+    const eventAnalyticsRef = eventsRef.collection("Analytics").doc(eventItem.id);
     const newTag = firestore.collection("Tags").doc();
 
     //Maybe add date and location to card, but I'll decide that later.
@@ -36,18 +37,13 @@ function* postEvent(payload){
     storageRef.put(thumbnail)
         .then (snapshot => {
 
-            console.log("storageRef", storageRef);
 
             storageRef.getDownloadURL()
                 .then (url => {
 
 
-                    console.log("post", post);
-                    console.log("post title", post.title);
-                    const {title, type, description, tags, startDate, endDate, gallery, agenda , location} = post;
-                    
-                    console.log("get to here?");
-                    console.log("post after event card data", post);
+                    const {title, description, tags, startDate, endDate, gallery, agenda , location} = post;
+                
         
                     //I forgot host of all things lmao.
                     //Prob just going to add in during this part
@@ -72,7 +68,6 @@ function* postEvent(payload){
                     eventCard.set({
                         host,
                         title,
-                        type,
                         description,
                         tags,
                         startDate,
@@ -84,11 +79,17 @@ function* postEvent(payload){
 
                     });
 
+                    //Setting analytics doc for this event.
+                    eventAnalyticsRef.set({
+
+                        viewCount: 0,
+                        //Whatever else.
+                    });
+
                     eventItem.set({
 
                         host,
                         title,
-                        type,
                         description,
                         tags,
                         location,
@@ -100,7 +101,8 @@ function* postEvent(payload){
                     })
                     .then (eventRef => {
 
-                        console.log("eventItem", eventItem);
+                        
+
                         const tagData = {
         
                             title,
@@ -191,7 +193,7 @@ function* postNews(payload){
                         postDate,
                         thumbnail: url,
                         postUid: newsPostRef.id,
-
+                        viewCount:0,
                     });
 
                     //Same here, the news will have comments and such later.
