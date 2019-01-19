@@ -185,7 +185,7 @@ class UserProfilePage extends Component{
                     <p style = {{gridArea:"standing"}}> {major}, {year} </p>
                 </Header>
 
-                <Tags tags = {concentrations} style = {{gridArea:"concentrations", width:"25%", justifyContent:"center"}}/>
+                <Tags tags = {concentrations} style = {{gridArea:"concentrations", width:"100%", justifyContent:"center"}}/>
                 
                 <Footer>
                         {/*Will maybe add more as needed */}
@@ -195,8 +195,8 @@ class UserProfilePage extends Component{
                             {/*Will be buttons later
                                 Need to still do the bio part, but that's literally easiest*/}
                             <Option selected = {this.state.bioOpen}onClick = {() => {this.onContentViewUpdated("bioOpen");}}> Bio </Option>
-                            <Option selected = {this.state.eventsHostedOpen} onClick = {() => {this.onContentViewUpdated("eventsHostedOpen");}}> Events Hosted </Option>
-                            <Option selected = {this.state.newsPostedOpen} onClick = {() => {this.onContentViewUpdated("newsPostedOpen");}}> News Posted </Option>
+                            <Option selected = {this.state.eventsHostedOpen} onClick = {() => {this.onContentViewUpdated("eventsHostedOpen");}}> Events  </Option>
+                            <Option selected = {this.state.newsPostedOpen} onClick = {() => {this.onContentViewUpdated("newsPostedOpen");}}> News </Option>
 
                         </Options>
 
@@ -216,7 +216,7 @@ class UserProfilePage extends Component{
                         //Oh this may be a problem. This isn't an action I can dispatch, I would just have to duplicate it unfortunately.
                         onCardClicked = {() => {this.onGoToEvent(event);}}
                         //It's aligned the most at margin left 5%, but problem is there's weird leak on the fade
-                        style = {{width:"40%", height:"20em", margin:"auto", marginBottom:"5em", marginLeft:"40px"}} key = {event.eventUid} {...event}/>
+                        key = {event.eventUid} {...event}/>
                         })}
 
                         {/*So then depending on what's clicked will show diff content */}

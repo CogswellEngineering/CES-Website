@@ -18,7 +18,7 @@ const Wrapper = styled.div`
 
     //I REALLY want it to be auto, but it doesn't look good if not uniform lol.
     height:auto;
-
+    
     display:grid;
     grid-column-gap: 10px;
     grid-template-columns: 30% 60%; 
@@ -29,6 +29,7 @@ const Wrapper = styled.div`
     "thumbnail description"
     "thumbnail footer";
 
+  
     &:hover{
         background-color:rgba(2, 28, 73,0.5);
     }
@@ -72,16 +73,18 @@ const Thumbnail = styled.div`
     background-repeat: no-repeat;
     cursor:pointer;
 
+
+
     ${media.tablet`
 
-        height:300px;
+    height:300px;
 
-    `}
+`}
 
-    ${media.phone`
+${media.phone`
 
-        height:200px;
-    `}
+    height:200px;
+`}
 `;
 
 //Will include title and author
@@ -97,11 +100,17 @@ const Header = styled.div`
 
     ${media.tablet`
 
-    font-size:2em;
+        font-size:2em;
     `}
     ${media.phone`
 
         font-size:1em;
+        grid-template-columns: auto auto;
+        grid-template-rows: auto auto auto;
+        grid-template-areas:
+        "title title"
+        "author author
+        "uploadDate uploadDate";
     `}
 `;
 
@@ -130,7 +139,8 @@ const Author = styled.p`
 const UploadDate = styled.div`
 
     grid-area:uploadDate;
-    align-self:start;
+    align-self:center;
+    justify-self:end;
 `;
 
 //Prob just first paragraph / sentence of news post.
@@ -155,18 +165,21 @@ const Footer = styled.div`
 
     
     display:grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto;
     grid-template-areas:
     "tags button";
     align-items:center;
     
-    //Won't show tags on mobile.
     ${media.tablet`
 
-        display:block;
         text-align:right;        
+        grid-template-columns: 100%;
+        grid-template-areas:
+        "tags"
+        "button";
     `}
+
 `;
 
 
@@ -180,14 +193,18 @@ const Button = styled(Clickable)`
     background-position:center;
     background-repeat:no-repeat;
    
+    place-self:end;
 
     ${media.tablet`
 
-    font-size:2em;
+        font-size:2em;
+        place-self:center;
+
     `}
     ${media.phone`
 
         font-size:1em;
+
     `}
 `;
 

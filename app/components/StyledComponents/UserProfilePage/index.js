@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import { Link }  from 'react-router-dom';
 import Linkify from 'react-linkify';
+import media from 'theme/media';
 
-
+import EventCard from 'components/EventCard';
 
 //Current layout is very mobile friendly
 const ProfileWrapper = styled.div`
@@ -21,6 +22,8 @@ const ProfileWrapper = styled.div`
     "concentrations"
     "footer";
     justify-items:center;
+    width:100%;
+    margin:auto;
 `;
 
 const Header = styled.div`
@@ -36,7 +39,17 @@ const Header = styled.div`
     "name name"
     "standing standing";
     justify-items: center;
-    //Last two rows can be put inline, image could technically be too but already existed.
+
+    //With amount of times I do this, really need to fill that theme folder with font sizes too.
+    ${media.tablet`
+
+    font-size:32px;
+    `}
+
+    ${media.phone`
+
+        font-size:16px;
+    `}
 
 `;
 
@@ -52,7 +65,9 @@ const Options = styled.div`
     grid-area:options;
     display:grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-column-gap:10em;
+
+    //I don't want gaps to be thing.
+    grid-column-gap:50px;
 `;
 
 //Will Actually be custom button for this.
@@ -61,8 +76,18 @@ const Option = styled.div`
     cursor:pointer;
     text-align:center;
     border-bottom: ${props => props.selected? "2px solid rgb(254, 161, 0)" : "0"};
-    font-size:1.5em;
+    text-transform:uppercase;
 
+    ${media.tablet`
+
+        font-size:32px;
+    `}
+
+    ${media.phone`
+
+        font-size:16px;
+
+    `}
 `;
 
 const Content = styled.div`
@@ -75,6 +100,7 @@ const Content = styled.div`
     flex-wrap:wrap;
     margin-top:5%;
     
+
 `;
 
 const ListWrapper = styled.div`
@@ -113,23 +139,43 @@ const Links = styled.div`
 const ProfileBio = styled.div`
 
     border:2px solid black;
-    width:60%;
-    margin:auto;
+    width:100%;
     margin-top:5%;
 
+   
 `
 
 const BioHeader = styled.h3`
 
     text-align:center;
+    text-transform:uppercase;
+    ${media.tablet`
+
+        font-size:48px;
+    `}
+
+    ${media.phone`
+
+        font-size:18px;
+
+    `}
 
 `
 const BioText = styled(Linkify)`
+    
+    ${media.tablet`
 
-    width: 80%;
-    margin:auto;
+        font-size:32px;
+    `}
+
+    ${media.phone`
+
+        font-size:16px;
+    `}
+
+    width: 100%;
+
 `;
-
 
 
 

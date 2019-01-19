@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Modal from 'react-responsive-modal';
 
 //Honestly most will also have mainContentWrapper on them, but also specific ones.
 //I don't want it to be empty like that at start

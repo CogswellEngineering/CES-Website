@@ -1,11 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import media from 'theme/media';
+
 const TagsWrapper = styled.div`
 
     display:flex;
     flex-direction:row;
     flex-wrap: wrap;
+
+
+    ${media.tablet`
+
+        font-size:32px;
+    `}
+    ${media.phone`
+
+        font-size:16px;
+    `}
 `;
 
 //I want to limit flex per column better.

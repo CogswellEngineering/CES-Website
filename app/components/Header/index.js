@@ -107,7 +107,7 @@ const MobileMenu = styled.div`
 
    position:absolute;
   width:100%;
-  height:${props => props.open? '90vh' : 'auto'};
+  height:${props => props.open? '100vh' : 'auto'};
 
   background-color: rgb(0, 24, 74);// rgb(36, 154, 29);
  
@@ -128,7 +128,7 @@ const ActionMenu = styled.div`
 
    position:absolute;
    width:100%;
-   height:${props => props.open? '90vh' : 'auto'};
+   height:${props => props.open? '100vh' : 'auto'};
    
 
  

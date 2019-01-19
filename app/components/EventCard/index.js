@@ -3,6 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import dateFns from 'date-fns';
 import Tags from 'components/Tags';
+import media from 'theme/media';
 
 const Card = styled.div`
 
@@ -35,7 +36,23 @@ const Card = styled.div`
         //padding:5px;
         //Maybe transform instead.
         transform: scale(1.05);
-    }
+    }    //Ahhh this is problem.
+    
+
+    width:30%;
+    margin:auto;
+    margin-top:5%;
+    ${media.tablet`
+
+        width:45%;
+    `}
+
+    ${media.phone`
+
+        width:100%;
+
+    `}
+    
     
 `;
 

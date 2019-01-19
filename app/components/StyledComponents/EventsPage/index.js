@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import media from 'theme/media';
 import EventCard from 'components/EventCard';
 
 const EventsWrapper = styled.div`
 
     margin-top:5%;
+    padding-bottom:5%;
     display:grid;
     grid-template-columns: auto;
     grid-template-rows:1fr auto;
@@ -39,21 +39,7 @@ const GridView = styled.div`
     align-items: flex-start;
     align-content: space-around;
 
-    > div{
-
-        width:30%;
-      
-        ${media.tablet`
-
-            width:40%;
-        `}
-
-        ${media.phone`
-
-            width:90%;
-
-        `}
-    }
+  
 
 `;
 
