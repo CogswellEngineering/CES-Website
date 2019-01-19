@@ -2,6 +2,7 @@ import  styled from 'styled-components';
 
 //
 export default styled.div`
-    flex-wrap:nowrap;
+
+    margin-left:20px;
     color: rgb(254, 161, 0);
 `;

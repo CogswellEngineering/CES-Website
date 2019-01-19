@@ -12,7 +12,7 @@ import { createStructuredSelector } from 'reselect';
 import { makeSelectLoggedIn, makeSelectLoggedInProfile } from 'containers/App/selectors';
 import injectReducer from 'utils/injectReducer';
 import { withCookies } from 'react-cookie';
-
+import {NavLink} from 'components/Header/NavLink';
 import {
     
     LogoutButton,
@@ -39,14 +39,17 @@ class UserActions extends React.PureComponent{
             const profilePath = USER_PROFILE_PATH.split(":")[0];
 
             console.log("loggedin", props.loggedInUser);
+            console.log("active page", props.activePage);
+            console.log(LOGIN_PATH);
+            console.log(LOGIN_PATH == props.activePage);
            actions = !props.profile?
 
                 //If it's empty then remove the cookie
 
                 (<UserActionsWrapper style = {this.props.style}>
 
-                        <UserActionLink to={LOGIN_PATH} onClick = {onActionSelected }> Login </UserActionLink>
-                        <UserActionLink to={REGISTER_PATH} onClick = {onActionSelected}> Join us </UserActionLink>
+                        <NavLink to={LOGIN_PATH} onClick = {onActionSelected  } active = {(LOGIN_PATH == props.activePage).toString()}> Login </NavLink>
+                        <NavLink to={REGISTER_PATH} onClick = {onActionSelected } active = {(REGISTER_PATH == props.activePage).toString()}> Join us </NavLink>
 
                     </UserActionsWrapper>
                 )
@@ -58,8 +61,10 @@ class UserActions extends React.PureComponent{
 
                     {/* Hello, {props.profile.displayName} */}
 
-                    {props.profile.isAdmin && <UserActionLink to = {ADMIN_PATH} onClick = {onActionSelected}> Admin Panel </UserActionLink>}
-                        <UserActionLink to = {profilePath+props.loggedInUser.uid} onClick = {onActionSelected}> View Profile </UserActionLink>
+                    {props.profile.isAdmin && <NavLink to = {ADMIN_PATH} onClick = {onActionSelected} active = {(ADMIN_PATH == props.activePage).toString()}>
+                         Admin Panel </NavLink>}
+                        <NavLink to = {profilePath+props.loggedInUser.uid} onClick = {onActionSelected} active = {(profilePath+props.loggedInUser.uid == props.activePage).toString()}
+                        > View Profile </NavLink>
 
                         {/*Will switch to include uid if do decide make inventory public
                      <UserActionLink to = {"/account/inventory"}> Inventory </UserActionLink>

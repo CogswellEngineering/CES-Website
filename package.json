@@ -242,6 +242,7 @@
     "react-dom": "^16.4.2",
     "react-dropdown": "^1.5.0",
     "react-dropzone": "^8.0.3",
+    "react-easy-swipe": "^0.0.17",
     "react-hamburger-menu": "^1.1.1",
     "react-helmet": "5.1.3",
     "react-intl": "2.3.0",

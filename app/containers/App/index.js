@@ -17,7 +17,8 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector} from 'reselect';
-
+import {isMobile} from 'react-device-detect';
+import Swipe from 'react-easy-swipe';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import {withFirebase} from 'react-redux-firebase';
@@ -78,6 +79,86 @@ class App  extends Component{
   
 
 
+    constructor(props){
+
+      super(props);
+      if (isMobile){
+        this.state = {
+
+          navSidebarOpen:false,
+          accSidebarOpen:false,
+        };
+
+      
+      } 
+      this.onSideToggle = this.onSideToggle.bind(this);
+      this.closeAllSides = this.closeAllSides.bind(this);
+    }
+    closeAllSides(){
+
+      this.setState(state =>{
+  
+          const newState = _.mapValues(state, () => false);
+  
+          return newState;
+      });
+  
+      document.body.style.overflow = "auto"
+  
+  
+    }
+
+    onSideToggle(side){
+
+      console.log("called");
+
+
+         //If this already true, and swiped that way, toggle
+          //If other side
+      if (side == 'navSidebarOpen'){
+
+        if (this.state['accSidebarOpen']){
+         
+          this.closeAllSides();
+          return;
+        }
+
+      }
+      else if (side == 'accSidebarOpen'){
+
+        if (this.state['navSidebarOpen']){
+
+          this.closeAllSides();
+          return;
+        }
+      }
+      this.setState(state => {
+  
+       
+
+          const newState = _.transform(state, (r, v,k) => {
+  
+            //Toggle whatever clicked, turn off all else.
+            if (k == side){
+              r[k] = !v;
+              if (r[k]){
+                document.body.style.overflow = "hidden"
+              }
+              else{
+                document.body.style.overflow = "auto"
+              }
+            }
+            else{
+              r[k] = false;
+            }
+  
+          
+          });
+          return newState;
+      });
+  
+    }
+
     componentDidMount(){
 
       //This is slightly different, basically check cookies, if cookies have userProfile or auth token as null
@@ -128,8 +209,16 @@ class App  extends Component{
 
       console.log("window outer height", window.innerHeight);
       return (
+        <Swipe
+         // onSwipeRight = {() => {this.onSideToggle("navSidebarOpen")}}
+         // onSwipeLeft = {() => {this.onSideToggle("accSidebarOpen")}}
+          >
         <AppWrapper height = {window.innerHeight + window.outerHeight}>
-          <Header activePage={this.props.location.pathname}/>
+          
+          {isMobile && <Header activePage={this.props.location.pathname} navSideOpen = {this.state.navSidebarOpen} 
+          accountSideOpen = {this.state.accSidebarOpen} onNavToggle = {() => {this.onSideToggle("navSidebarOpen")}}
+      onAccToggle = {() => {this.onSideToggle("accSidebarOpen")}} closeAll = {this.closeAllSides}/> }
+          {!isMobile && <Header activePage = {this.props.location.pathname}/>}
           <BodyWrapper>
             <Switch>
               
@@ -221,6 +310,7 @@ class App  extends Component{
           <Footer/>
 
         </AppWrapper>
+        </Swipe>
       )
     }
   }

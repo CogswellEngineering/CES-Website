@@ -14,12 +14,15 @@ import UserActions from 'containers/UserActions';
 import { navPages, servicePages } from './pages';
 import { Button} from 'components/StyledComponents/UserActions';
 import media from 'theme/media';
+const accountIcon = require('images/icons8-customer-64.png');
 //Unfortutnately may not be consistent with numbers I have in media.
 import {
   BrowserView,
   MobileView,
   isBrowser,
-  isMobile
+  isMobile,
+  isTablet,
+  isMobileOnly
 } from "react-device-detect";
 const HeaderWrapper = styled.div`
 
@@ -27,8 +30,20 @@ const HeaderWrapper = styled.div`
 
   background-color: rgb(0, 24, 74);// rgb(36, 154, 29);
   width:100%;
-  margin:auto;
+  height:100%;
   text-transform:uppercase;
+  font-size:0.8em;
+  padding-bottom:5px;
+  padding-top:5px;
+
+  ${media.tablet`
+
+    position: ${props=> props.sideOpen? 'fixed' :'sticky'};
+
+    top:0;
+  `}
+
+
 `
 const MobileHeader = styled.div`
 
@@ -70,12 +85,7 @@ const ClubLogo = styled.img`
   width:50px;
 
 
-  ${media.tablet`
 
-    height:40px;
-    width:40px;
-
-  `}
 
   ${media.phone`
 
@@ -94,15 +104,16 @@ const ClubLogo = styled.img`
 const MobileMenu = styled.div`
 
 
-  position:absolute;
+  position:fixed;
   
   height:100%;
   background-color: rgb(0, 24, 74);// rgb(36, 154, 29);
-  -webkit-transition:  width 0.2s ease-in-out;
-  -moz-transition:  width 0.2s ease-in-out;
-  -ms-transition:  width 0.2s ease-in-out;    
-  -o-transition:  width 0.2s ease-in-out;
-  transition:  width 0.2s ease-in-out;  
+  //Could prob isntead use css variable.
+  -webkit-transition:  ${props => props.open? 'width 0.2s ease-in-out' : ''};
+  -moz-transition:  ${props => props.open? 'width 0.2s ease-in-out' : ''};
+  -ms-transition: ${props => props.open? 'width 0.2s ease-in-out' : ''};   
+  -o-transition:  ${props => props.open? 'width 0.2s ease-in-out' : ''};
+  transition:  ${props => props.open? 'width 0.2s ease-in-out' : ''};
 
 
   width: ${props => props.open? "100%" : "0"};
@@ -110,18 +121,18 @@ const MobileMenu = styled.div`
 
 const ActionMenu = styled.div`
 
-  position:absolute;
+  position:fixed;
   height:100%;
-  -webkit-transition:  left 0.2s ease-in-out;
-  -moz-transition:  left 0.2s ease-in-out;
-  -ms-transition:  left 0.2s ease-in-out;    
-  -o-transition:  left 0.2s ease-in-out;
-  transition:  left 0.2s ease-in-out;  
+  -webkit-transition:  ${props => props.open? 'left 0.2s ease-in-out' : ''};
+  -moz-transition:  ${props => props.open? 'left 0.2s ease-in-out' : ''};
+  -ms-transition:  ${props => props.open? 'left 0.2s ease-in-out' : ''}; 
+  -o-transition:  ${props => props.open? 'left 0.2s ease-in-out' : ''};
+  transition: ${props => props.open? 'left 0.2s ease-in-out' : ''}; 
   width:100%
   background-color: rgb(0, 24, 74);// rgb(36, 154, 29);
 
-  left: ${props => props.open? "0%" : "100%"};
   right:0;
+  left: ${props => props.open? "0%" : "100%"};
   background-color: rgb(0, 24, 74);
 `;
 
@@ -144,123 +155,78 @@ const MobileNav = styled.div`
     ${media.phone`
 
         font-size:1em;
-        text-align:left;
     `}
+`;
+
+const AccountIcon = styled.img`
+
+
+  ${media.tablet`
+
+      width:64px;
+      height:64px;
+  `}
+
+  ${media.phone`
+
+      width:32px;
+      height:32px;
+
+  `}
+
 `;
 
 
 class Header extends Component{
   
-
-  constructor(props){
-
-    super(props);
-
-    if (isMobile){
-
-      //This need to be set to false, on click of anything else. hmm
-      this.state = {
-        navSideOpen:false,
-        accountSideOpen:false,
-      };
-
-      
-
-    }
-
-    
-
-    this.onSideToggle = this.onSideToggle.bind(this);
-   
-    this.closeAll = this.closeAll.bind(this);
-  }
-
-  closeAll(){
-
-    this.setState(state =>{
-
-        const newState = _.mapValues(state, () => false);
-
-        return newState;
-    });
-
-    document.body.style.overflow = "auto"
-
-
-  }
-
-  onSideToggle(side){
-
-    console.log("called");
-    this.setState(state => {
-
-
-        console.log("state", state);
-        const newState = _.transform(state, (r, v,k) => {
-
-          //Toggle whatever clicked, turn off all else.
-          if (k == side){
-            r[k] = !v;
-            if (r[k]){
-              document.body.style.overflow = "hidden"
-            }
-            else{
-              document.body.style.overflow = "auto"
-            }
-          }
-          else{
-            r[k] = false;
-          }
-
-        
-        });
-        console.log("new state", newState);
-        return newState;
-    });
-
-  }
+  
 
   renderMobileView(){
 
     const props = this.props;
 
+    //Find to put here since sholdn't be re-rendering constnatly anyway
+    const hamburgerDims = isTablet? {width:56,height:40, stroke:5} : {width:25, height:18, stroke:2};
+
+
+
     return <MobileView>
 
           <MobileHeader>
-          <Hamburger style = {{gridArea:"hamburger"}} isOpen = {this.state.navSideOpen} menuClicked = { () => {this.onSideToggle("navSideOpen")}}
-          width={25} height={18}/>
-          <ClubLogo src={require('images/CESLogo.png')} style = {{gridArea:"icon"}} alt="sdf"/>
+          <Hamburger style = {{gridArea:"hamburger"}} isOpen = {this.props.navSideOpen} menuClicked = {this.props.onNavToggle}
+          width={hamburgerDims.width} height={hamburgerDims.height} strokeWidth = {hamburgerDims.stroke}/>
+          <ClubLogo src={require('images/CESLogo.png' )} style = {{gridArea:"icon"}} alt="sdf"/>
 
-          <p style = {{gridArea:"account"}} onClick = {() => {this.onSideToggle("accountSideOpen");}}> account </p>
+          <AccountIcon src = {accountIcon} style = {{gridArea:"account"}} onClick = {this.props.onAccToggle}/>
           </MobileHeader>
 
-          
-          <MobileMenu open = {this.state.navSideOpen}>
+         
+          <MobileMenu open = {this.props.navSideOpen}>
             
-            {this.state.navSideOpen && <MobileNav>
+           { this.props.navSideOpen && <MobileNav>
               
               
               {navPages.map(page => {
 
-                    return <NavLink key={page.name} onClick = {this.closeAll} to={page.url} active={(page.url == props.activePage).toString()}> {page.name} </NavLink>
+                    return <NavLink key={page.name} onClick = {this.props.closeAll} to={page.url} active={(page.url == props.activePage).toString()}> {page.name} </NavLink>
               }
           )}
             </MobileNav>}
 
           </MobileMenu>
 
-            <ActionMenu open = {this.state.accountSideOpen} >
+            <ActionMenu open = {this.props.accountSideOpen} >
 
+              {this.props.accountSideOpen &&
+              <MobileNav>
+              
 
-            {this.state.accountSideOpen && <MobileNav style = {{textAlign:"right"}}>
+                  <UserActions onActionSelected = {this.props.closeAll}/>
             
-
-                <UserActions onActionSelected = {this.closeAll}/>
-          
-              </MobileNav>
-            }
+                </MobileNav>
+              }
+            
           </ActionMenu>
-
       </MobileView>
   }
 
@@ -286,7 +252,7 @@ class Header extends Component{
               </Navbar>
 
 
-            <UserActions style = {{gridArea:"account", justifySelf:"end"}}/>
+            <UserActions style = {{gridArea:"account", justifySelf:"end"}} activePage = {props.activePage}/>
 
 
           </StyledBrowser>
@@ -301,7 +267,7 @@ class Header extends Component{
     const toRender = isBrowser? this.renderBrowserView() : this.renderMobileView();
 
   
-    return <HeaderWrapper>
+    return <HeaderWrapper sideOpen = { !isBrowser && (this.props.navSideOpen || this.props.accountSideOpen)}>
       {toRender}
       </HeaderWrapper>
   }

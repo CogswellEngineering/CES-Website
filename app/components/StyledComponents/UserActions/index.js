@@ -13,32 +13,14 @@ const UserActionsWrapper = styled.div`
         display:flex;
         width:auto;
         flex-direction:column;        
-        text-align:right;
     `}
 `
 
 const DisplayName = styled.p`
 
     color:black;
-    font-size:20px;
 `;
 
-const UserActionLink = styled(Link)`
-
-    text-decoration:none;
-    color: rgb(254, 161, 0);
-    &:hover {
-        color:white;
-      };
-
-    
-    ${media.tablet`
-      border-bottom: 0.5px solid white;
-      color: ${props => props.active == 'true'? "white" : "rgb(254, 161, 0)"};
-      margin-top:5%;
-    `}
-
-`;
 
 const LogoutButton = styled.button`
 
@@ -48,12 +30,12 @@ const LogoutButton = styled.button`
     color: rgb(254, 161, 0);
     text-transform:uppercase;  
     cursor:pointer;
-       
+    margin-left:20px;
     ${media.tablet`
       border-bottom: 0.5px solid white;
       color: ${props => props.active == 'true'? "white" : "rgb(254, 161, 0)"};
       margin-top:5%;
-      text-align:right;
+      margin-left:0px;
     `}
 `;
 

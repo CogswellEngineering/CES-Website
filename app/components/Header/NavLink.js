@@ -7,17 +7,16 @@ export const NavLink = styled(Link)`
     color: rgb(254, 161, 0);
 
     text-decoration:none;
-    border-bottom: 1px solid  ${props => props.active == 'true'? 'rgb(14, 80, 38)' : 'clear'};
-    padding-bottom: ${props => props.active? '0.5em' : '0'};
-    margin-left:10px;
-    &:hover{
-
-        color:white;
-    }
+    transition:padding-bottom .2s ease-in-out;
+    transition:color .3s ease-in-out;
+    
+    color: ${props => props.active == 'true'? 'white': ''};
+    margin-left:20px;
 
     ${media.tablet`
 
         border-bottom: 0.5px solid white;
+        margin-left:0px;
         color: ${props => props.active == 'true'? "white" : "rgb(254, 161, 0)"};
         margin-top:5%;
         padding-bottom:0;

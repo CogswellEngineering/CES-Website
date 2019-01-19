@@ -8,6 +8,8 @@ const BlogPageWrapper = styled.div`
 
 
    // display:grid;
+    width:90%;
+    margin:auto;
     margin-top:5%;
     grid-template-columns: 100%;
     grid-template-rows: 0.5fr 2fr 0.5fr;
@@ -16,7 +18,7 @@ const BlogPageWrapper = styled.div`
     "blogs"
     "loadMore";
 
-    padding-bottom:10px;
+    padding-bottom:5%;
 
 
 
