@@ -48,13 +48,13 @@ import { LOGIN_PATH,REGISTER_PATH,
 import LoginPage from '../AccountRelated/LoginPage';
 import { withCookies } from 'react-cookie';
 import { makeSelectLocation, makeSelectDoneLoading, makeSelectLoggedInProfile} from './selectors';
-
+import {BACKGROUND_COLOR} from 'theme/colors';
 
 
 const AppWrapper = styled.div`
 
   
-  background-color: rgb(15, 65, 65);
+  background-color: ${BACKGROUND_COLOR};
   //display:grid;
   grid-template-rows: auto 1fr auto;
   grid-template-columns:100%;

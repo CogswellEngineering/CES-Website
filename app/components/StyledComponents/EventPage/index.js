@@ -62,7 +62,6 @@ const Poster = styled.div`
 
 const Header = styled.div`
 
-    border-left:0px;
     grid-area:Header;
     display:grid;
     grid-template-columns: auto;
@@ -140,7 +139,11 @@ const Footer = styled.div`
 
 const Title = styled.p`
 
+    grid-area:title;
     font-weight:bold;
+    //I could put this somewhere
+    ${media.tablet}
+    ${media.phone}
 
 `;
 
@@ -148,6 +151,8 @@ const Description = styled.div`
 
 
     grid-area:description;
+    ${media.tablet}
+    ${media.phone}
 `;
 
 //These should be just be one, an aside.
@@ -155,19 +160,25 @@ const DateAndTime = styled.div`
 
     grid-area:dateAndTime;
     padding-bottom: 5%;
+    //Putting in global styles doesn't work
+     ${media.tablet}
+    ${media.phone}
 `;
 
 const Location = styled.div`
 
     grid-area:location;
     padding-bottom: 5%;
+    ${media.tablet}
+    ${media.phone}
 
 `;
 
 const Agenda = styled.div`
 
 
-
+    ${media.tablet}
+    ${media.phone}
 `;
 
 //Will contain time frame and activity
@@ -180,11 +191,16 @@ const AgendaItem = styled.div`
     grid-template-areas:
     "timeFrame activity";
 
+    //may not need.
+    //${media.tablet}
+    //${media.phone}
 `;
 
 const Contact = styled.div`
 
     grid-area:contact;
+    ${media.tablet}
+    ${media.phone}
 `;
 
 const HostLink = styled.a`
@@ -200,10 +216,12 @@ const HostLink = styled.a`
 
 `;
 
-const CallToAction = styled.div`
+const CallToAction = styled.p`
 
     font-weight:bold;
     font-style:italic;
+    ${media.tablet}
+    ${media.phone}
 `;
 
 const Tags = styled.div`

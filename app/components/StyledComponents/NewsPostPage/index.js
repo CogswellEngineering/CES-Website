@@ -2,12 +2,9 @@ import styled from 'styled-components';
 import Linkify from 'react-linkify';
 
 import media from 'theme/media';
-
-//Need to do alot of refactoring to reuse stuff.
-const Title = styled.p`
+import {TEXT_COLOR} from 'theme/colors';
 
 
-`;
 
 
 
@@ -32,15 +29,12 @@ const Wrapper = styled.div`
 
     ${media.tablet`
 
-        font-size:2em;
         width:90%;
     `}
 
     ${media.phone`
 
         width:80%;
-        font-size:1em;
-
     `}
 
 
@@ -100,17 +94,13 @@ const Header = styled.div`
 const Body = styled(Linkify)`
 
     grid-area:body;
-    
     & > a {
 
         text-decoration:none;
         font-style:italic;
-        color:white;
-        &:hover{
-        
-            color: rgb(254, 161, 0);
-        
-        }
+        color:${TEXT_COLOR};
+        cursor:pointer;
+       
       
     }
 `;
@@ -146,7 +136,6 @@ export{
     Thumbnail,
     Header,
     Body,
-    Title,
     Footer,
     SharedSection,
  

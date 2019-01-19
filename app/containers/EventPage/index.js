@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { createSelector } from 'reselect'
+import {isTablet} from 'react-device-detect';
 import {
 
     FacebookShareButton,
@@ -120,7 +121,7 @@ class EventPage extends Component{
             <Header>
 
                 <div style = {{ gridArea:"date", }}>{dateFns.format(startDate,format)}</div>
-                <div style = {{fontSize:"1.5em",gridArea:"title", }}>{title}</div>
+                <Title >{title}</Title>
                 <div style = {{gridArea:"host", marginLeft:"0.5%" }}> hosted by  
                    
                     {
@@ -299,6 +300,7 @@ class EventPage extends Component{
         //But this in global state constants later.
         const domainName = "localhost:3000";   
         const shareUrl = domainName + this.props.match.url; 
+        const shareSize = isTablet? 80 : 48;
         console.log(domainName + this.props.match.url);
         return (
             <Footer>
@@ -315,11 +317,11 @@ class EventPage extends Component{
                 { <Share> 
                     
                     <FacebookShareButton url = {shareUrl}>
-                    <FacebookIcon size = {48} round = {true}/>
+                    <FacebookIcon size = {shareSize} round = {true}/>
                     </FacebookShareButton>
 
                     <LinkedinShareButton url = {shareUrl} style = {{marginLeft:"1%"}}>
-                    <LinkedinIcon size = {48} round = {true}/>
+                    <LinkedinIcon size = {shareSize} round = {true}/>
                     </LinkedinShareButton>
                 </Share>
                 }

@@ -98,13 +98,9 @@ const Header = styled.div`
     "title title"
     "author uploadDate";
 
-    ${media.tablet`
-
-        font-size:2em;
-    `}
+    ${media.tablet}
     ${media.phone`
 
-        font-size:1em;
         grid-template-columns: auto auto;
         grid-template-rows: auto auto auto;
         grid-template-areas:
@@ -114,7 +110,7 @@ const Header = styled.div`
     `}
 `;
 
-const Title = styled(Clickable)`
+export const Title = styled(Clickable)`
 
     grid-area:title;
     font-weight: bold;
@@ -127,20 +123,27 @@ const Title = styled(Clickable)`
 
     }
 
+    ${media.tablet}
+    ${media.phone}
+
 `;
 
-const Author = styled.p`
+export const Author = styled.p`
 
     grid-area:author;
+    ${media.tablet}
+    ${media.phone}
    
 `;
 
 
-const UploadDate = styled.div`
+export const UploadDate = styled.p`
 
     grid-area:uploadDate;
     align-self:center;
     justify-self:end;
+    ${media.tablet}
+    ${media.phone}
 `;
 
 //Prob just first paragraph / sentence of news post.
@@ -149,14 +152,8 @@ const Description = styled.p`
 
     grid-area:description;
     place-self:start;
-    ${media.tablet`
-
-        font-size:2em;
-    `}
-    ${media.phone`
-
-        font-size:1em;
-    `}
+    ${media.tablet}
+    ${media.phone}
 `;
 
 
@@ -197,13 +194,12 @@ const Button = styled(Clickable)`
 
     ${media.tablet`
 
-        font-size:2em;
+        
         place-self:center;
 
     `}
     ${media.phone`
 
-        font-size:1em;
 
     `}
 `;

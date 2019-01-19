@@ -15,6 +15,8 @@ function phone(...args) {
         @media(max-width: ${sizes.phone}px) {
 
             ${css(...args)}
+            //hERE?
+            font-size:16px;
         }
 
     `;
@@ -27,6 +29,8 @@ function tablet(...args) {
         @media(max-width: ${sizes.tablet}px) {
 
             ${css(...args)}
+            font-size:32px;
+
         }
 
     `;
@@ -63,5 +67,6 @@ const media = {
     desktop,
     giant
 };
+
 
 export default media;

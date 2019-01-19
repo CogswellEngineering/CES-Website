@@ -1,5 +1,5 @@
 import { injectGlobal } from 'styled-components';
-
+import media from 'theme/media';
 /* eslint no-unused-expressions: 0 */
 injectGlobal`
   html{
@@ -39,5 +39,8 @@ injectGlobal`
   label {
     font-family: Georgia, Times, 'Times New Roman', serif;
     line-height: 1.5em;
+    ${media.tablet}
+    ${media.phone}
+
   }
 `;

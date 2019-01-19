@@ -44,14 +44,10 @@ const Card = styled.div`
     margin-top:5%;
     ${media.tablet`
 
-        width:45%;
-    `}
-
-    ${media.phone`
-
         width:100%;
-
     `}
+
+    ${media.phone}
     
     
 `;
@@ -114,6 +110,8 @@ const Title = styled.p`
     justify-self:center;
     text-align:center;
     font-size:2.5em;
+    ${media.tablet}
+    ${media.phone}
 `;
 
 
@@ -127,21 +125,43 @@ const Footer = styled.div`
     grid-template-columns:auto auto;
     grid-template-rows: 100%;
     padding-bottom:5px;
+    ${media.tablet`
+
+        //Actually do have to change it.
+        grid-template-columns:100%;
+        grid-template-rows:auto auto;
+
+    `}
+
+    
 `;
 
-const Location = styled.div`
+const Location = styled.p`
 
     place-self:end;
     margin-right:2.5%;
+   ${media.tablet`
+
+        margin-left:2.5%;
+        margin-right:0;
+        place-self:start;
+    `}
+    ${media.phone}
 
 `;
 
-const Date = styled.div`
+const Date = styled.p`
     
     
     justify-self:start;
     align-self:end;
     margin-left:2.5%;
+    ${media.tablet`
+        align-self:start;
+        place-self:start;
+    `}
+    ${media.phone}
+    
 `;
 
 const EventCard = props => {

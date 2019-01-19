@@ -14,6 +14,8 @@ import UserActions from 'containers/UserActions';
 import { navPages, servicePages } from './pages';
 import { Button} from 'components/StyledComponents/UserActions';
 import media from 'theme/media';
+import {HEADER_COLOR} from 'theme/colors';
+import {TABLET_FONT_SIZE, PHONE_FONT_SIZE} from 'theme/fontData'; 
 const accountIcon = require('images/icons8-customer-64.png');
 //Unfortutnately may not be consistent with numbers I have in media.
 import {
@@ -28,13 +30,12 @@ const HeaderWrapper = styled.div`
 
 
 
-  background-color: rgb(0, 24, 74);// rgb(36, 154, 29);
+  background-color: ${HEADER_COLOR};
   width:100%;
   position:sticky;
   top:0;  
   z-index: 1;
   text-transform:uppercase;
-  font-size:0.8em;
   padding-bottom:5px;
   padding-top:5px;
 
@@ -45,6 +46,10 @@ const HeaderWrapper = styled.div`
     position:sticky;
     top:0;
   `}
+
+  ${media.phone}
+  
+  
 
 
 `
@@ -109,7 +114,8 @@ const MobileMenu = styled.div`
   width:100%;
   height:${props => props.open? '100vh' : 'auto'};
 
-  background-color: rgb(0, 24, 74);// rgb(36, 154, 29);
+  background-color: ${HEADER_COLOR};
+
  
 
 
@@ -145,7 +151,8 @@ const ActionMenu = styled.div`
   
   right: ${props => props.open? "0%" : "100%"};
 
-  background-color: rgb(0, 24, 74);
+  background-color: ${HEADER_COLOR};
+
 `;
 
 //Should I do Mobile Account section too?
@@ -159,14 +166,8 @@ const MobileNav = styled.div`
 
     ${media.tablet`
 
-        font-size:2em;
         text-align:center;
   
-    `}
-
-    ${media.phone`
-
-        font-size:1em;
     `}
 `;
 

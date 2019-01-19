@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import {isTablet} from 'react-device-detect';
 import {
 
     FacebookShareButton,
@@ -35,7 +36,6 @@ import {
 
 import {
 
-    Title,
     Wrapper,
     Thumbnail,
     Header,
@@ -43,6 +43,12 @@ import {
     Footer,
     SharedSection,
 } from 'components/StyledComponents/NewsPostPage';
+
+import {
+    Title,
+    UploadDate,
+    Author
+} from 'components/NewsCard';
 
 import {
     UserLink
@@ -108,11 +114,11 @@ class NewsPost extends Component{
         const format = "MMMM D, YYYY";
         return (<Header>
             
-                <div style = {{gridArea:"title", textAlign:"center", fontWeight:"bold"}}> {topic} </div>
-                <div style = {{gridArea:"date", textAlign:"center"}}> {dateFns.format(postDate,format)} </div>
+                <Title style = {{gridArea:"title", textAlign:"center", fontWeight:"bold"}}> {topic} </Title>
+                <UploadDate style = {{gridArea:"date", textAlign:"center"}}> {dateFns.format(postDate,format)} </UploadDate>
                 {/*Change this to link to profile later*/}
-                <div style = {{gridArea:"author", textAlign:"center", }}>  
-                <UserLink to = {"/account/" + author.uid}> {author.name} </UserLink> </div>
+                <Author style = {{gridArea:"author", textAlign:"center", }}>  
+                <UserLink to = {"/account/" + author.uid}> {author.name} </UserLink> </Author>
             
             </Header>);
     }
@@ -149,6 +155,7 @@ class NewsPost extends Component{
         //SO MANY SIMILIARTIES IN THESE POSTS, NEED TO HAVE COMMON FILE FOR THESE STYLED COMPONENTSSS YO! LOL.
         const domain = "http://localhost:3000";
         const shareUrl = domain + "/news/" + this.props.match.params.uid;
+        const shareSize = isTablet? 64 : 48;
         return (<Footer>
 
                 <Title style = {{gridArea:"tagTitle"}}> Tags </Title>
@@ -158,11 +165,11 @@ class NewsPost extends Component{
                 <SharedSection style = {{gridArea:"share"}}>
 
                     <FacebookShareButton url = {shareUrl} style = {{cursor:"pointer"}}>
-                        <FacebookIcon size = {48} round = {true}/>
+                        <FacebookIcon size = {shareSize} round = {true}/>
                     </FacebookShareButton>
                     
                     <LinkedinShareButton url = {shareUrl}  style = {{marginLeft:"1%", cursor:"pointer"}}>
-                        <LinkedinIcon size = {48} round = {true}/>
+                        <LinkedinIcon size = {shareSize} round = {true}/>
                     </LinkedinShareButton>
 
             </SharedSection>
@@ -177,7 +184,7 @@ class NewsPost extends Component{
         const {comments, loggedInProfile,} = this.props;
 
         return (
-        <div style ={{gridArea:"comments"}}>
+        <div style ={{gridArea:"comments", marginTop:"5%"}}>
                 <PostComment style = {{paddingBottom:"5%"}} loggedInProfile = {loggedInProfile} onPost = {this.onCommentPosted}/>
                 <Comments comments = {comments} />
         </div>);

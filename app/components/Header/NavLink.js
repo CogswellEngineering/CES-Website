@@ -1,16 +1,17 @@
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import media from 'theme/media';
+import {TEXT_COLOR, ACTIVE_PAGE_COLOR} from 'theme/colors';
 //
 export const NavLink = styled(Link)`
 
-    color: rgb(254, 161, 0);
+    color: ${TEXT_COLOR};
 
     text-decoration:none;
     transition:padding-bottom .2s ease-in-out;
     transition:color .3s ease-in-out;
     
-    color: ${props => props.active == 'true'? 'white': ''};
+    color: ${props => props.active == 'true'? ACTIVE_PAGE_COLOR : ''};
     margin-left:20px;
 
     ${media.tablet`
@@ -23,23 +24,3 @@ export const NavLink = styled(Link)`
     `}
 
 `;
-
-//Might change css here, has may put services under dropdown instead.
-export const ServiceLink = styled.a`
-
-
-    margin-left:1em;
-    text-decoration:none;
-    width:40%;
-    text-align:center;
-
-`;
-
-
-//Todo: Ask her to change resolution of image to be bigger, changing height and width here fine, but makes it pixelated.
-export const ServiceIcon= styled.img`
-
-    display:block;
-    width:100%;
-    
-`

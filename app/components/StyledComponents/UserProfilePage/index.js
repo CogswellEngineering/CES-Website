@@ -41,15 +41,9 @@ const Header = styled.div`
     justify-items: center;
 
     //With amount of times I do this, really need to fill that theme folder with font sizes too.
-    ${media.tablet`
+    ${media.tablet}
 
-    font-size:32px;
-    `}
-
-    ${media.phone`
-
-        font-size:16px;
-    `}
+    ${media.phone}
 
 `;
 
@@ -78,16 +72,9 @@ const Option = styled.div`
     border-bottom: ${props => props.selected? "2px solid rgb(254, 161, 0)" : "0"};
     text-transform:uppercase;
 
-    ${media.tablet`
+    ${media.tablet}
 
-        font-size:32px;
-    `}
-
-    ${media.phone`
-
-        font-size:16px;
-
-    `}
+    ${media.phone}
 `;
 
 const Content = styled.div`
@@ -163,15 +150,9 @@ const BioHeader = styled.h3`
 `
 const BioText = styled(Linkify)`
     
-    ${media.tablet`
+    ${media.tablet}
 
-        font-size:32px;
-    `}
-
-    ${media.phone`
-
-        font-size:16px;
-    `}
+    ${media.phone}
 
     width: 100%;
 
