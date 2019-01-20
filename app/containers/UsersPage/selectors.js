@@ -4,7 +4,9 @@ import { USERS_PATH} from 'SiteData/constants';
 const usersState = (state) => state.get(USERS_PATH);
 
 
-export const makeSelectFilter = createSelector(
+
+
+export const makeSelectFilter = () => createSelector(
 
 
     usersState,
@@ -17,7 +19,7 @@ export const makeSelectFilter = createSelector(
 
 )
 
-export const makeSelectUsers = createSelector(
+export const makeSelectUsers =  () => createSelector(
 
     usersState,
     (usersState) => {
@@ -31,31 +33,36 @@ export const makeSelectUsers = createSelector(
             return users;
         }
 
-
         const filteredUsers = users.filter( user => {
 
 
             
+            //If null and filter has been placeds.
+            if (user.concentrations == null){
+                return false;
+            }
             var matches = 0;
-        
+            
             for (var i = 0; i < filter.size; ++i){
 
                 //If matches any tag in post.
 
                 for (var j = 0; j < user.concentrations.length; ++j){
 
-                    console.log("post tag", user.concentrations.tags[j]);
-                    if (user.concentrations.tags[j].title === filter.get(i).title){
+                    if (user.concentrations[j].title === filter.get(i).title){
 
                         //Actually can't just return true, caues should meet ALL FILTERS.
                         matches += 1;
                     }
                 }
             }
-            return matches == filter.size;
+            //Incase of duplicates if they decide to.
+            return matches >= filter.size;
 
 
         });
+
+        console.log("get to here", filteredUsers);
 
         return filteredUsers;
 

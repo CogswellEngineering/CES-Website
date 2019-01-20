@@ -8,6 +8,7 @@ export const FOOTER_COLOR = 'rgb(15, 65, 65)';
 export const TEXT_COLOR = 'rgb(254, 161, 0)';
 //Reaplce names
 export const TITLE_COLOR = 'white';
+export const SUBTITLE_COLOR = 'white';
 export const ACTIVE_PAGE_COLOR = '#e0d8c9';
 
 //Later each component will have it's own theme set via css variables.

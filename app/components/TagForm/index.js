@@ -4,11 +4,16 @@ import styled from 'styled-components';
 import {StyledLabel as Label,ErrorMessage,StyledInput as Field, StyledLink, ContentField} from 'components/StyledForm'
 
 import {Button} from 'components/General';
-
+import media from 'theme/media';
 const Wrapper = styled.form`
 
     display:flex;
     justify-content:space-between;
+
+    ${media.tablet`
+
+        flex-direction:column;
+    `}
 
 `;
 

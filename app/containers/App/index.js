@@ -27,21 +27,22 @@ import reducer from './reducer';
 
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import UsersPage from 'containers/UsersPage/Loadable';
 import NewsPage from 'containers/NewsPage/Loadable';
 import NewsPostPage from 'containers/NewsPostPage/Loadable';
-import EventsPage from 'containers/EventsPage';
-import EventPage from 'containers/EventPage';
-import AdminPage from 'containers/AdminPage';
+import EventsPage from 'containers/EventsPage/Loadable';
+import EventPage from 'containers/EventPage/Loadable';
+import AdminPage from 'containers/AdminPage/Loadable';
 import Login from 'containers/AccountRelated/LoginPage/Loadable';
 import Register from 'containers/AccountRelated/RegistrationPage/Loadable';
 import AccountRecovery from 'containers/AccountRelated/AccountRecovery/Loadable';
 import ResetPasswordPage from 'containers/AccountRelated/ResetPasswordPage/Loadable';
 
 import UserProfilePage from 'containers/ProfileRelated/UserProfilePage/Loadable';
-import UpdateProfilePage from 'containers/ProfileRelated/UpdateProfilePage';
+import UpdateProfilePage from 'containers/ProfileRelated/UpdateProfilePage/Loadable';
 
 
-import { LOGIN_PATH,REGISTER_PATH,
+import { LOGIN_PATH,REGISTER_PATH, USERS_PATH,
   ACCOUNT_RECOVERY_PATH, RESET_PASSWORD_PATH, 
   USER_PROFILE_PATH, UPDATE_USER_PROFILE_PATH,
   BLOG_PATH,SPECIFIC_POST,  EVENTS_PATH, SPECIFIC_EVENT , ADMIN_PATH} from 'SiteData/constants';
@@ -306,6 +307,7 @@ class App  extends Component{
             }}/>
 
 
+              <Route exact path = {USERS_PATH} component = {UsersPage}/>
               <Route exact path = {USER_PROFILE_PATH} component = {UserProfilePage}/>
               <Route exact path = {USER_PROFILE_PATH+"/update"} component = {UpdateProfilePage}/>
             

@@ -19,7 +19,7 @@ export function addFilter(filter){
 export function removeFilter(filter){
 
     return {
-        type : REMOVE_FILTER
+        type : REMOVE_FILTER,
         filter,
     };
 

@@ -39,14 +39,12 @@ const BioTextarea = styled.textarea`
     resize:none;
     width:100%;
     padding-bottom:20%;
-    clear:both;
     margin:auto;
     border: 1px solid black;
 `
 
 const BioLabel = styled(StyledLabel)`
 
-    clear:both;
 `
 
 const ProfilePictureDiv = styled.div`

@@ -13,7 +13,7 @@ import { loadProfile, loadedProfile, loadNews, loadEvents } from './actions'
 import {makeSelectProfile, makeSelectNeedReload, makeSelectOwnership, makeSelectError,
     makeSelectNews, makeSelectEvents } from './selectors';
 import { createStructuredSelector } from 'reselect';
-import { USER_PROFILE_PATH, UPDATE_USER_PROFILE_PATH } from 'SiteData/constants';
+import { USER_PROFILE_PATH, UPDATE_USER_PROFILE_PATH, USERS_PATH, EVENTS_PATH, BLOG_PATH as NEWS_PATH } from 'SiteData/constants';
 import { makeSelectLoggedInProfile, makeSelectLoggedIn } from 'containers/App/selectors';
 import {dimensions} from 'components/ProfileImage';
 import {StyledLink} from 'components/StyledForm';
@@ -28,6 +28,7 @@ import {
     Footer,
     Content,
     ProfileImage,
+    ProfileBio,
     BioText,
     BioHeader,
     Links,
@@ -41,8 +42,14 @@ import NewsCard from 'components/NewsCard';
 
 import {
 
+    addFilter
+} from 'containers/UsersPage/actions';
+
+import {
+
     tagClicked
 } from 'containers/NewsPage/actions';
+const defaultAvatar = require('images/default_avatar.png');
 
 
 
@@ -67,6 +74,7 @@ class UserProfilePage extends Component{
         //not huge duplicate though, so it's kinda fine lol.
         this.onGoToEvent = this.onGoToEvent.bind(this);
         this.onCardClicked = this.onCardClicked.bind(this);
+        this.onConcentrationClicked = this.onConcentrationClicked.bind(this);
     }
 
 
@@ -118,15 +126,23 @@ class UserProfilePage extends Component{
         const {history} = this.props;
         
         //becaues I do this. Better if i make it a link.
-        history.push("/events/"+ event.eventUid);
+        history.push(EVENT_PATH  + "/" + event.eventUid);
 
     }
 
 
-    onCardClicked = (postUid) =>{
+    onCardClicked(postUid){
 
 
-        this.props.history.push("/news/"+postUid);
+        this.props.history.push(NEWS_PATH + "/" + postUid);
+    }
+
+    onConcentrationClicked(concentration){
+
+        this.props.history.push(USERS_PATH);
+
+        this.props.onConcentrationClicked(concentration);
+
     }
 
     componentDidUpdate(){
@@ -153,17 +169,15 @@ class UserProfilePage extends Component{
 
         const {events, news, onTagClicked} = this.props;
 
-        const {role,firstName, lastName, bio, major, year, profilePicture, mediaLinks} = userInfo;
+        const {role,firstName, lastName, bio, major, year, profilePicture, mediaLinks, concentrations} = userInfo;
 
-        var profilePicUrl = null;
+        var profilePicUrl = defaultAvatar;
        
         if (profilePicture != null){
             profilePicUrl = profilePicture.url;
         }
 
 
-        const concentrations = [{title:"Wrapper"}, {title:"Phisolaraptor"}, {title:"Yes"}, {title:"Animator"},{title:"Pornstar"},
-        {title:"f"},{title:"sdsf"},{title:"sdfsfs"}, {title:"Phisolaraptor"}, {title:"Phisolaraptor"}, {title:"Phisolaraptor"},];
 
 
         //Using grid areas so order of mark up doesn't matter.
@@ -185,7 +199,7 @@ class UserProfilePage extends Component{
                     <p style = {{gridArea:"standing"}}> {major}, {year} </p>
                 </Header>
 
-                <Tags tags = {concentrations} style = {{gridArea:"concentrations", width:"100%", justifyContent:"center"}}/>
+                <Tags onTagClicked = {this.onConcentrationClicked} tags = {concentrations} style = {{gridArea:"concentrations", width:"100%", justifyContent:"center"}}/>
                 
                 <Footer>
                         {/*Will maybe add more as needed */}
@@ -203,11 +217,11 @@ class UserProfilePage extends Component{
                         <Content>
 
                         {//May need to add a div wrapper to these
-                            this.state.bioOpen && <div style = {{textAlign:"left"} }>
+                            this.state.bioOpen && <ProfileBio>
                             
                             <BioHeader>I'm the president of CES</BioHeader>
-                            <BioText> {bio} </BioText>
-                        </div>
+                            <BioText > {bio} </BioText>
+                        </ProfileBio>
                         }
                         {this.state.eventsHostedOpen && events && events.map( event => {
 
@@ -310,6 +324,11 @@ function mapDispatchToProps(dispatch){
 
     return {
 
+
+        onConcentrationClicked : (concentration) => {
+
+            return dispatch(addFilter(concentration));
+        },
 
         onTagClicked : (tag) => {
 

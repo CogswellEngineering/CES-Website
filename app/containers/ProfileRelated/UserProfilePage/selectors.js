@@ -10,7 +10,7 @@ export const makeSelectEvents = () => createSelector(
     profileState,
     (profileState) => {
 
-        if (profileState == null) return  []
+        if (profileState == null) return  [];
 
         return profileState.get("events");
     }

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import Textarea from 'react-textarea-autosize';
 import media from 'theme/media';
-
+import {TEXT_COLOR} from 'theme/colors';
 export default styled.form`
 
     border: 2px solid black;
@@ -30,7 +30,7 @@ export const ContentField = styled(Textarea)`
 export const StyledLink = styled(Link)`
 
     text-decoration:none;
-    color: rgb(222, 147, 9);
+    color: ${TEXT_COLOR};
     cursor:pointer;
     ${media.tablet};
     ${media.phone}; 
@@ -78,9 +78,7 @@ export const ErrorMessage =  styled.p`
 export const StyledInput =  styled.input`
 
     border:1px solid black;
-    font-family: sans-serif;
-    line-height: 20px;
-    
+    font-family: sans-serif;    
     &:focus{
 
         border:1px solid #c6e28d;

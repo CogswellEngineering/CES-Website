@@ -11,6 +11,10 @@ export const navPages = [
       name:"News",
       url:"/news"
     },
+    {
+      name:"Users",
+      url:"/users"
+    }
 ]
 
 export const servicePages = [

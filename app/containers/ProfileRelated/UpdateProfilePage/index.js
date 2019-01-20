@@ -22,7 +22,7 @@ import FormSelectors from 'utils/genericFormSelectors';
 import saga from './saga';
 import { onUpdateClicked, profilePictureUploaded, onUpdateCancelled, pageLoaded } from './actions';
 import injectSaga from 'utils/injectSaga';
-import { UPDATE_USER_PROFILE_PATH, LOGIN_PATH } from 'SiteData/constants';
+import { UPDATE_USER_PROFILE_PATH, LOGIN_PATH, USER_PROFILE_PATH } from 'SiteData/constants';
 import {dimensions} from 'components/ProfileImage';
 
 import {ProfilePicture} from 'components/General';
@@ -128,6 +128,7 @@ class UpdateProfilePage extends Component{
             bio:"",
             major:"",
             year:"",
+            concentrations:[],
         });
     }
 
@@ -144,6 +145,7 @@ class UpdateProfilePage extends Component{
 
         this.setState(state => {
 
+            console.log("state", state);
             const newConcentrations = state.concentrations.concat(concentration);
 
 
@@ -162,7 +164,7 @@ class UpdateProfilePage extends Component{
             //Filtering to not include the removed tag
             const newConcentrations = state.concentrations.filter( currentConcentration => {
 
-                return concentration.title !== concentration.title;
+                return currentConcentration.title !== concentration.title;
             });
 
 
@@ -217,11 +219,11 @@ class UpdateProfilePage extends Component{
          if (currentUser == null){
             this.props.history.push(" ");
          }
-
-         this.profileUrl = "/account/"+currentUser.uid;
+         const profilePath = USER_PROFILE_PATH.split(":")[0];
+         this.profileUrl = profilePath+currentUser.uid;
          this.setState({
              bio:this.props.profile.bio,
-             concentrations: this.props.profile.concentrations,
+             concentrations: this.props.profile.concentrations || [],
          });
 
          this.props.onLoad(this.props.profile);
@@ -346,12 +348,13 @@ class UpdateProfilePage extends Component{
                         </div>
                         </DropdownSection>
 
-                        <div>
+                        <StyledLabel> Add Concentration </StyledLabel>
+
                             {/*Later add functionality to search users with this concentration*/}
-                            <Tags tags = {this.state.concentrations}/>
+                            <Tags tags = {this.state.concentrations} onTagClicked = {this.onRemoveConcentration}
+                                style = {{width:"50%"}}/>
                             <TagForm onAddTag = {this.onAddConcentration}/>
 
-                        </div>
 
                         <BioInput>
 

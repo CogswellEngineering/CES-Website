@@ -1,7 +1,12 @@
+import React from 'react';
 import styled from 'styled-components';
 import media from 'theme/media';
-import Tags from 'component/Tags';
-import {StyledLink} from 'components/StyledForm';
+import {TEXT_COLOR} from 'theme/colors';
+import Tags from 'components/Tags';
+import {StyledButton} from 'components/StyledForm';
+import {USER_PROFILE_PATH} from 'SiteData/constants';
+
+const defaultAvatar = require('images/default_avatar.png');
 //I want the cards to display:
 /*
     Name
@@ -15,61 +20,87 @@ const Wrapper = styled.div`
 
     display:grid;
     grid-template-columns: auto 1fr;
-    grid-template-rows: auto auto 1fr;
+    grid-template-rows: auto 1fr auto;
     grid-template-areas:
     "profilePicture name"
     "profilePicture status"
     "profilePicture concentrations";
+    grid-column-gap:10px;
+
+    
 `;
 
-const ProfilePicture = styled.div`
+const ProfilePicture = styled.img`
+
 
     cursor:pointer;
-    cursor:pointer;
     grid-area:profilePicture;
-    background-image: url(${props => props.image});
-    background-size: 100% 100%;
-    background-position:center;
-    background-repeat: no-repeat;
-    border-radius: 50px;
+    border-radius: 60px;
+    width:125px;
+    height:125px;
+
+    ${media.tablet`
+
+        width:200px;
+        height:200px;
+
+    `};
+
+    ${media.phone`
+
+        width:50px;
+        height:50px;
+
+    `}
 `;
 
 //Prob doesn't have to be own thing.
 //CHanged to styled Link
-const Name = styled(StyledLink)`
+const Name = styled.div`
 
     grid-area:name;
+    cursor:pointer;
+    color: ${TEXT_COLOR};
+    ${media.tablet};
+    ${media.phone};
 `;
 
 const Status = styled.div`
 
     grid-area:status;
-    display:flex;
-    justify-content:space-between;
+//    display:flex;
+    color: ${TEXT_COLOR};
 
+    ${media.tablet};
+    ${media.phone};
 `;
 
 
 //Concentrations will be tags.
 //Unlike events there' won't be event cards, since only difference is events and news which are collections
 //no other extra info, except for Bio. hmm
-export default const UserCard = props => {
+const UserCard = props => {
 
-    const {uid, profilePicture, name, major, year, concentrations, onClick, onClickConcentration} = props;
+    
+    const {uid, profilePicture, displayName, firstName, lastName, major, year, concentrations, onClick, onClickConcentration} = props;
+    console.log("props", profilePicture);
 
+    const name = firstName + " " + lastName;
 
+  
     return (<Wrapper >
 
-            <ProfilePicture image = {profilePicture} onClick = {onClick}/>
-            <Name onClick = {onClick}> {name} </Name>
+            <ProfilePicture src = {(profilePicture? profilePicture.url : defaultAvatar)} onClick = {() => {onClick(uid);}}/>
+            <Name onClick = {() => {onClick(uid);}}> {name} </Name>
 
             <Status>
                 {/*maybe major and year also filter? Hmm.*/}
-                <p> {major} </p>
-                <p> {year} </p>
+                 {major}, {year}
             </Status>
 
             <Tags tags = {concentrations} onTagClicked = {onClickConcentration} style = {{gridArea:"concentrations"}}/>
         
         </Wrapper>)
 }
+
+export default UserCard;

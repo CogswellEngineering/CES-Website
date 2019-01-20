@@ -28,6 +28,7 @@ const ProfileWrapper = styled.div`
 
 const Header = styled.div`
 
+    margin-top:5%;
     grid-area:header;
     display:grid;
     grid-template-columns: 1fr 1fr;
@@ -73,6 +74,8 @@ const Option = styled.div`
     border-bottom: ${props => props.selected? "2px solid rgb(254, 161, 0)" : "0"};
     text-transform:uppercase;
 
+    transition: border-bottom .3s;
+
     ${media.tablet}
 
     ${media.phone}
@@ -87,7 +90,7 @@ const Content = styled.div`
     display:flex;
     flex-wrap:wrap;
     margin-top:5%;
-    
+    text-align:center;
 
 `;
 
@@ -127,16 +130,16 @@ const Links = styled.div`
 
 const ProfileBio = styled.div`
 
-    border:2px solid black;
-    width:100%;
     margin-top:5%;
+    display:grid;
+    place-items: center;
 
-   
+   width:100%;
+
 `
 
 const BioHeader = styled.h3`
 
-    text-align:center;
     text-transform:uppercase;
     ${media.tablet`
 
@@ -149,14 +152,16 @@ const BioHeader = styled.h3`
 
     `}
 
+
+
 `
 const BioText = styled(Linkify)`
     
+    width:80%;
     ${media.tablet}
 
     ${media.phone}
 
-    width: 100%;
 
 `;
 
@@ -175,6 +180,7 @@ export {
 
     ProfileWrapper,
     ProfileImage,
+    ProfileBio,
     Header,
     Options,
     Option,

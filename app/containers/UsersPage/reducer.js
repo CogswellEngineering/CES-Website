@@ -6,15 +6,16 @@ import {
 } from './constants';
 
 
-const initialState = {
+const initialState =  fromJS({
 
     users:[],
     filter:[],
-};
+});
 
 
 export default function reducer(state = initialState, action){
 
+    const currentFilter = state.get("filter");
 
     switch (action.type){
 
@@ -27,31 +28,32 @@ export default function reducer(state = initialState, action){
                     
         case ADD_FILTER:
 
-        const currentFilter = state.get("filter");
 
         //Reset scrolling to top.
         window.scrollTo(0,0); 
 
-        if (currentFilter.contains(action.filter)){
-            return state;
-        }
+        for (var i = 0; i < currentFilter.size; ++i){
 
+            if (currentFilter.get(i).title == action.filter.title){
+
+                return state;
+            }
+        }
         const newFilter = currentFilter.concat(action.filter);
 
         return state
             .set("filter", newFilter);
 
-    case REMOVE_TAG_FILTER:
+    case REMOVE_FILTER:
 
-        const currentFilter = state.get("filter");
 
-        const newFilter = currentFilter.filter(filter => {
+        const removedFilter = currentFilter.filter(filter => {
 
             return filter.title !== action.filter.title;
         });
 
         return state
-            .set("tagFilter", newFilter);
+            .set("filter", removedFilter);
 
         default:
 
