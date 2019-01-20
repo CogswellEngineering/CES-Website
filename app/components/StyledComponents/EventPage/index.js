@@ -12,8 +12,8 @@ const Wrapper = styled.div`
     padding-bottom:5%;
 
     grid-row-gap:10px;
-    //For desktop view.
-    grid-template-columns: 1.5fr 1fr;
+    grid-column-gap:10px;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr auto 2fr auto;
     grid-template-areas:
     "Poster Header"
@@ -50,14 +50,23 @@ const Wrapper = styled.div`
 
 `;
 
-const Poster = styled.div`
+const Poster = styled.img`
 
     grid-area: Poster;
     background-image:url(${props => props.image});
     background-size: 100% 100%;
-    height:300px;
     background-position:center;
     background-repeat: no-repeat;
+    height:100%;
+    width:100%;
+    ${media.tablet`
+
+        height:300px;
+    `}
+    ${media.phone`
+
+        height:200px;
+    `}
 `;
 
 const Header = styled.div`
@@ -65,7 +74,7 @@ const Header = styled.div`
     grid-area:Header;
     display:grid;
     grid-template-columns: auto;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr auto 1fr 1fr;
     grid-template-areas:
     "date"
     "title"

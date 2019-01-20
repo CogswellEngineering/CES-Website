@@ -28,7 +28,7 @@ import UserCard from 'components/UserCard';
 import Tags from 'components/Tags';
 
 import media from 'theme/media';
-import {SUBTITLE_COLOR} from 'theme/colors';
+import {SUBTITLE_COLOR, UNIMPORTANT_TEXT_COLOR} from 'theme/colors';
 import { Headline, Subtitle} from 'components/General';
 //Now.. Also user cards lmao.
 //Essentially Preview of profilel
@@ -52,13 +52,13 @@ const Header = styled.div`
 
 const Filter = styled.div`
 
-    padding-bottom:5%;
+    place-self:start;
 `;
 const FilterHeader = styled.p`
 
     text-transform:uppercase;
     text-align:center;
-    color: ${SUBTITLE_COLOR};
+    color: ${UNIMPORTANT_TEXT_COLOR};
     ${media.tablet};
     ${media.phone};
 
@@ -75,6 +75,10 @@ const UserList = styled.div`
     display:grid;
     grid-row-gap:10px;
 
+    ${media.tablet`
+
+        place-self:center;
+    `}
 
 `;
 
@@ -113,7 +117,8 @@ class UsersPage extends Component{
             </Header>
 
             { filter.size > 0 && <Filter>
-                <FilterHeader> Showing users with concentrations </FilterHeader>            
+                {/*Todo, have drop down of most searched for concentration, or list of ALL concentrations used.*/}
+                <FilterHeader> Members with concentrations</FilterHeader>            
                 <Tags tags = {filter} onTagClicked = {onRemoveFilter}/>
             </Filter>
             }

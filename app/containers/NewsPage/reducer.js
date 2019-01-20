@@ -32,12 +32,14 @@ export default function blogPageReducer(state = initialState, action){
             //Hmm maybe just change filter?
             const currentTags = state.get("tagFilter");
 
-            //Reset scrolling to top.
-            window.scrollTo(0,0); 
+            
 
             if (currentTags.contains(action.tag)){
                 return state;
             }
+
+            //Reset scrolling to top.
+            window.scrollTo(0,0); 
 
             const newTagFilters = currentTags.concat(action.tag);
 

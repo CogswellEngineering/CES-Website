@@ -6,6 +6,7 @@ export const FOOTER_COLOR = 'rgb(15, 65, 65)';
 //Other colors would be used as needed but this is general like used in nav.
 //links, etc.
 export const TEXT_COLOR = 'rgb(254, 161, 0)';
+export const UNIMPORTANT_TEXT_COLOR = 'black';
 //Reaplce names
 export const TITLE_COLOR = 'white';
 export const SUBTITLE_COLOR = 'white';

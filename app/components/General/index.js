@@ -33,6 +33,15 @@ export const Subtitle = styled.h2`
 
 `;
 
+export const Description = styled.div`
+
+    grid-area:description;
+    text-align: justify;
+    text-justify: inter-word;
+    ${media.tablet};
+    ${media.phone};
+`;
+
 export const ProfilePicture = styled.img`
 
     width:300px;
@@ -52,6 +61,13 @@ export const ProfilePicture = styled.img`
     `}
 
 
+`;
+
+export const EmailLink = styled.a`
+
+    color: rgb(254, 161, 0);
+    ${media.tablet};
+    ${media.phone};
 `;
 
 export const UserLink = styled(Link)`

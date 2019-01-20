@@ -62,6 +62,8 @@ const Options = styled.div`
     width:100%;
     display:grid;
     grid-template-columns: 1fr 1fr 1fr;
+    color:black;
+    font-weight:bold;
 `;
 
 //Will Actually be custom button for this.

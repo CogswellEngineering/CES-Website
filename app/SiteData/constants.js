@@ -19,3 +19,6 @@ export const SPECIFIC_EVENT = "/events/:uid";
 
 export const ADMIN_PATH = "/admin";
 
+
+
+export const EMAIL = "ces@cogswell.edu";

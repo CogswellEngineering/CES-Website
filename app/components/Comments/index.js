@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import dateFns from 'date-fns';
 import {Link} from 'react-router-dom';
 import Textarea from 'react-textarea-autosize';
-
+import media from 'theme/media';
 //Will move these to be own component later on.
 const Wrapper = styled.div`
     text-align: justify;
@@ -32,11 +32,24 @@ const Icon = styled(Link)`
     background-image:url(${props => props.image});
     background-size: 100% 100%;
     background-position:center;
+    border-radius:25px;
+
     background-repeat:no-repeat;
     border:1px solid black;
-    border-radius:25px;
     width:50px;
     height:50px;
+
+    ${media.tablet`
+
+    width:100px;
+    height:100px;
+    `}
+
+    ${media.phone`
+
+        width:50px;
+        height:50px;
+    `}
 `;
 
 const Author = styled(Link)`

@@ -59,7 +59,6 @@ const AppWrapper = styled.div`
   //display:grid;
   grid-template-rows: auto 1fr auto;
   grid-template-columns:100%;
-  border:2px solid black;
   margin:0;
   height: ${props => props.height};
   padding:0;
@@ -139,6 +138,7 @@ class App  extends Component{
       }
          //If this already true, and swiped that way, toggle
           //If other side
+      /* This was for swiping.
       if (side == 'navSidebarOpen'){
 
         if (this.state['accSidebarOpen']){
@@ -155,7 +155,7 @@ class App  extends Component{
           this.closeAllSides();
           return;
         }
-      }
+      }*/
       this.setState(state => {
   
        

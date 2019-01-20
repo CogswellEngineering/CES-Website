@@ -133,7 +133,7 @@ class UserProfilePage extends Component{
 
     onCardClicked(postUid){
 
-
+        console.log("here");
         this.props.history.push(NEWS_PATH + "/" + postUid);
     }
 
@@ -196,7 +196,7 @@ class UserProfilePage extends Component{
                     <p style = {{gridArea:"role"}}> {role} </p>
                     <ProfileImage src={profilePicUrl} alt={"No image given"}  width={dimensions.width} height={dimensions.height}/>
                     <p style = {{gridArea:"name"}}> {firstName} {lastName} </p>
-                    <p style = {{gridArea:"standing"}}> {major}, {year} </p>
+                    <p style = {{gridArea:"standing", color:"black"}}> {major}, {year} </p>
                 </Header>
 
                 <Tags onTagClicked = {this.onConcentrationClicked} tags = {concentrations} style = {{gridArea:"concentrations", width:"100%", justifyContent:"center"}}/>
@@ -238,7 +238,10 @@ class UserProfilePage extends Component{
 
                         return <NewsCard  key ={post.topic + "_" + post.author.name} {...post}
                         style = {{margin:"auto", width:"90%",}} 
-                        onCardClicked = {this.onCardClicked} onTagClicked = {onTagClicked}/> 
+                        onCardClicked = {this.onCardClicked} onTagClicked = {(tag) => {
+                            onTagClicked(tag);
+                            this.props.history.push(NEWS_PATH);
+                        }}/> 
 
                         })}
                         </Content>

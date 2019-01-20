@@ -20,7 +20,7 @@ import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import reducer from './reducer';
 import saga from './saga';
-import {SPECIFIC_EVENT, USER_PROFILE_PATH} from 'SiteData/constants';
+import {SPECIFIC_EVENT, USER_PROFILE_PATH, EMAIL} from 'SiteData/constants';
 import {
 
     addView,
@@ -125,7 +125,7 @@ class EventPage extends Component{
 
                 <div style = {{ gridArea:"date", }}>{dateFns.format(startDate,format)}</div>
                 <Title >{title}</Title>
-                <div style = {{gridArea:"host", marginLeft:"0.5%" }}> hosted by  
+                <div style = {{gridArea:"host"}}> hosted by  
                    
                     {
                         host.uid?
@@ -136,7 +136,7 @@ class EventPage extends Component{
                     
                 </div>
                 {loggedInUser.isEmpty?
-                    <p style = {{textAlign:"center", color:"red", placeSelf:"bottom", gridArea:"footer"}}> You must be logged in to track or attend an event. </p>
+                    <div style = {{textAlign:"center", color:"red",  alignSelf:"flex-end", gridArea:"footer"}}> You must be logged in to track or attend an event. </div>
                 :
                 <div style = {{gridArea:"footer", display:"flex", flexWrap:"nowrap", placeSelf: "bottom", justifyContent:"space-evenly"}}>
                 
@@ -279,7 +279,7 @@ class EventPage extends Component{
                     <p> If you have questions about the event, you can contact the
                          <HostLink href = {"mailto:"+host.email}> Host</HostLink>
                           </p>
-                    <p> If you are experiencing any issues. Contact <HostLink href = {"mailto:ces@cogswell.edu"}> us</HostLink> </p>
+                    <p> If you are experiencing any issues. Contact <HostLink href = {"mailto:"+EMAIL}> us</HostLink> </p>
                 </Contact>
 
 
@@ -348,7 +348,7 @@ class EventPage extends Component{
         return (
             <Wrapper>
             
-                <Poster image = {poster}>
+                <Poster src = {poster}>
                 </Poster>
                 {this.renderHeader()}
                 {this.renderGallery()}

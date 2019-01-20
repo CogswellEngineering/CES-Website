@@ -29,9 +29,7 @@ export default function reducer(state = initialState, action){
         case ADD_FILTER:
 
 
-        //Reset scrolling to top.
-        window.scrollTo(0,0); 
-
+      
         for (var i = 0; i < currentFilter.size; ++i){
 
             if (currentFilter.get(i).title == action.filter.title){
@@ -39,6 +37,10 @@ export default function reducer(state = initialState, action){
                 return state;
             }
         }
+
+        //Reset scrolling to top.
+        window.scrollTo(0,0); 
+
         const newFilter = currentFilter.concat(action.filter);
 
         return state

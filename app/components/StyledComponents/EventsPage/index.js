@@ -7,13 +7,24 @@ const EventsWrapper = styled.div`
     padding-bottom:5%;
     display:grid;
     grid-template-columns: auto;
-    grid-template-rows:1fr auto;
+    grid-template-rows:1fr auto ;
     grid-template-areas:
     "header"
     "content";
+    "footer";
+    grid-row-gap:20px;
 
 `
+const Header = styled.div`
 
+    grid-area:header;
+    width:100%;
+    margin:auto;
+    place-self:center;
+    display:grid;
+    place-items:center;
+
+`;
 
 const ViewSelection = styled.div`
 
@@ -32,7 +43,6 @@ const GridView = styled.div`
 
     width:100%;
     display:flex;
-    margin-top:5%;
 
     flex-wrap:wrap;
     justify-content:space-evenly;
@@ -46,6 +56,7 @@ const GridView = styled.div`
 export{
 
     EventsWrapper,
+    Header,
     GridView,
     ViewSelection,
 

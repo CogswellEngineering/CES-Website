@@ -12,7 +12,7 @@ import reducer from './reducer';
 import injectReducer from 'utils/injectReducer';
 import saga from './saga';
 import injectSaga from 'utils/injectSaga';
-import { EVENTS_PATH } from 'SiteData/constants';
+import { EVENTS_PATH, EMAIL } from 'SiteData/constants';
 import Calendar from 'components/Calendar';
 import {
 
@@ -37,11 +37,12 @@ import {
 import {
 
     EventsWrapper,
+    Header,
     GridView,
     ViewSelection,
 
 } from 'components/StyledComponents/EventsPage';
-import {Headline, Subtitle} from 'components/General';
+import {Headline, Subtitle, Description, EmailLink} from 'components/General';
 
 class EventsPage extends Component{
 
@@ -178,7 +179,13 @@ class EventsPage extends Component{
         
         <EventsWrapper>
 
+            <Header>
             <Headline> Participate in our Events! </Headline>
+            <Subtitle>
+                            If you would like to host an event, or have an idea for one. Feel free to contact <EmailLink href = {"mailto:"+EMAIL}> us</EmailLink>.
+             </Subtitle>
+
+            </Header>
 {/* Until fix calendar these gone.
             <ViewSelection>
                 {/*Todo: Replace these with icons
@@ -212,8 +219,7 @@ class EventsPage extends Component{
             }
                 {/*This will have buttons for filtering, and getting notifications for specific type of events*/}
 
-
-
+          
             </EventsWrapper>);
 
     }

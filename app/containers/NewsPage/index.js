@@ -118,9 +118,9 @@ class BlogPage extends Component{
                                       
                     {posts && posts.map(post => {
 
-                        return <NewsCard  key ={post.topic + "_" + post.author.name} {...post} 
+                        return <div style = {{borderBottom:"1px solid black", marginBottom:"2.5%"}} ><NewsCard  key ={post.topic + "_" + post.author.name} {...post} 
                         onCardClicked = {this.onCardClicked} onTagClicked = {onTagClicked}/> 
-                        
+                        </div>
                     })}
 
                 </BlogsPanel>

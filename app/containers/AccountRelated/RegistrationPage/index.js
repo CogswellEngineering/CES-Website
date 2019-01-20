@@ -25,6 +25,9 @@ import {
     Button
 } from 'components/General';
 
+import 'react-dropdown/style.css'
+
+
 class RegistrationPage extends Component{
  
     constructor(props){

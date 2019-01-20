@@ -138,8 +138,9 @@ const ActionMenu = styled.div`
    
 
  
-//  transition: ${props => props.open? 'left 0.2s ease-in-out' : ''}; 
+  transition: ${props => props.open? 'left 0.2s ease-in-out' : ''}; 
   
+  //Wierd shove to top when doing this way
   //left: ${props => props.open? "0%" : "100%"};
 
   

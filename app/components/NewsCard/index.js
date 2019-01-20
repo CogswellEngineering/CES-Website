@@ -34,9 +34,7 @@ const Wrapper = styled.div`
     "thumbnail footer";
 
   
-    &:hover{
-        background-color:rgba(2, 28, 73,0.5);
-    }
+  
 
 
     ${media.tablet`
@@ -77,7 +75,7 @@ const Thumbnail = styled.div`
     background-repeat: no-repeat;
     cursor:pointer;
 
-    height:300px;
+    height:310px;
 
     ${media.tablet`
 
@@ -85,10 +83,10 @@ const Thumbnail = styled.div`
 
     `}
 
-${media.phone`
+    ${media.phone`
 
-    height:200px;
-`}
+        height:200px;
+    `}
 `;
 
 //Will include title and author
@@ -171,7 +169,7 @@ const Footer = styled.div`
     grid-template-rows: auto;
     grid-template-areas:
     "tags button";
-    align-items:center;
+    align-items:end;
     
     ${media.tablet`
 

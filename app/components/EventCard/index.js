@@ -15,7 +15,7 @@ const Card = styled.div`
     background-position: center;
     background-repeat: no-repeat;
     
-    height:15em;
+    height:20em;
     margin-bottom:5em;
 
     display:grid;
@@ -44,6 +44,7 @@ const Card = styled.div`
     margin-top:5%;
     ${media.tablet`
 
+        height:15em;
         width:90%;
     `}
 

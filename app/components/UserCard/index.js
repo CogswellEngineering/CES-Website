@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import media from 'theme/media';
-import {TEXT_COLOR} from 'theme/colors';
+import {TEXT_COLOR, UNIMPORTANT_TEXT_COLOR} from 'theme/colors';
 import Tags from 'components/Tags';
 import {StyledButton} from 'components/StyledForm';
 import {USER_PROFILE_PATH} from 'SiteData/constants';
@@ -26,8 +26,16 @@ const Wrapper = styled.div`
     "profilePicture status"
     "profilePicture concentrations";
     grid-column-gap:10px;
-    text-align: justify;
-    text-justify: inter-word;
+    
+    ${media.phone`
+        grid-template-rows: auto auto auto auto;
+        grid-template-areas:
+        "name name"
+        "profilePicture profilePicture"
+        "status status"
+        "concentrations concentrations";
+        place-items:center;
+    `}
 
 `;
 
@@ -70,7 +78,7 @@ const Status = styled.div`
 
     grid-area:status;
 //    display:flex;
-    color: ${TEXT_COLOR};
+    color: ${UNIMPORTANT_TEXT_COLOR};
 
     ${media.tablet};
     ${media.phone};

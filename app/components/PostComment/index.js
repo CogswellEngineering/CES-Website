@@ -27,6 +27,8 @@ const Poster = styled.div`
     background-repeat:no-repeat;
     border:1px solid black;
     border-radius:100px;
+    border-radius:25px;
+
     
     width:50px;
     height:50px;
