@@ -31,6 +31,9 @@ export const StyledLink = styled(Link)`
 
     text-decoration:none;
     color: rgb(222, 147, 9);
+    cursor:pointer;
+    ${media.tablet};
+    ${media.phone}; 
 
 `;
 

@@ -24,6 +24,8 @@ function* loadUsers(){
         if (docSnapshot.exists){
 
             const user = docSnapshot.data();
+            console.log("doc snapshot", docSnapshot);
+            user.uid = docSnapshot.id;
             users.push(user);
         }
 
