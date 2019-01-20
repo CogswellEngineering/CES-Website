@@ -4,6 +4,8 @@ export const LOGIN_PATH = "/users/login";
 export const REGISTER_PATH = "/users/register";
 export const ACCOUNT_RECOVERY_PATH = "/users/account-recovery";
 export const RESET_PASSWORD_PATH = "/account/reset";
+
+export const USERS_PATH = "/users";
 //Will decide whether uid or name later, it's easy change.
 export const USER_PROFILE_PATH = "/users/:uid";
 //Only owner can get to inventory and update profile
