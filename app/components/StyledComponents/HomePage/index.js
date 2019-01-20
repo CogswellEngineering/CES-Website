@@ -8,6 +8,7 @@ const Wrapper = styled.div`
     margin-top: 5%;
     padding-bottom: 5%;
     height: auto;
+    
 `;
 
 
@@ -39,6 +40,8 @@ const SubTitle = styled.div`
 const Description = styled.div`
 
     grid-area:description;
+    text-align: justify;
+    text-justify: inter-word;
     color:white;
 `;
 

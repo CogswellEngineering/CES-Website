@@ -24,6 +24,7 @@ const ProfileWrapper = styled.div`
     justify-items:center;
     width:100%;
     margin:auto;
+  
 `;
 
 const Header = styled.div`
@@ -61,9 +62,6 @@ const Options = styled.div`
     width:100%;
     display:grid;
     grid-template-columns: 1fr 1fr 1fr;
-
-    //I don't want gaps to be thing.
-    grid-column-gap:50px;
 `;
 
 //Will Actually be custom button for this.
@@ -134,7 +132,8 @@ const ProfileBio = styled.div`
     display:grid;
     place-items: center;
 
-   width:100%;
+   text-align: justify;
+   text-justify: inter-word;
 
 `
 

@@ -29,6 +29,7 @@ import {
     
 } from 'components/StyledComponents/NewsPage';
 
+import {Headline, Subtitle} from 'components/General';
 import Tags from 'components/Tags';
 
 
@@ -106,6 +107,7 @@ class BlogPage extends Component{
         //Just hide filter header until filter applied until have dropdown of most views implemented.
         return (<BlogPageWrapper>
 
+                <Headline> News </Headline>
                 {filterApplied.length > 0 && <FilterPanel>
                     <p style = {{fontWeight:"bold", color:"rgb(230, 151, 7)", textTransform:"uppercase"}}> News Tagged </p>
                     <Tags tags = {filterApplied} onTagClicked = {onTagRemove}/>

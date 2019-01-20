@@ -11,6 +11,8 @@ const UpdateProfileWrapper = styled.div`
     place-items:center;
     margin-top:5%;
     padding-bottom:5%;
+    text-align: justify;
+    text-justify: inter-word;
 
 `;
 

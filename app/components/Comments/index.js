@@ -6,9 +6,8 @@ import Textarea from 'react-textarea-autosize';
 
 //Will move these to be own component later on.
 const Wrapper = styled.div`
-
-
-    
+    text-align: justify;
+    text-justify: inter-word;
 `;
 
 const Comment = styled.div`

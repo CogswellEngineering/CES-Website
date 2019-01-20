@@ -12,7 +12,7 @@ export const navPages = [
       url:"/news"
     },
     {
-      name:"Users",
+      name:"Club Members",
       url:"/users"
     }
 ]

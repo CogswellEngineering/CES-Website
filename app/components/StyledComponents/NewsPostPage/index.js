@@ -93,6 +93,8 @@ const Header = styled.div`
 
 const Body = styled(Linkify)`
 
+    text-align: justify;
+    text-justify: inter-word;
     grid-area:body;
     & > a {
 

@@ -3,6 +3,36 @@ import {Link} from 'react-router-dom';
 import media from 'theme/media';
 
 
+
+export const Headline = styled.h1`
+
+    
+    font-size: 3em;
+    text-transform:uppercase;
+    text-align:center;
+
+    ${media.tablet`
+
+        font-size:2.5em;
+    `}
+
+    ${media.phone`
+
+        font-size:1.2em;
+    `}
+
+`;  
+
+//Goes under headline
+export const Subtitle = styled.h2`
+
+    text-transform:uppercase;
+    text-align:center;
+    font-size:1.5em;
+
+
+`;
+
 export const ProfilePicture = styled.img`
 
     width:300px;

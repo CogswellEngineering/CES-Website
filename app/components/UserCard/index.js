@@ -26,8 +26,9 @@ const Wrapper = styled.div`
     "profilePicture status"
     "profilePicture concentrations";
     grid-column-gap:10px;
+    text-align: justify;
+    text-justify: inter-word;
 
-    
 `;
 
 const ProfilePicture = styled.img`
@@ -83,7 +84,6 @@ const UserCard = props => {
 
     
     const {uid, profilePicture, displayName, firstName, lastName, major, year, concentrations, onClick, onClickConcentration} = props;
-    console.log("props", profilePicture);
 
     const name = firstName + " " + lastName;
 

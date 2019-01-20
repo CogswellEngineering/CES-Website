@@ -41,6 +41,7 @@ import {
     ViewSelection,
 
 } from 'components/StyledComponents/EventsPage';
+import {Headline, Subtitle} from 'components/General';
 
 class EventsPage extends Component{
 
@@ -177,7 +178,7 @@ class EventsPage extends Component{
         
         <EventsWrapper>
 
-
+            <Headline> Participate in our Events! </Headline>
 {/* Until fix calendar these gone.
             <ViewSelection>
                 {/*Todo: Replace these with icons

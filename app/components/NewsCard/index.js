@@ -21,6 +21,8 @@ const Wrapper = styled.div`
     height:auto;
     
     display:grid;
+    text-align: justify;
+    text-justify: inter-word;
     grid-column-gap: 10px;
     grid-row-gap:10px;
     grid-template-columns: 30% 60%; 

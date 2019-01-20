@@ -151,6 +151,8 @@ const Description = styled.div`
 
 
     grid-area:description;
+    text-align: justify;
+    text-justify: inter-word;
     ${media.tablet}
     ${media.phone}
 `;

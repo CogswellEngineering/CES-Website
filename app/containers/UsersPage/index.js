@@ -2,6 +2,7 @@
 import React, {Component} from 'react';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
+import {isBrowser} from 'react-device-detect';
 import { createStructuredSelector } from 'reselect';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -28,6 +29,7 @@ import Tags from 'components/Tags';
 
 import media from 'theme/media';
 import {SUBTITLE_COLOR} from 'theme/colors';
+import { Headline, Subtitle} from 'components/General';
 //Now.. Also user cards lmao.
 //Essentially Preview of profilel
 
@@ -69,6 +71,10 @@ const UserList = styled.div`
 
     margin-top:5%;
     place-self:start;
+    width:90%;
+    display:grid;
+    grid-row-gap:10px;
+
 
 `;
 
@@ -99,10 +105,10 @@ class UsersPage extends Component{
         const {users, filter, onAddFilter, onRemoveFilter} = this.props;
         return (<Wrapper>
 
-            <Header> 
+             <Header>  
 
-                <p> Have a look at our club members! </p>
-                <p> You may find someone you'd like to work with. </p>
+                <Headline> Club members </Headline>
+                {isBrowser && <Subtitle> Find someone that you'd like to work with! </Subtitle>}
 
             </Header>
 
@@ -116,7 +122,6 @@ class UsersPage extends Component{
             <UserList>
                 {users && users.map(user => {
 
-                    console.log("user",user);
                     return <UserCard key = {user.uid} {...user} onClickConcentration = {onAddFilter} onClick = {this.onUserClicked} /> 
                 })}
 
