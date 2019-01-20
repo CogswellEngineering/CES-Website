@@ -153,7 +153,7 @@ class UserProfilePage extends Component{
 
         const {events, news, onTagClicked} = this.props;
 
-        const {firstName, lastName, bio, major, year, profilePicture, mediaLinks} = userInfo;
+        const {role,firstName, lastName, bio, major, year, profilePicture, mediaLinks} = userInfo;
 
         var profilePicUrl = null;
        
@@ -179,7 +179,7 @@ class UserProfilePage extends Component{
                     : null }
                     </div>
 
-                    <p style = {{gridArea:"role"}}> Developer </p>
+                    <p style = {{gridArea:"role"}}> {role} </p>
                     <ProfileImage src={profilePicUrl} alt={"No image given"}  width={dimensions.width} height={dimensions.height}/>
                     <p style = {{gridArea:"name"}}> {firstName} {lastName} </p>
                     <p style = {{gridArea:"standing"}}> {major}, {year} </p>

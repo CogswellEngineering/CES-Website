@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import dateFns from 'date-fns';
 import Tags from 'components/Tags';
-import media from 'theme/media';
+import media, {sizes} from 'theme/media';
 
 const Card = styled.div`
 
@@ -39,12 +39,12 @@ const Card = styled.div`
     }    //Ahhh this is problem.
     
 
-    width:30%;
+    width:30%;  
     margin:auto;
     margin-top:5%;
     ${media.tablet`
 
-        width:100%;
+        width:90%;
     `}
 
     ${media.phone}
@@ -64,6 +64,7 @@ const FadeArea = styled.div`
         transparent
       );
 
+    
     display:grid;
     grid-template-columns:auto;
     grid-template-rows: 1fr auto ;
@@ -96,7 +97,7 @@ const HostIcon = styled.div`
 
     grid-area:host;
     background-image:url(${props => props.image});
-    width:40%;
+    width:100%;
     background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;
@@ -109,9 +110,14 @@ const Title = styled.p`
     grid-area:title;
     justify-self:center;
     text-align:center;
-    font-size:2.5em;
-    ${media.tablet}
-    ${media.phone}
+    ${media.tablet`
+
+        font-size:64px;
+    `}
+    ${media.phone`
+        
+        font-size:30px;
+    `}
 `;
 
 
@@ -174,7 +180,7 @@ const EventCard = props => {
     const sameDay = dateFns.isSameDay(startDate, endDate);
     return (
 
-            <Card image = {thumbnail} style = {props.style} onClick = {onCardClicked}>
+            <Card image = {thumbnail} style = {props.style} onClick = {onCardClicked} >
 
             
                 {prizeInfo && <ExtraInfo image = {prizeInfo}>  </ExtraInfo>}

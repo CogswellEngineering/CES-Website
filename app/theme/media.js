@@ -1,6 +1,6 @@
 import {css} from 'styled-components';
 
-const sizes = {
+export const sizes = {
 
     phone: 480,
     tablet: 768,
@@ -14,8 +14,8 @@ function phone(...args) {
 
         @media(max-width: ${sizes.phone}px) {
 
-            ${css(...args)}
             font-size:16px;
+            ${css(...args)}
         }
 
     `;
@@ -27,8 +27,9 @@ function tablet(...args) {
 
         @media(max-width: ${sizes.tablet}px) {
 
-            ${css(...args)}
             font-size:32px;
+
+            ${css(...args)}
 
         }
 

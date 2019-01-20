@@ -57,6 +57,7 @@ const ProfileImage = styled.img`
 const Options = styled.div`
 
     grid-area:options;
+    width:100%;
     display:grid;
     grid-template-columns: 1fr 1fr 1fr;
 
@@ -81,7 +82,7 @@ const Content = styled.div`
 
 
     
-
+    width:100%; 
     grid-area:content;
     display:flex;
     flex-wrap:wrap;
@@ -98,8 +99,9 @@ const ListWrapper = styled.div`
 const Footer = styled.div`
 
     grid-area:footer;
+    width:100%;
     display:grid;
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: auto 100% auto;
 
     grid-template-rows: auto auto;
     grid-template-areas:
