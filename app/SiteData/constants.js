@@ -1,5 +1,5 @@
 //May change this name to be url later, but for now, no.
-export const BACK_END_URL = "https://cesadmin.herokuapp.com/";
+export const BACK_END_URL = "https://cesadmin.herokuapp.com";
 export const LOGIN_PATH = "/users/login";
 export const REGISTER_PATH = "/users/register";
 export const ACCOUNT_RECOVERY_PATH = "/users/account-recovery";

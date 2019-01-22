@@ -2,7 +2,7 @@ import {takeLatest, call,put } from 'redux-saga/effects';
 import firebase from 'firebase';
 
 //Url to backend, prob rename this to ces back end too. kinda saying alot in it lmao
-import { BACK_END_URL } from 'SiteData/constants';
+import { BACK_END_URL, SPECIFIC_EVENT, SPECIFIC_POST } from 'SiteData/constants';
 import request from 'utils/request';
 
 import{
@@ -11,6 +11,33 @@ import{
     POST_EVENT
 } from './constants';
 
+
+function notifySubscribers(type, data){
+
+    const body = {notificationType: type, notificationData: data};
+    console.log(body);
+    console.log(JSON.stringify(body))
+
+    //Sends post request to back end to notify subscribers.
+    request(BACK_END_URL+ "/notifySubscribers", {
+
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+
+            'Content-Type' : 'application/json'
+        }
+    })
+    .then (response => {
+
+        console.log("response", response);
+    })
+    .catch(err => {
+
+        console.log("oh no", err);
+    })
+
+}
 
 function* postEvent(payload){
 
@@ -101,6 +128,14 @@ function* postEvent(payload){
                     })
                     .then (eventRef => {
 
+
+                        const eventUrl = SPECIFIC_EVENT.split(":")[0];
+                        //This is 100% being called.
+                        notifySubscribers("Event", {
+                            //Replace with constant of hostname.
+                            //Prob will have in notify funcion and just pass in rest of path.
+                            url: "http://localhost:3000" + eventUrl + eventItem.id
+                        });
                         
 
                         const tagData = {
@@ -210,13 +245,19 @@ function* postNews(payload){
                         },
                         viewCount:0,
                         likeCount:0,
-                    });
+                    })
+                    .then ( res => {
 
-               
+                        const newsURL = SPECIFIC_POST.split(":")[0];
 
+                        notifySubscribers("News", {
 
-                    //Then send all of the event tags along with this news post to backend to notify all trackers.
-                    //Getting list of trackers itself will be in backend.
+                            url: newsURL + newsPostRef.id
+                        });
+                        
+
+                    })
+
                 })
 
         })
@@ -242,6 +283,10 @@ function* postNews(payload){
             eventTags,
             postId,
         };
+
+        if (eventTags.length == 0){
+            return;
+        }
 
         try{
 
