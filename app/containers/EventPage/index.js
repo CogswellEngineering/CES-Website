@@ -303,7 +303,6 @@ class EventPage extends Component{
         //But this in global state constants later.
         const shareUrl = DOMAIN_URL + this.props.match.url; 
         const shareSize = isTablet? 80 : 48;
-        console.log(domainName + this.props.match.url);
         return (
             <Footer>
             
