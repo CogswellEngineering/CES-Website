@@ -86,10 +86,14 @@ class Comments extends React.PureComponent{
         
             {comments && comments.map(comment => {
 
+                
                 const {poster, postDate, content} = comment;
-                console.log("icon", poster)
+                console.log("comment", comment)
+                if (poster == null) return null;
                 const format = "MM/D/YYYY";
                 console.log("comment content[",content,"]");
+
+
                 return <Comment key = {poster.uid + postDate + content}>
                         <Icon image = {poster.icon} to = {"/account/"+poster.uid}/>
                         <Author to = {"/account/"+poster.uid}> {poster.name} </Author>

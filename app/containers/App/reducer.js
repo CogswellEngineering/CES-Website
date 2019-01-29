@@ -3,7 +3,7 @@
 import { fromJS } from 'immutable';
 import { actionTypes } from 'react-redux-firebase';
 import { LOCATION_CHANGE } from 'react-router-redux';
-
+const DEFAULT_AVATAR = require("images/default_avatar.png");
 
 //ToDo load full profile of logged In user when logged in.
 //That will be saga in here, to trigger the profile there.
@@ -41,6 +41,11 @@ export default function appReducer(state = initialState, action){
         case actionTypes.SET_PROFILE:
 
             console.log("action on set profile", action);
+
+            if (action.profile.profilePicture == null){
+
+                action.profile.profilePicture = {url: DEFAULT_AVATAR};
+            }
             return state
                 .set("loggedInProfile", action.profile);
 

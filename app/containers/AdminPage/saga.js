@@ -2,7 +2,7 @@ import {takeLatest, call,put } from 'redux-saga/effects';
 import firebase from 'firebase';
 
 //Url to backend, prob rename this to ces back end too. kinda saying alot in it lmao
-import { BACK_END_URL, SPECIFIC_EVENT, SPECIFIC_POST } from 'SiteData/constants';
+import { BACK_END_URL, SPECIFIC_EVENT, SPECIFIC_POST, DOMAIN_URL } from 'SiteData/constants';
 import request from 'utils/request';
 
 import{
@@ -14,7 +14,7 @@ import{
 
 function notifySubscribers(type, data){
 
-    const body = {notificationType: type, notificationData: data};
+    const body = {notificationType: type, notificationData: DOMAIN_URL + "/" + data};
     console.log(body);
     console.log(JSON.stringify(body))
 
