@@ -160,7 +160,7 @@ class NewsPost extends Component{
         //or have a min size.
         //SO MANY SIMILIARTIES IN THESE POSTS, NEED TO HAVE COMMON FILE FOR THESE STYLED COMPONENTSSS YO! LOL.
         
-        const shareUrl = DOMAIN_URL + "/news/" + this.props.match.params.uid;
+        const shareUrl = DOMAIN_URL + this.props.match.url;
         const shareSize = isTablet? 64 : 48;
         return (<Footer>
 

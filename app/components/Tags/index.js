@@ -44,7 +44,6 @@ export const Tag = styled.p`
 
 const Tags = (props) => {
 
-    console.log ("tag props", props);
     return (<TagsWrapper style = {props.style}>
 
         {props.tags && props.tags.map( tag => {

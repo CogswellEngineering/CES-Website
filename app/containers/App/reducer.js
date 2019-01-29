@@ -3,6 +3,8 @@
 import { fromJS } from 'immutable';
 import { actionTypes } from 'react-redux-firebase';
 import { LOCATION_CHANGE } from 'react-router-redux';
+//Should be in config url tbh.
+import {DOMAIN_URL} from 'SiteData/constants';
 const DEFAULT_AVATAR = require("images/default_avatar.png");
 
 //ToDo load full profile of logged In user when logged in.
@@ -27,6 +29,10 @@ export default function appReducer(state = initialState, action){
             //though leaving so if make fixed in future.
         
             window.scrollTo(0,0); 
+            
+            console.log(DOMAIN_URL + action.payload.pathname);
+            console.log(document.location.href);
+
 
             return state
                 .set("mainContentPath",action.payload.pathname);

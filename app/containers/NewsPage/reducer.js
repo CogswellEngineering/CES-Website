@@ -23,7 +23,6 @@ export default function blogPageReducer(state = initialState, action){
 
         case LOCATION_CHANGE:
 
-            
             return initialState;
 
             

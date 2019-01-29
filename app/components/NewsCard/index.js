@@ -26,7 +26,7 @@ const Wrapper = styled.div`
     grid-column-gap: 10px;
     grid-row-gap:10px;
     grid-template-columns: 30% 60%; 
-    grid-template-rows: 100px 100px 100px;
+    grid-template-rows: 100px 100px auto;
 
     grid-template-areas:
     "thumbnail header"

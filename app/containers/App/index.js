@@ -45,7 +45,7 @@ import UpdateProfilePage from 'containers/ProfileRelated/UpdateProfilePage/Loada
 import { LOGIN_PATH,REGISTER_PATH, USERS_PATH,
   ACCOUNT_RECOVERY_PATH, RESET_PASSWORD_PATH, 
   USER_PROFILE_PATH, UPDATE_USER_PROFILE_PATH,
-  BLOG_PATH,SPECIFIC_POST,  EVENTS_PATH, SPECIFIC_EVENT , ADMIN_PATH} from 'SiteData/constants';
+  BLOG_PATH,SPECIFIC_POST,  EVENTS_PATH, SPECIFIC_EVENT , ADMIN_PATH, DOMAIN_URL} from 'SiteData/constants';
 import LoginPage from '../AccountRelated/LoginPage';
 import { withCookies } from 'react-cookie';
 import { makeSelectLocation, makeSelectDoneLoading, makeSelectLoggedInProfile} from './selectors';
@@ -97,6 +97,29 @@ class App  extends Component{
       this.updateScrolling = this.updateScrolling.bind(this);
     }
 
+
+  
+
+    componentDidUpdate(prevProps){
+
+
+  //    console.log("prev props", prevProps);
+   //   console.log("props", DOMAIN_URL + this.props.location.pathname );
+    //  console.log("document href", document.location.href);
+
+      //Make sure these are always synced up
+      //Url gets updated but this doesn't get refreshed.
+      if (this.props.history.action == "POP" && DOMAIN_URL + this.props.location.pathname != document.location.href){
+       
+        //Don't like that ti refreshes but fixes it.
+        location.reload();
+
+        //Doing it like this fucks up history though.
+    //    const currentHrefPath = document.location.href.split(DOMAIN_URL)[1];
+      //  this.props.history.push(currentHrefPath);
+      }
+    }
+   
     updateScrolling(val){
 
       

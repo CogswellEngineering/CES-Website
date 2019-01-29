@@ -177,7 +177,6 @@ const EventCard = props => {
     //Becaues will be filtered by year / semester, only need month and day.
     const dateFormat = "MMM DD";
     const {title,host, location, startDate, endDate, thumbnail, tags, prizeInfo, onCardClicked} = props;
-    console.log("host", host);
     const sameDay = dateFns.isSameDay(startDate, endDate);
     return (
 
