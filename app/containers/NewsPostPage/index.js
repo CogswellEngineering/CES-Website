@@ -17,6 +17,7 @@ import dateFns from 'date-fns';
 import {
     SPECIFIC_POST,
     USER_PROFILE_PATH,
+    DOMAIN_URL,
 } from 'SiteData/constants';
 import Tags from 'components/Tags';
 import {
@@ -158,8 +159,8 @@ class NewsPost extends Component{
         //Prob not have tags be circuluar
         //or have a min size.
         //SO MANY SIMILIARTIES IN THESE POSTS, NEED TO HAVE COMMON FILE FOR THESE STYLED COMPONENTSSS YO! LOL.
-        const domain = "http://localhost:3000";
-        const shareUrl = domain + "/news/" + this.props.match.params.uid;
+        
+        const shareUrl = DOMAIN_URL + "/news/" + this.props.match.params.uid;
         const shareSize = isTablet? 64 : 48;
         return (<Footer>
 

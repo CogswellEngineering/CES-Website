@@ -20,7 +20,7 @@ import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import reducer from './reducer';
 import saga from './saga';
-import {SPECIFIC_EVENT, USER_PROFILE_PATH, EMAIL} from 'SiteData/constants';
+import {SPECIFIC_EVENT, USER_PROFILE_PATH, EMAIL, DOMAIN_URL} from 'SiteData/constants';
 import {
 
     addView,
@@ -301,8 +301,7 @@ class EventPage extends Component{
 
         const {tags} = this.props.event;
         //But this in global state constants later.
-        const domainName = "localhost:3000";   
-        const shareUrl = domainName + this.props.match.url; 
+        const shareUrl = DOMAIN_URL + this.props.match.url; 
         const shareSize = isTablet? 80 : 48;
         console.log(domainName + this.props.match.url);
         return (
